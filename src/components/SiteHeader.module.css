@@ -1,0 +1,169 @@
+.header {
+  --header-height-mobile: 73px;
+
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  border-bottom: 1px solid var(--line);
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 24px;
+  padding: 18px var(--gutter);
+  font-size: 14px;
+}
+
+.brand {
+  margin-right: auto;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  color: var(--ink-3);
+}
+
+.langs {
+  display: flex;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.lang {
+  display: block;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  line-height: 1.3;
+  opacity: 0.6;
+}
+
+.lang[aria-current="page"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: #fff;
+  opacity: 1;
+}
+
+.menuButton,
+.mobileNav {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .bar {
+    flex-wrap: nowrap;
+    gap: 10px;
+    padding: 14px 20px;
+  }
+
+  .brand {
+    font-size: 15px;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .langs {
+    gap: 4px;
+    font-size: 11px;
+  }
+
+  .lang {
+    padding: 5px 8px;
+  }
+
+  .menuButton {
+    display: grid;
+    align-content: center;
+    gap: 5px;
+    width: 44px;
+    height: 44px;
+    padding: 0 11px;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .menuBar {
+    display: block;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform 0.18s ease;
+  }
+
+  /* Native popover: rendered in the top layer, pinned under the sticky header. */
+  .mobileNav:popover-open {
+    position: fixed;
+    top: var(--header-height-mobile);
+    right: 0;
+    bottom: auto;
+    left: 0;
+    display: block;
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-bottom: 1px solid var(--line);
+    background: var(--bg);
+    color: var(--ink);
+  }
+
+  .mobileNav::backdrop {
+    background: transparent;
+  }
+
+  .mobileNav a {
+    display: block;
+    padding: 14px 20px;
+    border-top: 1px solid var(--line);
+    font-size: 18px;
+  }
+
+  .header:has(.mobileNav:popover-open) .menuBar:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .header:has(.mobileNav:popover-open) .menuBar:last-child {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+
+  /* Browsers without the Popover API: show the links inline instead. */
+  @supports not selector(:popover-open) {
+    .menuButton {
+      display: none;
+    }
+
+    .mobileNav {
+      display: block;
+      padding: 0 20px 12px;
+    }
+
+    .mobileNav ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+    }
+
+    .mobileNav a {
+      padding: 4px 0;
+      border: 0;
+      font-size: 14px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuBar {
+    transition: none;
+  }
+}

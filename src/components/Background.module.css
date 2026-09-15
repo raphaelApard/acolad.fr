@@ -1,0 +1,83 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 40px 48px;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 90px 1fr;
+  gap: 16px;
+  padding: 18px 0;
+  border-top: 1px solid var(--line);
+  font-size: 15px;
+}
+
+.years {
+  padding-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.role {
+  font-size: inherit;
+  font-weight: 500;
+}
+
+.org {
+  color: var(--ink-3);
+}
+
+.stackLabel {
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--ink-muted);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 10px;
+  border: 1px solid var(--line-strong);
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+@media (max-width: 720px) {
+  .grid {
+    display: block;
+  }
+
+  .entry {
+    display: block;
+    padding: 16px 0;
+  }
+
+  .years {
+    display: block;
+    margin-bottom: 4px;
+    padding-top: 0;
+  }
+
+  .role {
+    font-size: 16px;
+  }
+
+  .stackLabel {
+    margin: 28px 0 14px;
+  }
+
+  .chip {
+    padding: 7px 11px;
+  }
+}

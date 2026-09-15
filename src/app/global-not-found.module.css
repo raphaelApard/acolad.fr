@@ -1,0 +1,36 @@
+.main {
+  min-height: 100vh;
+  padding: clamp(64px, 12vw, 140px) var(--gutter);
+}
+
+.code {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--ink-muted);
+}
+
+.title {
+  margin-top: 16px;
+  font-size: clamp(34px, 5vw, 56px);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.sub {
+  margin-top: 8px;
+  font-size: 18px;
+  color: var(--ink-3);
+}
+
+.links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  margin-top: 32px;
+  font-size: 15px;
+}
+
+.links a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

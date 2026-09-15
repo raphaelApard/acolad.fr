@@ -1,0 +1,89 @@
+.hero {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 48px;
+  padding: clamp(56px, 9vw, 96px) var(--gutter) clamp(48px, 7vw, 72px);
+  border-bottom: 1px solid var(--line);
+}
+
+.main {
+  flex: 1 1 720px;
+  min-width: 0;
+}
+
+.title {
+  font-size: clamp(34px, 5.4vw, 64px);
+  font-weight: 500;
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+
+.sub {
+  max-width: 620px;
+  margin-top: 28px;
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.45;
+  color: var(--ink-2);
+  text-wrap: pretty;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 36px;
+}
+
+.aside {
+  flex: 1 1 220px;
+  align-self: flex-end;
+  min-width: 0;
+  padding-left: 24px;
+  border-left: 1px solid #d8d8d4;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--ink-3);
+}
+
+@media (max-width: 720px) {
+  .hero {
+    flex-direction: column;
+    gap: 0;
+    padding: 44px 20px 40px;
+  }
+
+  /* In a column layout the desktop flex-basis would become a min height. */
+  .main,
+  .aside {
+    flex: none;
+  }
+
+  .title {
+    font-size: 38px;
+    line-height: 1.05;
+  }
+
+  .sub {
+    margin-top: 20px;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .ctas {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .aside {
+    align-self: stretch;
+    margin-top: 28px;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+    border-left: 0;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+}
