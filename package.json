@@ -1,0 +1,19 @@
+{
+  "name": "acolad-fr",
+  "version": "1.0.0",
+  "private": true,
+  "description": "www.acolad.fr — plain HTML/CSS/JS site",
+  "type": "module",
+  "scripts": {
+    "dev": "npx --yes serve .",
+    "build": "node scripts/build.mjs",
+    "preview": "npx --yes serve dist"
+  },
+  "devDependencies": {
+    "sharp": "0.35.4"
+  },
+  "engines": {
+    "node": ">=20.11"
+  },
+  "packageManager": "pnpm@10.13.1"
+}

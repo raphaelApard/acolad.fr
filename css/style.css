@@ -432,6 +432,11 @@ a {
   background: var(--surface);
 }
 
+/* <picture> must not become the flex item: logos size against the cell. */
+.client picture {
+  display: contents;
+}
+
 .client__logo {
   width: auto;
   height: auto;
