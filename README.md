@@ -47,6 +47,40 @@ The source files work without building, so `pnpm dev` is enough while editing.
 
 ## Deployment
 
+### Automatic (GitHub Actions → o2switch)
+
+Every push to `main` runs `.github/workflows/deploy.yml`: it builds the site, adds
+the runner IP to the o2switch SSH whitelist (cPanel API), uploads `dist/` with
+`rsync` over SSH (files removed from the site are deleted on the server), then
+removes the IP from the whitelist. It can also be started manually from the
+**Actions** tab.
+
+One-time setup:
+
+1. **SSH key** — generate a key dedicated to deployment:
+   `ssh-keygen -t ed25519 -C "github-deploy-acolad" -f ~/.ssh/acolad_deploy -N ""`.
+   In cPanel → **Accès SSH** → *Gérer les clés SSH*, import `acolad_deploy.pub`
+   and authorize it.
+2. **API token** — cPanel → **Gérer les jetons d'API** → create a token.
+3. **Secrets** — add them to the repository (or to the `production` environment):
+
+   ```bash
+   gh secret set O2SWITCH_HOST --body "myserver.o2switch.net"
+   gh secret set O2SWITCH_USER --body "cpanel-login"
+   gh secret set O2SWITCH_CPANEL_TOKEN --body "API-TOKEN"
+   gh secret set O2SWITCH_DEPLOY_PATH --body "/home/cpanel-login/public_html"
+   gh secret set O2SWITCH_SSH_PRIVATE_KEY < ~/.ssh/acolad_deploy
+   # Optional but recommended: pin the server host key
+   ssh-keyscan myserver.o2switch.net | gh secret set O2SWITCH_SSH_KNOWN_HOSTS
+   ```
+
+`O2SWITCH_DEPLOY_PATH` must be the document root of www.acolad.fr only: rsync deletes
+anything in that folder that is not part of the site (except `.well-known/`,
+`cgi-bin/` and `.user.ini`). The o2switch whitelist accepts at most 5 IPs; the
+workflow always removes the runner IP at the end.
+
+### Manual
+
 Run `pnpm build`, then upload the **contents of `dist/`** (including the hidden
 `.htaccess`) to the web root of the server (`www/` or `public_html/`).
 

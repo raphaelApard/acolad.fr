@@ -1,0 +1,141 @@
+name: Deploy to o2switch
+
+# Builds the site and uploads dist/ to the o2switch server over SSH (rsync)
+# on every push to main. Can also be started manually from the Actions tab.
+#
+# Required secrets (Settings → Secrets and variables → Actions, or the
+# "production" environment):
+#   O2SWITCH_HOST             Server hostname, e.g. "myserver.o2switch.net"
+#   O2SWITCH_USER             cPanel / SSH login
+#   O2SWITCH_CPANEL_TOKEN     cPanel API token (used to whitelist the runner IP)
+#   O2SWITCH_SSH_PRIVATE_KEY  Private key authorized in cPanel → "Accès SSH"
+#   O2SWITCH_DEPLOY_PATH      Absolute document root, e.g. "/home/login/public_html"
+# Optional:
+#   O2SWITCH_SSH_KNOWN_HOSTS  Output of `ssh-keyscan <host>` to pin the host key
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: production
+      url: https://www.acolad.fr
+
+    env:
+      SSH_HOST: ${{ secrets.O2SWITCH_HOST }}
+      SSH_USER: ${{ secrets.O2SWITCH_USER }}
+      SSH_PORT: "22"
+      CPANEL_TOKEN: ${{ secrets.O2SWITCH_CPANEL_TOKEN }}
+      DEPLOY_PATH: ${{ secrets.O2SWITCH_DEPLOY_PATH }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build
+
+      - name: Check deployment configuration
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.O2SWITCH_SSH_PRIVATE_KEY }}
+        run: |
+          missing=0
+          for name in SSH_HOST SSH_USER CPANEL_TOKEN DEPLOY_PATH SSH_PRIVATE_KEY; do
+            if [ -z "${!name}" ]; then echo "::error::Missing secret for $name"; missing=1; fi
+          done
+          case "$DEPLOY_PATH" in
+            /home/*/*) ;;
+            *) echo "::error::O2SWITCH_DEPLOY_PATH must be an absolute folder inside /home/<login>/"; missing=1 ;;
+          esac
+          test -f dist/index.html || { echo "::error::dist/index.html not found"; missing=1; }
+          exit $missing
+
+      - name: Get runner public IP
+        id: runner
+        run: echo "ip=$(curl -4 -sSf --retry 3 https://api.ipify.org)" >> "$GITHUB_OUTPUT"
+
+      # o2switch only accepts SSH from whitelisted IPs (max 5). The runner IP
+      # changes on every run, so it is added here and removed at the end.
+      - name: Whitelist runner IP on o2switch
+        run: |
+          response=$(curl -sS -m 60 \
+            -H "Authorization: cpanel ${SSH_USER}:${CPANEL_TOKEN}" \
+            "https://${SSH_HOST}:2083/execute/SshWhitelist/add?address=${{ steps.runner.outputs.ip }}&port=${SSH_PORT}")
+          echo "$response" | jq '{status, errors, messages}' || echo "$response"
+          echo "$response" | jq -e '.status == 1' > /dev/null
+
+      - name: Configure SSH
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.O2SWITCH_SSH_PRIVATE_KEY }}
+          SSH_KNOWN_HOSTS: ${{ secrets.O2SWITCH_SSH_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          if [ -n "$SSH_KNOWN_HOSTS" ]; then
+            printf '%s\n' "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          else
+            echo "::warning::O2SWITCH_SSH_KNOWN_HOSTS not set, trusting the host key scanned now"
+            for attempt in 1 2 3 4 5 6; do
+              ssh-keyscan -p "$SSH_PORT" -T 10 "$SSH_HOST" > ~/.ssh/known_hosts 2>/dev/null && [ -s ~/.ssh/known_hosts ] && break
+              echo "Waiting for the firewall exception ($attempt)…"; sleep 10
+            done
+          fi
+          chmod 644 ~/.ssh/known_hosts
+
+          # The firewall exception can take a few seconds to apply.
+          for attempt in 1 2 3 4 5 6; do
+            ssh -i ~/.ssh/deploy_key -p "$SSH_PORT" -o BatchMode=yes -o ConnectTimeout=10 \
+              "$SSH_USER@$SSH_HOST" true && exit 0
+            echo "SSH not reachable yet ($attempt)…"; sleep 10
+          done
+          echo "::error::Cannot connect to $SSH_HOST over SSH"; exit 1
+
+      - name: Deploy with rsync
+        run: |
+          rsync -rlz --checksum --delete-after --itemize-changes \
+            --chmod=D755,F644 \
+            --filter='P /.well-known/' \
+            --filter='P /cgi-bin/' \
+            --filter='P /.user.ini' \
+            -e "ssh -i $HOME/.ssh/deploy_key -p $SSH_PORT -o BatchMode=yes" \
+            dist/ "$SSH_USER@$SSH_HOST:${DEPLOY_PATH%/}/"
+
+      - name: Remove runner IP from whitelist
+        if: always() && steps.runner.outputs.ip != ''
+        run: |
+          for direction in in out; do
+            curl -sS -m 60 \
+              -H "Authorization: cpanel ${SSH_USER}:${CPANEL_TOKEN}" \
+              "https://${SSH_HOST}:2083/execute/SshWhitelist/remove?address=${{ steps.runner.outputs.ip }}&port=${SSH_PORT}&direction=${direction}" \
+              | jq -c '{status, errors}' || true
+          done
+
+      - name: Clean up SSH key
+        if: always()
+        run: rm -f ~/.ssh/deploy_key
