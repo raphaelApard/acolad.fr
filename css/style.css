@@ -363,22 +363,35 @@ a {
   gap: 24px 32px;
 }
 
+/* A button so the screenshot opens in the lightbox from the keyboard too. */
 .project__media {
-  display: flex;
   flex: 1 1 340px;
-  align-items: center;
-  justify-content: center;
   min-width: 0;
+  padding: 0;
   aspect-ratio: 16 / 10;
   border: 1px solid var(--line);
-  background: repeating-linear-gradient(
-    135deg,
-    #ececea 0 10px,
-    #f4f4f2 10px 20px
-  );
-  font-family: var(--font-mono);
-  font-size: 12px;
-  color: #888;
+  background: #f4f4f2;
+  cursor: zoom-in;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .project__media {
+    transition: border-color 0.18s ease;
+  }
+}
+
+.project__media:hover {
+  border-color: var(--line-strong);
+}
+
+.project__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Anchored left so the app's sidebar stays whole; the crop falls on the
+     right edge, which carries less of the screenshot's meaning. */
+  object-position: top left;
 }
 
 .project__text {
@@ -600,6 +613,93 @@ a {
 .not-found__links a {
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/* Lightbox --------------------------------------------------------------- */
+
+/* Native <dialog>: the top layer keeps it above the sticky header, and
+   showModal() handles Escape, focus trapping and inertness on its own. */
+.lightbox {
+  width: 100vw;
+  max-width: none;
+  height: 100dvh;
+  max-height: none;
+  margin: 0;
+  padding: var(--gutter);
+  border: 0;
+  /* On the dialog rather than ::backdrop only: the dialog scrolls on narrow
+     screens, where the backdrop alone would leave the page showing through. */
+  background: rgb(17 17 17 / 0.62);
+  overscroll-behavior: contain;
+}
+
+.lightbox::backdrop {
+  background: rgb(17 17 17 / 0.62);
+}
+
+.lightbox__img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  cursor: zoom-out;
+}
+
+.lightbox__close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 0.3);
+  background: rgb(17 17 17 / 0.85);
+  color: #fff;
+  cursor: pointer;
+}
+
+.lightbox__close svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  fill: none;
+}
+
+.lightbox__close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) {
+  .lightbox__close:hover {
+    background: var(--ink);
+    border-color: rgb(255 255 255 / 0.5);
+  }
+}
+
+/* Narrow screens can't show a wide dashboard legibly at fit-to-width, so the
+   image keeps its own size and scrolls sideways instead of shrinking away. */
+@media (max-width: 720px) {
+  .lightbox {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    overflow: auto;
+  }
+
+  .lightbox__img {
+    /* ~2x the viewport: text stays legible while a sideways swipe still
+       crosses the whole screenshot in a couple of gestures. */
+    width: 200%;
+    height: auto;
+    max-width: none;
+    margin: auto 0;
+    cursor: default;
+  }
 }
 
 /* Mobile (≤ 720px) ------------------------------------------------------- */

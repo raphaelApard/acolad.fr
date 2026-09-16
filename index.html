@@ -47,7 +47,7 @@
     <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="stylesheet" href="/css/style.css?v=1" />
-    <script src="/js/main.js?v=1" defer></script>
+    <script src="/js/main.js?v=2" defer></script>
 
     <script type="application/ld+json">
       {
@@ -103,7 +103,7 @@
               "itemListElement": [
                 { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Sites & applications web", "description": "Vitrines, e-commerce, back-offices. Next.js, performance et SEO soignés." } },
                 { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Agents IA & automatisation", "description": "Assistants métier, workflows automatisés, connexion à vos outils existants." } },
-                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Intégration LLM & RAG", "description": "Recherche dans vos documents, chatbots fiables sur vos données, API OpenAI / Anthropic." } },
+                { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Intégration LLM & RAG", "description": "Recherche dans vos documents, chatbots fiables sur vos données. Intégration OpenAI / Anthropic / Mistral." } },
                 { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Audit & accompagnement", "description": "Cadrage, choix techniques, montée en compétence de vos équipes." } }
               ]
             }
@@ -156,10 +156,10 @@
         <section class="hero" aria-labelledby="hero-title">
           <div class="hero__main">
             <h1 id="hero-title" class="hero__title">
-              Des sites qui convertissent, des applications sur mesure et des IA qui travaillent pour vous.
+              L’IA au service de la productivité des TPE et PME.
             </h1>
             <p class="hero__sub">
-              J’intègre l’IA là où elle fait gagner du temps&#8239;: automatisation, agents, recherche documentaire.
+              Automatisation des processus existants, création d’outils et d’applications sur mesure&#8239;: je vous propose d’améliorer facilement votre efficacité opérationnelle au quotidien.
             </p>
             <div class="hero__ctas">
               <a href="#contact" class="btn btn--primary">Contactez-moi</a>
@@ -190,7 +190,7 @@
               <li class="service">
                 <span class="service__number" aria-hidden="true">03</span>
                 <h3 class="service__title">Intégration LLM &amp; RAG</h3>
-                <p class="service__desc">Recherche dans vos documents, chatbots fiables sur vos données, API OpenAI / Anthropic.</p>
+                <p class="service__desc">Recherche dans vos documents, chatbots fiables sur vos données. Intégration OpenAI / Anthropic / Mistral.</p>
               </li>
               <li class="service">
                 <span class="service__number" aria-hidden="true">04</span>
@@ -207,7 +207,7 @@
             <ul class="projects">
               <li>
                 <article class="project">
-                  <div class="project__media" aria-hidden="true">capture projet 1</div>
+                  <button class="project__media" type="button" data-lightbox aria-label="Agrandir l’image"><img class="project__img" src="/assets/projects/support-ia.webp" alt="Back-office de supervision d’un agent IA de support&#8239;: points à arbitrer, part des demandes résolues sans humain et file d’escalade." width="2956" height="1812" sizes="(max-width: 720px) calc(100vw - 48px), 560px" loading="lazy" decoding="async" /></button>
                   <div class="project__text">
                     <p class="project__tag">Agent IA</p>
                     <h3 class="project__title">Assistant support client</h3>
@@ -217,7 +217,7 @@
               </li>
               <li>
                 <article class="project">
-                  <div class="project__media" aria-hidden="true">capture projet 2</div>
+                  <button class="project__media" type="button" data-lightbox aria-label="Agrandir l’image"><img class="project__img" src="/assets/projects/booking-studio-reformer.webp" alt="Back-office d’un studio de Pilates&#8239;: réservations du jour, taux de remplissage et planning des cours avec liste des inscrites." width="3492" height="2116" sizes="(max-width: 720px) calc(100vw - 48px), 560px" loading="lazy" decoding="async" /></button>
                   <div class="project__text">
                     <p class="project__tag">Web</p>
                     <h3 class="project__title">Plateforme de réservation</h3>
@@ -227,11 +227,11 @@
               </li>
               <li>
                 <article class="project">
-                  <div class="project__media" aria-hidden="true">capture projet 3</div>
+                  <button class="project__media" type="button" data-lightbox aria-label="Agrandir l’image"><img class="project__img" src="/assets/projects/obepine.webp" alt="Interface du Réseau Obépine&#8239;: liste des stations de traitement des eaux avec dépôt de rapport par station." width="1453" height="830" sizes="(max-width: 720px) calc(100vw - 48px), 560px" loading="lazy" decoding="async" /></button>
                   <div class="project__text">
-                    <p class="project__tag">RAG</p>
-                    <h3 class="project__title">Recherche documentaire interne</h3>
-                    <p class="project__desc">Moteur de questions-réponses sur 10&#8239;000 documents pour une ESN.</p>
+                    <p class="project__tag">Automatisation</p>
+                    <h3 class="project__title">Rapports d’analyses scientifiques</h3>
+                    <p class="project__desc">Collecte automatisée de rapports d’analyses scientifiques pour un réseau de stations de filtration des eaux.</p>
                   </div>
                 </article>
               </li>
@@ -319,6 +319,15 @@
           </address>
         </section>
       </main>
+
+      <dialog class="lightbox" id="lightbox" aria-label="Image du projet">
+        <button class="lightbox__close" type="button" aria-label="Fermer">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 5l14 14M19 5L5 19" />
+          </svg>
+        </button>
+        <img class="lightbox__img" alt="" decoding="async" />
+      </dialog>
     </div>
   </body>
 </html>
