@@ -1,4 +1,4 @@
-import type { CollectionConfig, PayloadRequest } from 'payload'
+import { APIError, type CollectionConfig, type PayloadRequest } from 'payload'
 
 import { publicRead } from '../access/public'
 import { blocks } from '../blocks'
@@ -30,7 +30,12 @@ export const Pages: CollectionConfig = {
       async ({ id, req }) => {
         const page = await req.payload.findByID({ collection: 'pages', id, depth: 0, req })
         if (page.isHome) {
-          throw new Error(say(req, 'The home page cannot be deleted.', 'La page d’accueil ne peut pas être supprimée.'))
+          throw new APIError(
+            say(req, 'The home page cannot be deleted.', 'La page d’accueil ne peut pas être supprimée.'),
+            400,
+            undefined,
+            true,
+          )
         }
       },
     ],
