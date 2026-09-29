@@ -1,4 +1,4 @@
-# www.acolad.fr — plain HTML/CSS/JS (branch `dev`)
+# www.acolad.fr — plain HTML/CSS/JS (branch `develop`)
 
 Personal site of Raphaël Apard — Web developer & AI solutions (Toulouse / Revel).
 
