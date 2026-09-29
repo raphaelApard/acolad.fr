@@ -1,0 +1,77 @@
+---
+import Chips from '../components/Chips.astro'
+import ContactStrip from '../components/ContactStrip.astro'
+import PageHead from '../components/PageHead.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { getDocs, getGlobal } from '../lib/cms'
+import { pageGraph } from '../lib/jsonld'
+import type { Locale } from '../lib/routes'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+
+const [site, labels, page, jobs, skillGroups] = await Promise.all([
+  getGlobal('site', locale),
+  getGlobal('labels', locale),
+  getGlobal('background-page', locale),
+  getDocs('jobs', locale),
+  getDocs('skill-groups', locale),
+])
+
+const jsonLd = pageGraph({ site: Astro.site!, locale, key: 'background', seo: page.seo }, labels)
+---
+
+<BaseLayout locale={locale} pageKey="background" seo={page.seo} site={site} labels={labels} jsonLd={jsonLd}>
+  <PageHead locale={locale} labels={labels} title={page.head.title} subtitle={page.head.subtitle} wide />
+
+  <section class="section section--tight" aria-labelledby="experience-title">
+    <h2 id="experience-title" class="section__label">{page.experienceTitle}</h2>
+    <ol class="section__body jobs">
+      {
+        jobs.map((job) => (
+          <li class="job">
+            <p class="job__years">{job.years}</p>
+            <div class="job__main">
+              <h3 class="job__role">{job.role}</h3>
+              <p class="job__org">{job.org}</p>
+            </div>
+            <p class="job__desc">{job.description}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="stack-title">
+    <h2 id="stack-title" class="section__label">{page.stackTitle}</h2>
+    <div class="section__body stack-groups">
+      {
+        skillGroups.map((group) => (
+          <div class="stack-group">
+            <h3 class="stack-group__name">{group.title}</h3>
+            <Chips items={group.skills ?? []} />
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--tight" aria-labelledby="way-title">
+    <h2 id="way-title" class="section__label">{page.principlesTitle}</h2>
+    <ul class="section__body points points--wide">
+      {
+        (page.principles ?? []).map((principle) => (
+          <li class="point">
+            <h3 class="point__title">{principle.title}</h3>
+            <p class="point__desc">{principle.description}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <ContactStrip locale={locale} site={site} labels={labels} closing={page.closing} />
+</BaseLayout>
