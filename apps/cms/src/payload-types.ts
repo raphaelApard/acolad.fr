@@ -69,6 +69,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    services: Service;
+    projects: Project;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -78,6 +80,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    services: ServicesSelect<false> | ServicesSelect<true>;
+    projects: ProjectsSelect<false> | ProjectsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -173,6 +177,63 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services".
+ */
+export interface Service {
+  id: number;
+  title: string;
+  shortDesc: string;
+  longDesc: string;
+  deliverables?:
+    | {
+        text: string;
+        id?: string | null;
+      }[]
+    | null;
+  stack?: string[] | null;
+  /**
+   * Id of the block on the services page.
+   */
+  anchor: 'web' | 'agents' | 'rag' | 'audit';
+  /**
+   * Lowest first.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects".
+ */
+export interface Project {
+  id: number;
+  title: string;
+  tag: string;
+  shortDesc: string;
+  longDesc: string;
+  /**
+   * The alternative text is set on the media itself.
+   */
+  image: number | Media;
+  client?: string | null;
+  result?: string | null;
+  /**
+   * Comma-separated, shown as is.
+   */
+  stack?: string | null;
+  year?: string | null;
+  category: 'web' | 'ia';
+  /**
+   * Lowest first.
+   */
+  order: number;
+  showOnHome?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -202,6 +263,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: number | Media;
+      } | null)
+    | ({
+        relationTo: 'services';
+        value: number | Service;
+      } | null)
+    | ({
+        relationTo: 'projects';
+        value: number | Project;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -285,6 +354,46 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "services_select".
+ */
+export interface ServicesSelect<T extends boolean = true> {
+  title?: T;
+  shortDesc?: T;
+  longDesc?: T;
+  deliverables?:
+    | T
+    | {
+        text?: T;
+        id?: T;
+      };
+  stack?: T;
+  anchor?: T;
+  order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "projects_select".
+ */
+export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
+  tag?: T;
+  shortDesc?: T;
+  longDesc?: T;
+  image?: T;
+  client?: T;
+  result?: T;
+  stack?: T;
+  year?: T;
+  category?: T;
+  order?: T;
+  showOnHome?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
