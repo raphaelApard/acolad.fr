@@ -685,10 +685,14 @@ a {
    image keeps its own size and scrolls sideways instead of shrinking away. */
 @media (max-width: 720px) {
   .lightbox {
-    display: flex;
-    align-items: center;
     padding: 0;
     overflow: auto;
+  }
+
+  /* Open only: an author `display` would override the closed dialog's `none`. */
+  .lightbox[open] {
+    display: flex;
+    align-items: center;
   }
 
   .lightbox__img {
