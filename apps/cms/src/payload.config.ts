@@ -1,4 +1,5 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
+import { nodemailerAdapter } from '@payloadcms/email-nodemailer'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import { en } from '@payloadcms/translations/languages/en'
 import { fr } from '@payloadcms/translations/languages/fr'
@@ -39,6 +40,20 @@ const siteOrigins = (process.env.SITE_URL ?? '')
   .filter(Boolean)
 const cmsOrigin = process.env.CMS_URL ?? 'http://localhost:3000'
 
+// Without SMTP settings Payload only logs outgoing emails to the console (fine for development).
+const email = process.env.SMTP_HOST
+  ? nodemailerAdapter({
+      defaultFromAddress: process.env.CONTACT_FROM ?? 'no-reply@acolad.fr',
+      defaultFromName: 'acolad.fr',
+      transportOptions: {
+        host: process.env.SMTP_HOST,
+        port: Number(process.env.SMTP_PORT ?? 587),
+        secure: process.env.SMTP_SECURE === 'true',
+        auth: { user: process.env.SMTP_USER, pass: process.env.SMTP_PASS },
+      },
+    })
+  : undefined
+
 export default buildConfig({
   admin: {
     user: Users.slug,
@@ -73,6 +88,7 @@ export default buildConfig({
   secret: process.env.PAYLOAD_SECRET || '',
   cors: siteOrigins,
   csrf: [cmsOrigin, ...siteOrigins],
+  email,
   endpoints: [contactEndpoint],
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

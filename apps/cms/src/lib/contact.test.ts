@@ -1,6 +1,12 @@
 import { describe, expect, it } from 'vitest'
 
-import { checkContact, createRateLimiter, MAX_MESSAGE_LENGTH, MIN_FILL_MS } from './contact'
+import {
+  buildNotification,
+  checkContact,
+  createRateLimiter,
+  MAX_MESSAGE_LENGTH,
+  MIN_FILL_MS,
+} from './contact'
 
 const valid = { email: 'jane@example.com', message: 'Hello', locale: 'en' }
 
@@ -65,5 +71,23 @@ describe('createRateLimiter', () => {
     expect(isLimited('a', 0)).toBe(false)
     expect(isLimited('a', 500)).toBe(true)
     expect(isLimited('a', 1000)).toBe(false)
+  })
+})
+
+describe('buildNotification', () => {
+  const input = { email: 'jane@example.com', message: 'Hello\nWorld', locale: 'en' as const }
+
+  it('puts the sender in the subject and the message in the body', () => {
+    const mail = buildNotification(input)
+    expect(mail.subject).toContain('jane@example.com')
+    expect(mail.text).toContain('Hello\nWorld')
+    expect(mail.text).toContain('en')
+  })
+
+  it('links to the admin inbox when its URL is known', () => {
+    expect(buildNotification(input, 'https://cms.example/admin').text).toContain(
+      'https://cms.example/admin',
+    )
+    expect(buildNotification(input).text).not.toContain('admin')
   })
 })

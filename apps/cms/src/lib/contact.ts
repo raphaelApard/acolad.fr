@@ -56,3 +56,18 @@ export function createRateLimiter({ max, windowMs }: { max: number; windowMs: nu
     return entry.count > max
   }
 }
+
+/** Email sent to the site owner for each stored message. */
+export function buildNotification(input: ContactInput, adminUrl?: string) {
+  const lines = [
+    `E-mail : ${input.email}`,
+    `Langue du site : ${input.locale}`,
+    '',
+    input.message,
+  ]
+  if (adminUrl) lines.push('', `Boîte de réception : ${adminUrl}`)
+  return {
+    subject: `Nouveau message sur acolad.fr de ${input.email}`,
+    text: lines.join('\n'),
+  }
+}
