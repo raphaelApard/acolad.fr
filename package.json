@@ -1,19 +1,21 @@
 {
   "name": "acolad-fr",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
-  "description": "www.acolad.fr — plain HTML/CSS/JS site",
+  "description": "www.acolad.fr — Astro site fed by a Payload CMS",
   "type": "module",
   "scripts": {
-    "dev": "npx --yes serve .",
-    "build": "node scripts/build.mjs",
-    "preview": "npx --yes serve dist"
-  },
-  "devDependencies": {
-    "sharp": "0.35.4"
+    "dev": "pnpm --parallel --filter cms --filter web dev",
+    "dev:cms": "pnpm --filter cms dev",
+    "dev:web": "pnpm --filter web dev",
+    "build": "pnpm --filter web build",
+    "preview": "pnpm --filter web preview",
+    "seed": "pnpm --filter cms seed",
+    "typecheck": "pnpm -r --if-present typecheck",
+    "test": "pnpm -r --if-present test"
   },
   "engines": {
-    "node": ">=20.11"
+    "node": ">=22.12"
   },
   "packageManager": "pnpm@10.13.1"
 }
