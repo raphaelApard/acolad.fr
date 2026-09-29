@@ -79,5 +79,18 @@ export const closingCtaField: Field = {
   name: 'closing',
   type: 'group',
   label: label('Closing call to action', 'Appel à l’action final'),
-  fields: [text('title', 'Title', 'Titre', { required: true })],
+  fields: [
+    text('title', 'Title', 'Titre', { required: true }),
+    {
+      name: 'target',
+      type: 'select',
+      required: true,
+      defaultValue: 'contact',
+      label: label('Button leads to', 'Le bouton mène vers'),
+      options: [
+        { label: label('The contact page', 'La page contact'), value: 'contact' },
+        { label: label('An email (mailto:)', 'Un e-mail (mailto:)'), value: 'mailto' },
+      ],
+    },
+  ],
 }

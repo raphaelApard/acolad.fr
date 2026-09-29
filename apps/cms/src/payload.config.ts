@@ -16,6 +16,12 @@ import { Services } from './collections/Services'
 import { SkillGroups } from './collections/SkillGroups'
 import { Users } from './collections/Users'
 import { Labels } from './globals/Labels'
+import { BackgroundPage } from './globals/pages/BackgroundPage'
+import { ClientsPage } from './globals/pages/ClientsPage'
+import { ContactPage } from './globals/pages/ContactPage'
+import { Home } from './globals/pages/Home'
+import { ServicesPage } from './globals/pages/ServicesPage'
+import { WorkPage } from './globals/pages/WorkPage'
 import { Site } from './globals/Site'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -32,7 +38,16 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Services, Projects, Clients, Jobs, SkillGroups],
-  globals: [Site, Labels],
+  globals: [
+    Site,
+    Labels,
+    Home,
+    ServicesPage,
+    WorkPage,
+    ClientsPage,
+    BackgroundPage,
+    ContactPage,
+  ],
   editor: lexicalEditor(),
   // The site is bilingual: French is the default (unprefixed) language.
   localization: {
