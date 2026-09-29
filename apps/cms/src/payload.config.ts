@@ -16,6 +16,7 @@ import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
 import { SkillGroups } from './collections/SkillGroups'
 import { Users } from './collections/Users'
+import { contactEndpoint } from './endpoints/contact'
 import { Labels } from './globals/Labels'
 import { BackgroundPage } from './globals/pages/BackgroundPage'
 import { ClientsPage } from './globals/pages/ClientsPage'
@@ -30,6 +31,13 @@ const cmsRoot = path.resolve(dirname, '..')
 
 // The SQLite file lives in a git-ignored folder that has to exist.
 fs.mkdirSync(path.join(cmsRoot, 'data'), { recursive: true })
+
+// Origins of the public site (comma-separated) that may call the API from a browser.
+const siteOrigins = (process.env.SITE_URL ?? '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
+const cmsOrigin = process.env.CMS_URL ?? 'http://localhost:3000'
 
 export default buildConfig({
   admin: {
@@ -63,6 +71,9 @@ export default buildConfig({
     supportedLanguages: { en, fr },
   },
   secret: process.env.PAYLOAD_SECRET || '',
+  cors: siteOrigins,
+  csrf: [cmsOrigin, ...siteOrigins],
+  endpoints: [contactEndpoint],
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
