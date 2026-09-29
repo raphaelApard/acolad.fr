@@ -56,7 +56,7 @@ Le build lit chaque page depuis le CMS et télécharge les images pour les optim
 être joignable depuis la machine de build. Envoie le **contenu de `apps/web/dist/`**, `.htaccess` caché
 inclus, à la racine web (`www/` ou `public_html/`). Il contient :
 
-- les 12 pages, `404.html`, `sitemap.xml`, `robots.txt` ;
+- un dossier par page et par langue, `404.html`, `sitemap.xml`, `robots.txt` ;
 - `_astro/` (images optimisées et bundle de scripts, nommés par hash de contenu, mis en cache un an) ;
 - `assets/` (polices, icônes, cartes de partage) et `.htaccess` (redirection HTTPS et `www`, en-têtes de
   sécurité, cache, compression).
@@ -69,7 +69,9 @@ encore de reconstruction automatique (voir « Pas encore fait »).
 
 ## 3. Modifier le modèle de contenu
 
-1. Modifie la collection ou le global dans `apps/cms/src/`.
+1. Modifie la collection ou le global dans `apps/cms/src/`. Un nouveau type de section est un bloc :
+   ajoute-le dans `apps/cms/src/blocks/` et à la liste de `blocks/index.ts`, puis ajoute son composant dans
+   `apps/web/src/components/blocks/` et au registre de `blocks/index.ts` de ce dossier.
 2. `pnpm --filter cms generate:types` — le site importe `apps/cms/src/payload-types.ts`, commite-le.
 3. `pnpm --filter cms migrate:create <nom-court>` et commite les fichiers générés dans
    `apps/cms/src/migrations/`.
@@ -92,8 +94,8 @@ Le contenu n'est **pas** dans git. Sauvegarde régulièrement deux choses :
 
 - `pnpm typecheck` et `pnpm test` passent.
 - Avec le CMS lancé, `pnpm build` réussit et `pnpm preview` affiche le site.
-- `dist/.htaccess`, `dist/sitemap.xml` (12 URL avec alternates fr, en et x-default), `dist/robots.txt` et
-  `dist/404.html` existent.
+- `dist/.htaccess`, `dist/sitemap.xml` (une URL par page et par langue, chacune avec alternates fr, en et
+  x-default), `dist/robots.txt` et `dist/404.html` existent.
 - Envoie un message depuis `/contact/` : il apparaît dans **Boîte de réception → Messages** et la
   notification arrive. Arrête le CMS et envoie-en un autre : une note d'erreur s'affiche et le client mail
   s'ouvre.

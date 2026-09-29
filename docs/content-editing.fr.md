@@ -19,24 +19,65 @@ sur le site.
 | Écran | Ce qu'il pilote |
 |---|---|
 | **Réglages du site** | nom, nom de l'entreprise, intitulé, titulaire du copyright ; l'adresse e-mail de contact (utilisée par tous les liens `mailto:`, les données structurées et le repli du formulaire) ; localisation, disponibilité, langues ; adresse postale pour les moteurs de recherche ; liens de profils (LinkedIn, GitHub, Malt) ; mots-clés d'expertise ; chemin et description de l'image de partage |
-| **Textes de l'interface** | noms du menu, libellés d'accessibilité, textes de boutons (« Contactez-moi », « Voir tous les projets »…), filtre des projets, visionneuse d'image et page 404 |
+| **Textes de l'interface** | libellés d'accessibilité, textes de boutons partagés (« Contactez-moi »), filtre des projets, visionneuse d'image et page 404 |
 
 L'image de partage est un fichier servi par le site lui-même, pas un upload : place-la dans
 `apps/web/public/assets/` (1200×630) et saisis son chemin, par ex. `/assets/og-fr.png`.
 
 ## Pages
 
-Une entrée par page, sous **Pages** : Accueil, Services, Projets, Clients, Parcours, Contact.
-Chacune comporte :
+Chaque page du site est un document de **Site → Pages** : Accueil, Services, Projets, Clients, Parcours et
+Contact en sont six. Une page a :
 
-- **SEO** — le `<title>` et la meta description. Ils alimentent aussi les cartes de partage et les
-  données structurées. Garde le titre sous 60 caractères environ.
-- **En-tête de page** — le h1 et le paragraphe d'introduction (l'accueil a un bandeau à la place).
-- **Appel à l'action final** — le titre du bloc de contact en bas de page, et si son bouton mène à la
-  page contact ou à un lien `mailto:`.
-- Des textes propres à la page : les étapes de la méthode (services), les principes de travail
-  (parcours), la formulation du nombre de clients (`{count}` est remplacé par le nombre de clients), les
-  textes du formulaire de contact.
+- **Nom** — le libellé du menu et du fil d'Ariane, et le nom de la page dans l'admin.
+- **Fragment d'URL** (par langue) — la dernière partie de l'URL : `work` donne `/en/work/`, `projets` donne
+  `/projets/`. Minuscules, chiffres et tirets ; unique par langue ; `en`, `assets`, `_astro`, `api`,
+  `admin` et `404` sont réservés. **Modifier le fragment d'une page existante casse les liens et résultats
+  de recherche qui pointent vers son ancienne URL.** La page d'accueil n'a pas de fragment.
+- **SEO** — le `<title>` et la meta description, aussi utilisés pour les cartes de partage et les données
+  structurées. Garde le titre sous 60 caractères environ.
+- **Sections** — le contenu de la page, de haut en bas (voir ci-dessous). Les mêmes sections apparaissent
+  dans les deux langues ; seuls leurs textes changent.
+- Dans la colonne latérale : **Page d'accueil** (servie sur `/` et `/en/` ; une seule page, qui ne peut pas
+  être supprimée), **Afficher dans le menu**, **Ordre** (le plus petit en premier), **Ancre sur l'accueil**
+  (voir plus bas) et le **type de données structurées** (Page de contact pour la page contact, Page web
+  sinon).
+
+### Sections
+
+Ajoute, réordonne ou supprime des sections avec les boutons du champ **Sections**. Types disponibles :
+
+| Section | Ce qu'elle affiche |
+|---|---|
+| **Bandeau d'accueil** | le bandeau de l'accueil : titre, introduction, deux boutons (un lien est une ancre comme `#contact` ou un chemin) et lignes latérales |
+| **En-tête de page** | lien de retour vers l'accueil, h1 et introduction (cocher *large* pour une introduction plus longue) |
+| **Services** | *Résumé* : la liste numérotée de l'accueil avec un lien « voir tout ». *Offres détaillées* : un bloc par service avec livrables et stack |
+| **Projets** | *Cartes* : les cartes de l'accueil avec un lien « voir tout ». *Études de cas* : rangées avec faits, filtre par catégorie et visionneuse d'image |
+| **Clients** | *Logos* : la grille de l'accueil. *Fiches détaillées* : logo, secteur et réalisation, avec la formulation du nombre de clients |
+| **Résumé du parcours** | la frise de l'accueil à côté de la liste plate des compétences, avec un lien « voir tout » |
+| **Expérience** | la liste détaillée des expériences |
+| **Stack groupée** | les compétences, par groupe |
+| **Points** | une liste de points courts, numérotés (étapes de la méthode) ou non (principes de travail) |
+| **Formulaire de contact** / **Coordonnées** | le formulaire et ses textes ; l'e-mail, les profils, la localisation et les langues issus des réglages du site |
+| **Appel à l'action final** | le bloc de contact en bas de page ; son bouton mène à une page du site ou à un lien `mailto:`. Une page sans ce bloc se termine par un simple pied de page |
+
+Les présentations *résumé* ont une **ancre** (l'identifiant de la section), un **numéro** facultatif
+(« 01 ») affiché avant le titre et un **lien « voir tout »** vers une autre page. Les services, projets,
+clients, expériences et compétences eux-mêmes s'éditent dans les collections ci-dessous, pas dans la
+section.
+
+### Ajouter une page
+
+1. **Site → Pages → Créer**. Renseigne le nom, le fragment d'URL et le SEO en français, puis passe en
+   anglais et renseigne les mêmes champs.
+2. Ajoute des sections. Réutilise les mêmes types que les autres pages : le site ne connaît que ceux-là.
+3. Laisse **Afficher dans le menu** coché pour la lister dans le menu principal (après les autres, ou
+   déplace-la avec **Ordre**). Pour que le menu mobile de l'accueil fasse défiler jusqu'à une section de
+   l'accueil au lieu d'ouvrir la page, renseigne l'identifiant de cette section dans **Ancre sur l'accueil**.
+4. Reconstruis et renvoie le site : la page, ses liens hreflang et ses entrées de sitemap sont générés.
+
+Supprimer une page la retire du menu et du sitemap au prochain build. Les liens qui y mènent depuis
+d'autres pages (un lien « voir tout », un bouton final) doivent être changés avant.
 
 ## Collections de contenu
 
@@ -69,9 +110,9 @@ message une fois traité.
 
 ## Ce qui demande du code, pas l'admin
 
-Ajouter une page, une section ou un nouveau type de contenu : la table des routes
-(`apps/web/src/lib/routes.ts`), une vue dans `apps/web/src/views/` et, pour de nouveaux champs, les
-définitions de collections dans `apps/cms/src/` plus une migration (voir [Déploiement](deployment.fr.md)).
+Un nouveau type de section, ou de nouveaux champs : un bloc dans `apps/cms/src/blocks/`, son composant dans
+`apps/web/src/components/blocks/` et une migration (voir [Déploiement](deployment.fr.md)). Ajouter une page
+composée de sections existantes, elle, se fait entièrement dans l'admin.
 
 ## Typographie
 

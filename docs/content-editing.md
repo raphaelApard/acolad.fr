@@ -18,23 +18,63 @@ The admin interface itself can be French or English (account menu). This does no
 | Screen | What it controls |
 |---|---|
 | **Site settings** | name, business name, job title, copyright holder; the contact email (used by every `mailto:` link, the structured data and the contact form fallback); location, availability, languages; postal address for search engines; profile links (LinkedIn, GitHub, Malt); expertise keywords; the social card image path and description |
-| **Interface labels** | menu names, accessibility labels, button texts ("Get in touch", "See all projects"…), the projects filter, the image viewer and the 404 page |
+| **Interface labels** | accessibility labels, shared button texts ("Get in touch"), the projects filter, the image viewer and the 404 page |
 
 The social card image is a file served by the site itself, not an upload: put it in
 `apps/web/public/assets/` (1200×630) and enter its path, e.g. `/assets/og-fr.png`.
 
 ## Pages
 
-One entry per page, under **Pages**: Home, Services, Projects, Clients, Background, Contact.
-Each one has:
+Every page of the site is a document of **Site → Pages**: Home, Services, Projects, Clients, Background and
+Contact are six of them. A page has:
 
-- **SEO** — the `<title>` and meta description. They also feed the social cards and the structured
-  data. Keep the title under about 60 characters.
-- **Page heading** — the h1 and the introduction paragraph (the home page has a hero instead).
-- **Closing call to action** — the title of the contact block at the bottom, and whether its button
-  opens the contact page or a `mailto:` link.
-- Page-specific texts: the services process steps, the background working principles, the clients
-  count wording (`{count}` is replaced by the number of clients), the contact form texts.
+- **Name** — the menu label and breadcrumb name, and how the page is called in the admin.
+- **URL slug** (per language) — the last part of the URL: `work` gives `/en/work/`, `projets` gives
+  `/projets/`. Lowercase letters, digits and hyphens; unique per language; `en`, `assets`, `_astro`, `api`,
+  `admin` and `404` are reserved. **Changing the slug of an existing page breaks the links and search
+  results that point to its old URL.** The home page has no slug.
+- **SEO** — the `<title>` and meta description, also used for the social cards and the structured data.
+  Keep the title under about 60 characters.
+- **Sections** — the content of the page, from top to bottom (see below). The same sections appear in both
+  languages; only their texts change.
+- In the sidebar: **Home page** (served at `/` and `/en/`; only one page, which cannot be deleted),
+  **Show in the menu**, **Order** (lowest first), **Home page anchor** (see below) and the
+  **structured data type** (Contact page for the contact page, Web page otherwise).
+
+### Sections
+
+Add, reorder or remove sections with the buttons of the **Sections** field. Available kinds:
+
+| Section | What it shows |
+|---|---|
+| **Hero** | the home page banner: title, introduction, two buttons (a link is an anchor such as `#contact` or a path) and side lines |
+| **Page heading** | back link to the home page, h1 and introduction (tick *wide* for a longer introduction) |
+| **Services** | *Summary*: the numbered list of the home page with a "see all" link. *Detailed*: one block per service with deliverables and stack |
+| **Projects** | *Cards*: the home page cards with a "see all" link. *Case studies*: rows with facts, the category filter and the image viewer |
+| **Clients** | *Logos*: the home page grid. *Detailed cards*: logo, sector and work, with the client count wording |
+| **Background summary** | the home page timeline next to the flat list of skills, with a "see all" link |
+| **Experience** | the detailed list of jobs |
+| **Grouped stack** | the skills, by group |
+| **Points** | a list of short points, numbered (process steps) or not (working principles) |
+| **Contact form** / **Contact details** | the form and its texts; the email, profiles, location and languages from the site settings |
+| **Closing call to action** | the contact block at the bottom of a page; its button leads to a page of the site or to a `mailto:` link. A page without one ends with a plain footer |
+
+The *summary* layouts have an **anchor** (the id of the section), an optional **number** ("01") shown before
+the heading, and a **"see all" link** to another page. Services, projects, clients, jobs and skills
+themselves are edited in the collections below, not inside the section.
+
+### Adding a page
+
+1. **Site → Pages → Create new**. Fill in the name, the slug and the SEO fields in French, then switch to
+   English and fill in the same fields.
+2. Add sections. Reuse the same kinds as the other pages: the site only knows these.
+3. Leave **Show in the menu** ticked to list it in the main menu (after the others, or move it with
+   **Order**). To make the mobile menu of the home page scroll to a section of the home page instead of
+   opening the page, put that section's id in **Home page anchor**.
+4. Rebuild and upload the site: the page, its hreflang links and its sitemap entries are generated.
+
+Deleting a page removes it from the menu and the sitemap at the next build. Links to it from other pages
+(a "see all" link, a closing button) must be changed first.
 
 ## Content collections
 
@@ -66,9 +106,9 @@ emailed to the address in Site settings (or `CONTACT_TO`). Delete a message once
 
 ## Things that need code, not the admin
 
-Adding a new page, a new section or a new kind of content: the route table
-(`apps/web/src/lib/routes.ts`), a view in `apps/web/src/views/` and, for new fields, the collection
-definitions in `apps/cms/src/` plus a migration (see [Deployment](deployment.md)).
+A new kind of section, or new fields: a block in `apps/cms/src/blocks/`, its component in
+`apps/web/src/components/blocks/` and a migration (see [Deployment](deployment.md)). Adding a page made of
+existing sections is done entirely in the admin.
 
 ## Typography
 

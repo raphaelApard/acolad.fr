@@ -54,7 +54,7 @@ The build reads every page from the CMS and downloads the images to optimize the
 reachable from the build machine. Upload the **contents of `apps/web/dist/`**, hidden `.htaccess`
 included, to the web root (`www/` or `public_html/`). It contains:
 
-- the 12 pages, `404.html`, `sitemap.xml`, `robots.txt`;
+- one folder per page and language, `404.html`, `sitemap.xml`, `robots.txt`;
 - `_astro/` (optimized images and the script bundle, named by content hash, cached for a year);
 - `assets/` (fonts, icons, social cards) and `.htaccess` (HTTPS and `www` redirect, security headers,
   caching, compression).
@@ -67,7 +67,9 @@ rebuild yet (see "Not done yet").
 
 ## 3. Changing the content model
 
-1. Edit the collection or global in `apps/cms/src/`.
+1. Edit the collection or global in `apps/cms/src/`. A new kind of section is a block: add it in
+   `apps/cms/src/blocks/` and to the list in `blocks/index.ts`, then add its component in
+   `apps/web/src/components/blocks/` and to the registry in `blocks/index.ts` there.
 2. `pnpm --filter cms generate:types` — the site imports `apps/cms/src/payload-types.ts`, commit it.
 3. `pnpm --filter cms migrate:create <short-name>` and commit the generated files in
    `apps/cms/src/migrations/`.
@@ -90,8 +92,8 @@ Content is **not** in git. Back up two things regularly:
 
 - `pnpm typecheck` and `pnpm test` pass.
 - With the CMS running, `pnpm build` succeeds and `pnpm preview` shows the site.
-- `dist/.htaccess`, `dist/sitemap.xml` (12 URLs with fr, en and x-default alternates), `dist/robots.txt`
-  and `dist/404.html` exist.
+- `dist/.htaccess`, `dist/sitemap.xml` (one URL per page and language, each with fr, en and x-default
+  alternates), `dist/robots.txt` and `dist/404.html` exist.
 - Send a message from `/contact/`: it appears in **Inbox → Messages** and the notification arrives.
   Stop the CMS and send another: an error note shows and the mail client opens.
 
