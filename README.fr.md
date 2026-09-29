@@ -1,84 +1,112 @@
 Français · [English](README.md)
 
-# www.acolad.fr — HTML/CSS/JS pur (branche `develop`)
+# www.acolad.fr — Astro + Payload CMS (branche `feat/astro-payload`)
 
 Site personnel de Raphaël Apard — Développeur web & solutions IA (Toulouse / Revel).
 
-Cette branche est la version **sans framework** du site : HTML écrit à la main, une
-feuille CSS et quelques lignes de JavaScript. Un petit script Node prépare les
-fichiers pour la production (CSS inlinée, images responsives). La version Next.js
-se trouve sur `main`.
+Cette branche reconstruit le site avec **Astro** (pages statiques) alimenté par **Payload CMS**
+(contenu, en français et en anglais). Les pages, les URL et le rendu sont les mêmes que la version
+HTML/CSS/JS pur, qui reste sur `develop` et `main`.
+
+## Comment ça s'articule
+
+```
+ éditeurs ──► Payload CMS (apps/cms, Node, SQLite) ◄── formulaire de contact (POST /api/contact)
+                    │  API REST, lue au moment du build
+                    ▼
+             build Astro (apps/web) ──► apps/web/dist/  ──► envoyé sur l'hébergement Apache
+```
+
+- Le **site est statique** : `pnpm build` lit le CMS une fois et écrit du HTML simple. Rien ne tourne
+  sur l'hébergeur web à part Apache.
+- Le **CMS est une application Node à part** (Payload 3 sur Next.js). Il lui faut un hébergement Node ;
+  il ne peut pas tourner sur l'hébergement statique. Après une modification de contenu, il faut
+  reconstruire et renvoyer le site.
+- Le formulaire de contact est le seul appel « en direct » du site public : il envoie le message au CMS,
+  qui le range dans une boîte de réception et envoie un e-mail de notification. En cas d'échec, le
+  client mail du visiteur s'ouvre à la place.
 
 ## Structure
 
 ```
-index.html            Accueil français (/)
-services/ projets/ clients/ parcours/ contact/
-                      Pages de section françaises (/services/, /projets/, …), un index.html chacune
-en/index.html         Accueil anglais (/en/)
-en/services/ work/ clients/ background/ contact/
-                      Pages de section anglaises (/en/services/, /en/work/, …)
-404.html              Page introuvable
-css/style.css         Tous les styles (source — inlinés et minifiés au build)
-js/main.js            Menu mobile, lightbox des projets, filtre des projets, formulaire de contact
-assets/
-  clients/*.webp      Logos clients (images sources)
-  fonts/*.woff2       Geist & Geist Mono, sous-ensemble latin (auto-hébergées, SIL OFL)
-  favicon.svg, apple-touch-icon.png, og-fr.png, og-en.png
-robots.txt, sitemap.xml
-.htaccess             Apache : redirection HTTPS/www, 404, en-têtes de sécurité, cache, compression
-scripts/build.mjs     Build de production -> dist/
+apps/cms/                 Payload CMS (interface d'admin sur :3000/admin)
+  src/collections/        services, projects, clients, jobs, skill-groups, media, messages, users
+  src/globals/            site, labels, et un global par page (home, services-page, …)
+  src/endpoints/          POST /api/contact
+  src/migrations/         migrations de la base (production)
+  src/seed/               le contenu actuel du site en français et en anglais, et le script de seed
+apps/web/                 site Astro (:4321)
+  src/lib/                client du CMS, table des routes, <head> SEO, JSON-LD, sitemap, images
+  src/layouts/ components/ views/   layout de base, briques, une vue par page
+  src/pages/              [...slug].astro (les 12 pages issues de la table des routes), 404, sitemap.xml
+  src/styles/global.css   la feuille de style, insérée dans chaque page au build
+  public/                 polices, icônes, cartes de partage, robots.txt, .htaccess
+docs/                     guides d'édition du contenu et de déploiement
 ```
+
+## Démarrage rapide
+
+Nécessite Node.js ≥ 22.12 et pnpm.
+
+```bash
+pnpm install
+cp apps/cms/.env.example apps/cms/.env   # puis renseigner PAYLOAD_SECRET (openssl rand -hex 32)
+cp apps/web/.env.example apps/web/.env
+pnpm seed                                # charge le contenu actuel (voir ci-dessous)
+pnpm dev                                 # CMS sur :3000, site sur :4321
+```
+
+Crée ton compte admin sur <http://localhost:3000/admin> (ou renseigne `SEED_ADMIN_EMAIL` et
+`SEED_ADMIN_PASSWORD` dans `apps/cms/.env` avant `pnpm seed` pour qu'il soit créé automatiquement).
+
+`pnpm seed` remplit un CMS vide avec le contenu et les images de l'ancien site. Il refuse de s'exécuter
+sur un CMS qui contient déjà du contenu ; `pnpm seed -- --reset` efface d'abord services, projets,
+clients, expériences, compétences et médias (jamais les messages ni les utilisateurs).
 
 ## Commandes
 
-Nécessite Node.js ≥ 20.11 et pnpm (ou npm).
+| Commande | Effet |
+|---|---|
+| `pnpm dev` | CMS et site en mode développement |
+| `pnpm dev:cms` / `pnpm dev:web` | l'un des deux |
+| `pnpm build` | construit le site dans `apps/web/dist/` (le CMS doit être joignable) |
+| `pnpm preview` | sert `apps/web/dist/` sur :4321 |
+| `pnpm seed` | charge le contenu initial dans le CMS |
+| `pnpm typecheck` | vérifications TypeScript et Astro dans les deux apps |
+| `pnpm test` | tests unitaires dans les deux apps |
+| `pnpm --filter cms migrate` | applique les migrations de la base (production) |
+| `pnpm --filter cms generate:types` | régénère `payload-types.ts` après un changement de schéma |
 
-```bash
-pnpm install     # installe sharp (traitement d'images, build uniquement)
-pnpm dev         # sert les fichiers sources      -> http://localhost:3000
-pnpm build       # construit le site de production -> dist/
-pnpm preview     # sert dist/                      -> http://localhost:3000
-```
+## Configuration
 
-Les fichiers sources fonctionnent sans build : `pnpm dev` suffit pendant l'édition.
+| Variable | App | Rôle |
+|---|---|---|
+| `PAYLOAD_SECRET` | cms | secret de signature des sessions |
+| `DATABASE_URI` | cms | fichier SQLite, `file:./data/cms.db` par défaut |
+| `CMS_URL` | cms | URL publique du CMS (liens de l'admin, origine autorisée pour l'admin) |
+| `SITE_URL` | cms | origine(s) du site public autorisée(s) à appeler l'API (CORS), séparées par des virgules |
+| `SMTP_*`, `CONTACT_FROM`, `CONTACT_TO` | cms | e-mails de notification du contact ; sans `SMTP_HOST` ils sont seulement journalisés |
+| `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD` | cms | premier admin optionnel créé par `pnpm seed` |
+| `PAYLOAD_URL` | web | où le build lit le contenu |
+| `PUBLIC_CONTACT_ENDPOINT` | web | cible du formulaire de contact, `PAYLOAD_URL/api/contact` par défaut |
 
-## Ce que fait le build
+## Documentation
 
-- **CSS :** `css/style.css` est minifié et inliné dans une balise `<style>` de chaque
-  page, ce qui supprime la requête de feuille de style bloquante.
-- **Images :** chaque `<img>` avec un attribut `sizes` et un `src` raster dans
-  `/assets/` devient un `<picture>` : WebP à plusieurs largeurs (plafonnées à la
-  largeur de la source) plus un repli pour les vieux navigateurs — PNG pour les
-  images transparentes, JPEG sinon.
-- Tout le reste est copié tel quel.
+- [Éditer le contenu](docs/content-editing.fr.md) — ce que pilote chaque collection et chaque global
+- [Déploiement](docs/deployment.fr.md) — héberger le CMS, construire et envoyer le site, sauvegardes
 
-## Déploiement
+## Différences avec la version HTML pur
 
-Lancer `pnpm build`, puis téléverser le **contenu de `dist/`** (y compris le
-`.htaccess` caché) à la racine web du serveur (`www/` ou `public_html/`).
+Mêmes pages, URL, balisage et mise en page (vérifiés page par page, en largeur bureau et téléphone).
+Ce qui change :
 
-## Guide d'édition
-
-- **Les textes** sont directement dans les fichiers HTML. Chaque page existe en
-  français et en anglais : garder chaque paire synchronisée, y compris `<title>`,
-  meta description, balises Open Graph et JSON-LD.
-- **Accueil et pages de section :** l'accueil résume chaque section et la termine par
-  un lien « voir tout » vers la page de section correspondante. Sur l'accueil, le menu
-  desktop mène aux pages de section tandis que le menu mobile garde les ancres de la page.
-- **Nouvelle page :** ajouter son dossier (FR et EN), le lister dans `SITE_FILES` de
-  `scripts/build.mjs`, et ajouter les deux URL à `sitemap.xml`.
-- **Page des projets :** les boutons de filtre sont livrés `hidden` et révélés par
-  `js/main.js` ; chaque ligne de projet porte un `data-category` (`web` ou `ia`).
-- **Formulaire de contact :** il n'y a pas de backend. `js/main.js` ouvre le client
-  mail du visiteur (`mailto:`) avec le message pré-rempli et affiche une confirmation ;
-  sans JavaScript, le formulaire se rabat sur une action `mailto:` simple.
-- **Modifications du JS :** incrémenter le paramètre `?v=N` de `/js/main.js?v=N` dans
-  chaque fichier HTML (mis en cache un an). Le CSS est inliné, il n'a pas besoin de version.
-- **Images :** ajouter l'image source dans `assets/` (au moins 2× sa plus grande taille
-  affichée), puis écrire un `<img>` simple avec `width`, `height`, `alt`, `loading="lazy"`
-  (sous la ligne de flottaison) et un `sizes` exact — le build génère le reste.
-  Utiliser un nouveau nom de fichier pour remplacer une image.
-- **Menu mobile :** API Popover native (`popovertarget` / `popover`), aucun JavaScript
-  nécessaire pour l'ouvrir. Les navigateurs sans support affichent les liens en ligne.
-- **SEO :** mettre à jour le `<lastmod>` de `sitemap.xml` quand le contenu change.
+- Le contenu vit dans le CMS ; le head, le header, le footer et le JSON-LD sont construits une fois au
+  lieu d'être copiés dans 12 fichiers.
+- Le formulaire de contact envoie au CMS (avec repli mailto:) au lieu de seulement ouvrir le client
+  mail, et comporte un champ piège (honeypot) masqué.
+- `sitemap.xml` est généré (les dates viennent de la dernière modification du contenu) ; l'année du
+  copyright et le nombre de clients sont calculés.
+- Les pastilles de la stack de l'accueil suivent l'ordre groupé de la page parcours (GraphQL remonte).
+- `a: hover` dans la feuille de style était du CSS invalide, c'est corrigé.
+- Les images Open Graph dans `apps/web/public/assets/` sont inchangées (elles affichent encore une
+  ancienne accroche).
