@@ -6,16 +6,9 @@ import config from '../payload.config'
 import { clients } from './data/clients'
 import { jobs } from './data/jobs'
 import { labels } from './data/labels'
-import {
-  backgroundPage,
-  clientsPage,
-  contactPage,
-  home,
-  servicesPage,
-  workPage,
-} from './data/pages'
 import { projects } from './data/projects'
 import { services } from './data/services'
+import { sitePages } from './data/site-pages'
 import { site } from './data/site'
 import { skillGroups } from './data/skill-groups'
 import type { SeedDoc } from './types'
@@ -25,7 +18,7 @@ import { merge, withRowIds } from './utils'
  * Fills the CMS with the content of the legacy site (French and English).
  *
  *   pnpm seed                 seeds an empty CMS, refuses to touch one that already has content
- *   pnpm seed -- --reset      wipes services, projects, clients, jobs, skill groups and media first
+ *   pnpm seed -- --reset      wipes pages, services, projects, clients, jobs, skill groups and media first
  *
  * With SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD set, it also creates the first admin user if there is none.
  * Messages and users are never deleted.
@@ -34,6 +27,7 @@ const mediaDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), 'med
 const reset = process.argv.includes('--reset') || process.env.SEED_RESET === '1'
 
 const RESET_COLLECTIONS: CollectionSlug[] = [
+  'pages',
   'services',
   'projects',
   'clients',
@@ -58,6 +52,7 @@ async function seedDoc(collection: CollectionSlug, doc: SeedDoc) {
     locale: 'en',
     data: withRowIds(created, merge(doc.shared, doc.en)) as never,
   })
+  return created
 }
 
 async function seedGlobal(slug: GlobalSlug, doc: SeedDoc) {
@@ -99,16 +94,6 @@ if (reset) {
 
 await seedGlobal('site', site)
 await seedGlobal('labels', labels)
-for (const [slug, page] of [
-  ['home', home],
-  ['services-page', servicesPage],
-  ['work-page', workPage],
-  ['clients-page', clientsPage],
-  ['background-page', backgroundPage],
-  ['contact-page', contactPage],
-] as const) {
-  await seedGlobal(slug, page)
-}
 log('Globals written.')
 
 for (const service of services) await seedDoc('services', service)
@@ -132,8 +117,28 @@ for (const client of clients) {
   const logo = await uploadMedia('clients', logoFile as string, { fr: name, en: name })
   await seedDoc('clients', { shared: { ...shared, logo }, fr: client.fr, en: client.en })
 }
+// Pages come last: their sections refer to the pages created before them (see data/site-pages.ts).
+const pageIds = new Map<string, number | string>()
+const resolvePageRefs = (value: unknown): unknown => {
+  if (Array.isArray(value)) return value.map(resolvePageRefs)
+  if (value && typeof value === 'object') {
+    const object = value as Record<string, unknown>
+    if (typeof object.$page === 'string') {
+      const id = pageIds.get(object.$page)
+      if (id === undefined) throw new Error(`Page "${object.$page}" is referenced before it is created.`)
+      return id
+    }
+    return Object.fromEntries(Object.entries(object).map(([key, item]) => [key, resolvePageRefs(item)]))
+  }
+  return value
+}
+for (const { key, ...page } of sitePages) {
+  const created = await seedDoc('pages', resolvePageRefs(page) as SeedDoc)
+  pageIds.set(key, created.id)
+}
+
 log(
-  `Collections written: ${services.length} services, ${projects.length} projects, ${clients.length} clients, ` +
+  `Collections written: ${sitePages.length} pages, ${services.length} services, ${projects.length} projects, ${clients.length} clients, ` +
     `${jobs.length} jobs, ${skillGroups.length} skill groups.`,
 )
 
