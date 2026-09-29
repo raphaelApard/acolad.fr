@@ -28,15 +28,18 @@ and English). The pages, URLs and look are the same as the plain HTML/CSS/JS ver
 
 ```
 apps/cms/                 Payload CMS (admin panel on :3000/admin)
-  src/collections/        services, projects, clients, jobs, skill-groups, media, messages, users
-  src/globals/            site, labels, and one global per page (home, services-page, …)
+  src/collections/        pages, services, projects, clients, jobs, skill-groups, media, messages, users
+  src/blocks/             the sections a page is made of (hero, services, projects, contact form, …)
+  src/globals/            site settings and interface labels
   src/endpoints/          POST /api/contact
   src/migrations/         database migrations (production)
   src/seed/               the current site content in French and English, and the seed script
 apps/web/                 Astro site (:4321)
-  src/lib/                CMS client, route table, SEO head, JSON-LD, sitemap, image helpers
-  src/layouts/ components/ views/   base layout, building blocks, one view per page
-  src/pages/              [...slug].astro (12 pages from the route table), 404, sitemap.xml
+  src/lib/                CMS client, page model (URLs, menu, hreflang), SEO head, JSON-LD, sitemap, images
+  src/layouts/ components/   base layout, header, shared pieces
+  src/components/blocks/  one component per kind of section
+  src/views/PageView.astro   renders a page by walking its sections
+  src/pages/              [...slug].astro (one page per CMS page and language), 404, sitemap.xml
   src/styles/global.css   the stylesheet, inlined in every page at build time
   public/                 fonts, icons, social cards, robots.txt, .htaccess
 docs/                     content editing and deployment guides
@@ -58,8 +61,8 @@ Create your admin account at <http://localhost:3000/admin> (or set `SEED_ADMIN_E
 `SEED_ADMIN_PASSWORD` in `apps/cms/.env` before `pnpm seed` to have it created for you).
 
 `pnpm seed` fills an empty CMS with the content and images of the legacy site. It refuses to run on a
-CMS that already has content; `pnpm seed -- --reset` wipes services, projects, clients, jobs, skills and
-media first (never messages or users).
+CMS that already has content; `pnpm seed -- --reset` wipes pages, services, projects, clients, jobs, skills
+and media first (never messages or users).
 
 ## Commands
 
@@ -90,7 +93,7 @@ media first (never messages or users).
 
 ## Documentation
 
-- [Editing content](docs/content-editing.md) — what each collection and global controls
+- [Editing content](docs/content-editing.md) — pages and sections, collections, images, adding a page
 - [Deployment](docs/deployment.md) — hosting the CMS, building and uploading the site, backups
 
 ## Differences with the plain HTML version
@@ -99,6 +102,9 @@ Same pages, URLs, markup and layout (checked page by page, on desktop and phone 
 
 - The content lives in the CMS; the head, header, footer and JSON-LD are built once instead of being
   copied into 12 files.
+- Pages are documents of one generic collection, each made of sections chosen from a fixed set of blocks.
+  URLs, the menu, hreflang alternates and the sitemap come from those documents, so a page can be added
+  or reordered from the admin without touching the code.
 - The contact form posts to the CMS (with a mailto: fallback) instead of only opening the mail client,
   and has a hidden honeypot field.
 - `sitemap.xml` is generated (dates come from the last content edit); the copyright year and the number
