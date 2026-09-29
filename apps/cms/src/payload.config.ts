@@ -11,6 +11,7 @@ import { fileURLToPath } from 'url'
 import { Clients } from './collections/Clients'
 import { Jobs } from './collections/Jobs'
 import { Media } from './collections/Media'
+import { Messages } from './collections/Messages'
 import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
 import { SkillGroups } from './collections/SkillGroups'
@@ -37,7 +38,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Services, Projects, Clients, Jobs, SkillGroups],
+  collections: [Users, Media, Services, Projects, Clients, Jobs, SkillGroups, Messages],
   globals: [
     Site,
     Labels,

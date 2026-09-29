@@ -74,6 +74,7 @@ export interface Config {
     clients: Client;
     jobs: Job;
     'skill-groups': SkillGroup;
+    messages: Message;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -88,6 +89,7 @@ export interface Config {
     clients: ClientsSelect<false> | ClientsSelect<true>;
     jobs: JobsSelect<false> | JobsSelect<true>;
     'skill-groups': SkillGroupsSelect<false> | SkillGroupsSelect<true>;
+    messages: MessagesSelect<false> | MessagesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -316,6 +318,22 @@ export interface SkillGroup {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages".
+ */
+export interface Message {
+  id: number;
+  email: string;
+  message: string;
+  locale: 'fr' | 'en';
+  /**
+   * Salted hash of the IP address, only used to spot repeated senders.
+   */
+  ipHash?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -365,6 +383,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'skill-groups';
         value: number | SkillGroup;
+      } | null)
+    | ({
+        relationTo: 'messages';
+        value: number | Message;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -526,6 +548,18 @@ export interface SkillGroupsSelect<T extends boolean = true> {
   title?: T;
   skills?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "messages_select".
+ */
+export interface MessagesSelect<T extends boolean = true> {
+  email?: T;
+  message?: T;
+  locale?: T;
+  ipHash?: T;
   updatedAt?: T;
   createdAt?: T;
 }
