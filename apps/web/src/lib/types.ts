@@ -8,6 +8,7 @@ export type {
   Job,
   Label as Labels,
   Media,
+  Page,
   Project,
   Service,
   ServicesPage,
