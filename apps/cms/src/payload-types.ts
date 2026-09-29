@@ -71,6 +71,9 @@ export interface Config {
     media: Media;
     services: Service;
     projects: Project;
+    clients: Client;
+    jobs: Job;
+    'skill-groups': SkillGroup;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -82,6 +85,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    clients: ClientsSelect<false> | ClientsSelect<true>;
+    jobs: JobsSelect<false> | JobsSelect<true>;
+    'skill-groups': SkillGroupsSelect<false> | SkillGroupsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -234,6 +240,70 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface Client {
+  id: number;
+  /**
+   * Not translated.
+   */
+  name: string;
+  logo: number | Media;
+  /**
+   * Square or compact logos look too big at the default size.
+   */
+  logoSize: 'default' | 'mid' | 'small';
+  sector: string;
+  work: string;
+  /**
+   * Lowest first.
+   */
+  order: number;
+  showOnHome?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobs".
+ */
+export interface Job {
+  id: number;
+  /**
+   * Shown as is, e.g. “2014 — now”.
+   */
+  years: string;
+  role: string;
+  org: string;
+  description: string;
+  /**
+   * Lowest first.
+   */
+  order: number;
+  showOnHome?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skill-groups".
+ */
+export interface SkillGroup {
+  id: number;
+  title: string;
+  /**
+   * Names are not translated. The home page lists every group as a single flat list.
+   */
+  skills: string[];
+  /**
+   * Lowest first.
+   */
+  order: number;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -271,6 +341,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'clients';
+        value: number | Client;
+      } | null)
+    | ({
+        relationTo: 'jobs';
+        value: number | Job;
+      } | null)
+    | ({
+        relationTo: 'skill-groups';
+        value: number | SkillGroup;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -392,6 +474,46 @@ export interface ProjectsSelect<T extends boolean = true> {
   category?: T;
   order?: T;
   showOnHome?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients_select".
+ */
+export interface ClientsSelect<T extends boolean = true> {
+  name?: T;
+  logo?: T;
+  logoSize?: T;
+  sector?: T;
+  work?: T;
+  order?: T;
+  showOnHome?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "jobs_select".
+ */
+export interface JobsSelect<T extends boolean = true> {
+  years?: T;
+  role?: T;
+  org?: T;
+  description?: T;
+  order?: T;
+  showOnHome?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "skill-groups_select".
+ */
+export interface SkillGroupsSelect<T extends boolean = true> {
+  title?: T;
+  skills?: T;
+  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }

@@ -8,9 +8,12 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { Clients } from './collections/Clients'
+import { Jobs } from './collections/Jobs'
 import { Media } from './collections/Media'
 import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
+import { SkillGroups } from './collections/SkillGroups'
 import { Users } from './collections/Users'
 import { Labels } from './globals/Labels'
 import { Site } from './globals/Site'
@@ -28,7 +31,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Services, Projects],
+  collections: [Users, Media, Services, Projects, Clients, Jobs, SkillGroups],
   globals: [Site, Labels],
   editor: lexicalEditor(),
   // The site is bilingual: French is the default (unprefixed) language.
