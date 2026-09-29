@@ -5,13 +5,83 @@
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/" />
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-30</lastmod>
   </url>
   <url>
     <loc>https://www.acolad.fr/en/</loc>
     <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/" />
-    <lastmod>2026-09-15</lastmod>
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/services/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/services/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/services/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/services/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/en/services/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/services/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/services/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/services/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/projets/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/projets/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/work/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/projets/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/en/work/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/projets/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/work/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/projets/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/clients/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/clients/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/clients/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/clients/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/en/clients/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/clients/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/clients/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/clients/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/parcours/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/parcours/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/background/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/parcours/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/en/background/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/parcours/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/background/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/parcours/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/contact/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/contact/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/contact/" />
+    <lastmod>2026-09-30</lastmod>
+  </url>
+  <url>
+    <loc>https://www.acolad.fr/en/contact/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://www.acolad.fr/contact/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.acolad.fr/en/contact/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.acolad.fr/contact/" />
+    <lastmod>2026-09-30</lastmod>
   </url>
 </urlset>

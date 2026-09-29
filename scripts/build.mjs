@@ -15,7 +15,21 @@ import sharp from "sharp";
 const root = path.resolve(import.meta.dirname, "..");
 const dist = path.join(root, "dist");
 
-const SITE_FILES = ["index.html", "en", "404.html", "robots.txt", "sitemap.xml", ".htaccess", "js", "assets"];
+const SITE_FILES = [
+  "index.html",
+  "services",
+  "projets",
+  "clients",
+  "parcours",
+  "contact",
+  "en",
+  "404.html",
+  "robots.txt",
+  "sitemap.xml",
+  ".htaccess",
+  "js",
+  "assets",
+];
 const STYLESHEET = "css/style.css";
 const WIDTHS = [120, 180, 240, 320, 480, 640, 960, 1280, 1920];
 const RASTER = /\.(png|jpe?g|webp|avif)$/i;

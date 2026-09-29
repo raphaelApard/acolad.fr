@@ -69,3 +69,53 @@
     full.alt = "";
   });
 })();
+
+// Work page: the filter buttons ship hidden and appear once this script runs.
+// They show or hide the project rows by category and renumber the visible ones.
+(() => {
+  const bar = document.querySelector("[data-filters]");
+  const rows = document.querySelectorAll("[data-category]");
+  if (!bar || !rows.length) return;
+
+  const buttons = bar.querySelectorAll("[data-filter]");
+  bar.hidden = false;
+
+  bar.addEventListener("click", (event) => {
+    const chosen = event.target.closest("[data-filter]");
+    if (!chosen) return;
+
+    for (const button of buttons) {
+      button.setAttribute("aria-pressed", String(button === chosen));
+    }
+
+    let visible = 0;
+    for (const row of rows) {
+      const show = chosen.dataset.filter === "all" || row.dataset.category === chosen.dataset.filter;
+      row.hidden = !show;
+      if (show) row.querySelector("[data-index]").textContent = String(++visible).padStart(2, "0");
+    }
+  });
+})();
+
+// Contact page: there is no backend, so the form opens the visitor's mail client
+// with the message filled in. Without JavaScript it falls back to a plain
+// mailto: form action.
+(() => {
+  const form = document.getElementById("contact-form");
+  const confirmation = document.getElementById("contact-sent");
+  if (!form || !confirmation) return;
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const { email, message } = Object.fromEntries(new FormData(form));
+    const subject = `${form.dataset.subject}${email}`;
+    const body = `${form.dataset.emailLabel}: ${email}\n\n${message}`;
+    window.location.href =
+      `mailto:contact@raphaelapard.fr?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+
+    form.hidden = true;
+    confirmation.hidden = false;
+    confirmation.focus();
+  });
+})();

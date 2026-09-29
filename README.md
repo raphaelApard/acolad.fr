@@ -1,3 +1,5 @@
+[Français](README.fr.md) · English
+
 # www.acolad.fr — plain HTML/CSS/JS (branch `develop`)
 
 Personal site of Raphaël Apard — Web developer & AI solutions (Toulouse / Revel).
@@ -9,11 +11,15 @@ production (inlined CSS, responsive images). The Next.js version lives on `main`
 ## Structure
 
 ```
-index.html            French page (/)
-en/index.html         English page (/en/)
+index.html            French home (/)
+services/ projets/ clients/ parcours/ contact/
+                      French section pages (/services/, /projets/, …), one index.html each
+en/index.html         English home (/en/)
+en/services/ work/ clients/ background/ contact/
+                      English section pages (/en/services/, /en/work/, …)
 404.html              Not found page
 css/style.css         All styles (source — inlined and minified at build time)
-js/main.js            Closes the mobile menu after a link is chosen
+js/main.js            Mobile menu, project lightbox, work filter, contact form
 assets/
   clients/*.webp      Client logos (source images)
   fonts/*.woff2       Geist & Geist Mono, latin subset (self-hosted, SIL OFL)
@@ -52,9 +58,20 @@ Run `pnpm build`, then upload the **contents of `dist/`** (including the hidden
 
 ## Editing guide
 
-- **Copy** lives directly in `index.html` (FR) and `en/index.html` (EN): keep both
-  pages in sync, including `<title>`, meta description, Open Graph tags and JSON-LD.
-- **JS changes:** bump the `?v=N` query of `/js/main.js?v=N` in both HTML files
+- **Copy** lives directly in the HTML files. Every page exists in French and in
+  English: keep each pair in sync, including `<title>`, meta description, Open Graph
+  tags and JSON-LD.
+- **Home vs section pages:** the home shows a summary of each section and ends it with
+  a "see all" link to the matching section page. On the home, the desktop menu goes to
+  the section pages while the mobile menu keeps the in-page anchors.
+- **New page:** add its folder (FR and EN), list the folder in `SITE_FILES` of
+  `scripts/build.mjs`, and add both URLs to `sitemap.xml`.
+- **Work page:** the filter buttons ship `hidden` and are revealed by `js/main.js`;
+  each project row carries a `data-category` (`web` or `ia`).
+- **Contact form:** there is no backend. `js/main.js` opens the visitor's mail client
+  (`mailto:`) with the message filled in and shows a confirmation; without JavaScript
+  the form falls back to a plain `mailto:` action.
+- **JS changes:** bump the `?v=N` query of `/js/main.js?v=N` in every HTML file
   (cached for a year). CSS is inlined, so it needs no versioning.
 - **Images:** add the source image in `assets/` (at least 2× its largest rendered
   size), then write a plain `<img>` with `width`, `height`, `alt`, `loading="lazy"`

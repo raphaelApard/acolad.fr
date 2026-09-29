@@ -19,7 +19,7 @@ ErrorDocument 404 /404.html
   RewriteRule ^ /%1 [R=301,L,NE]
 
   # Repository files that must never be served.
-  RewriteRule ^(README\.md|\.gitignore)$ - [F,L]
+  RewriteRule ^(README(\.fr)?\.md|\.gitignore)$ - [F,L]
 </IfModule>
 
 <IfModule mod_mime.c>
