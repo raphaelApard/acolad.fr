@@ -8,3 +8,6 @@ export type SeedDoc = {
   fr: Record<string, unknown>
   en: Record<string, unknown>
 }
+
+/** A page of the site: `key` lets other pages refer to it before its database id exists. */
+export type SeedPage = SeedDoc & { key: string }
