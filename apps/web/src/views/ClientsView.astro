@@ -1,0 +1,69 @@
+---
+import ContactStrip from '../components/ContactStrip.astro'
+import MediaImage from '../components/MediaImage.astro'
+import PageHead from '../components/PageHead.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { getDocs, getGlobal, resolveMedia } from '../lib/cms'
+import { logoSizes } from '../lib/images'
+import { pageGraph } from '../lib/jsonld'
+import type { Locale } from '../lib/routes'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+
+const [site, labels, page, clients] = await Promise.all([
+  getGlobal('site', locale),
+  getGlobal('labels', locale),
+  getGlobal('clients-page', locale),
+  getDocs('clients', locale, 1),
+])
+
+const jsonLd = pageGraph({ site: Astro.site!, locale, key: 'clients', seo: page.seo }, labels)
+const count = page.countLabel.replace('{count}', String(clients.length))
+---
+
+<BaseLayout locale={locale} pageKey="clients" seo={page.seo} site={site} labels={labels} jsonLd={jsonLd}>
+  <PageHead locale={locale} labels={labels} title={page.head.title} subtitle={page.head.subtitle} />
+
+  <section class="section section--tight" aria-labelledby="clients-count">
+    <h2 id="clients-count" class="section__label">{count}</h2>
+    <ul class="section__body clients clients--detailed">
+      {
+        clients.map((client) => {
+          const logo = resolveMedia(client.logo)
+          return (
+            <li class="client-card">
+              <div class="client-card__logo">
+                <MediaImage
+                  media={logo}
+                  alt=""
+                  class:list={[
+                    'client__logo',
+                    client.logoSize !== 'default' && `client__logo--${client.logoSize}`,
+                  ]}
+                  sizes={logoSizes({
+                    width: logo.width!,
+                    height: logo.height!,
+                    size: client.logoSize,
+                    context: 'clients',
+                  })}
+                  fallback="png"
+                />
+              </div>
+              <div class="client-card__info">
+                <p class="client-card__name">{client.name}</p>
+                <p class="client-card__sector">{client.sector}</p>
+                <p class="client-card__work">{client.work}</p>
+              </div>
+            </li>
+          )
+        })
+      }
+    </ul>
+  </section>
+
+  <ContactStrip locale={locale} site={site} labels={labels} closing={page.closing} />
+</BaseLayout>

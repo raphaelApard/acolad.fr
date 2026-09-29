@@ -1647,3 +1647,20 @@ textarea.field__input {
     transition: none;
   }
 }
+
+/* Contact form: honeypot and error note ---------------------------------- */
+
+/* Off-screen field that only bots fill in. */
+.form-trap {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.form-error {
+  grid-column: 1 / -1;
+  color: var(--ink);
+}

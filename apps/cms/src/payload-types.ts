@@ -685,6 +685,10 @@ export interface Label {
     client: string;
     result: string;
   };
+  notFound: {
+    title: string;
+    backHome: string;
+  };
   lightbox: {
     open: string;
     close: string;
@@ -953,6 +957,12 @@ export interface LabelsSelect<T extends boolean = true> {
         filterAi?: T;
         client?: T;
         result?: T;
+      };
+  notFound?:
+    | T
+    | {
+        title?: T;
+        backHome?: T;
       };
   lightbox?:
     | T

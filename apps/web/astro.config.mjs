@@ -13,7 +13,8 @@ export default defineConfig({
     // The stylesheet is small: inline it in every page instead of a render-blocking request.
     inlineStylesheets: 'always',
   },
-  compressHTML: true,
+  // Whitespace is trimmed like JSX (the default): formatted source must not add spaces inside links and list items.
+  compressHTML: 'jsx',
   devToolbar: { enabled: false },
   image: {
     // Project screenshots and client logos are uploaded to the CMS and optimized at build time.

@@ -36,6 +36,10 @@ export const labels: SeedDoc = {
       client: 'Client',
       result: 'Résultat',
     },
+    notFound: {
+      title: 'Page introuvable',
+      backHome: 'Retour à l’accueil',
+    },
     lightbox: {
       open: 'Agrandir l’image',
       close: 'Fermer',
@@ -74,6 +78,10 @@ export const labels: SeedDoc = {
       filterAi: 'AI',
       client: 'Client',
       result: 'Result',
+    },
+    notFound: {
+      title: 'Page not found',
+      backHome: 'Back to home',
     },
     lightbox: {
       open: 'Enlarge image',
