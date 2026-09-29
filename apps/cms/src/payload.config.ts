@@ -1,5 +1,7 @@
 import { sqliteAdapter } from '@payloadcms/db-sqlite'
 import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { en } from '@payloadcms/translations/languages/en'
+import { fr } from '@payloadcms/translations/languages/fr'
 import fs from 'fs'
 import path from 'path'
 import { buildConfig } from 'payload'
@@ -23,6 +25,18 @@ export default buildConfig({
   },
   collections: [Users],
   editor: lexicalEditor(),
+  // The site is bilingual: French is the default (unprefixed) language.
+  localization: {
+    locales: [
+      { label: 'Français', code: 'fr' },
+      { label: 'English', code: 'en' },
+    ],
+    defaultLocale: 'fr',
+    fallback: true,
+  },
+  i18n: {
+    supportedLanguages: { en, fr },
+  },
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
