@@ -1,0 +1,166 @@
+---
+import PageHead from '../components/PageHead.astro'
+import SiteFooter from '../components/SiteFooter.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { cmsUrl, getGlobal } from '../lib/cms'
+import { pageGraph } from '../lib/jsonld'
+import type { Locale } from '../lib/routes'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+
+const [site, labels, page] = await Promise.all([
+  getGlobal('site', locale),
+  getGlobal('labels', locale),
+  getGlobal('contact-page', locale),
+])
+
+const jsonLd = pageGraph({ site: Astro.site!, locale, key: 'contact', seo: page.seo }, labels)
+// Where the form posts: the CMS contact endpoint, unless another public address is configured.
+const endpoint =
+  process.env.PUBLIC_CONTACT_ENDPOINT ||
+  import.meta.env.PUBLIC_CONTACT_ENDPOINT ||
+  `${cmsUrl()}/api/contact`
+const { form, reach } = page
+---
+
+<BaseLayout locale={locale} pageKey="contact" seo={page.seo} site={site} labels={labels} jsonLd={jsonLd}>
+  <PageHead locale={locale} labels={labels} title={page.head.title} subtitle={page.head.subtitle} />
+
+  <section class="section section--tight" aria-labelledby="form-title">
+    <h2 id="form-title" class="section__label">{page.formTitle}</h2>
+    <div class="section__body section__body--form">
+      <div id="contact-sent" class="form-sent" role="status" tabindex="-1" hidden>
+        <p class="form-sent__title">{form.sentTitle}</p>
+        <p class="form-sent__text">{form.sentText}</p>
+      </div>
+      <!-- Without JavaScript the form falls back to a plain mailto: action. -->
+      <form
+        id="contact-form"
+        class="contact-form"
+        action={`mailto:${site.email}`}
+        method="post"
+        enctype="text/plain"
+        data-endpoint={endpoint}
+        data-locale={locale}
+        data-mailto={site.email}
+        data-subject={form.subjectPrefix}
+        data-email-label={form.emailLabel}
+      >
+        <label class="field">
+          {form.emailLabel}
+          <input class="field__input" type="email" name="email" autocomplete="email" required />
+        </label>
+        <label class="field">
+          {form.messageLabel}
+          <textarea
+            class="field__input"
+            name="message"
+            rows="6"
+            placeholder={form.messagePlaceholder}
+            required></textarea>
+        </label>
+        <div class="form-trap" aria-hidden="true">
+          <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
+        <div class="contact-form__actions">
+          <button type="submit" class="btn btn--primary btn--large">{form.submitLabel}</button>
+          <p class="form-note">{form.privacyNote}</p>
+        </div>
+        <p id="contact-error" class="form-note form-error" role="alert" hidden>{form.errorText}</p>
+      </form>
+    </div>
+  </section>
+
+  <section class="section section--tight section--last" aria-labelledby="reach-title">
+    <h2 id="reach-title" class="section__label">{page.reachTitle}</h2>
+    <div class="section__body reach">
+      <div class="reach__main">
+        <div>
+          <h3 class="label">{reach.emailLabel}</h3>
+          <a class="reach__email" href={`mailto:${site.email}`}>{site.email}</a>
+        </div>
+        <div>
+          <h3 class="label">{reach.profilesLabel}</h3>
+          <ul class="reach__links">
+            {
+              (site.socials ?? []).map((social) => (
+                <li>
+                  <a class="btn btn--small" href={social.url} target="_blank" rel="noopener noreferrer me">
+                    {social.label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </div>
+      </div>
+      <div>
+        <dl class="facts">
+          <div class="fact">
+            <dt>{reach.locationLabel}</dt>
+            <dd>
+              {site.location}<br /><span class="fact__extra">{site.availability}</span>
+            </dd>
+          </div>
+          <div class="fact">
+            <dt>{reach.languagesLabel}</dt>
+            <dd>{site.languages}</dd>
+          </div>
+        </dl>
+        <p class="reach__brief">{reach.brief}</p>
+      </div>
+    </div>
+  </section>
+
+  <SiteFooter slot="after-main" site={site} />
+</BaseLayout>
+
+<script>
+  // The site is static: the form posts to the CMS. If that fails for any reason, the message is
+  // handed over to the visitor's mail client instead, so it is never lost.
+  const form = document.getElementById('contact-form') as HTMLFormElement | null
+  const confirmation = document.getElementById('contact-sent')
+  const error = document.getElementById('contact-error')
+
+  if (form && confirmation && error) {
+    const openedAt = Date.now()
+
+    const openMailClient = (email: string, message: string) => {
+      const subject = `${form.dataset.subject}${email}`
+      const body = `${form.dataset.emailLabel}: ${email}\n\n${message}`
+      window.location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+
+      const { email, message, website } = Object.fromEntries(new FormData(form)) as Record<string, string>
+      const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!
+      submit.disabled = true
+      error.hidden = true
+
+      try {
+        const response = await fetch(form.dataset.endpoint!, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, message, website, locale: form.dataset.locale, startedAt: openedAt }),
+          signal: AbortSignal.timeout(10_000),
+        })
+        const result = await response.json().catch(() => null)
+        if (!response.ok || !result?.ok) throw new Error(`Contact endpoint answered ${response.status}`)
+
+        form.hidden = true
+        confirmation.hidden = false
+        confirmation.focus()
+      } catch {
+        submit.disabled = false
+        error.hidden = false
+        openMailClient(email, message)
+      }
+    })
+  }
+</script>
