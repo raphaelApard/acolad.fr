@@ -1,12 +1,14 @@
 import type { APIRoute } from 'astro'
 
+import { getPages } from '../lib/cms'
 import { lastModified } from '../lib/lastmod'
-import { allRoutes } from '../lib/routes'
+import { loadSitePages } from '../lib/pages'
 import { buildSitemap } from '../lib/sitemap'
 
 export const GET: APIRoute = async ({ site }) => {
+  const [pages, docs] = await Promise.all([loadSitePages(), getPages('fr')])
   const entries = await Promise.all(
-    allRoutes().map(async ({ key, path }) => ({ key, path, lastmod: await lastModified(key) })),
+    pages.map(async (page) => ({ page, lastmod: await lastModified(docs.find((doc) => doc.id === page.id)!) })),
   )
 
   return new Response(buildSitemap(entries, site!), {

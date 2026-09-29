@@ -2,7 +2,7 @@
 import '../styles/global.css'
 
 import { getGlobal } from '../lib/cms'
-import { pathFor } from '../lib/routes'
+import { pagePath } from '../lib/pages'
 
 // A single page for both languages, like the previous site: it cannot know which one the visitor wanted.
 const [site, fr, en] = await Promise.all([
@@ -29,8 +29,8 @@ const [site, fr, en] = await Promise.all([
         <h1 class="not-found__title">{fr.notFound.title}</h1>
         <p class="not-found__sub" lang="en">{en.notFound.title}</p>
         <p class="not-found__links">
-          <a href={pathFor('home', 'fr')}>{fr.notFound.backHome}</a>
-          <a href={pathFor('home', 'en')} lang="en">{en.notFound.backHome}</a>
+          <a href={pagePath({ isHome: true }, 'fr')}>{fr.notFound.backHome}</a>
+          <a href={pagePath({ isHome: true }, 'en')} lang="en">{en.notFound.backHome}</a>
         </p>
       </main>
     </div>

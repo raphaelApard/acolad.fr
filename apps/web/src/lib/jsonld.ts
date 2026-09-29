@@ -1,11 +1,12 @@
-import { absoluteUrl, LOCALES, pathFor, type Locale, type PageKey } from './routes'
-import type { Labels, Service, Site } from './types'
+import { homeOf, type SitePage } from './pages'
+import { absoluteUrl, DEFAULT_LOCALE, LOCALES, type Locale } from './routes'
+import type { Service, Site } from './types'
 
 type Common = {
   /** Origin of the site (Astro.site). */
   site: URL | string
   locale: Locale
-  key: PageKey
+  page: SitePage
   seo: { title: string; description: string }
 }
 
@@ -13,17 +14,17 @@ export type JsonLdNode = Record<string, unknown>
 
 const graph = (nodes: JsonLdNode[]) => ({ '@context': 'https://schema.org', '@graph': nodes })
 
-/** Identifiers of the entities shared by every page: they are declared on the French home page. */
+/** Identifiers of the entities shared by every page: they are declared on the home page. */
 const ids = (site: URL | string) => ({
   website: absoluteUrl('/#website', site),
   person: absoluteUrl('/#person', site),
   business: absoluteUrl('/#business', site),
 })
 
-const webPage = ({ site, locale, key, seo }: Common, type: 'WebPage' | 'ContactPage') => {
-  const url = absoluteUrl(pathFor(key, locale), site)
+const webPage = ({ site, locale, page, seo }: Common) => {
+  const url = absoluteUrl(page.paths[locale], site)
   return {
-    '@type': type,
+    '@type': page.schemaType,
     '@id': `${url}#webpage`,
     url,
     name: seo.title,
@@ -37,10 +38,10 @@ const webPage = ({ site, locale, key, seo }: Common, type: 'WebPage' | 'ContactP
 /** Home page: the site, the page, the person and their business with its offers. */
 export function homeGraph(
   common: Common,
-  { settings, services, labels }: { settings: Site; services: Service[]; labels: Labels },
+  { settings, services, catalogName }: { settings: Site; services: Service[]; catalogName: string },
 ) {
-  const { site } = common
-  const home = absoluteUrl(pathFor('home', 'fr'), site)
+  const { site, page } = common
+  const home = absoluteUrl(page.paths[DEFAULT_LOCALE], site)
   const address = {
     '@type': 'PostalAddress',
     addressLocality: settings.address.locality,
@@ -57,7 +58,7 @@ export function homeGraph(
       inLanguage: [...LOCALES],
       publisher: { '@id': ids(site).person },
     },
-    webPage(common, 'WebPage'),
+    webPage(common),
     {
       '@type': 'Person',
       '@id': ids(site).person,
@@ -85,7 +86,7 @@ export function homeGraph(
       ],
       hasOfferCatalog: {
         '@type': 'OfferCatalog',
-        name: labels.nav.services,
+        name: catalogName,
         itemListElement: services.map((service) => ({
           '@type': 'Offer',
           itemOffered: { '@type': 'Service', name: service.title, description: service.shortDesc },
@@ -95,17 +96,14 @@ export function homeGraph(
   ])
 }
 
-/** Section page: the page itself and its breadcrumb (Home > page). */
-export function pageGraph(common: Common, labels: Labels) {
-  const { site, locale, key } = common
-  const url = absoluteUrl(pathFor(key, locale), site)
-  const label = key === 'home' ? labels.nav.home : labels.nav[key]
+/** Any other page: the page itself and its breadcrumb (Home > page). */
+export function pageGraph(common: Common, pages: SitePage[]) {
+  const { site, locale, page } = common
+  const url = absoluteUrl(page.paths[locale], site)
+  const home = homeOf(pages)
 
   return graph([
-    {
-      ...webPage(common, key === 'contact' ? 'ContactPage' : 'WebPage'),
-      breadcrumb: { '@id': `${url}#breadcrumb` },
-    },
+    { ...webPage(common), breadcrumb: { '@id': `${url}#breadcrumb` } },
     {
       '@type': 'BreadcrumbList',
       '@id': `${url}#breadcrumb`,
@@ -113,10 +111,10 @@ export function pageGraph(common: Common, labels: Labels) {
         {
           '@type': 'ListItem',
           position: 1,
-          name: labels.nav.home,
-          item: absoluteUrl(pathFor('home', locale), site),
+          name: home.navLabel[locale],
+          item: absoluteUrl(home.paths[locale], site),
         },
-        { '@type': 'ListItem', position: 2, name: label, item: url },
+        { '@type': 'ListItem', position: 2, name: page.navLabel[locale], item: url },
       ],
     },
   ])
