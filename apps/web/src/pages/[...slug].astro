@@ -1,0 +1,15 @@
+---
+import { allRoutes } from '../lib/routes'
+import { VIEWS } from '../views'
+
+export function getStaticPaths() {
+  return allRoutes()
+    .filter((route) => route.key in VIEWS)
+    .map((route) => ({ params: { slug: route.slug }, props: route }))
+}
+
+const { key, locale } = Astro.props
+const View = VIEWS[key]!
+---
+
+<View locale={locale} />

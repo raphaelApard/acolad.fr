@@ -1,0 +1,185 @@
+---
+import Chips from '../components/Chips.astro'
+import ContactStrip from '../components/ContactStrip.astro'
+import Lightbox from '../components/Lightbox.astro'
+import MediaImage from '../components/MediaImage.astro'
+import ProjectMedia from '../components/ProjectMedia.astro'
+import BaseLayout from '../layouts/BaseLayout.astro'
+import { getDocs, getGlobal, resolveMedia } from '../lib/cms'
+import { logoSizes } from '../lib/images'
+import { homeGraph } from '../lib/jsonld'
+import { pathFor, type Locale } from '../lib/routes'
+
+interface Props {
+  locale: Locale
+}
+
+const { locale } = Astro.props
+
+const [site, labels, home, services, projects, clients, jobs, skillGroups] = await Promise.all([
+  getGlobal('site', locale),
+  getGlobal('labels', locale),
+  getGlobal('home', locale),
+  getDocs('services', locale),
+  getDocs('projects', locale, 1),
+  getDocs('clients', locale, 1),
+  getDocs('jobs', locale),
+  getDocs('skill-groups', locale),
+])
+
+const number = (index: number) => String(index + 1).padStart(2, '0')
+const homeProjects = projects.filter((project) => project.showOnHome)
+const homeClients = clients.filter((client) => client.showOnHome)
+const homeJobs = jobs.filter((job) => job.showOnHome)
+const skills = skillGroups.flatMap((group) => group.skills ?? [])
+
+const jsonLd = homeGraph(
+  { site: Astro.site!, locale, key: 'home', seo: home.seo },
+  { settings: site, services, labels },
+)
+---
+
+<BaseLayout locale={locale} pageKey="home" seo={home.seo} site={site} labels={labels} jsonLd={jsonLd}>
+  <section class="hero" aria-labelledby="hero-title">
+    <div class="hero__main">
+      <h1 id="hero-title" class="hero__title">{home.hero.title}</h1>
+      <p class="hero__sub">{home.hero.subtitle}</p>
+      <div class="hero__ctas">
+        <a href="#contact" class="btn btn--primary">{home.hero.primaryCta}</a>
+        <a href="#projets" class="btn btn--outline">{home.hero.secondaryCta}</a>
+      </div>
+    </div>
+    <ul class="hero__aside">
+      {(home.hero.aside ?? []).map((line) => <li>{line.text}</li>)}
+    </ul>
+  </section>
+
+  <section id="services" class="section" aria-labelledby="services-title">
+    <h2 id="services-title" class="section__label">
+      <span aria-hidden="true">01 — </span>{home.sections.services}
+    </h2>
+    <div class="section__body">
+      <ol class="services">
+        {
+          services.map((service, index) => (
+            <li class="service">
+              <span class="service__number" aria-hidden="true">
+                {number(index)}
+              </span>
+              <h3 class="service__title">{service.title}</h3>
+              <p class="service__desc">{service.shortDesc}</p>
+            </li>
+          ))
+        }
+      </ol>
+      <p class="more-wrap more-wrap--ruled">
+        <a class="more" href={pathFor('services', locale)}>
+          {labels.common.seeAllServices} <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section id="projets" class="section" aria-labelledby="projets-title">
+    <h2 id="projets-title" class="section__label">
+      <span aria-hidden="true">02 — </span>{home.sections.projects}
+    </h2>
+    <div class="section__body">
+      <ul class="projects">
+        {
+          homeProjects.map((project) => (
+            <li>
+              <article class="project">
+                <ProjectMedia media={resolveMedia(project.image)} labels={labels} />
+                <div class="project__text">
+                  <p class="project__tag">{project.tag}</p>
+                  <h3 class="project__title">{project.title}</h3>
+                  <p class="project__desc">{project.shortDesc}</p>
+                </div>
+              </article>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="more-wrap">
+        <a class="more" href={pathFor('work', locale)}>
+          {labels.common.seeAllProjects} <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section id="clients" class="section" aria-labelledby="clients-title">
+    <p class="section__label"><span aria-hidden="true">03 — </span>{home.sections.clients}</p>
+    <div class="section__body">
+      <h2 id="clients-title" class="clients__title">{home.sections.clientsHeading}</h2>
+      <ul class="clients">
+        {
+          homeClients.map((client) => {
+            const logo = resolveMedia(client.logo)
+            return (
+              <li class="client">
+                <MediaImage
+                  media={logo}
+                  alt={client.name}
+                  class:list={[
+                    'client__logo',
+                    client.logoSize !== 'default' && `client__logo--${client.logoSize}`,
+                  ]}
+                  sizes={logoSizes({
+                    width: logo.width!,
+                    height: logo.height!,
+                    size: client.logoSize,
+                    context: 'home',
+                  })}
+                  fallback="png"
+                />
+              </li>
+            )
+          })
+        }
+      </ul>
+      <p class="more-wrap">
+        <a class="more" href={pathFor('clients', locale)}>
+          {labels.common.seeAllClients} <span aria-hidden="true">→</span>
+        </a>
+      </p>
+    </div>
+  </section>
+
+  <section id="parcours" class="section" aria-labelledby="parcours-title">
+    <h2 id="parcours-title" class="section__label">
+      <span aria-hidden="true">04 — </span>{home.sections.background}
+    </h2>
+    <div class="section__body background">
+      <div>
+        <ol>
+          {
+            homeJobs.map((job) => (
+              <li class="entry">
+                <span class="entry__years">{job.years}</span>
+                <div>
+                  <h3 class="entry__role">{job.role}</h3>
+                  <p class="entry__org">{job.org}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="more-wrap more-wrap--ruled">
+          <a class="more" href={pathFor('background', locale)}>
+            {labels.common.seeFullBackground} <span aria-hidden="true">→</span>
+          </a>
+        </p>
+      </div>
+      <div>
+        <h3 class="stack__label">{labels.common.stack}</h3>
+        <Chips items={skills} />
+      </div>
+    </div>
+  </section>
+
+  <ContactStrip locale={locale} site={site} labels={labels} closing={home.closing} compact={false} />
+
+  <Lightbox slot="after-main" labels={labels} />
+</BaseLayout>
