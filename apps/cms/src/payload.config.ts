@@ -8,6 +8,7 @@ import { buildConfig } from 'payload'
 import sharp from 'sharp'
 import { fileURLToPath } from 'url'
 
+import { Media } from './collections/Media'
 import { Users } from './collections/Users'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
@@ -23,7 +24,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users],
+  collections: [Users, Media],
   editor: lexicalEditor(),
   // The site is bilingual: French is the default (unprefixed) language.
   localization: {
