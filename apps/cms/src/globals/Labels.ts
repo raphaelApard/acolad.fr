@@ -50,6 +50,10 @@ export const Labels: GlobalConfig = {
       text('client', 'Client', 'Client', req),
       text('result', 'Result', 'Résultat', req),
     ]),
+    group('notFound', 'Page not found', 'Page introuvable', [
+      text('title', 'Title', 'Titre', req),
+      text('backHome', 'Back to home link', 'Lien de retour à l’accueil', req),
+    ]),
     group('lightbox', 'Image viewer', 'Visionneuse d’image', [
       text('open', 'Enlarge button', 'Bouton agrandir', req),
       text('close', 'Close button', 'Bouton fermer', req),
