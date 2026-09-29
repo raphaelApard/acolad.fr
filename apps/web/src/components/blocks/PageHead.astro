@@ -1,0 +1,23 @@
+---
+import type { PageContext } from '../../lib/context'
+import { homeOf, type Block } from '../../lib/pages'
+
+interface Props {
+  block: Block<'pageHead'>
+  ctx: PageContext
+  index: number
+}
+
+const { block, ctx } = Astro.props
+const home = homeOf(ctx.pages)
+---
+
+<header class="page-head">
+  <p class="page-head__back">
+    <a href={home.paths[ctx.locale]}><span aria-hidden="true">←</span> {home.navLabel[ctx.locale]}</a>
+  </p>
+  <div class="page-head__main">
+    <h1 class="page-head__title">{block.title}</h1>
+    {block.subtitle && <p class:list={['page-head__sub', { 'page-head__sub--wide': block.wide }]}>{block.subtitle}</p>}
+  </div>
+</header>

@@ -1,11 +1,6 @@
-import {
-  absoluteUrl,
-  alternatesFor,
-  LOCALES,
-  pathFor,
-  type Locale,
-  type PageKey,
-} from './routes'
+import type { SitePage } from './pages'
+import { alternatesOf } from './pages'
+import { absoluteUrl, LOCALES, type Locale } from './routes'
 
 export const OG_LOCALE: Record<Locale, string> = { fr: 'fr_FR', en: 'en_US' }
 export const ROBOTS = 'index, follow, max-image-preview:large, max-snippet:-1'
@@ -17,14 +12,14 @@ export type HeadInput = {
   /** Origin of the site (Astro.site). */
   site: URL | string
   locale: Locale
-  key: PageKey
+  page: SitePage
   seo: { title: string; description: string }
   settings: { name: string; ogImagePath: string; ogImageAlt?: string | null }
 }
 
 /** Everything a page puts in its <head> to be found and shared: canonical, hreflang, Open Graph, Twitter. */
-export function buildHead({ site, locale, key, seo, settings }: HeadInput) {
-  const canonical = absoluteUrl(pathFor(key, locale), site)
+export function buildHead({ site, locale, page, seo, settings }: HeadInput) {
+  const canonical = absoluteUrl(page.paths[locale], site)
 
   return {
     title: seo.title,
@@ -32,7 +27,7 @@ export function buildHead({ site, locale, key, seo, settings }: HeadInput) {
     author: settings.name,
     robots: ROBOTS,
     canonical,
-    alternates: alternatesFor(key).map(({ hreflang, path }) => ({
+    alternates: alternatesOf(page).map(({ hreflang, path }) => ({
       hreflang,
       href: absoluteUrl(path, site),
     })),

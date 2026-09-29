@@ -1,39 +1,34 @@
 ---
-import { LOCALES, NAV_KEYS, pathFor, type Locale, type NavKey, type PageKey } from '../lib/routes'
-import type { Labels, Site } from '../lib/types'
+import type { PageContext } from '../lib/context'
+import { homeOf, navPagesOf } from '../lib/pages'
+import { LOCALES } from '../lib/routes'
 
 interface Props {
-  locale: Locale
-  pageKey: PageKey
-  site: Site
-  labels: Labels
+  ctx: PageContext
 }
 
-const { locale, pageKey, site, labels } = Astro.props
+const { locale, current, site, labels, pages } = Astro.props.ctx
 
-const items = NAV_KEYS.map((key) => ({
-  href: pathFor(key, locale),
-  label: labels.nav[key],
-  current: key === pageKey,
+const navPages = navPagesOf(pages)
+const items = navPages.map((page) => ({
+  href: page.paths[locale],
+  label: page.navLabel[locale],
+  current: page.id === current.id,
 }))
 
-// On the home page the mobile menu scrolls to the sections of the page itself.
-const sectionAnchors: Record<NavKey, string> = {
-  services: '#services',
-  work: '#projets',
-  clients: '#clients',
-  background: '#parcours',
-  contact: '#contact',
-}
-const mobileItems =
-  pageKey === 'home'
-    ? NAV_KEYS.map((key, i) => ({ ...items[i], href: sectionAnchors[key], current: false }))
-    : items
+// On the home page the mobile menu scrolls to the section that summarises each page, when there is one.
+const mobileItems = current.isHome
+  ? navPages.map((page) => ({
+      href: page.homeAnchor ? `#${page.homeAnchor}` : page.paths[locale],
+      label: page.navLabel[locale],
+      current: false,
+    }))
+  : items
 ---
 
 <header class="site-header">
   <div class="site-header__bar">
-    <a href={pathFor('home', locale)} class="brand">{site.name}</a>
+    <a href={homeOf(pages).paths[locale]} class="brand">{site.name}</a>
 
     <nav class="site-nav" aria-label={labels.a11y.mainNavigation}>
       <ul>
@@ -55,7 +50,7 @@ const mobileItems =
           <li>
             <a
               class="lang"
-              href={pathFor(pageKey, code)}
+              href={current.paths[code]}
               hreflang={code}
               lang={code}
               aria-current={code === locale ? 'page' : undefined}

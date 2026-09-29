@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest'
 
 import { homeGraph, pageGraph, type JsonLdNode } from './jsonld'
-import type { Labels, Service, Site } from './types'
+import type { SitePage } from './pages'
+import type { Service, Site } from './types'
 
 const site = 'https://www.acolad.fr'
 const settings = {
@@ -13,15 +14,30 @@ const settings = {
   socials: [{ label: 'GitHub', url: 'https://github.com/raphaelApard' }],
   knowsAbout: ['TypeScript'],
 } as unknown as Site
-const labels = { nav: { home: 'Home', services: 'Services', work: 'Work', contact: 'Contact' } } as unknown as Labels
 const services = [{ title: 'Websites', shortDesc: 'Fast sites.' }] as unknown as Service[]
 const seo = { title: 'Title', description: 'Description' }
+
+const page = (overrides: Partial<SitePage>): SitePage => ({
+  id: 1,
+  isHome: false,
+  schemaType: 'WebPage',
+  showInNav: true,
+  order: 1,
+  homeAnchor: null,
+  paths: { fr: '/x/', en: '/en/x/' },
+  navLabel: { fr: 'X', en: 'X' },
+  ...overrides,
+})
+const home = page({ id: 1, isHome: true, order: 0, paths: { fr: '/', en: '/en/' }, navLabel: { fr: 'Accueil', en: 'Home' } })
+const work = page({ id: 2, paths: { fr: '/projets/', en: '/en/work/' }, navLabel: { fr: 'Projets', en: 'Work' } })
+const contact = page({ id: 3, schemaType: 'ContactPage', paths: { fr: '/contact/', en: '/en/contact/' } })
+const pages = [home, work, contact]
 
 const byType = (graph: { '@graph': JsonLdNode[] }, type: string) =>
   graph['@graph'].find((node) => node['@type'] === type) as JsonLdNode
 
 describe('homeGraph', () => {
-  const graph = homeGraph({ site, locale: 'en', key: 'home', seo }, { settings, services, labels })
+  const graph = homeGraph({ site, locale: 'en', page: home, seo }, { settings, services, catalogName: 'Services' })
 
   it('declares the shared entities with stable ids on the French home', () => {
     expect(byType(graph, 'WebSite')).toMatchObject({
@@ -60,7 +76,7 @@ describe('homeGraph', () => {
 
 describe('pageGraph', () => {
   it('links the page to the site entities and adds a two-level breadcrumb', () => {
-    const graph = pageGraph({ site, locale: 'en', key: 'work', seo }, labels)
+    const graph = pageGraph({ site, locale: 'en', page: work, seo }, pages)
     expect(byType(graph, 'WebPage')).toMatchObject({
       '@id': 'https://www.acolad.fr/en/work/#webpage',
       isPartOf: { '@id': 'https://www.acolad.fr/#website' },
@@ -75,8 +91,8 @@ describe('pageGraph', () => {
     })
   })
 
-  it('marks the contact page as a ContactPage', () => {
-    const graph = pageGraph({ site, locale: 'fr', key: 'contact', seo }, labels)
+  it('uses the structured data type chosen for the page', () => {
+    const graph = pageGraph({ site, locale: 'fr', page: contact, seo }, pages)
     expect(graph['@graph'][0]).toMatchObject({ '@type': 'ContactPage' })
   })
 })

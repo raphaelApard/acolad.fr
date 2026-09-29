@@ -46,6 +46,17 @@ export function getGlobal<K extends GlobalSlug>(slug: K, locale: Locale): Promis
   return fetchJson(`/api/globals/${slug}`, { locale, depth: 0 })
 }
 
+/** The pages of the site in one language. Relationships stay ids: pages are resolved through the page list. */
+export async function getPages(locale: Locale): Promise<Config['collections']['pages'][]> {
+  const { docs } = await fetchJson<{ docs: Config['collections']['pages'][] }>('/api/pages', {
+    locale,
+    limit: 0,
+    sort: 'order',
+    depth: 0,
+  })
+  return docs
+}
+
 /** Every document of a collection in one language, sorted by their `order` field. */
 export async function getDocs<K extends ContentSlug>(
   slug: K,

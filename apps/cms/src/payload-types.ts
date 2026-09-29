@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    pages: Page;
     media: Media;
     services: Service;
     projects: Project;
@@ -83,6 +84,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    pages: PagesSelect<false> | PagesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
@@ -102,22 +104,10 @@ export interface Config {
   globals: {
     site: Site;
     labels: Label;
-    home: Home;
-    'services-page': ServicesPage;
-    'work-page': WorkPage;
-    'clients-page': ClientsPage;
-    'background-page': BackgroundPage;
-    'contact-page': ContactPage;
   };
   globalsSelect: {
     site: SiteSelect<false> | SiteSelect<true>;
     labels: LabelsSelect<false> | LabelsSelect<true>;
-    home: HomeSelect<false> | HomeSelect<true>;
-    'services-page': ServicesPageSelect<false> | ServicesPageSelect<true>;
-    'work-page': WorkPageSelect<false> | WorkPageSelect<true>;
-    'clients-page': ClientsPageSelect<false> | ClientsPageSelect<true>;
-    'background-page': BackgroundPageSelect<false> | BackgroundPageSelect<true>;
-    'contact-page': ContactPageSelect<false> | ContactPageSelect<true>;
   };
   locale: 'fr' | 'en';
   widgets: {
@@ -172,6 +162,225 @@ export interface User {
     | null;
   password?: string | null;
   collection: 'users';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages".
+ */
+export interface Page {
+  id: number;
+  /**
+   * Menu label and breadcrumb name. Also how the page is called in the admin.
+   */
+  navLabel: string;
+  /**
+   * Last part of the URL, per language: “work” gives /en/work/. Changing it breaks links and search results that point to the old URL.
+   */
+  slug?: string | null;
+  seo: {
+    title: string;
+    description: string;
+  };
+  /**
+   * The page is made of these sections, from top to bottom. The same sections appear in both languages.
+   */
+  sections: (
+    | {
+        title: string;
+        subtitle: string;
+        primaryCta: {
+          label: string;
+          /**
+           * An in-page anchor such as #contact, or a path such as /services/.
+           */
+          href: string;
+        };
+        secondaryCta: {
+          label: string;
+          /**
+           * An in-page anchor such as #contact, or a path such as /services/.
+           */
+          href: string;
+        };
+        aside?:
+          | {
+              text: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'hero';
+      }
+    | {
+        title: string;
+        subtitle?: string | null;
+        wide?: boolean | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'pageHead';
+      }
+    | {
+        variant: 'summary' | 'detailed';
+        /**
+         * Target of in-page links, e.g. the mobile menu of the home page. Lowercase letters only.
+         */
+        anchor?: string | null;
+        /**
+         * Shown before the heading, e.g. “01”.
+         */
+        number?: string | null;
+        label?: string | null;
+        seeAll?: {
+          label: string;
+          page: number | Page;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'services';
+      }
+    | {
+        variant: 'summary' | 'cases';
+        /**
+         * Target of in-page links, e.g. the mobile menu of the home page. Lowercase letters only.
+         */
+        anchor?: string | null;
+        /**
+         * Shown before the heading, e.g. “01”.
+         */
+        number?: string | null;
+        label?: string | null;
+        seeAll?: {
+          label: string;
+          page: number | Page;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'projects';
+      }
+    | {
+        variant: 'summary' | 'cards';
+        /**
+         * Target of in-page links, e.g. the mobile menu of the home page. Lowercase letters only.
+         */
+        anchor?: string | null;
+        /**
+         * Shown before the heading, e.g. “01”.
+         */
+        number?: string | null;
+        label?: string | null;
+        seeAll?: {
+          label: string;
+          page: number | Page;
+        };
+        heading?: string | null;
+        /**
+         * Use {count} where the number of clients goes.
+         */
+        countLabel?: string | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'clients';
+      }
+    | {
+        /**
+         * Target of in-page links, e.g. the mobile menu of the home page. Lowercase letters only.
+         */
+        anchor: string;
+        /**
+         * Shown before the heading, e.g. “01”.
+         */
+        number?: string | null;
+        label: string;
+        seeAll: {
+          label: string;
+          page: number | Page;
+        };
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'backgroundSummary';
+      }
+    | {
+        title: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'experience';
+      }
+    | {
+        title: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'stackGroups';
+      }
+    | {
+        title: string;
+        numbered?: boolean | null;
+        wide?: boolean | null;
+        items?:
+          | {
+              title: string;
+              description: string;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'points';
+      }
+    | {
+        title: string;
+        emailLabel: string;
+        messageLabel: string;
+        messagePlaceholder: string;
+        submitLabel: string;
+        privacyNote: string;
+        /**
+         * Start of the subject when the visitor’s mail client is used as a fallback.
+         */
+        subjectPrefix: string;
+        sentTitle: string;
+        sentText: string;
+        errorText: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contactForm';
+      }
+    | {
+        title: string;
+        emailLabel: string;
+        profilesLabel: string;
+        locationLabel: string;
+        languagesLabel: string;
+        brief: string;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'contactDetails';
+      }
+    | {
+        title: string;
+        target: 'page' | 'mailto';
+        page?: (number | null) | Page;
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'closingCta';
+      }
+  )[];
+  /**
+   * Served at / and /en/. Only one page can be the home page.
+   */
+  isHome?: boolean | null;
+  showInNav?: boolean | null;
+  /**
+   * Lowest first.
+   */
+  order: number;
+  /**
+   * Id of the section of the home page that summarises this page. The mobile menu of the home page scrolls there instead of opening the page.
+   */
+  homeAnchor?: string | null;
+  schemaType: 'WebPage' | 'ContactPage';
+  updatedAt: string;
+  createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -361,6 +570,10 @@ export interface PayloadLockedDocument {
         value: number | User;
       } | null)
     | ({
+        relationTo: 'pages';
+        value: number | Page;
+      } | null)
+    | ({
         relationTo: 'media';
         value: number | Media;
       } | null)
@@ -452,6 +665,198 @@ export interface UsersSelect<T extends boolean = true> {
         createdAt?: T;
         expiresAt?: T;
       };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "pages_select".
+ */
+export interface PagesSelect<T extends boolean = true> {
+  navLabel?: T;
+  slug?: T;
+  seo?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  sections?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              primaryCta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              secondaryCta?:
+                | T
+                | {
+                    label?: T;
+                    href?: T;
+                  };
+              aside?:
+                | T
+                | {
+                    text?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        pageHead?:
+          | T
+          | {
+              title?: T;
+              subtitle?: T;
+              wide?: T;
+              id?: T;
+              blockName?: T;
+            };
+        services?:
+          | T
+          | {
+              variant?: T;
+              anchor?: T;
+              number?: T;
+              label?: T;
+              seeAll?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        projects?:
+          | T
+          | {
+              variant?: T;
+              anchor?: T;
+              number?: T;
+              label?: T;
+              seeAll?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        clients?:
+          | T
+          | {
+              variant?: T;
+              anchor?: T;
+              number?: T;
+              label?: T;
+              seeAll?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                  };
+              heading?: T;
+              countLabel?: T;
+              id?: T;
+              blockName?: T;
+            };
+        backgroundSummary?:
+          | T
+          | {
+              anchor?: T;
+              number?: T;
+              label?: T;
+              seeAll?:
+                | T
+                | {
+                    label?: T;
+                    page?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        experience?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
+        stackGroups?:
+          | T
+          | {
+              title?: T;
+              id?: T;
+              blockName?: T;
+            };
+        points?:
+          | T
+          | {
+              title?: T;
+              numbered?: T;
+              wide?: T;
+              items?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        contactForm?:
+          | T
+          | {
+              title?: T;
+              emailLabel?: T;
+              messageLabel?: T;
+              messagePlaceholder?: T;
+              submitLabel?: T;
+              privacyNote?: T;
+              subjectPrefix?: T;
+              sentTitle?: T;
+              sentText?: T;
+              errorText?: T;
+              id?: T;
+              blockName?: T;
+            };
+        contactDetails?:
+          | T
+          | {
+              title?: T;
+              emailLabel?: T;
+              profilesLabel?: T;
+              locationLabel?: T;
+              languagesLabel?: T;
+              brief?: T;
+              id?: T;
+              blockName?: T;
+            };
+        closingCta?:
+          | T
+          | {
+              title?: T;
+              target?: T;
+              page?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  isHome?: T;
+  showInNav?: T;
+  order?: T;
+  homeAnchor?: T;
+  schemaType?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -653,14 +1058,6 @@ export interface Site {
  */
 export interface Label {
   id: number;
-  nav: {
-    services: string;
-    work: string;
-    clients: string;
-    background: string;
-    contact: string;
-    home: string;
-  };
   a11y: {
     skipLink: string;
     mainNavigation: string;
@@ -670,10 +1067,6 @@ export interface Label {
   };
   common: {
     contactButton: string;
-    seeAllServices: string;
-    seeAllProjects: string;
-    seeAllClients: string;
-    seeFullBackground: string;
     stack: string;
     deliverables: string;
   };
@@ -693,188 +1086,6 @@ export interface Label {
     open: string;
     close: string;
     dialog: string;
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "home".
- */
-export interface Home {
-  id: number;
-  seo: {
-    title: string;
-    description: string;
-  };
-  hero: {
-    title: string;
-    subtitle: string;
-    primaryCta: string;
-    secondaryCta: string;
-    aside?:
-      | {
-          text: string;
-          id?: string | null;
-        }[]
-      | null;
-  };
-  sections: {
-    services: string;
-    projects: string;
-    clients: string;
-    clientsHeading: string;
-    background: string;
-  };
-  closing: {
-    title: string;
-    target: 'contact' | 'mailto';
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services-page".
- */
-export interface ServicesPage {
-  id: number;
-  seo: {
-    title: string;
-    description: string;
-  };
-  head: {
-    title: string;
-    subtitle?: string | null;
-  };
-  methodTitle: string;
-  process?:
-    | {
-        title: string;
-        description: string;
-        id?: string | null;
-      }[]
-    | null;
-  closing: {
-    title: string;
-    target: 'contact' | 'mailto';
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "work-page".
- */
-export interface WorkPage {
-  id: number;
-  seo: {
-    title: string;
-    description: string;
-  };
-  head: {
-    title: string;
-    subtitle?: string | null;
-  };
-  closing: {
-    title: string;
-    target: 'contact' | 'mailto';
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients-page".
- */
-export interface ClientsPage {
-  id: number;
-  seo: {
-    title: string;
-    description: string;
-  };
-  head: {
-    title: string;
-    subtitle?: string | null;
-  };
-  /**
-   * Use {count} where the number of clients goes.
-   */
-  countLabel: string;
-  closing: {
-    title: string;
-    target: 'contact' | 'mailto';
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "background-page".
- */
-export interface BackgroundPage {
-  id: number;
-  seo: {
-    title: string;
-    description: string;
-  };
-  head: {
-    title: string;
-    subtitle?: string | null;
-  };
-  experienceTitle: string;
-  stackTitle: string;
-  principlesTitle: string;
-  principles?:
-    | {
-        title: string;
-        description: string;
-        id?: string | null;
-      }[]
-    | null;
-  closing: {
-    title: string;
-    target: 'contact' | 'mailto';
-  };
-  updatedAt?: string | null;
-  createdAt?: string | null;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-page".
- */
-export interface ContactPage {
-  id: number;
-  seo: {
-    title: string;
-    description: string;
-  };
-  head: {
-    title: string;
-    subtitle?: string | null;
-  };
-  formTitle: string;
-  form: {
-    emailLabel: string;
-    messageLabel: string;
-    messagePlaceholder: string;
-    submitLabel: string;
-    privacyNote: string;
-    /**
-     * Start of the subject when the visitor’s mail client is used as a fallback.
-     */
-    subjectPrefix: string;
-    sentTitle: string;
-    sentText: string;
-    errorText: string;
-  };
-  reachTitle: string;
-  reach: {
-    emailLabel: string;
-    profilesLabel: string;
-    locationLabel: string;
-    languagesLabel: string;
-    brief: string;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -918,16 +1129,6 @@ export interface SiteSelect<T extends boolean = true> {
  * via the `definition` "labels_select".
  */
 export interface LabelsSelect<T extends boolean = true> {
-  nav?:
-    | T
-    | {
-        services?: T;
-        work?: T;
-        clients?: T;
-        background?: T;
-        contact?: T;
-        home?: T;
-      };
   a11y?:
     | T
     | {
@@ -941,10 +1142,6 @@ export interface LabelsSelect<T extends boolean = true> {
     | T
     | {
         contactButton?: T;
-        seeAllServices?: T;
-        seeAllProjects?: T;
-        seeAllClients?: T;
-        seeFullBackground?: T;
         stack?: T;
         deliverables?: T;
       };
@@ -970,222 +1167,6 @@ export interface LabelsSelect<T extends boolean = true> {
         open?: T;
         close?: T;
         dialog?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "home_select".
- */
-export interface HomeSelect<T extends boolean = true> {
-  seo?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  hero?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-        primaryCta?: T;
-        secondaryCta?: T;
-        aside?:
-          | T
-          | {
-              text?: T;
-              id?: T;
-            };
-      };
-  sections?:
-    | T
-    | {
-        services?: T;
-        projects?: T;
-        clients?: T;
-        clientsHeading?: T;
-        background?: T;
-      };
-  closing?:
-    | T
-    | {
-        title?: T;
-        target?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "services-page_select".
- */
-export interface ServicesPageSelect<T extends boolean = true> {
-  seo?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  head?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-      };
-  methodTitle?: T;
-  process?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  closing?:
-    | T
-    | {
-        title?: T;
-        target?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "work-page_select".
- */
-export interface WorkPageSelect<T extends boolean = true> {
-  seo?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  head?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-      };
-  closing?:
-    | T
-    | {
-        title?: T;
-        target?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "clients-page_select".
- */
-export interface ClientsPageSelect<T extends boolean = true> {
-  seo?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  head?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-      };
-  countLabel?: T;
-  closing?:
-    | T
-    | {
-        title?: T;
-        target?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "background-page_select".
- */
-export interface BackgroundPageSelect<T extends boolean = true> {
-  seo?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  head?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-      };
-  experienceTitle?: T;
-  stackTitle?: T;
-  principlesTitle?: T;
-  principles?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-        id?: T;
-      };
-  closing?:
-    | T
-    | {
-        title?: T;
-        target?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-  globalType?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "contact-page_select".
- */
-export interface ContactPageSelect<T extends boolean = true> {
-  seo?:
-    | T
-    | {
-        title?: T;
-        description?: T;
-      };
-  head?:
-    | T
-    | {
-        title?: T;
-        subtitle?: T;
-      };
-  formTitle?: T;
-  form?:
-    | T
-    | {
-        emailLabel?: T;
-        messageLabel?: T;
-        messagePlaceholder?: T;
-        submitLabel?: T;
-        privacyNote?: T;
-        subjectPrefix?: T;
-        sentTitle?: T;
-        sentText?: T;
-        errorText?: T;
-      };
-  reachTitle?: T;
-  reach?:
-    | T
-    | {
-        emailLabel?: T;
-        profilesLabel?: T;
-        locationLabel?: T;
-        languagesLabel?: T;
-        brief?: T;
       };
   updatedAt?: T;
   createdAt?: T;
