@@ -10,6 +10,8 @@ import { fileURLToPath } from 'url'
 
 import { Media } from './collections/Media'
 import { Users } from './collections/Users'
+import { Labels } from './globals/Labels'
+import { Site } from './globals/Site'
 
 const dirname = path.dirname(fileURLToPath(import.meta.url))
 const cmsRoot = path.resolve(dirname, '..')
@@ -25,6 +27,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media],
+  globals: [Site, Labels],
   editor: lexicalEditor(),
   // The site is bilingual: French is the default (unprefixed) language.
   localization: {

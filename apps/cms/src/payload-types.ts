@@ -87,8 +87,14 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: ('false' | 'none' | 'null') | false | null | ('fr' | 'en') | ('fr' | 'en')[];
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    site: Site;
+    labels: Label;
+  };
+  globalsSelect: {
+    site: SiteSelect<false> | SiteSelect<true>;
+    labels: LabelsSelect<false> | LabelsSelect<true>;
+  };
   locale: 'fr' | 'en';
   widgets: {
     collections: CollectionsWidget;
@@ -319,6 +325,186 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site".
+ */
+export interface Site {
+  id: number;
+  name: string;
+  businessName: string;
+  jobTitle: string;
+  /**
+   * Shown after “© <year>” in the footer; the year is added at build time.
+   */
+  copyrightHolder: string;
+  /**
+   * Used by the mailto: links, the structured data and the contact form fallback.
+   */
+  email: string;
+  location: string;
+  availability?: string | null;
+  languages?: string | null;
+  address: {
+    locality: string;
+    region?: string | null;
+    country: string;
+  };
+  socials?:
+    | {
+        label: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Structured data (schema.org knowsAbout).
+   */
+  knowsAbout?: string[] | null;
+  /**
+   * File served by the site, e.g. /assets/og-fr.png (1200×630).
+   */
+  ogImagePath: string;
+  ogImageAlt?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels".
+ */
+export interface Label {
+  id: number;
+  nav: {
+    services: string;
+    work: string;
+    clients: string;
+    background: string;
+    contact: string;
+    home: string;
+  };
+  a11y: {
+    skipLink: string;
+    mainNavigation: string;
+    language: string;
+    menu: string;
+    socials: string;
+  };
+  common: {
+    contactButton: string;
+    seeAllServices: string;
+    seeAllProjects: string;
+    seeAllClients: string;
+    seeFullBackground: string;
+    stack: string;
+    deliverables: string;
+  };
+  work: {
+    filter: string;
+    filterAll: string;
+    filterWeb: string;
+    filterAi: string;
+    client: string;
+    result: string;
+  };
+  lightbox: {
+    open: string;
+    close: string;
+    dialog: string;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site_select".
+ */
+export interface SiteSelect<T extends boolean = true> {
+  name?: T;
+  businessName?: T;
+  jobTitle?: T;
+  copyrightHolder?: T;
+  email?: T;
+  location?: T;
+  availability?: T;
+  languages?: T;
+  address?:
+    | T
+    | {
+        locality?: T;
+        region?: T;
+        country?: T;
+      };
+  socials?:
+    | T
+    | {
+        label?: T;
+        url?: T;
+        id?: T;
+      };
+  knowsAbout?: T;
+  ogImagePath?: T;
+  ogImageAlt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "labels_select".
+ */
+export interface LabelsSelect<T extends boolean = true> {
+  nav?:
+    | T
+    | {
+        services?: T;
+        work?: T;
+        clients?: T;
+        background?: T;
+        contact?: T;
+        home?: T;
+      };
+  a11y?:
+    | T
+    | {
+        skipLink?: T;
+        mainNavigation?: T;
+        language?: T;
+        menu?: T;
+        socials?: T;
+      };
+  common?:
+    | T
+    | {
+        contactButton?: T;
+        seeAllServices?: T;
+        seeAllProjects?: T;
+        seeAllClients?: T;
+        seeFullBackground?: T;
+        stack?: T;
+        deliverables?: T;
+      };
+  work?:
+    | T
+    | {
+        filter?: T;
+        filterAll?: T;
+        filterWeb?: T;
+        filterAi?: T;
+        client?: T;
+        result?: T;
+      };
+  lightbox?:
+    | T
+    | {
+        open?: T;
+        close?: T;
+        dialog?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
