@@ -1,0 +1,15 @@
+---
+import type { Site } from '../lib/types'
+
+interface Props {
+  site: Site
+}
+
+const { site } = Astro.props
+const year = new Date().getFullYear()
+---
+
+<footer class="site-footer">
+  <p>© {year} {site.copyrightHolder}</p>
+  <p>{site.location}</p>
+</footer>
