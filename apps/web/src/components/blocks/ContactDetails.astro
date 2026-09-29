@@ -1,0 +1,56 @@
+---
+import type { PageContext } from '../../lib/context'
+import { headingId } from '../../lib/context'
+import type { Block } from '../../lib/pages'
+
+interface Props {
+  block: Block<'contactDetails'>
+  ctx: PageContext
+  index: number
+}
+
+const { block, ctx, index } = Astro.props
+const { site } = ctx
+const title = headingId(block, index)
+---
+
+<section class="section section--tight section--last" aria-labelledby={title}>
+  <h2 id={title} class="section__label">{block.title}</h2>
+  <div class="section__body reach">
+    <div class="reach__main">
+      <div>
+        <h3 class="label">{block.emailLabel}</h3>
+        <a class="reach__email" href={`mailto:${site.email}`}>{site.email}</a>
+      </div>
+      <div>
+        <h3 class="label">{block.profilesLabel}</h3>
+        <ul class="reach__links">
+          {
+            (site.socials ?? []).map((social) => (
+              <li>
+                <a class="btn btn--small" href={social.url} target="_blank" rel="noopener noreferrer me">
+                  {social.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+    <div>
+      <dl class="facts">
+        <div class="fact">
+          <dt>{block.locationLabel}</dt>
+          <dd>
+            {site.location}<br /><span class="fact__extra">{site.availability}</span>
+          </dd>
+        </div>
+        <div class="fact">
+          <dt>{block.languagesLabel}</dt>
+          <dd>{site.languages}</dd>
+        </div>
+      </dl>
+      <p class="reach__brief">{block.brief}</p>
+    </div>
+  </div>
+</section>
