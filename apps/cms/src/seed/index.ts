@@ -18,7 +18,7 @@ import { merge, withRowIds } from './utils'
  * Fills the CMS with the content of the legacy site (French and English).
  *
  *   pnpm seed                 seeds an empty CMS, refuses to touch one that already has content
- *   pnpm seed -- --reset      wipes pages, services, projects, clients, jobs, skill groups and media first
+ *   pnpm seed -- --reset      wipes pages, services, projects, clients, jobs, skill groups and images first
  *
  * With SEED_ADMIN_EMAIL and SEED_ADMIN_PASSWORD set, it also creates the first admin user if there is none.
  * Messages and users are never deleted.
@@ -33,7 +33,8 @@ const RESET_COLLECTIONS: CollectionSlug[] = [
   'clients',
   'jobs',
   'skill-groups',
-  'media',
+  'logos',
+  'project-images',
 ]
 
 const payload = await getPayload({ config })
@@ -68,15 +69,20 @@ async function seedGlobal(slug: GlobalSlug, doc: SeedDoc) {
   })
 }
 
-async function uploadMedia(folder: 'projects' | 'clients', file: string, alt: { fr: string; en: string }) {
-  const media = await payload.create({
-    collection: 'media',
+/** Uploads an image from `media/<collection>/`. */
+async function uploadImage(
+  collection: 'logos' | 'project-images',
+  file: string,
+  alt: { fr: string; en: string },
+) {
+  const image = await payload.create({
+    collection,
     locale: 'fr',
     data: { alt: alt.fr },
-    filePath: path.join(mediaDir, folder, file),
+    filePath: path.join(mediaDir, collection, file),
   })
-  await payload.update({ collection: 'media', id: media.id, locale: 'en', data: { alt: alt.en } })
-  return media.id
+  await payload.update({ collection, id: image.id, locale: 'en', data: { alt: alt.en } })
+  return image.id
 }
 
 const already = await payload.count({ collection: 'services' })
@@ -104,7 +110,7 @@ for (const project of projects) {
   const { imageFile, imageWidth: _w, imageHeight: _h, ...shared } = project.shared
   const { imageAlt: altFr, ...fr } = project.fr
   const { imageAlt: altEn, ...en } = project.en
-  const image = await uploadMedia('projects', imageFile as string, {
+  const image = await uploadImage('project-images', imageFile as string, {
     fr: altFr as string,
     en: altEn as string,
   })
@@ -114,7 +120,7 @@ for (const project of projects) {
 for (const client of clients) {
   const { logoFile, logoWidth: _w, logoHeight: _h, ...shared } = client.shared
   const name = shared.name as string
-  const logo = await uploadMedia('clients', logoFile as string, { fr: name, en: name })
+  const logo = await uploadImage('logos', logoFile as string, { fr: name, en: name })
   await seedDoc('clients', { shared: { ...shared, logo }, fr: client.fr, en: client.en })
 }
 // Pages come last: their sections refer to the pages created before them (see data/site-pages.ts).

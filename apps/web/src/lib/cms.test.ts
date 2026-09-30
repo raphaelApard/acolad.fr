@@ -54,9 +54,9 @@ describe('cms client', () => {
   })
 
   it('resolves populated media and rejects bare ids', () => {
-    const media = { id: 1, url: '/api/media/file/a.webp' } as never
+    const media = { id: 1, url: '/api/logos/file/a.webp' } as never
     expect(resolveMedia(media)).toBe(media)
     expect(() => resolveMedia(3)).toThrow(/not populated/)
-    expect(mediaUrl(media)).toBe('http://cms.test/api/media/file/a.webp')
+    expect(mediaUrl(media)).toBe('http://cms.test/api/logos/file/a.webp')
   })
 })

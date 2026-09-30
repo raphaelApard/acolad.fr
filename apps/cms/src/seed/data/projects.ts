@@ -1,6 +1,6 @@
 import type { SeedDoc } from '../types'
 
-/** `imageFile` is a file of src/seed/media/projects; the seed uploads it and links it. */
+/** `imageFile` is a file of src/seed/media/project-images; the seed uploads it and links it. */
 export const projects: SeedDoc[] = [
   {
     shared: {

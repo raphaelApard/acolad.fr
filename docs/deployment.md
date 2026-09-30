@@ -40,7 +40,7 @@ Put it behind an HTTPS reverse proxy that forwards `X-Forwarded-For` (the contac
 by IP). Create your admin account at `/admin`, or set `SEED_ADMIN_EMAIL` and `SEED_ADMIN_PASSWORD`
 for the seed. The seed refuses to run on a CMS that already has content.
 
-Uploaded images are stored in `apps/cms/media/` (git-ignored, like the database).
+Uploaded images are stored in `apps/cms/media/`, one folder per library (git-ignored, like the database).
 
 ## 2. The static site
 

@@ -2,23 +2,24 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import type { CollectionConfig } from 'payload'
 
-const dirname = path.dirname(fileURLToPath(import.meta.url))
+import { publicRead } from '../access/public'
 
-export const Media: CollectionConfig = {
-  slug: 'media',
-  labels: {
-    singular: { en: 'Media', fr: 'Média' },
-    plural: { en: 'Media', fr: 'Médias' },
-  },
-  access: {
-    read: () => true,
-  },
+// git-ignored folder next to the database; the site build downloads images from the API.
+const mediaDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../media')
+
+/** An image library that keeps its files in its own folder, `media/<slug>/`. */
+export const imageCollection = (
+  slug: string,
+  labels: NonNullable<CollectionConfig['labels']>,
+): CollectionConfig => ({
+  slug,
+  labels,
+  access: { read: publicRead },
   admin: {
     useAsTitle: 'filename',
   },
   upload: {
-    // git-ignored folder next to the database; the site build downloads images from the API.
-    staticDir: path.resolve(dirname, '../../media'),
+    staticDir: path.join(mediaDir, slug),
     mimeTypes: ['image/*'],
   },
   fields: [
@@ -35,4 +36,4 @@ export const Media: CollectionConfig = {
       },
     },
   ],
-}
+})

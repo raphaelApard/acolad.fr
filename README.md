@@ -28,7 +28,7 @@ and English). The pages, URLs and look are the same as the plain HTML/CSS/JS ver
 
 ```
 apps/cms/                 Payload CMS (admin panel on :3000/admin)
-  src/collections/        pages, services, projects, clients, jobs, skill-groups, media, messages, users
+  src/collections/        pages, services, projects, clients, jobs, skill-groups, logos, project-images, messages, users
   src/blocks/             the sections a page is made of (hero, services, projects, contact form, …)
   src/globals/            site settings and interface labels
   src/endpoints/          POST /api/contact
@@ -62,7 +62,7 @@ Create your admin account at <http://localhost:3000/admin> (or set `SEED_ADMIN_E
 
 `pnpm seed` fills an empty CMS with the content and images of the legacy site. It refuses to run on a
 CMS that already has content; `pnpm seed -- --reset` wipes pages, services, projects, clients, jobs, skills
-and media first (never messages or users).
+and images first (never messages or users).
 
 ## Commands
 

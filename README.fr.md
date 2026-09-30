@@ -30,7 +30,7 @@ HTML/CSS/JS pur, qui reste sur `develop` et `main`.
 
 ```
 apps/cms/                 Payload CMS (interface d'admin sur :3000/admin)
-  src/collections/        pages, services, projects, clients, jobs, skill-groups, media, messages, users
+  src/collections/        pages, services, projects, clients, jobs, skill-groups, logos, project-images, messages, users
   src/blocks/             les sections dont une page est faite (hero, services, projets, formulaire, …)
   src/globals/            réglages du site et textes de l'interface
   src/endpoints/          POST /api/contact
@@ -64,7 +64,7 @@ Crée ton compte admin sur <http://localhost:3000/admin> (ou renseigne `SEED_ADM
 
 `pnpm seed` remplit un CMS vide avec le contenu et les images de l'ancien site. Il refuse de s'exécuter
 sur un CMS qui contient déjà du contenu ; `pnpm seed -- --reset` efface d'abord pages, services,
-projets, clients, expériences, compétences et médias (jamais les messages ni les utilisateurs).
+projets, clients, expériences, compétences et images (jamais les messages ni les utilisateurs).
 
 ## Commandes
 

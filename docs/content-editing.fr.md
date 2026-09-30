@@ -93,11 +93,12 @@ Sous **Contenu**. Chaque entrée a un **Ordre** (le plus petit en premier) qui f
 
 ## Images
 
-Envoie les images dans la bibliothèque **Médias** ou directement depuis un projet ou un client. Donne à
-chaque image un **texte alternatif** dans les deux langues (laisse-le vide seulement pour les images
-décoratives : les logos clients sont déjà nommés par le nom du client).
+Envoie les logos dans la bibliothèque **Logos** et les captures de projets dans **Images projets**, ou
+directement depuis un client ou un projet : chaque champ ne propose que les images de sa bibliothèque.
+Donne à chaque image un **texte alternatif** dans les deux langues (laisse-le vide seulement pour les
+images décoratives : les logos clients sont déjà nommés par le nom du client).
 
-- Captures de projets : au moins 1920 px de large. Le build crée des versions WebP à plusieurs largeurs,
+- Images projets : au moins 1920 px de large. Le build crée des versions WebP à plusieurs largeurs,
   plus un PNG ou JPEG pour les très vieux navigateurs, et la visionneuse utilise la plus grande.
 - Logos clients : WebP ou PNG à fond transparent, idéalement au double de la taille d'affichage.
 - Remplacer une image ne pose jamais de problème de cache : les noms de fichiers générés contiennent un hash.
