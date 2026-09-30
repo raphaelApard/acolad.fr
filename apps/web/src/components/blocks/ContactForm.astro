@@ -1,0 +1,113 @@
+---
+import { cmsUrl } from '../../lib/cms'
+import type { PageContext } from '../../lib/context'
+import { headingId } from '../../lib/context'
+import type { Block } from '../../lib/pages'
+
+interface Props {
+  block: Block<'contactForm'>
+  ctx: PageContext
+  index: number
+}
+
+const { block, ctx, index } = Astro.props
+const { locale, site } = ctx
+const title = headingId(block, index)
+
+// Where the form posts: the CMS contact endpoint, unless another public address is configured.
+const endpoint =
+  process.env.PUBLIC_CONTACT_ENDPOINT ||
+  import.meta.env.PUBLIC_CONTACT_ENDPOINT ||
+  `${cmsUrl()}/api/contact`
+---
+
+<section class="section section--tight" aria-labelledby={title}>
+  <h2 id={title} class="section__label">{block.title}</h2>
+  <div class="section__body section__body--form">
+    <div id="contact-sent" class="form-sent" role="status" tabindex="-1" hidden>
+      <p class="form-sent__title">{block.sentTitle}</p>
+      <p class="form-sent__text">{block.sentText}</p>
+    </div>
+    <!-- Without JavaScript the form falls back to a plain mailto: action. -->
+    <form
+      id="contact-form"
+      class="contact-form"
+      action={`mailto:${site.email}`}
+      method="post"
+      enctype="text/plain"
+      data-endpoint={endpoint}
+      data-locale={locale}
+      data-mailto={site.email}
+      data-subject={block.subjectPrefix}
+      data-email-label={block.emailLabel}
+    >
+      <label class="field">
+        {block.emailLabel}
+        <input class="field__input" type="email" name="email" autocomplete="email" required />
+      </label>
+      <label class="field">
+        {block.messageLabel}
+        <textarea
+          class="field__input"
+          name="message"
+          rows="6"
+          placeholder={block.messagePlaceholder}
+          required></textarea>
+      </label>
+      <div class="form-trap" aria-hidden="true">
+        <label>Website <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
+      <div class="contact-form__actions">
+        <button type="submit" class="btn btn--primary btn--large">{block.submitLabel}</button>
+        <p class="form-note">{block.privacyNote}</p>
+      </div>
+      <p id="contact-error" class="form-note form-error" role="alert" hidden>{block.errorText}</p>
+    </form>
+  </div>
+</section>
+
+<script>
+  // The site is static: the form posts to the CMS. If that fails for any reason, the message is
+  // handed over to the visitor's mail client instead, so it is never lost.
+  const form = document.getElementById('contact-form') as HTMLFormElement | null
+  const confirmation = document.getElementById('contact-sent')
+  const error = document.getElementById('contact-error')
+
+  if (form && confirmation && error) {
+    const openedAt = Date.now()
+
+    const openMailClient = (email: string, message: string) => {
+      const subject = `${form.dataset.subject}${email}`
+      const body = `${form.dataset.emailLabel}: ${email}\n\n${message}`
+      window.location.href = `mailto:${form.dataset.mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    }
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault()
+
+      const { email, message, website } = Object.fromEntries(new FormData(form)) as Record<string, string>
+      const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]')!
+      submit.disabled = true
+      error.hidden = true
+
+      try {
+        const response = await fetch(form.dataset.endpoint!, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, message, website, locale: form.dataset.locale, startedAt: openedAt }),
+          signal: AbortSignal.timeout(10_000),
+        })
+        const result = await response.json().catch(() => null)
+        if (!response.ok || !result?.ok) throw new Error(`Contact endpoint answered ${response.status}`)
+
+        form.hidden = true
+        confirmation.hidden = false
+        confirmation.focus()
+      } catch {
+        submit.disabled = false
+        error.hidden = false
+        openMailClient(email, message)
+      }
+    })
+  }
+</script>

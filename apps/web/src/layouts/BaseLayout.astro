@@ -1,0 +1,45 @@
+---
+import '../styles/global.css'
+
+import Header from '../components/Header.astro'
+import SeoHead from '../components/SeoHead.astro'
+import type { PageContext } from '../lib/context'
+import { buildHead } from '../lib/seo'
+
+interface Props {
+  ctx: PageContext
+  seo: { title: string; description: string }
+  /** schema.org graph, serialized in a JSON-LD script. */
+  jsonLd?: object
+}
+
+const { ctx, seo, jsonLd } = Astro.props
+const { locale, current, site, labels } = ctx
+const head = buildHead({ site: Astro.site!, locale, page: current, seo, settings: site })
+---
+
+<!doctype html>
+<html lang={locale}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <SeoHead head={head} />
+
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="preload" href="/assets/fonts/geist-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/fonts/geist-mono-latin.woff2" as="font" type="font/woff2" crossorigin />
+
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
+  </head>
+  <body>
+    <div class:list={['page', { 'page--sub': !current.isHome }]}>
+      <a class="skip-link" href="#main">{labels.a11y.skipLink}</a>
+      <Header ctx={ctx} />
+      <main id="main">
+        <slot />
+      </main>
+      <slot name="after-main" />
+    </div>
+  </body>
+</html>

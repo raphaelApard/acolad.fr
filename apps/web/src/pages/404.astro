@@ -1,0 +1,38 @@
+---
+import '../styles/global.css'
+
+import { getGlobal } from '../lib/cms'
+import { pagePath } from '../lib/pages'
+
+// A single page for both languages, like the previous site: it cannot know which one the visitor wanted.
+const [site, fr, en] = await Promise.all([
+  getGlobal('site', 'fr'),
+  getGlobal('labels', 'fr'),
+  getGlobal('labels', 'en'),
+])
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fr.notFound.title} — {site.name}</title>
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#fafaf8" />
+    <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <div class="page">
+      <main class="not-found">
+        <p class="not-found__code">404</p>
+        <h1 class="not-found__title">{fr.notFound.title}</h1>
+        <p class="not-found__sub" lang="en">{en.notFound.title}</p>
+        <p class="not-found__links">
+          <a href={pagePath({ isHome: true }, 'fr')}>{fr.notFound.backHome}</a>
+          <a href={pagePath({ isHome: true }, 'en')} lang="en">{en.notFound.backHome}</a>
+        </p>
+      </main>
+    </div>
+  </body>
+</html>
