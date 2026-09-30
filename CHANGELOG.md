@@ -1,0 +1,24 @@
+# Changelog
+
+## 2.0.0 — 2026-09-30
+
+The site is rebuilt with Astro and its content moves to Payload CMS, in French and English. Pages, URLs,
+markup and layout are the same as in 1.x (checked page by page, on desktop and phone widths).
+
+- The content lives in the CMS; the head, header, footer and JSON-LD are built once instead of being
+  copied into 12 files.
+- Pages are documents of one generic collection, each made of sections chosen from a fixed set of blocks.
+  URLs, the menu, hreflang alternates and the sitemap come from those documents, so a page can be added
+  or reordered from the admin without touching the code.
+- Images are kept in two libraries, logos and project images, each offered only by its own field.
+- The contact form posts to the CMS (with a mailto: fallback) instead of only opening the mail client,
+  and has a hidden honeypot field.
+- `sitemap.xml` is generated (dates come from the last content edit); the copyright year and the number
+  of clients are computed.
+- The stack chips of the home page follow the grouped order of the background page (GraphQL moves up).
+- `a: hover` in the stylesheet was invalid CSS and is fixed.
+- The Open Graph images under `apps/web/public/assets/` are unchanged (they still show an older tagline).
+
+## 1.x
+
+The site in plain HTML, CSS and JavaScript.
