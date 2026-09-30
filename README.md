@@ -1,51 +1,28 @@
 [Français](README.fr.md) · English
 
-# www.acolad.fr — Astro + Payload CMS
+# www.acolad.fr
 
 Personal site of Raphaël Apard — Web developer & AI solutions (Toulouse / Revel).
 
-The site is built with **Astro** (static pages) fed by **Payload CMS** (content, in French and
-English). Since 2.0.0 it replaces the plain HTML/CSS/JS version (1.x), with the same pages, URLs and
-look.
+A static **Astro** site whose content, in French and English, is edited in **Payload CMS**.
 
-## How it fits together
+## Architecture
 
 ```
  editors ──► Payload CMS (apps/cms, Node, SQLite) ◄── contact form (POST /api/contact)
                     │  REST API, read at build time
                     ▼
-             Astro build (apps/web) ──► apps/web/dist/  ──► uploaded to the Apache host
+             Astro build (apps/web) ──► apps/web/dist/ ──► Apache host
 ```
 
-- The **site is static**: `pnpm build` reads the CMS once and writes plain HTML. Nothing runs on the
-  web host but Apache.
-- The **CMS is a separate Node app** (Payload 3 on Next.js). It needs a Node host; it cannot run on the
-  static host. After editing content, rebuild and upload the site.
-- The contact form is the only live call from the public site: it posts to the CMS, which stores the
-  message in an inbox and emails a notification. If that fails, the visitor's mail client opens instead.
+- **The site is static.** `pnpm build` reads the CMS once and writes plain HTML; the web host only runs
+  Apache.
+- **The CMS is a separate Node app** (Payload 3 on Next.js) and needs its own Node host. After editing
+  content, rebuild and upload the site.
+- **The contact form** is the only live call from the site: it posts to the CMS, which stores the
+  message and emails a notification. If that fails, the visitor's mail client opens instead.
 
-## Structure
-
-```
-apps/cms/                 Payload CMS (admin panel on :3000/admin)
-  src/collections/        pages, services, projects, clients, jobs, skill-groups, logos, project-images, messages, users
-  src/blocks/             the sections a page is made of (hero, services, projects, contact form, …)
-  src/globals/            site settings and interface labels
-  src/endpoints/          POST /api/contact
-  src/migrations/         database migrations (production)
-  src/seed/               the current site content in French and English, and the seed script
-apps/web/                 Astro site (:4321)
-  src/lib/                CMS client, page model (URLs, menu, hreflang), SEO head, JSON-LD, sitemap, images
-  src/layouts/ components/   base layout, header, shared pieces
-  src/components/blocks/  one component per kind of section
-  src/views/PageView.astro   renders a page by walking its sections
-  src/pages/              [...slug].astro (one page per CMS page and language), 404, sitemap.xml
-  src/styles/global.css   the stylesheet, inlined in every page at build time
-  public/                 fonts, icons, social cards, robots.txt, .htaccess
-docs/                     content editing and deployment guides
-```
-
-## Quick start
+## Getting started
 
 Requires Node.js ≥ 22.12 and pnpm.
 
@@ -53,16 +30,15 @@ Requires Node.js ≥ 22.12 and pnpm.
 pnpm install
 cp apps/cms/.env.example apps/cms/.env   # then set PAYLOAD_SECRET (openssl rand -hex 32)
 cp apps/web/.env.example apps/web/.env
-pnpm seed                                # loads the current content (see below)
+pnpm seed                                # loads the site content and images
 pnpm dev                                 # CMS on :3000, site on :4321
 ```
 
-Create your admin account at <http://localhost:3000/admin> (or set `SEED_ADMIN_EMAIL` and
-`SEED_ADMIN_PASSWORD` in `apps/cms/.env` before `pnpm seed` to have it created for you).
+Create your admin account at <http://localhost:3000/admin>, or set `SEED_ADMIN_EMAIL` and
+`SEED_ADMIN_PASSWORD` in `apps/cms/.env` before `pnpm seed` to have it created for you.
 
-`pnpm seed` fills an empty CMS with the content and images of the legacy site. It refuses to run on a
-CMS that already has content; `pnpm seed -- --reset` wipes pages, services, projects, clients, jobs, skills
-and images first (never messages or users).
+`pnpm seed` only runs on an empty CMS. `pnpm seed -- --reset` first wipes the content and the images,
+never the messages or the users.
 
 ## Commands
 
@@ -91,24 +67,29 @@ and images first (never messages or users).
 | `PAYLOAD_URL` | web | where the build reads the content |
 | `PUBLIC_CONTACT_ENDPOINT` | web | contact form target, defaults to `PAYLOAD_URL/api/contact` |
 
+## Project structure
+
+```
+apps/cms/                    Payload CMS (admin on :3000/admin)
+  src/collections/           pages, content collections, image libraries, messages, users
+  src/blocks/                the sections a page is made of
+  src/globals/               site settings and interface labels
+  src/endpoints/             POST /api/contact
+  src/migrations/            database migrations
+  src/seed/                  initial content (French and English) and the seed script
+apps/web/                    Astro site (:4321)
+  src/lib/                   CMS client, page model (URLs, menu, hreflang), SEO, JSON-LD, sitemap, images
+  src/layouts/, components/  base layout, header, shared pieces
+  src/components/blocks/     one component per kind of section
+  src/views/PageView.astro   renders a page section by section
+  src/pages/                 one page per CMS page and language, 404, sitemap.xml
+  src/styles/global.css      the stylesheet, inlined at build time
+  public/                    fonts, icons, social cards, robots.txt, .htaccess
+docs/                        content editing and deployment guides
+```
+
 ## Documentation
 
 - [Editing content](docs/content-editing.md) — pages and sections, collections, images, adding a page
 - [Deployment](docs/deployment.md) — hosting the CMS, building and uploading the site, backups
-
-## Differences with the plain HTML version (1.x)
-
-Same pages, URLs, markup and layout (checked page by page, on desktop and phone widths). What changed:
-
-- The content lives in the CMS; the head, header, footer and JSON-LD are built once instead of being
-  copied into 12 files.
-- Pages are documents of one generic collection, each made of sections chosen from a fixed set of blocks.
-  URLs, the menu, hreflang alternates and the sitemap come from those documents, so a page can be added
-  or reordered from the admin without touching the code.
-- The contact form posts to the CMS (with a mailto: fallback) instead of only opening the mail client,
-  and has a hidden honeypot field.
-- `sitemap.xml` is generated (dates come from the last content edit); the copyright year and the number
-  of clients are computed.
-- The stack chips of the home page follow the grouped order of the background page (GraphQL moves up).
-- `a: hover` in the stylesheet was invalid CSS and is fixed.
-- The Open Graph images under `apps/web/public/assets/` are unchanged (they still show an older tagline).
+- [Changelog](CHANGELOG.md) — what changed in each version
