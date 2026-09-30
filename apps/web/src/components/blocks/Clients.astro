@@ -1,0 +1,91 @@
+---
+import { getDocs, resolveMedia } from '../../lib/cms'
+import type { PageContext } from '../../lib/context'
+import { headingId } from '../../lib/context'
+import { logoSizes } from '../../lib/images'
+import { pathOfRelation, type Block } from '../../lib/pages'
+import MediaImage from '../MediaImage.astro'
+
+interface Props {
+  block: Block<'clients'>
+  ctx: PageContext
+  index: number
+}
+
+const { block, ctx, index } = Astro.props
+const { locale, pages } = ctx
+
+const clients = await getDocs('clients', locale, 1)
+const summary = block.variant === 'summary'
+const title = headingId(block, index)
+const count = (block.countLabel ?? '{count}').replace('{count}', String(clients.length))
+const logoClass = (size: string) => ['client__logo', size !== 'default' && `client__logo--${size}`]
+---
+
+{
+  summary ? (
+    <section id={block.anchor} class="section" aria-labelledby={title}>
+      <p class="section__label">
+        {block.number && <span aria-hidden="true">{block.number} — </span>}
+        {block.label}
+      </p>
+      <div class="section__body">
+        <h2 id={title} class="clients__title">
+          {block.heading}
+        </h2>
+        <ul class="clients">
+          {clients
+            .filter((client) => client.showOnHome)
+            .map((client) => {
+              const logo = resolveMedia(client.logo)
+              return (
+                <li class="client">
+                  <MediaImage
+                    media={logo}
+                    alt={client.name}
+                    class:list={logoClass(client.logoSize)}
+                    sizes={logoSizes({ width: logo.width!, height: logo.height!, size: client.logoSize, context: 'home' })}
+                    fallback="png"
+                  />
+                </li>
+              )
+            })}
+        </ul>
+        <p class="more-wrap">
+          <a class="more" href={pathOfRelation(pages, block.seeAll?.page, locale)}>
+            {block.seeAll?.label} <span aria-hidden="true">→</span>
+          </a>
+        </p>
+      </div>
+    </section>
+  ) : (
+    <section class="section section--tight" aria-labelledby={title}>
+      <h2 id={title} class="section__label">
+        {count}
+      </h2>
+      <ul class="section__body clients clients--detailed">
+        {clients.map((client) => {
+          const logo = resolveMedia(client.logo)
+          return (
+            <li class="client-card">
+              <div class="client-card__logo">
+                <MediaImage
+                  media={logo}
+                  alt=""
+                  class:list={logoClass(client.logoSize)}
+                  sizes={logoSizes({ width: logo.width!, height: logo.height!, size: client.logoSize, context: 'clients' })}
+                  fallback="png"
+                />
+              </div>
+              <div class="client-card__info">
+                <p class="client-card__name">{client.name}</p>
+                <p class="client-card__sector">{client.sector}</p>
+                <p class="client-card__work">{client.work}</p>
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+    </section>
+  )
+}

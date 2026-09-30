@@ -1,0 +1,36 @@
+---
+import { THEME_COLOR } from '../lib/seo'
+
+interface Props {
+  head: ReturnType<typeof import('../lib/seo').buildHead>
+}
+
+const { head } = Astro.props
+---
+
+<title>{head.title}</title>
+<meta name="description" content={head.description} />
+<meta name="author" content={head.author} />
+<meta name="robots" content={head.robots} />
+<meta name="theme-color" content={THEME_COLOR} />
+<meta name="color-scheme" content="light" />
+<meta name="format-detection" content="telephone=no, email=no, address=no" />
+
+<link rel="canonical" href={head.canonical} />
+{head.alternates.map(({ hreflang, href }) => <link rel="alternate" hreflang={hreflang} href={href} />)}
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={head.og.siteName} />
+<meta property="og:url" content={head.og.url} />
+<meta property="og:title" content={head.og.title} />
+<meta property="og:description" content={head.og.description} />
+<meta property="og:locale" content={head.og.locale} />
+{head.og.alternateLocales.map((locale) => <meta property="og:locale:alternate" content={locale} />)}
+<meta property="og:image" content={head.og.image.url} />
+<meta property="og:image:width" content={String(head.og.image.width)} />
+<meta property="og:image:height" content={String(head.og.image.height)} />
+{head.og.image.alt && <meta property="og:image:alt" content={head.og.image.alt} />}
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={head.og.title} />
+<meta name="twitter:description" content={head.og.description} />
+<meta name="twitter:image" content={head.og.image.url} />

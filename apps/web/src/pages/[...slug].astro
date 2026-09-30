@@ -1,0 +1,20 @@
+---
+import { loadSitePages } from '../lib/pages'
+import { LOCALES, slugOf } from '../lib/routes'
+import PageView from '../views/PageView.astro'
+
+// One page per document of the CMS pages collection and per language.
+export async function getStaticPaths() {
+  const pages = await loadSitePages()
+  return pages.flatMap((page) =>
+    LOCALES.map((locale) => ({
+      params: { slug: slugOf(page.paths[locale]) },
+      props: { pageId: page.id, locale },
+    })),
+  )
+}
+
+const { pageId, locale } = Astro.props
+---
+
+<PageView pageId={pageId} locale={locale} />
