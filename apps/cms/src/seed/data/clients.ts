@@ -1,6 +1,6 @@
 import type { SeedDoc } from '../types'
 
-/** `logoFile` is a file of src/seed/media/clients; the seed uploads it and links it. */
+/** `logoFile` is a file of src/seed/media/logos; the seed uploads it and links it. */
 export const clients: SeedDoc[] = [
   {
     shared: {

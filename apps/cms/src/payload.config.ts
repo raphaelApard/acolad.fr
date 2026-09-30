@@ -11,9 +11,10 @@ import { fileURLToPath } from 'url'
 
 import { Clients } from './collections/Clients'
 import { Jobs } from './collections/Jobs'
-import { Media } from './collections/Media'
+import { Logos } from './collections/Logos'
 import { Messages } from './collections/Messages'
 import { Pages } from './collections/Pages'
+import { ProjectImages } from './collections/ProjectImages'
 import { Projects } from './collections/Projects'
 import { Services } from './collections/Services'
 import { SkillGroups } from './collections/SkillGroups'
@@ -56,7 +57,18 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Pages, Media, Services, Projects, Clients, Jobs, SkillGroups, Messages],
+  collections: [
+    Users,
+    Pages,
+    Logos,
+    ProjectImages,
+    Services,
+    Projects,
+    Clients,
+    Jobs,
+    SkillGroups,
+    Messages,
+  ],
   globals: [Site, Labels],
   editor: lexicalEditor(),
   // The site is bilingual: French is the default (unprefixed) language.

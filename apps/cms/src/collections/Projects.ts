@@ -28,13 +28,13 @@ export const Projects: CollectionConfig = {
     {
       name: 'image',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: 'project-images',
       required: true,
-      label: label('Screenshot', 'Capture d’écran'),
+      label: label('Image', 'Image'),
       admin: {
         description: label(
-          'The alternative text is set on the media itself.',
-          'Le texte alternatif se règle sur le média lui-même.',
+          'The alternative text is set on the image itself.',
+          'Le texte alternatif se règle sur l’image elle-même.',
         ),
       },
     },

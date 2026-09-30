@@ -27,7 +27,7 @@ export const Clients: CollectionConfig = {
     {
       name: 'logo',
       type: 'upload',
-      relationTo: 'media',
+      relationTo: 'logos',
       required: true,
       label: label('Logo', 'Logo'),
     },

@@ -69,7 +69,8 @@ export interface Config {
   collections: {
     users: User;
     pages: Page;
-    media: Media;
+    logos: Logo;
+    'project-images': ProjectImage;
     services: Service;
     projects: Project;
     clients: Client;
@@ -85,7 +86,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
-    media: MediaSelect<false> | MediaSelect<true>;
+    logos: LogosSelect<false> | LogosSelect<true>;
+    'project-images': ProjectImagesSelect<false> | ProjectImagesSelect<true>;
     services: ServicesSelect<false> | ServicesSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     clients: ClientsSelect<false> | ClientsSelect<true>;
@@ -384,9 +386,31 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media".
+ * via the `definition` "logos".
  */
-export interface Media {
+export interface Logo {
+  id: number;
+  /**
+   * Describes the image for screen readers. Leave empty for decorative images.
+   */
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-images".
+ */
+export interface ProjectImage {
   id: number;
   /**
    * Describes the image for screen readers. Leave empty for decorative images.
@@ -442,9 +466,9 @@ export interface Project {
   shortDesc: string;
   longDesc: string;
   /**
-   * The alternative text is set on the media itself.
+   * The alternative text is set on the image itself.
    */
-  image: number | Media;
+  image: number | ProjectImage;
   client?: string | null;
   result?: string | null;
   /**
@@ -471,7 +495,7 @@ export interface Client {
    * Not translated.
    */
   name: string;
-  logo: number | Media;
+  logo: number | Logo;
   /**
    * Square or compact logos look too big at the default size.
    */
@@ -574,8 +598,12 @@ export interface PayloadLockedDocument {
         value: number | Page;
       } | null)
     | ({
-        relationTo: 'media';
-        value: number | Media;
+        relationTo: 'logos';
+        value: number | Logo;
+      } | null)
+    | ({
+        relationTo: 'project-images';
+        value: number | ProjectImage;
       } | null)
     | ({
         relationTo: 'services';
@@ -860,9 +888,27 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "media_select".
+ * via the `definition` "logos_select".
  */
-export interface MediaSelect<T extends boolean = true> {
+export interface LogosSelect<T extends boolean = true> {
+  alt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "project-images_select".
+ */
+export interface ProjectImagesSelect<T extends boolean = true> {
   alt?: T;
   updatedAt?: T;
   createdAt?: T;

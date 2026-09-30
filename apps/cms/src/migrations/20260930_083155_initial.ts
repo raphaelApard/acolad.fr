@@ -399,7 +399,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   );
   `)
   await db.run(sql`CREATE UNIQUE INDEX \`pages_locales_locale_parent_id_unique\` ON \`pages_locales\` (\`_locale\`,\`_parent_id\`);`)
-  await db.run(sql`CREATE TABLE \`media\` (
+  await db.run(sql`CREATE TABLE \`logos\` (
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
@@ -414,18 +414,45 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`focal_y\` numeric
   );
   `)
-  await db.run(sql`CREATE INDEX \`media_updated_at_idx\` ON \`media\` (\`updated_at\`);`)
-  await db.run(sql`CREATE INDEX \`media_created_at_idx\` ON \`media\` (\`created_at\`);`)
-  await db.run(sql`CREATE UNIQUE INDEX \`media_filename_idx\` ON \`media\` (\`filename\`);`)
-  await db.run(sql`CREATE TABLE \`media_locales\` (
+  await db.run(sql`CREATE INDEX \`logos_updated_at_idx\` ON \`logos\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`logos_created_at_idx\` ON \`logos\` (\`created_at\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX \`logos_filename_idx\` ON \`logos\` (\`filename\`);`)
+  await db.run(sql`CREATE TABLE \`logos_locales\` (
   	\`alt\` text,
   	\`id\` integer PRIMARY KEY NOT NULL,
   	\`_locale\` text NOT NULL,
   	\`_parent_id\` integer NOT NULL,
-  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`logos\`(\`id\`) ON UPDATE no action ON DELETE cascade
   );
   `)
-  await db.run(sql`CREATE UNIQUE INDEX \`media_locales_locale_parent_id_unique\` ON \`media_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX \`logos_locales_locale_parent_id_unique\` ON \`logos_locales\` (\`_locale\`,\`_parent_id\`);`)
+  await db.run(sql`CREATE TABLE \`project_images\` (
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
+  	\`url\` text,
+  	\`thumbnail_u_r_l\` text,
+  	\`filename\` text,
+  	\`mime_type\` text,
+  	\`filesize\` numeric,
+  	\`width\` numeric,
+  	\`height\` numeric,
+  	\`focal_x\` numeric,
+  	\`focal_y\` numeric
+  );
+  `)
+  await db.run(sql`CREATE INDEX \`project_images_updated_at_idx\` ON \`project_images\` (\`updated_at\`);`)
+  await db.run(sql`CREATE INDEX \`project_images_created_at_idx\` ON \`project_images\` (\`created_at\`);`)
+  await db.run(sql`CREATE UNIQUE INDEX \`project_images_filename_idx\` ON \`project_images\` (\`filename\`);`)
+  await db.run(sql`CREATE TABLE \`project_images_locales\` (
+  	\`alt\` text,
+  	\`id\` integer PRIMARY KEY NOT NULL,
+  	\`_locale\` text NOT NULL,
+  	\`_parent_id\` integer NOT NULL,
+  	FOREIGN KEY (\`_parent_id\`) REFERENCES \`project_images\`(\`id\`) ON UPDATE no action ON DELETE cascade
+  );
+  `)
+  await db.run(sql`CREATE UNIQUE INDEX \`project_images_locales_locale_parent_id_unique\` ON \`project_images_locales\` (\`_locale\`,\`_parent_id\`);`)
   await db.run(sql`CREATE TABLE \`services_deliverables\` (
   	\`_order\` integer NOT NULL,
   	\`_parent_id\` integer NOT NULL,
@@ -488,7 +515,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`show_on_home\` integer DEFAULT true,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	FOREIGN KEY (\`image_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
+  	FOREIGN KEY (\`image_id\`) REFERENCES \`project_images\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
   await db.run(sql`CREATE INDEX \`projects_image_idx\` ON \`projects\` (\`image_id\`);`)
@@ -517,7 +544,7 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`show_on_home\` integer DEFAULT true,
   	\`updated_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
   	\`created_at\` text DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')) NOT NULL,
-  	FOREIGN KEY (\`logo_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE set null
+  	FOREIGN KEY (\`logo_id\`) REFERENCES \`logos\`(\`id\`) ON UPDATE no action ON DELETE set null
   );
   `)
   await db.run(sql`CREATE INDEX \`clients_logo_idx\` ON \`clients\` (\`logo_id\`);`)
@@ -619,7 +646,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	\`path\` text NOT NULL,
   	\`users_id\` integer,
   	\`pages_id\` integer,
-  	\`media_id\` integer,
+  	\`logos_id\` integer,
+  	\`project_images_id\` integer,
   	\`services_id\` integer,
   	\`projects_id\` integer,
   	\`clients_id\` integer,
@@ -629,7 +657,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   	FOREIGN KEY (\`parent_id\`) REFERENCES \`payload_locked_documents\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`users_id\`) REFERENCES \`users\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`pages_id\`) REFERENCES \`pages\`(\`id\`) ON UPDATE no action ON DELETE cascade,
-  	FOREIGN KEY (\`media_id\`) REFERENCES \`media\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`logos_id\`) REFERENCES \`logos\`(\`id\`) ON UPDATE no action ON DELETE cascade,
+  	FOREIGN KEY (\`project_images_id\`) REFERENCES \`project_images\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`services_id\`) REFERENCES \`services\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`projects_id\`) REFERENCES \`projects\`(\`id\`) ON UPDATE no action ON DELETE cascade,
   	FOREIGN KEY (\`clients_id\`) REFERENCES \`clients\`(\`id\`) ON UPDATE no action ON DELETE cascade,
@@ -643,7 +672,8 @@ export async function up({ db, payload, req }: MigrateUpArgs): Promise<void> {
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_path_idx\` ON \`payload_locked_documents_rels\` (\`path\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_users_id_idx\` ON \`payload_locked_documents_rels\` (\`users_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_pages_id_idx\` ON \`payload_locked_documents_rels\` (\`pages_id\`);`)
-  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_media_id_idx\` ON \`payload_locked_documents_rels\` (\`media_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_logos_id_idx\` ON \`payload_locked_documents_rels\` (\`logos_id\`);`)
+  await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_project_images_id_idx\` ON \`payload_locked_documents_rels\` (\`project_images_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_services_id_idx\` ON \`payload_locked_documents_rels\` (\`services_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_projects_id_idx\` ON \`payload_locked_documents_rels\` (\`projects_id\`);`)
   await db.run(sql`CREATE INDEX \`payload_locked_documents_rels_clients_id_idx\` ON \`payload_locked_documents_rels\` (\`clients_id\`);`)
@@ -801,8 +831,10 @@ export async function down({ db, payload, req }: MigrateDownArgs): Promise<void>
   await db.run(sql`DROP TABLE \`pages_blocks_closing_cta_locales\`;`)
   await db.run(sql`DROP TABLE \`pages\`;`)
   await db.run(sql`DROP TABLE \`pages_locales\`;`)
-  await db.run(sql`DROP TABLE \`media\`;`)
-  await db.run(sql`DROP TABLE \`media_locales\`;`)
+  await db.run(sql`DROP TABLE \`logos\`;`)
+  await db.run(sql`DROP TABLE \`logos_locales\`;`)
+  await db.run(sql`DROP TABLE \`project_images\`;`)
+  await db.run(sql`DROP TABLE \`project_images_locales\`;`)
   await db.run(sql`DROP TABLE \`services_deliverables\`;`)
   await db.run(sql`DROP TABLE \`services_deliverables_locales\`;`)
   await db.run(sql`DROP TABLE \`services\`;`)

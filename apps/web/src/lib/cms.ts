@@ -1,6 +1,7 @@
-import type { Config, Media } from '@cms-types'
+import type { Config } from '@cms-types'
 
 import type { Locale } from './routes'
+import type { Media } from './types'
 
 export type GlobalSlug = keyof Config['globals']
 export type ContentSlug = 'services' | 'projects' | 'clients' | 'jobs' | 'skill-groups'
@@ -73,7 +74,7 @@ export async function getDocs<K extends ContentSlug>(
 }
 
 /** An upload field only holds an id unless the query populated it (`depth >= 1`). */
-export function resolveMedia(value: number | Media): Media {
+export function resolveMedia<T extends Media>(value: number | T): T {
   if (typeof value !== 'object') throw new Error(`Media ${value} was not populated: query with depth 1.`)
   return value
 }

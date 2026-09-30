@@ -90,11 +90,12 @@ Under **Content**. Every entry has an **Order** (lowest first) that sets its pos
 
 ## Images
 
-Upload images in the **Media** library or directly from a project or client. Give each image an
+Upload logos in the **Logos** library and project screenshots in **Project images**, or directly from
+a client or a project: each field only offers the images of its own library. Give each image an
 **alternative text** in both languages (leave it empty only for decorative images: client logos are
 already labelled by the client name).
 
-- Project screenshots: at least 1920 px wide. The build creates WebP versions at several widths, plus
+- Project images: at least 1920 px wide. The build creates WebP versions at several widths, plus
   a PNG or JPEG for very old browsers, and the lightbox uses the largest.
 - Client logos: WebP or PNG with a transparent background, ideally twice the size they are shown.
 - Replacing an image never breaks caching: generated file names contain a hash.

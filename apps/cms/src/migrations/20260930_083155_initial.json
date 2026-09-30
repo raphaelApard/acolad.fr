@@ -2739,8 +2739,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "media": {
-      "name": "media",
+    "logos": {
+      "name": "logos",
       "columns": {
         "id": {
           "name": "id",
@@ -2830,22 +2830,22 @@
         }
       },
       "indexes": {
-        "media_updated_at_idx": {
-          "name": "media_updated_at_idx",
+        "logos_updated_at_idx": {
+          "name": "logos_updated_at_idx",
           "columns": [
             "updated_at"
           ],
           "isUnique": false
         },
-        "media_created_at_idx": {
-          "name": "media_created_at_idx",
+        "logos_created_at_idx": {
+          "name": "logos_created_at_idx",
           "columns": [
             "created_at"
           ],
           "isUnique": false
         },
-        "media_filename_idx": {
-          "name": "media_filename_idx",
+        "logos_filename_idx": {
+          "name": "logos_filename_idx",
           "columns": [
             "filename"
           ],
@@ -2857,8 +2857,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "media_locales": {
-      "name": "media_locales",
+    "logos_locales": {
+      "name": "logos_locales",
       "columns": {
         "alt": {
           "name": "alt",
@@ -2890,8 +2890,8 @@
         }
       },
       "indexes": {
-        "media_locales_locale_parent_id_unique": {
-          "name": "media_locales_locale_parent_id_unique",
+        "logos_locales_locale_parent_id_unique": {
+          "name": "logos_locales_locale_parent_id_unique",
           "columns": [
             "_locale",
             "_parent_id"
@@ -2900,10 +2900,189 @@
         }
       },
       "foreignKeys": {
-        "media_locales_parent_id_fk": {
-          "name": "media_locales_parent_id_fk",
-          "tableFrom": "media_locales",
-          "tableTo": "media",
+        "logos_locales_parent_id_fk": {
+          "name": "logos_locales_parent_id_fk",
+          "tableFrom": "logos_locales",
+          "tableTo": "logos",
+          "columnsFrom": [
+            "_parent_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "project_images": {
+      "name": "project_images",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "updated_at": {
+          "name": "updated_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+        },
+        "created_at": {
+          "name": "created_at",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))"
+        },
+        "url": {
+          "name": "url",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "thumbnail_u_r_l": {
+          "name": "thumbnail_u_r_l",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "filename": {
+          "name": "filename",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "mime_type": {
+          "name": "mime_type",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "filesize": {
+          "name": "filesize",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "width": {
+          "name": "width",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "height": {
+          "name": "height",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "focal_x": {
+          "name": "focal_x",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "focal_y": {
+          "name": "focal_y",
+          "type": "numeric",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "project_images_updated_at_idx": {
+          "name": "project_images_updated_at_idx",
+          "columns": [
+            "updated_at"
+          ],
+          "isUnique": false
+        },
+        "project_images_created_at_idx": {
+          "name": "project_images_created_at_idx",
+          "columns": [
+            "created_at"
+          ],
+          "isUnique": false
+        },
+        "project_images_filename_idx": {
+          "name": "project_images_filename_idx",
+          "columns": [
+            "filename"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "project_images_locales": {
+      "name": "project_images_locales",
+      "columns": {
+        "alt": {
+          "name": "alt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "id": {
+          "name": "id",
+          "type": "integer",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "_locale": {
+          "name": "_locale",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "_parent_id": {
+          "name": "_parent_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        }
+      },
+      "indexes": {
+        "project_images_locales_locale_parent_id_unique": {
+          "name": "project_images_locales_locale_parent_id_unique",
+          "columns": [
+            "_locale",
+            "_parent_id"
+          ],
+          "isUnique": true
+        }
+      },
+      "foreignKeys": {
+        "project_images_locales_parent_id_fk": {
+          "name": "project_images_locales_parent_id_fk",
+          "tableFrom": "project_images_locales",
+          "tableTo": "project_images",
           "columnsFrom": [
             "_parent_id"
           ],
@@ -3363,10 +3542,10 @@
         }
       },
       "foreignKeys": {
-        "projects_image_id_media_id_fk": {
-          "name": "projects_image_id_media_id_fk",
+        "projects_image_id_project_images_id_fk": {
+          "name": "projects_image_id_project_images_id_fk",
           "tableFrom": "projects",
-          "tableTo": "media",
+          "tableTo": "project_images",
           "columnsFrom": [
             "image_id"
           ],
@@ -3566,10 +3745,10 @@
         }
       },
       "foreignKeys": {
-        "clients_logo_id_media_id_fk": {
-          "name": "clients_logo_id_media_id_fk",
+        "clients_logo_id_logos_id_fk": {
+          "name": "clients_logo_id_logos_id_fk",
           "tableFrom": "clients",
-          "tableTo": "media",
+          "tableTo": "logos",
           "columnsFrom": [
             "logo_id"
           ],
@@ -4205,8 +4384,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "media_id": {
-          "name": "media_id",
+        "logos_id": {
+          "name": "logos_id",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "project_images_id": {
+          "name": "project_images_id",
           "type": "integer",
           "primaryKey": false,
           "notNull": false,
@@ -4291,10 +4477,17 @@
           ],
           "isUnique": false
         },
-        "payload_locked_documents_rels_media_id_idx": {
-          "name": "payload_locked_documents_rels_media_id_idx",
+        "payload_locked_documents_rels_logos_id_idx": {
+          "name": "payload_locked_documents_rels_logos_id_idx",
           "columns": [
-            "media_id"
+            "logos_id"
+          ],
+          "isUnique": false
+        },
+        "payload_locked_documents_rels_project_images_id_idx": {
+          "name": "payload_locked_documents_rels_project_images_id_idx",
+          "columns": [
+            "project_images_id"
           ],
           "isUnique": false
         },
@@ -4381,12 +4574,25 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "payload_locked_documents_rels_media_fk": {
-          "name": "payload_locked_documents_rels_media_fk",
+        "payload_locked_documents_rels_logos_fk": {
+          "name": "payload_locked_documents_rels_logos_fk",
           "tableFrom": "payload_locked_documents_rels",
-          "tableTo": "media",
+          "tableTo": "logos",
           "columnsFrom": [
-            "media_id"
+            "logos_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "payload_locked_documents_rels_project_images_fk": {
+          "name": "payload_locked_documents_rels_project_images_fk",
+          "tableFrom": "payload_locked_documents_rels",
+          "tableTo": "project_images",
+          "columnsFrom": [
+            "project_images_id"
           ],
           "columnsTo": [
             "id"
@@ -5255,6 +5461,6 @@
   "internal": {
     "indexes": {}
   },
-  "id": "91be237e-89df-4015-b7ac-3a25a1c7620e",
+  "id": "c4f518a9-e38d-4ab1-b65a-1dd3706ce1a7",
   "prevId": "00000000-0000-0000-0000-000000000000"
 }

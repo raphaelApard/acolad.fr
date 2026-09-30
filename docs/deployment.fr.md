@@ -42,7 +42,7 @@ Place-le derrière un reverse proxy HTTPS qui transmet `X-Forwarded-For` (l'endp
 débit par IP). Crée ton compte admin sur `/admin`, ou renseigne `SEED_ADMIN_EMAIL` et
 `SEED_ADMIN_PASSWORD` pour le seed. Le seed refuse de s'exécuter sur un CMS qui contient déjà du contenu.
 
-Les images envoyées sont stockées dans `apps/cms/media/` (ignoré par git, comme la base).
+Les images envoyées sont stockées dans `apps/cms/media/`, un dossier par bibliothèque (ignoré par git, comme la base).
 
 ## 2. Le site statique
 

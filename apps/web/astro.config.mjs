@@ -18,14 +18,12 @@ export default defineConfig({
   devToolbar: { enabled: false },
   image: {
     // Project screenshots and client logos are uploaded to the CMS and optimized at build time.
-    remotePatterns: [
-      {
-        protocol: cms.protocol.replace(':', ''),
-        hostname: cms.hostname,
-        port: cms.port,
-        pathname: '/api/media/file/**',
-      },
-    ],
+    remotePatterns: ['logos', 'project-images'].map((library) => ({
+      protocol: cms.protocol.replace(':', ''),
+      hostname: cms.hostname,
+      port: cms.port,
+      pathname: `/api/${library}/file/**`,
+    })),
   },
   server: { port: 4321 },
 })
