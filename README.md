@@ -1,12 +1,12 @@
 [Français](README.fr.md) · English
 
-# www.acolad.fr — Astro + Payload CMS (branch `feat/astro-payload`)
+# www.acolad.fr — Astro + Payload CMS
 
 Personal site of Raphaël Apard — Web developer & AI solutions (Toulouse / Revel).
 
-This branch rebuilds the site with **Astro** (static pages) fed by **Payload CMS** (content, in French
-and English). The pages, URLs and look are the same as the plain HTML/CSS/JS version, which lives on
-`develop` and `main`.
+The site is built with **Astro** (static pages) fed by **Payload CMS** (content, in French and
+English). Since 2.0.0 it replaces the plain HTML/CSS/JS version (1.x), with the same pages, URLs and
+look.
 
 ## How it fits together
 
@@ -96,7 +96,7 @@ and images first (never messages or users).
 - [Editing content](docs/content-editing.md) — pages and sections, collections, images, adding a page
 - [Deployment](docs/deployment.md) — hosting the CMS, building and uploading the site, backups
 
-## Differences with the plain HTML version
+## Differences with the plain HTML version (1.x)
 
 Same pages, URLs, markup and layout (checked page by page, on desktop and phone widths). What changed:
 
