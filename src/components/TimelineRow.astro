@@ -1,0 +1,295 @@
+---
+// One mission or experience row. Desktop: meta | body | screenshot, always open.
+// Mobile: period/place line + toggle (title, role); everything else is in the panel.
+import type { Image } from '../content/types';
+import Chevron from './icons/Chevron.astro';
+
+interface Props {
+  id: string;
+  period: string;
+  title: string;
+  place?: string;
+  role: string;
+  text: string;
+  achievements?: string[];
+  achievementsLabel?: string;
+  stack?: string[];
+  stackLabel?: string;
+  image?: Image;
+  projects?: { name: string; text: string }[];
+}
+
+const { id, period, title, place, role, text, achievements, achievementsLabel, stack, stackLabel, image, projects } =
+  Astro.props;
+const panelId = `${id}-panel`;
+---
+
+<article class:list={['row', { 'no-img': !image }]} data-disclosure>
+  <div class="meta">
+    <p class="mono period">
+      <span>{period}</span>{place && <span class="mobile-only place-inline">{place}</span>}
+    </p>
+    <h3 class="desktop-only title">{title}</h3>
+    {place && <p class="desktop-only mono place">{place}</p>}
+    <h3 class="mobile-only heading">
+      <button type="button" class="disclosure-toggle" aria-expanded="false" aria-controls={panelId}>
+        <span class="toggle-text">
+          <span class="title">{title}</span>
+          <span class="role-inline">{role}</span>
+        </span>
+        <span class="chevron" aria-hidden="true"><Chevron /></span>
+      </button>
+    </h3>
+  </div>
+
+  <div class="panel" id={panelId} data-disclosure-panel>
+    <div class="body">
+      <p class="desktop-only role">{role}</p>
+      <p class="text">{text}</p>
+      {
+        achievements && achievements.length > 0 && (
+          <div class="achievements">
+            {achievementsLabel && <p class="mobile-only label achievements-label">{achievementsLabel}</p>}
+            <ul class="list-reset bullets">
+              {achievements.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </div>
+        )
+      }
+      {
+        projects && projects.length > 0 && (
+          <dl class="projects">
+            {projects.map((p) => (
+              <div>
+                <dt>{p.name}</dt>
+                <dd>{p.text}</dd>
+              </div>
+            ))}
+          </dl>
+        )
+      }
+      {
+        stack && stack.length > 0 && (
+          <ul aria-label={stackLabel} class="list-reset chips stack">
+            {stack.map((item) => (
+              <li class="chip">{item}</li>
+            ))}
+          </ul>
+        )
+      }
+    </div>
+    {
+      image && (
+        <figure class="figure">
+          <img
+            class="shot"
+            src={image.src}
+            alt={image.alt}
+            width={image.width}
+            height={image.height}
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      )
+    }
+  </div>
+</article>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: 240px minmax(0, 1fr) 400px;
+    gap: 48px;
+    padding: 48px 0;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .row.no-img {
+    grid-template-columns: 240px minmax(0, 1fr);
+  }
+
+  .panel {
+    display: contents;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  .period {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .title {
+    margin: 10px 0 0;
+    font-size: 26px;
+    line-height: 1.15;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .place {
+    margin-top: 10px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  .body {
+    max-width: 44em;
+  }
+
+  .role {
+    font-size: 17px;
+    line-height: 1.4;
+    font-weight: 600;
+  }
+
+  .text {
+    margin-top: 10px;
+    font-size: 19px;
+    line-height: 1.55;
+    color: var(--color-text);
+  }
+
+  .achievements,
+  .stack {
+    margin-top: 24px;
+  }
+
+  .stack .chip {
+    background: var(--color-surface);
+  }
+
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 24px;
+    margin: 28px 0 0;
+  }
+
+  .projects div {
+    padding-top: 16px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .projects dt {
+    font-size: 17px;
+    font-weight: 700;
+  }
+
+  .projects dd {
+    margin: 6px 0 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-text);
+  }
+
+  .figure {
+    margin: 0;
+  }
+
+  @media (max-width: 960px) {
+    .row,
+    .row.no-img {
+      display: block;
+      padding: 24px 0;
+    }
+
+    .period {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px 12px;
+      font-size: 13px;
+    }
+
+    .place-inline {
+      color: var(--color-text-muted);
+      font-weight: 400;
+    }
+
+    .heading {
+      margin: 6px 0 0;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    .toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .heading .title {
+      margin: 0;
+      font-size: 23px;
+    }
+
+    .role-inline {
+      font-size: 15px;
+      line-height: 1.4;
+      font-weight: 600;
+      color: var(--color-text);
+    }
+
+    /* Mobile order inside the panel: text, screenshot, achievements, projects, stack. */
+    .panel {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .body {
+      display: contents;
+    }
+
+    .text {
+      order: 1;
+      margin-top: 14px;
+      font-size: 17px;
+    }
+
+    .figure {
+      order: 2;
+      margin-top: 18px;
+    }
+
+    .achievements {
+      order: 3;
+      margin-top: 20px;
+    }
+
+    .achievements-label {
+      margin-bottom: 10px;
+    }
+
+    .projects {
+      order: 4;
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin-top: 18px;
+    }
+
+    .projects div {
+      padding: 14px 0;
+    }
+
+    .projects dt {
+      font-size: 16px;
+    }
+
+    .projects dd {
+      margin-top: 4px;
+      font-size: 15px;
+    }
+
+    .stack {
+      order: 5;
+      margin-top: 18px;
+    }
+  }
+</style>

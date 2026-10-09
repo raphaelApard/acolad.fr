@@ -1,0 +1,139 @@
+---
+import type { Content } from '../content/types';
+import Chevron from './icons/Chevron.astro';
+
+interface Props {
+  otherProjects: Content['otherProjects'];
+}
+
+const { otherProjects } = Astro.props;
+---
+
+<div class="band">
+  <div class="wrap section">
+    <h3 class="heading">{otherProjects.title}</h3>
+    <ul class="list-reset grid">
+      {
+        otherProjects.items.map((project, i) => (
+          <li>
+            <article data-disclosure>
+              <h4 class="mobile-only toggle-heading">
+                <button type="button" class="disclosure-toggle" aria-expanded="false" aria-controls={`other-${i}`}>
+                  <span class="client">{project.client}</span>
+                  <span class="chevron" aria-hidden="true">
+                    <Chevron />
+                  </span>
+                </button>
+              </h4>
+              <div id={`other-${i}`} data-disclosure-panel>
+                {project.image && (
+                  <img
+                    class="shot"
+                    src={project.image.src}
+                    alt={project.image.alt}
+                    width={project.image.width}
+                    height={project.image.height}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+                <h4 class="desktop-only client">{project.client}</h4>
+                <p class="text">{project.text}</p>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>
+
+<style>
+  .band {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section {
+    padding-top: 72px;
+    padding-bottom: 96px;
+  }
+
+  .heading {
+    margin: 0 0 32px;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 40px;
+  }
+
+  .client {
+    margin: 20px 0 0;
+    font-size: 20px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+
+  .text {
+    margin: 8px 0 0;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--color-text);
+  }
+
+  @media (max-width: 960px) {
+    .section {
+      padding-top: 40px;
+      padding-bottom: 56px;
+    }
+
+    .heading {
+      margin-bottom: 16px;
+      font-size: 23px;
+    }
+
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .grid li {
+      border-top: 1px solid var(--color-border);
+    }
+
+    article {
+      padding: 16px 0;
+    }
+
+    .toggle-heading {
+      margin: 0;
+      font-size: inherit;
+      font-weight: inherit;
+    }
+
+    .toggle-heading .client {
+      align-self: center;
+      margin: 0;
+      font-size: 19px;
+    }
+
+    .chevron {
+      margin-top: 0;
+    }
+
+    .shot {
+      margin-top: 14px;
+    }
+
+    .text {
+      margin-top: 12px;
+      font-size: 15px;
+    }
+  }
+</style>
