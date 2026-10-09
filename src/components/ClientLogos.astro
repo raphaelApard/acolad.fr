@@ -1,11 +1,19 @@
 ---
+import { Image } from 'astro:assets';
 import type { Content } from '../content/types';
+import { asset } from '../lib/images';
 
 interface Props {
   content: Content;
 }
 
 const { clients } = Astro.props.content;
+
+// Render each logo at its display size (1x and 2x) instead of shipping the source file.
+const logos = clients.logos.map((logo) => {
+  const image = asset(logo.src);
+  return { ...logo, image, width: Math.round((image.width * logo.height) / image.height) };
+});
 ---
 
 <section aria-labelledby="t-clients" class="clients">
@@ -13,15 +21,14 @@ const { clients } = Astro.props.content;
     <h2 id="t-clients" class="label">{clients.title}</h2>
     <ul class="list-reset logos">
       {
-        clients.logos.map((logo) => (
+        logos.map((logo) => (
           <li>
-            <img
-              src={logo.src}
+            <Image
+              src={logo.image}
               alt={logo.name}
-              width={logo.naturalWidth}
-              height={logo.naturalHeight}
-              loading="lazy"
-              decoding="async"
+              width={logo.width}
+              height={logo.height}
+              densities={[1, 2]}
               style={`--logo-h: ${logo.height}`}
             />
           </li>

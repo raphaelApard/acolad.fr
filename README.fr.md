@@ -33,7 +33,9 @@ src/layouts/      Base.astro (head, SEO, hreflang, polices)
 src/components/   un composant par section ; TimelineRow affiche missions et expériences
 src/scripts/      disclosure.ts (accordéons mobiles)
 src/pages/        [lang]/index.astro (la page), index.astro (redirection / → /fr/)
-public/           images et logos (WebP)
+src/assets/       images et logos sources, optimisés au build
+src/lib/          images.ts (relie les chemins d'images du contenu à src/assets)
+public/           copié tel quel (.htaccess)
 tests/            unitaires (Vitest) et e2e (Playwright)
 ```
 
@@ -45,8 +47,9 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 - Les champs optionnels n'affichent rien s'ils sont absents ou `null` : `place`,
   `achievements`, `stack`, `image`, `projects`, liens de profils (`links.linkedin`,
   `links.malt`, `links.github`) et `verifyUrl` des certifications.
-- Chaque image doit avoir `width` et `height` (taille réelle) ; les logos ont
-  `naturalWidth` / `naturalHeight` plus `height`, la hauteur affichée en desktop (×0,77 en mobile).
+- Les `src` d'images sont des chemins sous `src/assets` (ex. `/img/portrait.webp`) ; les
+  dimensions sont lues dans les fichiers. Les logos ont aussi `height`, la hauteur affichée en
+  desktop (×0,77 en mobile).
 - Les ancres de section (`nav[].id`) sont fixées dans les composants et identiques dans chaque langue.
 
 ## Règles de mise en page
@@ -59,11 +62,22 @@ tests/            unitaires (Vitest) et e2e (Playwright)
   `display` propre à un élément portant ces classes : l'envelopper.
 - Les panneaux ne se replient qu'une fois le JS exécuté (`html.js`) : sans JS, tout reste lisible.
 
+## Performance
+
+- Les polices passent par l'API Fonts d'Astro (`fonts` dans `astro.config.mjs`) : fichiers
+  woff2 latins uniquement, Schibsted Grotesk préchargée, polices de repli ajustées pour que le
+  changement de police ne décale pas la mise en page.
+- Les images passent par `astro:assets` : captures et portrait ont un `srcset` (WebP), les logos
+  sont redimensionnés à leur hauteur d'affichage en 1x et 2x. Les images sous la ligne de
+  flottaison sont chargées en différé.
+- Le CSS est inliné dans chaque page (`build.inlineStylesheets`) : rien ne bloque le premier rendu.
+
 ## Déploiement
 
-`pnpm build`, puis envoyer le contenu de `dist/` sur n'importe quel hébergement statique.
-La racine `/` est une page meta-refresh vers `/fr/` ; sous Apache, une 301 serveur de `/`
-vers `/fr/` est préférable. L'URL de production est définie dans `astro.config.mjs` (`site`)
+`pnpm build`, puis envoyer le contenu de `dist/` (y compris le fichier caché `.htaccess`) sur
+n'importe quel hébergement statique. Sous Apache, `public/.htaccess` ajoute une 301 de `/` vers
+`/fr/`, la compression, un cache immuable d'un an pour `/_astro/` et la revalidation des pages.
+Les autres hébergeurs l'ignorent et se rabattent sur la page meta-refresh de `/`. L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap.
 
 ## Points ouverts

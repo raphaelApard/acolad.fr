@@ -40,7 +40,7 @@ describe('content files', () => {
     ['en', en],
   ])('only reference images that exist (%s)', (_, content) => {
     for (const src of imageSources(content)) {
-      expect(existsSync(`public${src}`), src).toBe(true);
+      expect(existsSync(`src/assets${src}`), src).toBe(true);
     }
   });
 });

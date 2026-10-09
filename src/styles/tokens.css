@@ -19,8 +19,8 @@
   --color-dark-accent: #8FA8FF;
 
   /* Typography */
-  --font-sans: 'Schibsted Grotesk', system-ui, sans-serif;
-  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-sans: var(--font-schibsted);  /* Schibsted Grotesk + metric-matched fallback, see astro.config.mjs */
+  --font-mono: var(--font-jetbrains);  /* JetBrains Mono + metric-matched fallback */
 
   /* Layout */
   --container-max: 1312px;      /* includes side padding */
