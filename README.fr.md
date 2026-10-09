@@ -38,7 +38,8 @@ src/pages/        [...lang].astro (la page : `/` en français, `/en/` en anglais
                   mentions-legales.astro et en/legal-notice.astro (composant LegalPage)
 src/assets/       images et logos sources, optimisés au build
 src/lib/          images.ts (relie les chemins d'images du contenu à src/assets)
-public/           copié tel quel (.htaccess)
+public/           copié tel quel (.htaccess, dont la CSP reçoit les empreintes des scripts au build)
+integrations/     csp-script-hashes.mjs (écrit ces empreintes)
 tests/            unitaires (Vitest) et e2e (Playwright)
 ```
 
@@ -101,6 +102,12 @@ a choisi le français avec le sélecteur de langue, qui pose un cookie `lang`, v
 ou est un robot ou un outil d'audit comme Lighthouse), et les en-têtes de cache : un an, immutable, pour les
 fichiers empreintés de `/_astro/`, une semaine pour les favicons, `no-cache` pour les pages, le
 sitemap et robots.txt, `Vary: Accept-Language, Cookie` sur `/`.
+Il envoie aussi les en-têtes de sécurité (HSTS, `nosniff`, `X-Frame-Options`, `Referrer-Policy`,
+`Permissions-Policy`, COOP et une Content-Security-Policy). La CSP n'autorise pas `'unsafe-inline'`
+pour les scripts : `integrations/csp-script-hashes.mjs` écrit l'empreinte SHA-256 de chaque script
+inline dans `dist/.htaccess` après chaque build, et un test e2e vérifie qu'il n'en manque aucune.
+Une nouvelle origine de script ou de tracker doit être ajoutée à la CSP à la main. Vérifier la note
+sur [securityheaders.com](https://securityheaders.com/?q=www.acolad.fr) après déploiement.
 L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap. `/sitemap.xml` (`src/pages/sitemap.xml.ts`)
 liste les deux langues avec leurs alternates hreflang ; `/robots.txt` (`src/pages/robots.txt.ts`)

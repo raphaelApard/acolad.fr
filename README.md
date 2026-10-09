@@ -38,7 +38,8 @@ src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English),
                   mentions-legales.astro and en/legal-notice.astro (LegalPage component)
 src/assets/       source images and logos, optimised at build time
 src/lib/          images.ts (resolves content image paths to src/assets)
-public/           copied as is (.htaccess)
+public/           copied as is (.htaccess, whose CSP gets its script hashes at build time)
+integrations/     csp-script-hashes.mjs (writes those hashes)
 tests/            unit (Vitest) and e2e (Playwright)
 ```
 
@@ -97,6 +98,12 @@ which sets a `lang` cookie, came from the site itself, or is a crawler or an aud
 Lighthouse), and cache headers: one year, immutable, for the fingerprinted `/_astro/`
 files, one week for the favicons, `no-cache` for pages, sitemap and robots.txt,
 `Vary: Accept-Language, Cookie` on `/`.
+It also sends the security headers (HSTS, `nosniff`, `X-Frame-Options`, `Referrer-Policy`,
+`Permissions-Policy`, COOP and a Content-Security-Policy). The CSP has no `'unsafe-inline'` for
+scripts: `integrations/csp-script-hashes.mjs` writes the SHA-256 of every inline script into
+`dist/.htaccess` after each build, and an e2e test checks that none is missing. A new external
+script or tracker origin has to be added to the CSP by hand. Check the grade on
+[securityheaders.com](https://securityheaders.com/?q=www.acolad.fr) after deploying.
 The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
 sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists both locales with their hreflang
 alternates; `/robots.txt` (`src/pages/robots.txt.ts`) points crawlers at it. The former
