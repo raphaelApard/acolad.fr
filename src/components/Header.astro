@@ -14,7 +14,8 @@ const { lang } = content.meta;
 const { ui, nav, hero } = content;
 ---
 
-<header id="top" class="site-header">
+<span class="sticky-sentinel" data-header-sentinel aria-hidden="true"></span>
+<header id="top" class="site-header" data-header>
   <div class="wrap bar">
     <a class="brand" href={getRelativeLocaleUrl(lang)}>{hero.name}</a>
 
@@ -58,6 +59,13 @@ const { ui, nav, hero } = content;
 </header>
 
 <script>
+  // The header is sticky; once the page leaves the top it shrinks (see .site-header[data-stuck]).
+  const header = document.querySelector<HTMLElement>('[data-header]');
+  const sentinel = document.querySelector('[data-header-sentinel]');
+  if (header && sentinel) {
+    new IntersectionObserver(([entry]) => header.toggleAttribute('data-stuck', !entry!.isIntersecting)).observe(sentinel);
+  }
+
   // Remember an explicit language choice: the server then stops sending
   // English-speaking browsers from / to /en/ (see public/.htaccess).
   for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch] a')) {
@@ -96,19 +104,56 @@ const { ui, nav, hero } = content;
 </script>
 
 <style>
+  /* Marks the top of the page: out of view means the header is stuck. */
+  .sticky-sentinel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    pointer-events: none;
+  }
+
+  /* The header keeps its full height in the flow (no layout shift) and sticks with its top
+     part above the viewport, so only --header-stuck-height stays visible. Once stuck, the
+     top padding moves the content into that visible part. */
   .site-header {
     position: relative;
     z-index: 5;
     border-bottom: 1px solid var(--color-border);
     background: var(--color-bg);
+    transition: box-shadow 0.2s ease;
+  }
+
+  /* Without JS nothing marks it stuck, and the mobile nav wraps under the bar: keep it static. */
+  :global(.js) .site-header {
+    position: sticky;
+    top: calc(var(--header-stuck-height) - var(--header-height));
+  }
+
+  .site-header[data-stuck] {
+    box-shadow: 0 6px 18px rgb(15 18 23 / 0.06);
   }
 
   .bar {
-    min-height: 76px;
+    min-height: var(--header-height);
+    padding-top: 0;
+    transition: padding-top 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 24px;
+  }
+
+  .site-header[data-stuck] .bar {
+    padding-top: calc(var(--header-height) - var(--header-stuck-height));
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header,
+    .bar {
+      transition: none;
+    }
   }
 
   .brand {
@@ -186,7 +231,6 @@ const { ui, nav, hero } = content;
 
   @media (max-width: 960px) {
     .bar {
-      min-height: 64px;
       gap: 12px;
     }
 

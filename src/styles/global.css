@@ -1,5 +1,12 @@
 @import './tokens.css';
 
+@media (max-width: 960px) {
+  :root {
+    --header-height: 64px;
+    --header-stuck-height: 52px;
+  }
+}
+
 /* Base */
 *,
 *::before,
@@ -8,6 +15,8 @@
 }
 
 html {
+  /* Anchors and focused elements land below the sticky header. */
+  scroll-padding-top: var(--header-stuck-height);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }

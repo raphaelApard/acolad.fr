@@ -28,7 +28,9 @@
   --gutter-mobile: 20px;
   --section-pad-desktop: 112px;
   --section-pad-mobile: 64px;
-  --breakpoint: 960px;          /* single breakpoint: below it, every grid stacks */
+  --breakpoint: 960px;
+  --header-height: 76px;        /* at the top of the page */
+  --header-stuck-height: 56px;  /* once scrolled: the sticky header shrinks to this */          /* single breakpoint: below it, every grid stacks */
 
   /* Shape */
   --radius-sm: 4px;             /* buttons, chips, portrait */
