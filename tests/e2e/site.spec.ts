@@ -15,6 +15,12 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://stats.acolad.net/**', (route) => route.abort());
 });
 
+test('serves the favicons', async ({ request }) => {
+  for (const path of ['/favicon.ico', '/favicon.svg']) {
+    expect((await request.get(path)).ok()).toBe(true);
+  }
+});
+
 test('redirects the root to the French page', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/fr\/$/);
