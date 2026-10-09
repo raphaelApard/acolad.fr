@@ -1,0 +1,126 @@
+---
+import type { Content } from '../content/types';
+import ArrowRight from './icons/ArrowRight.astro';
+import Profiles from './Profiles.astro';
+
+interface Props {
+  content: Content;
+}
+
+const { contact, links, ui } = Astro.props.content;
+---
+
+<footer id="contact" class="dark">
+  <div class="wrap section">
+    <h2 class="heading">{contact.title}</h2>
+    <a class="email" href={`mailto:${links.email}`}>
+      {links.email}<span class="arrow"><ArrowRight size={32} /></span>
+    </a>
+    <Profiles links={links} label={ui.profiles} class="footer-profiles" />
+    <div class="bottom">
+      <p class="mono">{contact.footer}</p>
+      <a href="#top" class="mono desktop-only">{contact.backToTop}</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .section {
+    padding-top: 120px;
+    padding-bottom: 48px;
+  }
+
+  .heading {
+    margin: 0;
+    max-width: 14em;
+    font-size: 72px;
+    line-height: 1;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+  }
+
+  .dark .email {
+    display: inline-flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 44px;
+    margin-top: 48px;
+    font-size: 40px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-dark-accent);
+    text-underline-offset: 10px;
+    text-decoration-thickness: 2px;
+    overflow-wrap: anywhere;
+  }
+
+  .arrow {
+    display: inline-flex;
+  }
+
+  .section :global(.footer-profiles) {
+    gap: 8px 32px;
+    margin-top: 40px;
+    font-size: 17px;
+  }
+
+  .bottom {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 96px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-dark-border);
+    font-size: 13px;
+  }
+
+  .bottom p {
+    margin: 0;
+    color: var(--color-dark-muted);
+  }
+
+  .dark .bottom a {
+    color: var(--color-dark-muted);
+    text-underline-offset: 4px;
+  }
+
+  .dark .bottom a:hover {
+    color: var(--color-dark-accent);
+  }
+
+  @media (max-width: 960px) {
+    .arrow {
+      display: none;
+    }
+
+    .section {
+      padding-top: 72px;
+      padding-bottom: 32px;
+    }
+
+    .heading {
+      font-size: 40px;
+      line-height: 1.02;
+    }
+
+    .dark .email {
+      margin-top: 28px;
+      font-size: 21px;
+      letter-spacing: 0;
+      text-underline-offset: 6px;
+    }
+
+    .section :global(.footer-profiles) {
+      gap: 28px;
+      margin-top: 20px;
+      font-size: 16px;
+    }
+
+    .bottom {
+      margin-top: 56px;
+      padding-top: 20px;
+      font-size: 12px;
+    }
+  }
+</style>

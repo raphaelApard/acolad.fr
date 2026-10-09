@@ -1,21 +1,28 @@
 {
-  "name": "acolad-fr",
-  "version": "2.0.0",
+  "name": "raphael-apard-site",
   "private": true,
-  "description": "www.acolad.fr — Astro site fed by a Payload CMS",
   "type": "module",
   "scripts": {
-    "dev": "pnpm --parallel --filter cms --filter web dev",
-    "dev:cms": "pnpm --filter cms dev",
-    "dev:web": "pnpm --filter web dev",
-    "build": "pnpm --filter web build",
-    "preview": "pnpm --filter web preview",
-    "seed": "pnpm --filter cms seed",
-    "typecheck": "pnpm -r --if-present typecheck",
-    "test": "pnpm -r --if-present test"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "deploy:prod": "scripts/deploy.sh",
+    "deploy:dry": "scripts/deploy.sh --dry-run"
   },
-  "engines": {
-    "node": ">=22.12"
+  "dependencies": {
+    "@fontsource-variable/schibsted-grotesk": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "astro": "7.3.8"
   },
-  "packageManager": "pnpm@10.13.1"
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.64.0",
+    "sharp": "0.35.5",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.3"
+  }
 }

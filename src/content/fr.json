@@ -1,0 +1,484 @@
+{
+  "meta": {
+    "lang": "fr",
+    "title": "Raphaël Apard — Développeur fullstack senior",
+    "description": "20 ans d'expérience. J'interviens sur l'ensemble du cycle de vie des applications web et des plateformes métier.",
+    "languageName": "Français"
+  },
+  "links": {
+    "email": "raphael.apard@acolad.fr",
+    "linkedin": "https://www.linkedin.com/in/raphael-apard-81b90924/",
+    "malt": "https://www.malt.fr/profile/raphaelapard",
+    "github": "https://github.com/raphaelApard/"
+  },
+  "nav": [
+    {
+      "id": "domaines",
+      "label": "Domaines"
+    },
+    {
+      "id": "ia",
+      "label": "IA"
+    },
+    {
+      "id": "competences",
+      "label": "Compétences"
+    },
+    {
+      "id": "missions",
+      "label": "Missions"
+    },
+    {
+      "id": "certifications",
+      "label": "Certifications"
+    },
+    {
+      "id": "contact",
+      "label": "Contact"
+    }
+  ],
+  "hero": {
+    "name": "Raphaël Apard",
+    "title": "Développeur fullstack senior",
+    "leadStrong": "20 ans d'expérience.",
+    "lead": "J'interviens sur l'ensemble du cycle de vie des applications web et des plateformes métier : architecture, développement, intégration continue (CI/CD), mise en production, maintenance, optimisation des performances et évolution des solutions existantes.",
+    "info": [
+      "Toulouse, France",
+      "Freelance depuis 2014"
+    ],
+    "cta": "Discuter d'une mission",
+    "portrait": {
+      "src": "/img/portrait.webp",
+      "alt": "Portrait de Raphaël Apard"
+    }
+  },
+  "domains": {
+    "number": "01",
+    "title": "Domaines d'intervention",
+    "items": [
+      "Architecture applicative et choix techniques",
+      "Développement frontend et backend, applications métier et APIs",
+      "Tests unitaires, intégration et end-to-end",
+      "CI/CD, performance, sécurité et qualité web",
+      "Maintenance, refactoring et évolution applicative",
+      "Workflows agentiques et intégration d'outils via MCP"
+    ]
+  },
+  "ai": {
+    "number": "02",
+    "title": "IA & développement assisté",
+    "paragraphs": [
+      "Utilisation de Claude Code comme assistant de développement : analyse et prise en main de bases de code existantes, refactorisation, rédaction de tests, revue de code et automatisation des tâches récurrentes. Intégration de ces outils aux processus de développement (Git, CI/CD) tout en garantissant la qualité, la maintenabilité et la sécurité du code produit.",
+      "Intégration de fonctionnalités d'IA dans les applications web : génération et traduction de contenu, assistants conversationnels, aide à la contribution et interconnexion avec des CMS, CRM, bases documentaires et outils métier via MCP."
+    ],
+    "tags": [
+      "Claude Code",
+      "MCP (Figma, Playwright…)",
+      "Intégration de LLM et APIs IA"
+    ]
+  },
+  "clients": {
+    "title": "Ils m'ont fait confiance",
+    "logos": [
+      {
+        "name": "OVHcloud",
+        "src": "/logos/ovhcloud.webp",
+        "height": 44
+      },
+      {
+        "name": "Université Paris 1 Panthéon-Sorbonne",
+        "src": "/logos/pantheon-sorbonne.webp",
+        "height": 80
+      },
+      {
+        "name": "Hôpital Américain de Paris",
+        "src": "/logos/american-hospital-paris.webp",
+        "height": 48
+      },
+      {
+        "name": "Ville d'Issy-les-Moulineaux",
+        "src": "/logos/issy-com.webp",
+        "height": 64
+      },
+      {
+        "name": "Syndex",
+        "src": "/logos/syndex.webp",
+        "height": 64
+      },
+      {
+        "name": "Université Paris-Saclay",
+        "src": "/logos/paris-saclay.webp",
+        "height": 88
+      },
+      {
+        "name": "EY Fabernovel",
+        "src": "/logos/ey-fabernovel.webp",
+        "height": 44
+      },
+      {
+        "name": "Axess Open Web Services",
+        "src": "/logos/axess-ows.webp",
+        "height": 36
+      },
+      {
+        "name": "Human's Connexion",
+        "src": "/logos/humans-connexion.webp",
+        "height": 40
+      },
+      {
+        "name": "Muzéo",
+        "src": "/logos/muzeo.webp",
+        "height": 32
+      },
+      {
+        "name": "Docteur Conso",
+        "src": "/logos/docteur-conso.webp",
+        "height": 72
+      },
+      {
+        "name": "Makina Corpus",
+        "src": "/logos/makina-corpus.webp",
+        "height": 64
+      }
+    ]
+  },
+  "skills": {
+    "number": "03",
+    "title": "Compétences",
+    "expandLabel": "Afficher tout",
+    "collapseLabel": "Réduire",
+    "groups": [
+      {
+        "title": "Front-end",
+        "items": [
+          "TypeScript",
+          "React",
+          "Zustand",
+          "Next.js",
+          "Angular",
+          "Accessibilité",
+          "Core Web Vitals",
+          "Sass/SCSS",
+          "Tailwind CSS",
+          "shadcn"
+        ]
+      },
+      {
+        "title": "Back-end",
+        "items": [
+          "PHP",
+          "Node.js",
+          "NestJS",
+          "Laravel",
+          "Symfony",
+          "APIs REST",
+          "GraphQL",
+          "OAuth/JWT",
+          "Intégration de LLM et APIs IA"
+        ]
+      },
+      {
+        "title": "CMS",
+        "items": [
+          "Drupal",
+          "Drupal headless/JSON:API",
+          "Payload CMS",
+          "Strapi"
+        ]
+      },
+      {
+        "title": "Données",
+        "items": [
+          "PostgreSQL",
+          "MySQL",
+          "Apache Solr",
+          "SQL",
+          "MongoDB",
+          "Migrate",
+          "Redis"
+        ]
+      },
+      {
+        "title": "Qualité & livraison",
+        "items": [
+          "CI/CD",
+          "Playwright",
+          "Jest",
+          "Docker",
+          "Git",
+          "Vitest",
+          "Cypress",
+          "BackstopJS",
+          "Apache",
+          "Nginx"
+        ]
+      },
+      {
+        "title": "IA & Engineering",
+        "items": [
+          "Claude Code",
+          "MCP (Figma, Playwright…)"
+        ]
+      }
+    ]
+  },
+  "missions": {
+    "number": "04",
+    "title": "Missions",
+    "company": "Acolad Développement",
+    "since": "freelance depuis oct. 2014",
+    "achievementsLabel": "Réalisations",
+    "stackLabel": "Stack technique",
+    "items": [
+      {
+        "period": "2026",
+        "client": "Docteur Conso",
+        "place": "Toulouse",
+        "role": "Développeur fullstack",
+        "hook": "Refonte de la plateforme d'indicateurs de durabilité en Next.js et PostgreSQL.",
+        "stack": [
+          "Next.js",
+          "React",
+          "PostgreSQL",
+          "shadcn",
+          "Tailwind CSS"
+        ],
+        "image": {
+          "src": "/img/missions/docteur-conso-2026.webp",
+          "alt": "Capture d'écran de la nouvelle plateforme Docteur Conso"
+        }
+      },
+      {
+        "period": "2023 – 2026",
+        "client": "OVHcloud",
+        "place": "Toulouse",
+        "role": "Développeur TypeScript / React",
+        "hook": "Fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
+        "achievements": [
+          "Développement d'applications React/Next.js déployées hors de Drupal, alimentées par des sources de données variées",
+          "Développement d'applications React intégrées dans Drupal 10 et 11",
+          "Mise en place et maintenance des tests end-to-end et d'intégration avec Playwright",
+          "Optimisation des performances applicatives et des temps de réponse"
+        ],
+        "stack": [
+          "TypeScript",
+          "React",
+          "Next.js",
+          "Zustand",
+          "Drupal 10 / 11",
+          "PHP",
+          "Twig",
+          "SCSS",
+          "Playwright",
+          "Cursor"
+        ],
+        "image": {
+          "src": "/img/missions/ovhcloud.webp",
+          "alt": "Capture d'écran du site OVHcloud"
+        }
+      },
+      {
+        "period": "2020 – 2021",
+        "client": "CNRS Images",
+        "place": "via OWS",
+        "role": "Chef de projet technique et développeur Drupal",
+        "hook": "Pilotage technique et développement de la plateforme photo et vidéo du CNRS.",
+        "achievements": [
+          "Migration du catalogue de médias existant vers la nouvelle plateforme",
+          "Mise en place de rôles et de droits sur mesure pour les équipes éditoriales",
+          "Thème Twig / SCSS développé selon les critères d'accessibilité RGAA"
+        ],
+        "stack": [
+          "Drupal",
+          "PHP",
+          "MySQL",
+          "Twig",
+          "SCSS",
+          "TypeScript"
+        ],
+        "image": {
+          "src": "/img/missions/cnrs-images.webp",
+          "alt": "Capture d'écran de la plateforme CNRS Images"
+        }
+      },
+      {
+        "period": "2020 – 2021",
+        "client": "Réseau Obépine / Université Paris 1 Panthéon-Sorbonne",
+        "role": "Développeur fullstack",
+        "hook": "Plateforme de rapports du réseau national de surveillance des eaux usées.",
+        "achievements": [
+          "Automatisation des traitements de données et des rapports récurrents",
+          "Conception d'une gestion avancée des droits pour les laboratoires partenaires"
+        ],
+        "stack": [
+          "Drupal",
+          "PHP",
+          "Twig",
+          "SCSS",
+          "TypeScript"
+        ],
+        "image": {
+          "src": "/img/missions/obepine.webp",
+          "alt": "Capture d'écran de la plateforme du réseau Obépine"
+        }
+      },
+      {
+        "period": "2018 – 2020",
+        "client": "Docteur Conso",
+        "place": "Toulouse",
+        "role": "Développeur fullstack Angular / TypeScript / Drupal",
+        "hook": "Plateforme de collecte et de restitution d'indicateurs de durabilité.",
+        "achievements": [
+          "Conception et développement de l'application front-end en Angular, avec une architecture modulaire et des composants réutilisables",
+          "Développement d'interfaces responsives et accessibles, avec les équipes UX/UI",
+          "Intégration d'un Drupal headless via JSON:API pour la gestion et la consommation des contenus métier",
+          "Mise en place des services d'accès aux données, gestion des états applicatifs et optimisation des performances des appels API"
+        ],
+        "stack": [
+          "Angular",
+          "TypeScript",
+          "RxJS",
+          "Drupal headless"
+        ],
+        "image": {
+          "src": "/img/missions/docteur-conso-2018.webp",
+          "alt": "Capture d'écran de la plateforme Docteur Conso"
+        }
+      }
+    ]
+  },
+  "otherProjects": {
+    "title": "Autres projets",
+    "items": [
+      {
+        "client": "Hôpital Américain de Paris",
+        "text": "Pilotage technique et développement du site public de l'hôpital.",
+        "image": {
+          "src": "/img/projects/american-hospital.webp",
+          "alt": "Capture d'écran du site de l'Hôpital Américain de Paris"
+        }
+      },
+      {
+        "client": "Ville d'Issy-les-Moulineaux",
+        "text": "Pilotage technique et développement du site de la ville. Intégration front en Twig, SCSS et TypeScript selon les critères d'accessibilité RGAA.",
+        "image": {
+          "src": "/img/projects/issy.webp",
+          "alt": "Capture d'écran du site de la ville d'Issy-les-Moulineaux"
+        }
+      },
+      {
+        "client": "Syndex",
+        "text": "Site Drupal 8 en six langues d'un cabinet au service des représentants des salariés.",
+        "image": {
+          "src": "/img/projects/syndex.webp",
+          "alt": "Capture d'écran du site Syndex"
+        }
+      }
+    ]
+  },
+  "experience": {
+    "title": "Autres expériences",
+    "items": [
+      {
+        "period": "2017 – 2022",
+        "company": "Simplon",
+        "place": "Toulouse",
+        "role": "Formateur développeur web",
+        "text": "Formation de publics en reconversion, d'étudiants et de développeurs juniors sur l'ensemble du cycle de vie d'une application web, deux jours par semaine en parallèle de mes missions freelance.",
+        "achievements": [
+          "JavaScript moderne (ES6+), développement front-end et back-end, architectures MVC",
+          "Conception de bases de données relationnelles, workflows Git et GitHub, pipelines CI/CD",
+          "Pratiques d'équipe en entreprise, comme l'Agile, la revue de code et les flux Git"
+        ]
+      },
+      {
+        "period": "2012 – 2014",
+        "company": "Makina Corpus",
+        "place": "Toulouse",
+        "role": "Développeur Drupal",
+        "text": "Développements Drupal pour des clients publics et privés au sein d'une agence web toulousaine.",
+        "projects": [
+          {
+            "name": "labOrange",
+            "text": "Plateforme Drupal 7, interconnexion d'applications métier et migration des contenus."
+          },
+          {
+            "name": "Aerospace Valley",
+            "text": "Site web du pôle de compétitivité."
+          }
+        ]
+      }
+    ]
+  },
+  "credentials": {
+    "number": "05",
+    "title": "Certifications · formation · langues",
+    "verifyLabel": "vérifier",
+    "certifications": {
+      "title": "Certifications",
+      "items": [
+        {
+          "name": "Acquia Certified Developer, Drupal 9",
+          "year": "2022",
+          "verifyUrl": "https://certification.acquia.com/person/certified/raphael-apard"
+        },
+        {
+          "name": "Certification Opquast, assurance qualité web",
+          "year": "2021",
+          "verifyUrl": "https://directory.opquast.com/fr/certificat/OB5AYS/"
+        }
+      ]
+    },
+    "education": {
+      "title": "Formation",
+      "items": [
+        {
+          "name": "Licence professionnelle « Développeur d'applications web »",
+          "school": "Université Toulouse 1 Capitole",
+          "period": "2006 – 2007"
+        },
+        {
+          "name": "BTS Informatique de gestion",
+          "school": "Lycée Ozenne, Toulouse",
+          "period": "2004 – 2006"
+        }
+      ]
+    },
+    "languages": {
+      "title": "Langues",
+      "items": [
+        {
+          "name": "Français",
+          "level": "langue maternelle"
+        },
+        {
+          "name": "Anglais",
+          "level": "courant, usage professionnel"
+        },
+        {
+          "name": "Espagnol",
+          "level": "conversationnel"
+        },
+        {
+          "name": "Vietnamien",
+          "level": "notions"
+        }
+      ]
+    }
+  },
+  "contact": {
+    "title": "Un projet ? Une équipe à renforcer ?",
+    "footer": "Acolad Développement · Toulouse",
+    "backToTop": "Haut de page"
+  },
+  "ui": {
+    "skipLink": "Aller au contenu",
+    "languageSwitch": "Langue du site",
+    "openMenu": "Ouvrir le menu",
+    "profiles": "Profils en ligne",
+    "closeMenu": "Fermer le menu",
+    "mainNav": "Navigation principale",
+    "tools": "Outils",
+    "verifyAriaPrefix": "Vérifier la certification"
+  }
+}

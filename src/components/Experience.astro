@@ -1,0 +1,57 @@
+---
+import type { Content } from '../content/types';
+import TimelineRow from './TimelineRow.astro';
+
+interface Props {
+  content: Content;
+}
+
+const { experience } = Astro.props.content;
+---
+
+<section id="parcours" aria-labelledby="t-experience">
+  <div class="wrap section">
+    <h2 id="t-experience" class="heading">{experience.title}</h2>
+    {
+      experience.items.map((e, i) => (
+        <TimelineRow
+          id={`experience-${i}`}
+          period={e.period}
+          title={e.company}
+          place={e.place}
+          role={e.role}
+          text={e.text}
+          achievements={e.achievements}
+          projects={e.projects}
+        />
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-top: 72px;
+    padding-bottom: var(--section-pad-desktop);
+  }
+
+  .heading {
+    margin: 0 0 40px;
+    font-size: 32px;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+
+  @media (max-width: 960px) {
+    .section {
+      padding-top: 56px;
+      padding-bottom: var(--section-pad-mobile);
+    }
+
+    .heading {
+      margin-bottom: 8px;
+      font-size: 28px;
+    }
+  }
+</style>

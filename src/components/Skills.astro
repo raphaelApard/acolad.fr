@@ -1,0 +1,193 @@
+---
+import type { Content } from '../content/types';
+import SectionTitle from './SectionTitle.astro';
+import Chevron from './icons/Chevron.astro';
+
+interface Props {
+  content: Content;
+}
+
+const { skills } = Astro.props.content;
+---
+
+<section id="competences" aria-labelledby="t-skills" class="skills">
+  <div class="wrap section">
+    <div class="head">
+      <SectionTitle id="t-skills" number={skills.number} title={skills.title} />
+    </div>
+    <div class="groups">
+      {
+        skills.groups.map((group, i) => (
+          <div class="group" data-skill-group>
+            <h3>{group.title}</h3>
+            <ul id={`skills-${i}`} class="list-reset chips">
+              {group.items.map((item) => (
+                <li class="chip">{item}</li>
+              ))}
+            </ul>
+            <button
+              type="button"
+              class="toggle"
+              aria-expanded="false"
+              aria-controls={`skills-${i}`}
+              data-expand-label={skills.expandLabel}
+              data-collapse-label={skills.collapseLabel}
+              hidden
+            >
+              <span data-toggle-label>{skills.expandLabel}</span>
+              <span class="sr-only"> — {group.title}</span>
+              <span class="toggle-icon">
+                <Chevron />
+              </span>
+            </button>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Mobile only: clamp each group to one line of chips and show the toggle
+  // only when the chips actually overflow that line.
+  // All groups are measured first, then updated, so the layout is computed once
+  // per pass instead of being forced again after each group's DOM writes.
+  const mobile = matchMedia('(max-width: 960px)');
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-skill-group]')].map((group) => {
+    const list = group.querySelector('ul')!;
+    const button = group.querySelector('button')!;
+    return { group, list, button, label: button.querySelector('[data-toggle-label]')! };
+  });
+
+  // Clamping only caps the list height, so the chips' offsets are the same either way.
+  const overflows = (list: HTMLElement) => {
+    const chips = list.children;
+    return (
+      chips.length > 0 && (chips[chips.length - 1] as HTMLElement).offsetTop > (chips[0] as HTMLElement).offsetTop
+    );
+  };
+
+  const update = () => {
+    const measured = groups.map((g) => ({ ...g, overflows: mobile.matches && overflows(g.list) }));
+    for (const { group, button, overflows } of measured) {
+      button.hidden = !overflows;
+      group.toggleAttribute('data-clamped', overflows);
+      group.toggleAttribute('data-expanded', button.getAttribute('aria-expanded') === 'true');
+    }
+  };
+
+  for (const { button, label } of groups) {
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') !== 'true';
+      button.setAttribute('aria-expanded', String(expanded));
+      label.textContent = (expanded ? button.dataset.collapseLabel : button.dataset.expandLabel) ?? '';
+      update();
+    });
+  }
+
+  // The observer's first callback runs after the initial layout, so no update() call here.
+  const observer = new ResizeObserver(update);
+  for (const { list } of groups) observer.observe(list);
+  mobile.addEventListener('change', update);
+</script>
+
+<style>
+  .skills {
+    background: var(--color-surface);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .section {
+    padding-top: var(--section-pad-desktop);
+    padding-bottom: var(--section-pad-desktop);
+  }
+
+  .head {
+    margin-bottom: 56px;
+  }
+
+  .groups {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 56px 48px;
+  }
+
+  .group {
+    padding-top: 20px;
+    border-top: 2px solid var(--color-ink);
+  }
+
+  h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+
+  .chips {
+    margin-top: 18px;
+  }
+
+  .toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    margin-top: 2px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--color-accent);
+    font: 600 14px var(--font-sans);
+    cursor: pointer;
+  }
+
+  .toggle[hidden] {
+    display: none;
+  }
+
+  .toggle-icon {
+    display: inline-flex;
+    transition: transform 0.2s ease;
+  }
+
+  .toggle[aria-expanded='true'] .toggle-icon {
+    transform: rotate(180deg);
+  }
+
+  @media (max-width: 960px) {
+    .section {
+      padding-top: var(--section-pad-mobile);
+      padding-bottom: var(--section-pad-mobile);
+    }
+
+    .head {
+      margin-bottom: 32px;
+    }
+
+    .groups {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .group {
+      padding-top: 16px;
+    }
+
+    h3 {
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+
+    .chips {
+      margin-top: 14px;
+    }
+
+    /* One line of 12px chips (4px padding + 1px border each side). */
+    .group[data-clamped]:not([data-expanded]) .chips {
+      max-height: 28px;
+      overflow: hidden;
+    }
+  }
+</style>

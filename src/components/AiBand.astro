@@ -1,0 +1,99 @@
+---
+import type { Content } from '../content/types';
+import SectionTitle from './SectionTitle.astro';
+
+interface Props {
+  content: Content;
+}
+
+const { ai, ui } = Astro.props.content;
+---
+
+<section id="ia" aria-labelledby="t-ai" class="dark">
+  <div class="wrap section split">
+    <SectionTitle id="t-ai" number={ai.number} title={ai.title} dark />
+    <div>
+      <div class="paragraphs">
+        {ai.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <ul aria-label={ui.tools} class="list-reset tags">
+        {ai.tags.map((tag) => <li class="mono">{tag}</li>)}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .section {
+    padding-top: var(--section-pad-desktop);
+    padding-bottom: var(--section-pad-desktop);
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: 340px minmax(0, 1fr);
+    gap: 64px;
+  }
+
+  .paragraphs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px;
+  }
+
+  .paragraphs p {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.65;
+    color: var(--color-dark-body);
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--color-dark-border);
+  }
+
+  .tags li {
+    padding: 10px 16px;
+    border: 1px solid var(--color-dark-chip);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    color: var(--color-dark-text);
+  }
+
+  @media (max-width: 960px) {
+    .section {
+      padding-top: var(--section-pad-mobile);
+      padding-bottom: var(--section-pad-mobile);
+    }
+
+    .split {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    .paragraphs {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .paragraphs p {
+      font-size: 17px;
+    }
+
+    .tags {
+      gap: 8px;
+      margin-top: 32px;
+      padding-top: 24px;
+    }
+
+    .tags li {
+      padding: 8px 12px;
+      font-size: 13px;
+    }
+  }
+</style>

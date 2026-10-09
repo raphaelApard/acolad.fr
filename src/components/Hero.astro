@@ -1,0 +1,218 @@
+---
+import { Image } from 'astro:assets';
+import type { Content } from '../content/types';
+import { asset } from '../lib/images';
+import ArrowRight from './icons/ArrowRight.astro';
+import Profiles from './Profiles.astro';
+
+interface Props {
+  content: Content;
+}
+
+const { hero, links, ui } = Astro.props.content;
+const [firstName, ...lastNames] = hero.name.split(' ');
+---
+
+<section aria-labelledby="hero-title" class="wrap hero">
+  <div class="grid">
+    <div class="text">
+      <p class="mono info">{hero.info.join(' · ')}</p>
+      <h1 id="hero-title" class="name">{firstName}<br />{lastNames.join(' ')}</h1>
+      <p class="title">{hero.title}</p>
+      <p class="lead"><strong>{hero.leadStrong}</strong> {hero.lead}</p>
+      <div class="actions">
+        <a class="cta" href={`mailto:${links.email}`}>{hero.cta}<ArrowRight /></a>
+        <Profiles links={links} label={ui.profiles} />
+      </div>
+    </div>
+    <figure class="portrait">
+      <Image
+        src={asset(hero.portrait.src)}
+        alt={hero.portrait.alt}
+        widths={[224, 336, 468]}
+        sizes="(max-width: 960px) 112px, (max-width: 1286px) 28vw, 360px"
+        loading="eager"
+        fetchpriority="high"
+      />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .hero {
+    padding-top: 88px;
+    padding-bottom: 120px;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(240px, 28vw, 360px);
+    gap: 72px;
+    align-items: start;
+  }
+
+  .info {
+    margin: 0;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    color: var(--color-text-muted);
+  }
+
+  .name {
+    margin: 28px 0 0;
+    font-size: 128px;
+    line-height: 0.9;
+    font-weight: 800;
+    letter-spacing: -0.045em;
+  }
+
+  .title {
+    margin: 32px 0 0;
+    font-size: 34px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--color-accent);
+  }
+
+  .lead {
+    margin: 28px 0 0;
+    max-width: 36em;
+    font-size: 20px;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+
+  .lead strong {
+    color: var(--color-ink);
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px 36px;
+    margin-top: 44px;
+  }
+
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 56px;
+    padding: 0 28px;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent);
+    color: var(--color-surface);
+    font-size: 17px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  .cta:hover {
+    background: var(--color-ink);
+    color: var(--color-surface);
+  }
+
+  .portrait {
+    margin: 0;
+  }
+
+  .portrait img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 468 / 542;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+
+  @media (max-width: 960px) {
+    .hero {
+      padding-top: 36px;
+      padding-bottom: 64px;
+    }
+
+    /* Mobile: info, then name + title beside the portrait, then lead and actions. */
+    .grid {
+      grid-template-columns: minmax(0, 1fr) 112px;
+      grid-template-areas:
+        'info info'
+        'name portrait'
+        'title portrait'
+        'lead lead'
+        'actions actions';
+      gap: 0 16px;
+      align-items: start;
+    }
+
+    .text {
+      display: contents;
+    }
+
+    .info {
+      grid-area: info;
+      font-size: 12px;
+      line-height: 1.6;
+      letter-spacing: 0;
+    }
+
+    .name {
+      grid-area: name;
+      margin-top: 20px;
+      font-size: 60px;
+      line-height: 0.92;
+    }
+
+    .title {
+      grid-area: title;
+      margin-top: 18px;
+      font-size: 23px;
+      letter-spacing: 0;
+    }
+
+    .portrait {
+      grid-area: portrait;
+      margin-top: 20px;
+    }
+
+    .lead {
+      grid-area: lead;
+      font-size: 17px;
+    }
+
+    .actions {
+      grid-area: actions;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 16px;
+      margin-top: 32px;
+    }
+
+    .cta {
+      gap: 10px;
+    }
+
+    .actions :global(.profiles) {
+      justify-content: center;
+    }
+  }
+
+  /* Too narrow for the portrait beside the name: drop it. */
+  @media (max-width: 379px) {
+    .grid {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        'info'
+        'name'
+        'title'
+        'lead'
+        'actions';
+    }
+
+    .portrait {
+      display: none;
+    }
+  }
+</style>

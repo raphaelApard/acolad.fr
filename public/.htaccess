@@ -1,0 +1,64 @@
+<IfModule pagespeed_module>
+ModPagespeed on
+ModPagespeedRewriteLevel PassThrough
+ModPagespeedEnableFilters add_head,extend_cache
+</IfModule>
+
+RewriteEngine on
+RewriteCond %{HTTP_HOST} ^acolad\.fr$
+RewriteRule ^/?$ "https\:\/\/www\.acolad\.fr\/" [R=301,L]
+
+# French lives at the root; the former /fr/ URL is kept for links already shared.
+RedirectMatch 301 ^/fr/?$ https://www.acolad.fr/
+
+# Browsers whose first language is English go from / to /en/, unless the visitor picked
+# French with the language switch (cookie), came from this site, or is a crawler or an audit
+# tool. 302 so search engines keep indexing the French page at /.
+RewriteCond %{HTTP:Accept-Language} ^en [NC]
+RewriteCond %{HTTP_COOKIE} !(^|;\s*)lang=fr
+RewriteCond %{HTTP_REFERER} !^https://(www\.)?acolad\.fr/ [NC]
+RewriteCond %{HTTP_USER_AGENT} !(bot|crawl|spider|slurp|preview|lighthouse|headless) [NC]
+RewriteRule ^$ /en/ [R=302,L]
+
+# Redirections explicites des anciennes URLs
+RedirectMatch 301 ^/saclay/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/syndex/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/de-boeck/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/muzeopro/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/cplus2b/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/meettotravel/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/challenge-one/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/audio-analog/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/mentions-legales/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/projets/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/services/?$ https://www.acolad.fr/
+
+# Former sitemap files, possibly already submitted to search engines
+RedirectMatch 301 ^/sitemap-(index|0)\.xml$ https://www.acolad.fr/sitemap.xml
+
+<IfModule mod_headers.c>
+  # Build assets (/_astro/) are fingerprinted and never change.
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  # Not fingerprinted: cache for a week.
+  <FilesMatch "^favicon\.(ico|svg)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  # The root answers differently depending on the browser language and the cookie.
+  <If "%{REQUEST_URI} =~ m#^/(index\.html)?$#">
+    Header always merge Vary "Accept-Language, Cookie"
+  </If>
+  # Pages must revalidate so a new deploy is picked up immediately.
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>

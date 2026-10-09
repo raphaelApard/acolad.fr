@@ -1,0 +1,54 @@
+---
+import type { Content } from '../content/types';
+import ArrowUpRight from './icons/ArrowUpRight.astro';
+
+interface Props {
+  links: Content['links'];
+  label: string;
+  class?: string;
+}
+
+const { links, label, class: className } = Astro.props;
+const profiles = [
+  { name: 'LinkedIn', url: links.linkedin },
+  { name: 'Malt', url: links.malt },
+  { name: 'GitHub', url: links.github },
+].filter((p): p is { name: string; url: string } => Boolean(p.url));
+---
+
+{
+  profiles.length > 0 && (
+    <ul aria-label={label} class:list={['list-reset', 'profiles', className]}>
+      {profiles.map((p) => (
+        <li>
+          <a class="ext-link" href={p.url} rel="me noopener" target="_blank">
+            {p.name}
+            <span class="arrow">
+              <ArrowUpRight />
+            </span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .profiles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    font-size: 16px;
+    font-weight: 500;
+  }
+
+  .arrow {
+    display: inline-flex;
+  }
+
+  @media (max-width: 960px) {
+    .arrow {
+      display: none;
+    }
+  }
+</style>

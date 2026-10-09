@@ -1,0 +1,48 @@
+/* Design tokens for the one-page site (from the validated canvas, hero variant A). */
+:root {
+  /* Colors — light surfaces */
+  --color-bg: #F4F5F7;          /* page ground */
+  --color-surface: #FFFFFF;     /* white bands: logos, skills, other projects, credentials */
+  --color-ink: #0F1217;         /* primary text, dark bands */
+  --color-text: #2A303A;        /* body copy */
+  --color-text-muted: #454D5A;  /* meta, labels (7.8:1 on --color-bg) */
+  --color-border: #D7DBE2;      /* hairlines */
+  --color-border-strong: #C3C9D2; /* chips, controls */
+  --color-accent: #2443C9;      /* links, CTA, markers (8.4:1 on white) */
+
+  /* Colors — dark bands (AI section, footer) */
+  --color-dark-text: #F4F5F7;
+  --color-dark-body: #D9DEE5;
+  --color-dark-muted: #A9B1BD;
+  --color-dark-border: #2E3440;
+  --color-dark-chip: #4A5261;
+  --color-dark-accent: #8FA8FF;
+
+  /* Typography */
+  --font-sans: 'Schibsted Grotesk', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Layout */
+  --container-max: 1312px;      /* includes side padding */
+  --gutter-desktop: 64px;
+  --gutter-mobile: 20px;
+  --section-pad-desktop: 112px;
+  --section-pad-mobile: 64px;
+  --breakpoint: 960px;          /* single breakpoint: below it, every grid stacks */
+
+  /* Shape */
+  --radius-sm: 4px;             /* buttons, chips, portrait */
+  --radius-md: 6px;             /* screenshots, logo grid */
+  --focus-ring: 3px solid var(--color-accent);
+  --focus-offset: 3px;
+}
+
+/* Type scale (desktop → mobile) */
+/* h1 hero name     128px / 0.9 / 800 / -0.045em  →  60px                      */
+/* hero title        34px / 1.2 / 500, accent     →  23px                      */
+/* h2 section        44px / 1.05 / 700 / -0.025em →  32px                      */
+/* h3 mission client 26px / 1.15 / 700            →  23px                      */
+/* body lead         19–20px / 1.6                →  17px                      */
+/* body              16px / 1.55                  →  15px                      */
+/* mono meta         13–14px, 500                 →  12–13px                   */
+/* footer heading    72px / 1 / 800 / -0.04em     →  40px                      */

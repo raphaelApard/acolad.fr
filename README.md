@@ -1,95 +1,103 @@
-[Français](README.fr.md) · English
+[Version française](README.fr.md)
 
-# www.acolad.fr
+# Raphaël Apard — one-page site
 
-Personal site of Raphaël Apard — Web developer & AI solutions (Toulouse / Revel).
+Static, bilingual (French at `/`, English at `/en/`) one-page site built with [Astro](https://astro.build)
+from the validated design handoff in [`design/`](design/README.md).
 
-A static **Astro** site whose content, in French and English, is edited in **Payload CMS**.
+## Requirements
 
-## Architecture
+- Node.js 22.12+
+- pnpm 10
 
-```
- editors ──► Payload CMS (apps/cms, Node, SQLite) ◄── contact form (POST /api/contact)
-                    │  REST API, read at build time
-                    ▼
-             Astro build (apps/web) ──► apps/web/dist/ ──► Apache host
-```
-
-- **The site is static.** `pnpm build` reads the CMS once and writes plain HTML; the web host only runs
-  Apache.
-- **The CMS is a separate Node app** (Payload 3 on Next.js) and needs its own Node host. After editing
-  content, rebuild and upload the site.
-- **The contact form** is the only live call from the site: it posts to the CMS, which stores the
-  message and emails a notification. If that fails, the visitor's mail client opens instead.
-
-## Getting started
-
-Requires Node.js ≥ 22.12 and pnpm.
-
-```bash
-pnpm install
-cp apps/cms/.env.example apps/cms/.env   # then set PAYLOAD_SECRET (openssl rand -hex 32)
-cp apps/web/.env.example apps/web/.env
-pnpm seed                                # loads the site content and images
-pnpm dev                                 # CMS on :3000, site on :4321
-```
-
-Create your admin account at <http://localhost:3000/admin>, or set `SEED_ADMIN_EMAIL` and
-`SEED_ADMIN_PASSWORD` in `apps/cms/.env` before `pnpm seed` to have it created for you.
-
-`pnpm seed` only runs on an empty CMS. `pnpm seed -- --reset` first wipes the content and the images,
-never the messages or the users.
-
-## Commands
+## Scripts
 
 | Command | What it does |
 |---|---|
-| `pnpm dev` | CMS and site in development mode |
-| `pnpm dev:cms` / `pnpm dev:web` | one of the two |
-| `pnpm build` | build the site into `apps/web/dist/` (the CMS must be reachable) |
-| `pnpm preview` | serve `apps/web/dist/` on :4321 |
-| `pnpm seed` | load the initial content into the CMS |
-| `pnpm typecheck` | TypeScript and Astro checks in both apps |
-| `pnpm test` | unit tests in both apps |
-| `pnpm --filter cms migrate` | apply database migrations (production) |
-| `pnpm --filter cms generate:types` | regenerate `payload-types.ts` after a schema change |
+| `pnpm install` | Install dependencies |
+| `pnpm dev` | Dev server on http://localhost:4321 |
+| `pnpm build` | Static build into `dist/` |
+| `pnpm preview` | Serve `dist/` locally |
+| `pnpm check` | Type-check Astro and TypeScript files |
+| `pnpm test` | Unit tests (content files) |
+| `pnpm test:e2e` | Builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA included |
+| `pnpm deploy:prod` | Tests, builds and syncs `dist/` to production (see Deployment) |
+| `pnpm deploy:dry` | Same, but only lists what would change on the server |
 
-## Configuration
+First e2e run: `pnpm exec playwright install chromium`.
 
-| Variable | App | Purpose |
-|---|---|---|
-| `PAYLOAD_SECRET` | cms | secret used to sign sessions |
-| `DATABASE_URI` | cms | SQLite file, default `file:./data/cms.db` |
-| `CMS_URL` | cms | public URL of the CMS (admin links, allowed origin for the admin) |
-| `SITE_URL` | cms | origin(s) of the public site allowed to call the API (CORS), comma-separated |
-| `SMTP_*`, `CONTACT_FROM`, `CONTACT_TO` | cms | contact notification emails; without `SMTP_HOST` they are only logged |
-| `SEED_ADMIN_EMAIL`, `SEED_ADMIN_PASSWORD` | cms | optional first admin created by `pnpm seed` |
-| `PAYLOAD_URL` | web | where the build reads the content |
-| `PUBLIC_CONTACT_ENDPOINT` | web | contact form target, defaults to `PAYLOAD_URL/api/contact` |
-
-## Project structure
+## Structure
 
 ```
-apps/cms/                    Payload CMS (admin on :3000/admin)
-  src/collections/           pages, content collections, image libraries, messages, users
-  src/blocks/                the sections a page is made of
-  src/globals/               site settings and interface labels
-  src/endpoints/             POST /api/contact
-  src/migrations/            database migrations
-  src/seed/                  initial content (French and English) and the seed script
-apps/web/                    Astro site (:4321)
-  src/lib/                   CMS client, page model (URLs, menu, hreflang), SEO, JSON-LD, sitemap, images
-  src/layouts/, components/  base layout, header, shared pieces
-  src/components/blocks/     one component per kind of section
-  src/views/PageView.astro   renders a page section by section
-  src/pages/                 one page per CMS page and language, 404, sitemap.xml
-  src/styles/global.css      the stylesheet, inlined at build time
-  public/                    fonts, icons, social cards, robots.txt, .htaccess
-docs/                        content editing and deployment guides
+src/content/      fr.json, en.json (all copy), types.ts (their shape), index.ts (typed loader)
+src/styles/       tokens.css (from the design), global.css (base and shared utilities)
+src/layouts/      Base.astro (head, SEO, hreflang, fonts)
+src/components/   one component per section; TimelineRow renders missions and experience
+src/scripts/      disclosure.ts (mobile accordions)
+src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English)
+src/assets/       source images and logos, optimised at build time
+src/lib/          images.ts (resolves content image paths to src/assets)
+public/           copied as is (.htaccess)
+tests/            unit (Vitest) and e2e (Playwright)
 ```
 
-## Documentation
+## Editing content
 
-- [Editing content](docs/content-editing.md) — pages and sections, collections, images, adding a page
-- [Deployment](docs/deployment.md) — hosting the CMS, building and uploading the site, backups
-- [Changelog](CHANGELOG.md) — what changed in each version
+- All copy lives in `src/content/<lang>.json`; components never hard-code text.
+- Both files must keep the same structure (enforced by `pnpm test`) and match
+  `src/content/types.ts` (enforced by `pnpm check` / `pnpm build`).
+- Optional fields render nothing when absent or `null`: `place`, `achievements`, `stack`,
+  `image`, `projects`, profile links (`links.linkedin`, `links.malt`, `links.github`) and
+  certification `verifyUrl`.
+- Image `src` values are paths under `src/assets` (e.g. `/img/portrait.webp`); intrinsic sizes
+  are read from the files. Logos also need `height`, the rendered desktop height (mobile uses ×0.77).
+- Section anchors (`nav[].id`) are fixed in the components and identical in every locale.
+
+## Layout rules
+
+- One breakpoint at 960px. Below it grids stack, the nav moves behind the menu button,
+  missions / other projects / experience become accordions and skill groups show one line
+  with a toggle only when the chips overflow.
+- Breakpoint-specific markup uses `.desktop-only` / `.mobile-only` (hidden with
+  `display: none`, so it never duplicates content for screen readers). Do not give an element
+  carrying these classes its own `display` rule: wrap it instead.
+- Panels collapse only once JS has run (`html.js`), so content stays readable without JS.
+
+## Performance
+
+- Fonts go through Astro's Fonts API (`fonts` in `astro.config.mjs`): Latin woff2 files only,
+  every face preloaded (no request chain behind the HTML), metric-matched fallbacks so the swap does not shift the layout.
+- Images go through `astro:assets`: screenshots and portrait get a `srcset` (WebP), logos are
+  resized to their display height at 1x and 2x. Below-the-fold images are lazy-loaded.
+  Logos sit on white tiles, so their sources have no transparency: an alpha channel more than
+  doubles the WebP size.
+- CSS is inlined in each page (`build.inlineStylesheets`), so nothing blocks the first render.
+
+## Deployment
+
+`pnpm deploy:prod` (`scripts/deploy.sh`) runs the tests, builds and syncs `dist/` (including the hidden `.htaccess`)
+to the o2switch hosting with `rsync --delete`. It holds the real server settings, so it is
+git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and fill in
+`REMOTE_USER`, `REMOTE_HOST` and `REMOTE_PATH`. Your IP must be allowed in cPanel
+(SSH access) first. It shows the changes and asks before syncing; `pnpm deploy:dry` stops after
+the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
+`error_log`) are never touched.
+`public/.htaccess` is the production config, copied as is into the build:
+o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/`, a 301
+from the former `/fr/` and the former site's pages to `/`, a 302 from `/` to `/en/` for browsers
+whose first language is English (skipped when the visitor picked French with the language switch,
+which sets a `lang` cookie, came from the site itself, or is a crawler or an audit tool such as
+Lighthouse), and cache headers: one year, immutable, for the fingerprinted `/_astro/`
+files, one week for the favicons, `no-cache` for pages, sitemap and robots.txt,
+`Vary: Accept-Language, Cookie` on `/`.
+The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
+sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists both locales with their hreflang
+alternates; `/robots.txt` (`src/pages/robots.txt.ts`) points crawlers at it. The former
+`sitemap-index.xml` and `sitemap-0.xml` 301 to `/sitemap.xml`.
+The Matomo tracker (`stats.acolad.net`, site 8) sits in `src/layouts/Base.astro` and is only
+emitted in production builds; the e2e tests block its requests.
+
+## Open items
+
+- [ ] Proofread `src/content/en.json` (translated from the French copy).
+- [ ] Sharper portrait source (current one is 468 × 542).

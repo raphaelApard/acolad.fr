@@ -1,0 +1,49 @@
+---
+interface Props {
+  id: string;
+  number: string;
+  title: string;
+  dark?: boolean;
+  class?: string;
+}
+
+const { id, number, title, dark = false, class: className } = Astro.props;
+---
+
+<h2 id={id} class:list={['section-title', className]}>
+  <span class:list={['mono', 'number', { dark }]}>{number}</span>{title}
+</h2>
+
+<style>
+  .section-title {
+    margin: 0;
+    font-size: 44px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .number {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: var(--color-accent);
+  }
+
+  .number.dark {
+    color: var(--color-dark-accent);
+  }
+
+  @media (max-width: 960px) {
+    .section-title {
+      font-size: 32px;
+    }
+
+    .number {
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+  }
+</style>
