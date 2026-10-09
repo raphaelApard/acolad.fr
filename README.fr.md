@@ -75,9 +75,11 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 ## Déploiement
 
 `pnpm build`, puis envoyer le contenu de `dist/` (y compris le fichier caché `.htaccess`) sur
-n'importe quel hébergement statique. Sous Apache, `public/.htaccess` ajoute une 301 de `/` vers
-`/fr/`, la compression, un cache immuable d'un an pour `/_astro/` et la revalidation des pages.
-Les autres hébergeurs l'ignorent et se rabattent sur la page meta-refresh de `/`. L'URL de production est définie dans `astro.config.mjs` (`site`)
+l'hébergement o2switch. `public/.htaccess` est la configuration de production, copiée telle
+quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `acolad.fr/`
+vers `www.acolad.fr/` et des 301 des pages de l'ancien site vers l'accueil. `/` mène à `/fr/`
+via la page meta-refresh.
+L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap.
 
 ## Points ouverts
