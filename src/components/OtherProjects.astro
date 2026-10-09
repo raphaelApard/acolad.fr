@@ -1,14 +1,14 @@
 ---
-import { Image } from 'astro:assets';
 import type { Content } from '../content/types';
-import { asset } from '../lib/images';
 import Chevron from './icons/Chevron.astro';
+import ZoomableImage from './ZoomableImage.astro';
 
 interface Props {
   otherProjects: Content['otherProjects'];
+  enlargeLabel: string;
 }
 
-const { otherProjects } = Astro.props;
+const { otherProjects, enlargeLabel } = Astro.props;
 ---
 
 <div class="band">
@@ -29,11 +29,11 @@ const { otherProjects } = Astro.props;
               </h4>
               <div id={`other-${i}`} data-disclosure-panel>
                 {project.image && (
-                  <Image
-                    class="shot"
-                    src={asset(project.image.src)}
+                  <ZoomableImage
+                    class="zoom-shot"
+                    src={project.image.src}
                     alt={project.image.alt}
-                    widths={[400, 800, 1200]}
+                    label={enlargeLabel}
                     sizes="(max-width: 960px) calc(100vw - 40px), 370px"
                   />
                 )}
@@ -127,7 +127,7 @@ const { otherProjects } = Astro.props;
       margin-top: 0;
     }
 
-    .shot {
+    .zoom-shot {
       margin-top: 14px;
     }
 

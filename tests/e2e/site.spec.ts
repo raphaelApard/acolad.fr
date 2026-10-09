@@ -47,6 +47,36 @@ test('remembers the language picked in the switch', async ({ page, context }) =>
   expect(cookie?.value).toBe('fr');
 });
 
+test('opens screenshots full size and closes them', async ({ page }) => {
+  await page.goto('/');
+  // On mobile the screenshot sits in the collapsed mission panel.
+  if (isMobile(page)) {
+    await page.getByRole('button', { name: new RegExp(`^${fr.missions.items[0]!.client}`) }).first().click();
+  }
+  const trigger = page.getByRole('button', { name: fr.missions.items[0]!.image!.alt });
+  const lightbox = page.getByRole('dialog', { name: fr.missions.items[0]!.image!.alt });
+
+  // Escape closes and gives the focus back to the thumbnail.
+  await trigger.click();
+  await expect(lightbox).toBeVisible();
+  await expect(lightbox.locator('img')).toHaveJSProperty('complete', true);
+  await page.keyboard.press('Escape');
+  await expect(lightbox).toBeHidden();
+  await expect(trigger).toBeFocused();
+
+  // The close button closes.
+  await trigger.click();
+  await lightbox.getByRole('button', { name: fr.ui.closeImage }).click();
+  await expect(lightbox).toBeHidden();
+
+  // A click beside the image closes; a click on it does not.
+  await trigger.click();
+  await lightbox.locator('img').click();
+  await expect(lightbox).toBeVisible();
+  await page.mouse.click(5, 300);
+  await expect(lightbox).toBeHidden();
+});
+
 for (const { lang, path, content } of locales) {
   test.describe(path, () => {
     test.beforeEach(async ({ page }) => {
@@ -99,7 +129,8 @@ test.describe('desktop', () => {
 
   test('shows every mission panel without toggles', async ({ page }) => {
     await page.goto('/');
-    await expect(page.getByRole('button', { name: fr.missions.items[0]!.client })).toHaveCount(0);
+    // Anchored: the screenshot buttons' names also contain the client.
+    await expect(page.getByRole('button', { name: new RegExp(`^${fr.missions.items[0]!.client}`) })).toHaveCount(0);
     await expect(page.getByText(fr.missions.items[1]!.achievements![0]!)).toBeVisible();
     await expect(page.getByRole('button', { name: fr.ui.openMenu })).toBeHidden();
   });

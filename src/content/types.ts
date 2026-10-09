@@ -98,5 +98,8 @@ export interface Content {
     tools: string;
     /** Followed by the certification name, for the "verify" link's accessible name. */
     verifyAriaPrefix: string;
+    /** Followed by the image description, for the screenshot buttons' accessible name. */
+    enlargeImage: string;
+    closeImage: string;
   };
 }

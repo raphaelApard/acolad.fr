@@ -8,7 +8,7 @@ interface Props {
   content: Content;
 }
 
-const { missions, otherProjects } = Astro.props.content;
+const { missions, otherProjects, ui } = Astro.props.content;
 ---
 
 <section id="missions" aria-labelledby="t-missions">
@@ -32,11 +32,12 @@ const { missions, otherProjects } = Astro.props.content;
           stack={m.stack}
           stackLabel={missions.stackLabel}
           image={m.image}
+          enlargeLabel={ui.enlargeImage}
         />
       ))
     }
   </div>
-  <OtherProjects otherProjects={otherProjects} />
+  <OtherProjects otherProjects={otherProjects} enlargeLabel={ui.enlargeImage} />
 </section>
 
 <style>
