@@ -2,7 +2,7 @@
 
 # Raphaël Apard — one-page site
 
-Static, bilingual (`/fr/`, `/en/`) one-page site built with [Astro](https://astro.build)
+Static, bilingual (French at `/`, English at `/en/`) one-page site built with [Astro](https://astro.build)
 from the validated design handoff in [`design/`](design/README.md).
 
 ## Requirements
@@ -34,7 +34,7 @@ src/styles/       tokens.css (from the design), global.css (base and shared util
 src/layouts/      Base.astro (head, SEO, hreflang, fonts)
 src/components/   one component per section; TimelineRow renders missions and experience
 src/scripts/      disclosure.ts (mobile accordions)
-src/pages/        [lang]/index.astro (the page), index.astro (redirect / → /fr/)
+src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English)
 src/assets/       source images and logos, optimised at build time
 src/lib/          images.ts (resolves content image paths to src/assets)
 public/           copied as is (.htaccess)
@@ -83,9 +83,8 @@ git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and
 the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
 `error_log`) are never touched.
 `public/.htaccess` is the production config, copied as is into the build:
-o2switch PageSpeed (do not edit that block), a 301 from `/` to `/fr/` (the meta-refresh page is
-only a fallback), a 301 from `acolad.fr/` to `www.acolad.fr/`, 301s from the former site's pages
-to `/fr/`, and cache headers: one year, immutable, for the fingerprinted `/_astro/`
+o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/`, a 301
+from the former `/fr/` and the former site's pages to `/`, and cache headers: one year, immutable, for the fingerprinted `/_astro/`
 files, one week for the favicons, `no-cache` for pages, sitemap and robots.txt.
 The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
 sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists both locales with their hreflang

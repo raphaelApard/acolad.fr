@@ -10,6 +10,9 @@ const contents: Record<Lang, Content> = { fr, en };
 
 export const langs = Object.keys(contents) as Lang[];
 
+// Must match `i18n.defaultLocale` in astro.config.mjs.
+export const defaultLang: Lang = 'fr';
+
 export function getContent(lang: Lang): Content {
   return contents[lang];
 }

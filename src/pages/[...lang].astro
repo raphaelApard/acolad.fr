@@ -1,0 +1,64 @@
+---
+import type { GetStaticPaths } from 'astro';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Domains from '../components/Domains.astro';
+import AiBand from '../components/AiBand.astro';
+import ClientLogos from '../components/ClientLogos.astro';
+import Skills from '../components/Skills.astro';
+import Missions from '../components/Missions.astro';
+import Experience from '../components/Experience.astro';
+import Credentials from '../components/Credentials.astro';
+import Footer from '../components/Footer.astro';
+import { defaultLang, getContent, langs } from '../content';
+import type { Lang } from '../content/types';
+
+// French is served at the root, every other locale under its own prefix (/en/).
+export const getStaticPaths = (() =>
+  langs.map((lang) => ({ params: { lang: lang === defaultLang ? undefined : lang } }))) satisfies GetStaticPaths;
+
+const content = getContent((Astro.params.lang ?? defaultLang) as Lang);
+---
+
+<Base content={content}>
+  <a class="skip-link" href="#content">{content.ui.skipLink}</a>
+  <Header content={content} />
+  <main id="content">
+    <Hero content={content} />
+    <Domains content={content} />
+    <AiBand content={content} />
+    <ClientLogos content={content} />
+    <Skills content={content} />
+    <Missions content={content} />
+    <Experience content={content} />
+    <Credentials content={content} />
+  </main>
+  <Footer content={content} />
+</Base>
+
+<script>
+  import { initDisclosures } from '../scripts/disclosure';
+  initDisclosures();
+</script>
+
+<style>
+  .skip-link {
+    position: absolute;
+    left: 16px;
+    top: -80px;
+    z-index: 10;
+    padding: 12px 16px;
+    background: var(--color-ink);
+    color: var(--color-surface);
+    font-weight: 600;
+  }
+
+  .skip-link:focus {
+    top: 16px;
+  }
+
+  .skip-link:hover {
+    color: var(--color-surface);
+  }
+</style>

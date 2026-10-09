@@ -3,9 +3,10 @@ import { expect, test, type Page } from '@playwright/test';
 import fr from '../../src/content/fr.json' with { type: 'json' };
 import en from '../../src/content/en.json' with { type: 'json' };
 
+// French is served at the root, English under /en/.
 const locales = [
-  { lang: 'fr', content: fr },
-  { lang: 'en', content: en },
+  { lang: 'fr', path: '/', content: fr },
+  { lang: 'en', path: '/en/', content: en },
 ] as const;
 
 const isMobile = (page: Page) => (page.viewportSize()?.width ?? 0) <= 960;
@@ -25,9 +26,9 @@ test('lists every locale in the sitemap with its alternates', async ({ request }
   const response = await request.get('/sitemap.xml');
   expect(response.ok()).toBe(true);
   const xml = await response.text();
-  for (const lang of ['fr', 'en']) {
-    expect(xml).toContain(`<loc>https://www.acolad.fr/${lang}/</loc>`);
-    expect(xml).toContain(`hreflang="${lang}" href="https://www.acolad.fr/${lang}/"`);
+  for (const { lang, path } of locales) {
+    expect(xml).toContain(`<loc>https://www.acolad.fr${path}</loc>`);
+    expect(xml).toContain(`hreflang="${lang}" href="https://www.acolad.fr${path}"`);
   }
   expect(xml).toContain('hreflang="x-default"');
 });
@@ -38,15 +39,10 @@ test('serves the favicons', async ({ request }) => {
   }
 });
 
-test('redirects the root to the French page', async ({ page }) => {
-  await page.goto('/');
-  await expect(page).toHaveURL(/\/fr\/$/);
-});
-
-for (const { lang, content } of locales) {
-  test.describe(`/${lang}/`, () => {
+for (const { lang, path, content } of locales) {
+  test.describe(path, () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/${lang}/`);
+      await page.goto(path);
     });
 
     test('declares its language and alternates', async ({ page }) => {
@@ -66,8 +62,8 @@ for (const { lang, content } of locales) {
 
     test('links the language switch to both locales', async ({ page }) => {
       const group = page.getByRole('group', { name: content.ui.languageSwitch });
-      await expect(group.locator('a[aria-current="page"]')).toHaveAttribute('href', `/${lang}/`);
-      await expect(group.locator('a[hreflang="fr"]')).toHaveAttribute('href', '/fr/');
+      await expect(group.locator('a[aria-current="page"]')).toHaveAttribute('href', path);
+      await expect(group.locator('a[hreflang="fr"]')).toHaveAttribute('href', '/');
       await expect(group.locator('a[hreflang="en"]')).toHaveAttribute('href', '/en/');
     });
 
@@ -94,7 +90,7 @@ test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 
   test('shows every mission panel without toggles', async ({ page }) => {
-    await page.goto('/fr/');
+    await page.goto('/');
     await expect(page.getByRole('button', { name: fr.missions.items[0]!.client })).toHaveCount(0);
     await expect(page.getByText(fr.missions.items[1]!.achievements![0]!)).toBeVisible();
     await expect(page.getByRole('button', { name: fr.ui.openMenu })).toBeHidden();
@@ -105,7 +101,7 @@ test.describe('mobile', () => {
   test.skip(({ page }) => !isMobile(page), 'mobile only');
 
   test.beforeEach(async ({ page }) => {
-    await page.goto('/fr/');
+    await page.goto('/');
   });
 
   test('opens and closes the menu', async ({ page }) => {
