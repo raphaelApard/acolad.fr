@@ -50,41 +50,45 @@ const { skills } = Astro.props.content;
 <script>
   // Mobile only: clamp each group to one line of chips and show the toggle
   // only when the chips actually overflow that line.
+  // All groups are measured first, then updated, so the layout is computed once
+  // per pass instead of being forced again after each group's DOM writes.
   const mobile = matchMedia('(max-width: 960px)');
-
-  for (const group of document.querySelectorAll<HTMLElement>('[data-skill-group]')) {
+  const groups = [...document.querySelectorAll<HTMLElement>('[data-skill-group]')].map((group) => {
     const list = group.querySelector('ul')!;
     const button = group.querySelector('button')!;
-    const label = button.querySelector('[data-toggle-label]')!;
+    return { group, list, button, label: button.querySelector('[data-toggle-label]')! };
+  });
 
-    const update = () => {
-      const expanded = button.getAttribute('aria-expanded') === 'true';
-      if (!mobile.matches) {
-        button.hidden = true;
-        group.removeAttribute('data-clamped');
-        return;
-      }
-      group.setAttribute('data-clamped', '');
-      const chips = list.children;
-      const overflows =
-        chips.length > 0 &&
-        (chips[chips.length - 1] as HTMLElement).offsetTop > (chips[0] as HTMLElement).offsetTop;
+  // Clamping only caps the list height, so the chips' offsets are the same either way.
+  const overflows = (list: HTMLElement) => {
+    const chips = list.children;
+    return (
+      chips.length > 0 && (chips[chips.length - 1] as HTMLElement).offsetTop > (chips[0] as HTMLElement).offsetTop
+    );
+  };
+
+  const update = () => {
+    const measured = groups.map((g) => ({ ...g, overflows: mobile.matches && overflows(g.list) }));
+    for (const { group, button, overflows } of measured) {
       button.hidden = !overflows;
-      if (!overflows) group.removeAttribute('data-clamped');
-      group.toggleAttribute('data-expanded', expanded);
-    };
+      group.toggleAttribute('data-clamped', overflows);
+      group.toggleAttribute('data-expanded', button.getAttribute('aria-expanded') === 'true');
+    }
+  };
 
+  for (const { button, label } of groups) {
     button.addEventListener('click', () => {
       const expanded = button.getAttribute('aria-expanded') !== 'true';
       button.setAttribute('aria-expanded', String(expanded));
       label.textContent = (expanded ? button.dataset.collapseLabel : button.dataset.expandLabel) ?? '';
       update();
     });
-
-    new ResizeObserver(update).observe(list);
-    mobile.addEventListener('change', update);
-    update();
   }
+
+  // The observer's first callback runs after the initial layout, so no update() call here.
+  const observer = new ResizeObserver(update);
+  for (const { list } of groups) observer.observe(list);
+  mobile.addEventListener('change', update);
 </script>
 
 <style>
