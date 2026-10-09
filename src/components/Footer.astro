@@ -24,6 +24,8 @@ const { onLegalPage = false } = Astro.props;
       <p class="mono">{contact.footer}</p>
       <div class="bottom-links">
         <a href={legal.path} class="mono" aria-current={onLegalPage ? 'page' : undefined}>{legal.linkLabel}</a>
+        {/* No element has id="top": the browser then scrolls to the top of the document. (Pointing
+            at the sticky header did nothing, as it is always in view.) */}
         <a href="#top" class="mono desktop-only">{contact.backToTop}</a>
       </div>
     </div>

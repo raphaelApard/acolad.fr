@@ -210,6 +210,15 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
 test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 
+  test('scrolls back to the top from the footer', async ({ page }) => {
+    await page.goto('/');
+    const link = page.getByRole('contentinfo').getByRole('link', { name: fr.contact.backToTop });
+    await link.scrollIntoViewIfNeeded();
+    expect(await page.evaluate(() => scrollY)).toBeGreaterThan(1000);
+    await link.click();
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  });
+
   test('shows every mission panel without toggles', async ({ page }) => {
     await page.goto('/');
     // Anchored: the screenshot buttons' names also contain the client.
