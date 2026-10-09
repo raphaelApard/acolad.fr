@@ -84,8 +84,5 @@ et sert aux URL canonical, hreflang et sitemap.
 
 ## Points ouverts
 
-- [ ] Confirmer l'URL de production (`site`, actuellement `https://acolad.fr`).
-- [ ] URL LinkedIn, Malt et GitHub (`links` dans les deux fichiers) — masqués tant qu'absents.
-- [ ] URL de vérification des certifications (`verifyUrl`) — lien « vérifier » masqué tant qu'absent.
 - [ ] Relire `src/content/en.json` (traduit depuis le français).
 - [ ] Portrait en meilleure définition (l'actuel fait 468 × 542).

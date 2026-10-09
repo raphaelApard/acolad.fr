@@ -81,8 +81,5 @@ sitemap URLs.
 
 ## Open items
 
-- [ ] Confirm the production URL (`site`, currently `https://acolad.fr`).
-- [ ] LinkedIn, Malt and GitHub URLs (`links` in both content files) — hidden until set.
-- [ ] Certification verify URLs (`verifyUrl`) — the "verify" link is hidden until set.
 - [ ] Proofread `src/content/en.json` (translated from the French copy).
 - [ ] Sharper portrait source (current one is 468 × 542).
