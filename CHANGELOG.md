@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.3.1 — 2026-10-09
+
+- Plain HTTP and the bare `acolad.fr` redirect to `https://www.acolad.fr` in a single 301 that keeps
+  the path; the English redirect from `/` targets the HTTPS origin.
+
 ## 3.3.0 — 2026-10-09
 
 - Security headers on every response (HSTS, nosniff, X-Frame-Options, Referrer-Policy,
