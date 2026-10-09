@@ -233,6 +233,7 @@
       {
         "period": "2026",
         "client": "Docteur Conso",
+        "logo": "/logos/docteur-conso.webp",
         "place": "Toulouse",
         "role": "Full-stack developer",
         "hook": "Rebuild of the sustainability indicators platform with Next.js and PostgreSQL.",
@@ -251,6 +252,7 @@
       {
         "period": "2023 – 2026",
         "client": "OVHcloud",
+        "logo": "/logos/ovhcloud.webp",
         "place": "Toulouse",
         "role": "TypeScript / React developer",
         "hook": "Business features on OVHcloud's web platforms, from requirements to production.",
@@ -304,6 +306,7 @@
       {
         "period": "2020 – 2021",
         "client": "Obépine network / Paris 1 Panthéon-Sorbonne University",
+        "logo": "/logos/pantheon-sorbonne.webp",
         "role": "Full-stack developer",
         "hook": "Reporting platform for the national wastewater monitoring network.",
         "achievements": [
@@ -325,6 +328,7 @@
       {
         "period": "2018 – 2020",
         "client": "Docteur Conso",
+        "logo": "/logos/docteur-conso.webp",
         "place": "Toulouse",
         "role": "Full-stack developer, Angular / TypeScript / Drupal",
         "hook": "Platform for collecting and reporting sustainability indicators.",
@@ -382,6 +386,7 @@
       {
         "period": "2017 – 2022",
         "company": "Simplon",
+        "logo": "/logos/simplon.webp",
         "place": "Toulouse",
         "role": "Web development trainer",
         "text": "Trained career changers, students and junior developers across the whole lifecycle of a web application, two days a week alongside my freelance work.",
@@ -394,6 +399,7 @@
       {
         "period": "2012 – 2014",
         "company": "Makina Corpus",
+        "logo": "/logos/makina-corpus.webp",
         "place": "Toulouse",
         "role": "Drupal developer",
         "text": "Drupal development for public and private clients at a Toulouse web agency.",
@@ -411,6 +417,7 @@
       {
         "period": "2011 – 2012",
         "company": "X-Prime Groupe",
+        "logo": "/logos/x-prime.webp",
         "place": "Toulouse",
         "role": "Drupal developer",
         "text": "Drupal development for the clients of a Toulouse communications agency.",
@@ -428,6 +435,7 @@
       {
         "period": "2006 – 2007",
         "company": "Toulouse 1 Capitole University",
+        "logo": "/logos/ut-capitole.webp",
         "place": "Toulouse",
         "role": "PHP developer",
         "text": "Open and distance learning department: installed and ran a Moodle instance, built custom Moodle 1.8 modules (podcasting, video conferencing, grade management) and supported users."
@@ -435,6 +443,7 @@
       {
         "period": "2006",
         "company": "University of Guadalajara",
+        "logo": "/logos/guadalajara.webp",
         "place": "Guadalajara, Mexico",
         "role": "Web development intern",
         "text": "Built a student and faculty portal on Joomla, with custom modules."

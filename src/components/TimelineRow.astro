@@ -5,11 +5,13 @@ import { Image as Picture } from 'astro:assets';
 import type { Image } from '../content/types';
 import { asset } from '../lib/images';
 import Chevron from './icons/Chevron.astro';
+import LogoTile from './LogoTile.astro';
 
 interface Props {
   id: string;
   period: string;
   title: string;
+  logo?: string;
   place?: string;
   role: string;
   text: string;
@@ -21,13 +23,14 @@ interface Props {
   projects?: { name: string; text: string }[];
 }
 
-const { id, period, title, place, role, text, achievements, achievementsLabel, stack, stackLabel, image, projects } =
+const { id, period, title, logo, place, role, text, achievements, achievementsLabel, stack, stackLabel, image, projects } =
   Astro.props;
 const panelId = `${id}-panel`;
 ---
 
 <article class:list={['row', { 'no-img': !image }]} data-disclosure>
-  <div class="meta">
+  <div class:list={['meta', { 'has-logo': logo }]}>
+    {logo && <LogoTile src={logo} class="logo" />}
     <p class="mono period">
       <span>{period}</span>{place && <span class="mobile-only place-inline">{place}</span>}
     </p>
@@ -101,14 +104,14 @@ const panelId = `${id}-panel`;
 <style>
   .row {
     display: grid;
-    grid-template-columns: 240px minmax(0, 1fr) 400px;
+    grid-template-columns: 300px minmax(0, 1fr) 400px;
     gap: 48px;
     padding: 48px 0;
     border-top: 1px solid var(--color-border);
   }
 
   .row.no-img {
-    grid-template-columns: 240px minmax(0, 1fr);
+    grid-template-columns: 300px minmax(0, 1fr);
   }
 
   .panel {
@@ -117,6 +120,24 @@ const panelId = `${id}-panel`;
 
   p {
     margin: 0;
+  }
+
+  /* Logo on the left, period, title and place stacked beside it. */
+  .meta.has-logo {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    column-gap: 16px;
+    align-content: start;
+  }
+
+  .meta.has-logo > :global(*) {
+    grid-column: 2;
+  }
+
+  .meta.has-logo > :global(.logo) {
+    grid-column: 1;
+    grid-row: 1 / span 3;
+    align-self: start;
   }
 
   .period {
@@ -198,6 +219,15 @@ const panelId = `${id}-panel`;
     .row.no-img {
       display: block;
       padding: 24px 0;
+    }
+
+    .meta.has-logo {
+      column-gap: 14px;
+    }
+
+    .meta.has-logo > :global(.logo) {
+      margin-top: 2px;
+      --tile: 44px !important;
     }
 
     .period {

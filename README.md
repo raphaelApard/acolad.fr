@@ -47,7 +47,8 @@ tests/            unit (Vitest) and e2e (Playwright)
 - Both files must keep the same structure (enforced by `pnpm test`) and match
   `src/content/types.ts` (enforced by `pnpm check` / `pnpm build`).
 - Optional fields render nothing when absent or `null`: `place`, `achievements`, `stack`,
-  `image`, `projects`, profile links (`links.linkedin`, `links.malt`, `links.github`) and
+  `image`, `projects`, `logo` (missions and experience; shown in a square tile),
+  profile links (`links.linkedin`, `links.malt`, `links.github`) and
   certification `verifyUrl`.
 - Image `src` values are paths under `src/assets` (e.g. `/img/portrait.webp`); intrinsic sizes
   are read from the files. Logos also need `height`, the rendered desktop height (mobile uses ×0.77).

@@ -12,6 +12,8 @@ export interface Image {
 export interface Mission {
   period: string;
   client: string;
+  /** Company logo, path under src/assets (e.g. `/logos/ovhcloud.webp`). */
+  logo?: string;
   place?: string;
   role: string;
   hook: string;
@@ -29,6 +31,8 @@ export interface OtherProject {
 export interface Experience {
   period: string;
   company: string;
+  /** Company logo, path under src/assets (e.g. `/logos/ovhcloud.webp`). */
+  logo?: string;
   place?: string;
   role: string;
   text: string;
