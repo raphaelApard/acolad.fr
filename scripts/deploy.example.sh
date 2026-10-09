@@ -28,7 +28,7 @@ done
 # Files managed by the host: never uploaded, never deleted by --delete.
 rsync_opts=(
   -rlvz --delete --checksum
-  --chmod=D755,F644
+  --chmod=u=rwX,go=rX
   -e "ssh -p $SSH_PORT"
   --exclude ".well-known/"
   --exclude "cgi-bin/"
