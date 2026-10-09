@@ -1,5 +1,18 @@
 # Changelog
 
+## 3.3.0 — 2026-10-09
+
+- Security headers on every response (HSTS, nosniff, X-Frame-Options, Referrer-Policy,
+  Permissions-Policy, COOP) and a Content-Security-Policy whose script hashes are written at build
+  time, so scripts need no `'unsafe-inline'`.
+- Custom 404 page in French and English, with an illustration per language.
+- JSON-LD on the home pages: a `Person` and the `ProfessionalService` they run.
+- Titles and descriptions target Drupal, freelance and Toulouse.
+- "Copy e-mail" button under the footer address.
+- Former `/projets/*`, `/services/` and `/contact/` URLs redirect to their sections.
+- The Matomo snippet is minified.
+- The legal notice states the legal form as SASU.
+
 ## 3.2.1 — 2026-10-09
 
 - "Back to top" scrolls again (it pointed at the sticky header, which is always in view).
