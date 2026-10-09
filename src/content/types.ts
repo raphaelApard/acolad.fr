@@ -115,6 +115,14 @@ export interface Content {
       unavailable: string;
     };
   };
+  notFound: {
+    /** Error page path, served by Apache's ErrorDocument (see public/.htaccess). */
+    path: string;
+    code: string;
+    title: string;
+    text: string;
+    cta: string;
+  };
   ui: {
     skipLink: string;
     languageSwitch: string;

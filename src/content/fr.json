@@ -590,5 +590,12 @@
       "off": "Vos visites ne sont plus mesurées sur ce navigateur.",
       "unavailable": "La mesure d'audience ne fonctionne pas dans ce navigateur (JavaScript désactivé ou bloqueur de contenu) : vos visites ne sont pas mesurées."
     }
+  },
+  "notFound": {
+    "path": "/404.html",
+    "code": "Erreur 404",
+    "title": "Cette page n'existe pas",
+    "text": "L'adresse est peut-être incorrecte, ou la page a été déplacée lors de la refonte du site. Tout le contenu est désormais sur la page d'accueil.",
+    "cta": "Retour à l'accueil"
   }
 }

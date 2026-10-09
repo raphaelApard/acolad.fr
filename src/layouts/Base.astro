@@ -13,6 +13,8 @@ interface Props {
   description?: string;
   /** Path of this page in every locale; defaults to the home pages. */
   alternates?: Record<Lang, string>;
+  /** Error pages: kept out of search results, without canonical or alternates. */
+  noindex?: boolean;
 }
 
 const { content } = Astro.props;
@@ -39,9 +41,17 @@ const portrait = new URL(ogImage.src, Astro.site).href;
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="canonical" href={canonical} />
-    {langs.map((l) => <link rel="alternate" hreflang={l} href={url(l)} />)}
-    <link rel="alternate" hreflang="x-default" href={url(defaultLang)} />
+    {
+      Astro.props.noindex ? (
+        <meta name="robots" content="noindex" />
+      ) : (
+        <>
+          <link rel="canonical" href={canonical} />
+          {langs.map((l) => <link rel="alternate" hreflang={l} href={url(l)} />)}
+          <link rel="alternate" hreflang="x-default" href={url(defaultLang)} />
+        </>
+      )
+    }
     <link rel="sitemap" href="/sitemap.xml" />
     <meta name="theme-color" content="#F4F5F7" />
     <meta property="og:type" content="website" />
