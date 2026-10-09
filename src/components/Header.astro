@@ -1,16 +1,20 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getContent, langs } from '../content';
-import type { Content } from '../content/types';
+import type { Content, Lang } from '../content/types';
 import MenuIcon from './icons/Menu.astro';
 import CloseIcon from './icons/Close.astro';
 
 interface Props {
   content: Content;
+  /** Set on pages other than home: the language switch targets these paths and the nav
+      anchors point back to the home page. */
+  alternates?: Record<Lang, string>;
 }
 
-const { content } = Astro.props;
+const { content, alternates } = Astro.props;
 const { lang } = content.meta;
+const navBase = alternates ? getRelativeLocaleUrl(lang) : '';
 const { ui, nav, hero } = content;
 ---
 
@@ -21,7 +25,7 @@ const { ui, nav, hero } = content;
 
     <nav id="main-nav" class="nav" aria-label={ui.mainNav} data-menu>
       <ul class="list-reset nav-list">
-        {nav.map((item) => <li><a href={`#${item.id}`}>{item.label}</a></li>)}
+        {nav.map((item) => <li><a href={`${navBase}#${item.id}`}>{item.label}</a></li>)}
       </ul>
     </nav>
 
@@ -30,7 +34,7 @@ const { ui, nav, hero } = content;
         {
           langs.map((l) => (
             <a
-              href={getRelativeLocaleUrl(l)}
+              href={alternates?.[l] ?? getRelativeLocaleUrl(l)}
               hreflang={l}
               lang={l}
               aria-current={l === lang ? 'page' : undefined}

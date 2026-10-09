@@ -1,0 +1,191 @@
+---
+// Legal notice, personal data and cookies, one page per locale (paths in content `legal.path`).
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { getContent, langs } from '../content';
+import type { Lang } from '../content/types';
+
+interface Props {
+  lang: Lang;
+}
+
+const content = getContent(Astro.props.lang);
+const { legal, ui, hero } = content;
+const alternates = Object.fromEntries(langs.map((l) => [l, getContent(l).legal.path])) as Record<Lang, string>;
+---
+
+<Base content={content} title={`${legal.title} — ${hero.name}`} description={legal.description} alternates={alternates}>
+  <a class="skip-link" href="#content">{ui.skipLink}</a>
+  <Header content={content} alternates={alternates} />
+  <main id="content" class="wrap legal">
+    <h1>{legal.title}</h1>
+    <p class="mono updated">{legal.updated}</p>
+    {
+      legal.sections.map((section, i) => (
+        <section aria-labelledby={section.id}>
+          <h2 id={section.id}>{section.title}</h2>
+          {section.paragraphs.map((p) => (
+            <p set:html={p} />
+          ))}
+          {i === legal.sections.length - 1 && (
+            <div class="optout" data-optout data-on={legal.optOut.on} data-off={legal.optOut.off}>
+              <label>
+                <input type="checkbox" disabled />
+                {legal.optOut.label}
+              </label>
+              <p class="mono status" role="status" data-optout-status>
+                {legal.optOut.unavailable}
+              </p>
+            </div>
+          )}
+        </section>
+      ))
+    }
+  </main>
+  <Footer content={content} onLegalPage />
+</Base>
+
+<script>
+  // Matomo opt-out. The checkbox stays disabled, with the "not measured" message, until the
+  // tracker has loaded; when it is blocked (or in dev builds) that is the right state.
+  type Paq = { push: (command: unknown[]) => void };
+  // Read at each call: matomo.js swaps the queue array for its own object when it loads.
+  const paq = () => (window as unknown as { _paq?: Paq })._paq;
+  const box = document.querySelector<HTMLElement>('[data-optout]');
+
+  if (box && paq()) {
+    const input = box.querySelector('input')!;
+    const status = box.querySelector('[data-optout-status]')!;
+    const render = (optedOut: boolean) => {
+      input.checked = !optedOut;
+      status.textContent = (optedOut ? box.dataset.off : box.dataset.on) ?? '';
+    };
+
+    // Functions pushed to _paq run with the tracker as `this` once matomo.js has loaded.
+    paq()!.push([
+      function (this: { isUserOptedOut: () => boolean }) {
+        input.disabled = false;
+        render(this.isUserOptedOut());
+      },
+    ]);
+
+    input.addEventListener('change', () => {
+      paq()!.push([input.checked ? 'forgetUserOptOut' : 'optUserOut']);
+      render(!input.checked);
+    });
+  }
+</script>
+
+<style>
+  .legal {
+    padding-top: 72px;
+    padding-bottom: var(--section-pad-desktop);
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 44px;
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .updated {
+    margin: 16px 0 0;
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  section {
+    max-width: 44em;
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  h2 {
+    margin: 0 0 16px;
+    font-size: 22px;
+    line-height: 1.25;
+    font-weight: 700;
+  }
+
+  p {
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--color-text);
+  }
+
+  p + p {
+    margin-top: 10px;
+  }
+
+  section :global(a) {
+    color: var(--color-accent);
+    text-underline-offset: 3px;
+  }
+
+  section :global(code) {
+    font-family: var(--font-mono);
+    font-size: 0.85em;
+  }
+
+  .optout {
+    margin-top: 24px;
+    padding: 16px 20px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+  }
+
+  .optout label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .optout label:has(:disabled) {
+    color: var(--color-text-muted);
+    cursor: default;
+  }
+
+  .optout input {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--color-accent);
+  }
+
+  .status {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 960px) {
+    .legal {
+      padding-top: 40px;
+      padding-bottom: var(--section-pad-mobile);
+    }
+
+    h1 {
+      font-size: 32px;
+    }
+
+    section {
+      margin-top: 36px;
+    }
+
+    h2 {
+      font-size: 19px;
+    }
+
+    p {
+      font-size: 15px;
+    }
+  }
+</style>

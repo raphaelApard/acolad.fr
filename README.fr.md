@@ -34,7 +34,8 @@ src/styles/       tokens.css (issu du design), global.css (base et utilitaires p
 src/layouts/      Base.astro (head, SEO, hreflang, polices)
 src/components/   un composant par section ; TimelineRow affiche missions et expériences
 src/scripts/      disclosure.ts (accordéons mobiles)
-src/pages/        [...lang].astro (la page : `/` en français, `/en/` en anglais)
+src/pages/        [...lang].astro (la page : `/` en français, `/en/` en anglais),
+                  mentions-legales.astro et en/legal-notice.astro (composant LegalPage)
 src/assets/       images et logos sources, optimisés au build
 src/lib/          images.ts (relie les chemins d'images du contenu à src/assets)
 public/           copié tel quel (.htaccess)
@@ -54,6 +55,10 @@ tests/            unitaires (Vitest) et e2e (Playwright)
   dimensions sont lues dans les fichiers. Les logos ont aussi `height`, la hauteur affichée en
   desktop (×0,77 en mobile).
 - Les ancres de section (`nav[].id`) sont fixées dans les composants et identiques dans chaque langue.
+- Les mentions légales (`legal`) contiennent l'éditeur, l'hébergeur, les données personnelles et
+  les cookies. Leurs paragraphes sont du HTML de confiance (liens, `<strong>`, `<code>`) ; à tenir
+  à jour avec l'immatriculation de la société, l'hébergeur et les réglages Matomo. La section
+  cookies se termine par une case d'opposition à Matomo, affichée une fois le tracker chargé.
 
 ## Règles de mise en page
 
@@ -89,7 +94,8 @@ liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par 
 `.user.ini`, `error_log`) ne sont jamais touchés.
 `public/.htaccess` est la configuration de production, copiée telle
 quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `acolad.fr/`
-vers `www.acolad.fr/`, des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/`, une 302
+vers `www.acolad.fr/`, des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/` (`/politique-confidentialite/`
+mène aux mentions légales), une 302
 de `/` vers `/en/` pour les navigateurs dont la première langue est l'anglais (sauf si le visiteur
 a choisi le français avec le sélecteur de langue, qui pose un cookie `lang`, vient du site lui-même,
 ou est un robot ou un outil d'audit comme Lighthouse), et les en-têtes de cache : un an, immutable, pour les

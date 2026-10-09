@@ -1,5 +1,11 @@
 # Changelog
 
+## 3.2.0 — 2026-10-09
+
+- Legal notice at `/mentions-legales/` and `/en/legal-notice/`, linked from the footer: publisher,
+  publication director, host, intellectual property, personal data and cookies, with a Matomo
+  opt-out. `/politique-confidentialite/` now redirects to its personal data section.
+
 ## 3.1.0 — 2026-10-09
 
 - Other experience goes back to 2006: X-Prime Groupe, Université Toulouse 1 Capitole and the
