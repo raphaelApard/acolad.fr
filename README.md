@@ -21,6 +21,8 @@ from the validated design handoff in [`design/`](design/README.md).
 | `pnpm check` | Type-check Astro and TypeScript files |
 | `pnpm test` | Unit tests (content files) |
 | `pnpm test:e2e` | Builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA included |
+| `pnpm deploy:prod` | Tests, builds and syncs `dist/` to production (see Deployment) |
+| `pnpm deploy:dry` | Same, but only lists what would change on the server |
 
 First e2e run: `pnpm exec playwright install chromium`.
 
@@ -71,8 +73,14 @@ tests/            unit (Vitest) and e2e (Playwright)
 
 ## Deployment
 
-`pnpm build`, then upload the content of `dist/` (including the hidden `.htaccess`) to the
-o2switch hosting. `public/.htaccess` is the production config, copied as is into the build:
+`pnpm deploy:prod` (`scripts/deploy.sh`) runs the tests, builds and syncs `dist/` (including the hidden `.htaccess`)
+to the o2switch hosting with `rsync --delete`. It holds the real server settings, so it is
+git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and fill in
+`REMOTE_USER`, `REMOTE_HOST` and `REMOTE_PATH`. Your IP must be allowed in cPanel
+(SSH access) first. It shows the changes and asks before syncing; `pnpm deploy:dry` stops after
+the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
+`error_log`) are never touched.
+`public/.htaccess` is the production config, copied as is into the build:
 o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/` and
 301s from the former site's pages to the home page. `/` itself reaches `/fr/` through the
 meta-refresh page.
