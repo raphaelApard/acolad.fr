@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Raphaël Apard — Développeur fullstack senior</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Schibsted+Grotesk:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F7;color:#0F1217;font-family:'Schibsted Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0F1217}a:hover{color:#2443C9}
+.dark a{color:#F4F5F7}.dark a:hover{color:#8FA8FF}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:focus-visible{outline:3px solid #2443C9;outline-offset:3px;border-radius:2px}
+.dark :focus-visible{outline-color:#8FA8FF}
+.skip{position:absolute;left:16px;top:-80px;z-index:10;padding:12px 16px;background:#0F1217;color:#FFFFFF !important;font-weight:600}
+.skip:focus{top:16px}
+.btn{text-decoration:none}
+.btn:hover{background:#0F1217 !important;color:#FFFFFF !important}
+.m-row{display:grid;grid-template-columns:240px minmax(0,1fr) 400px;gap:48px;padding:48px 0;border-top:1px solid #D7DBE2}
+.m-row.no-img{grid-template-columns:240px minmax(0,1fr)}
+.p-row{display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px;padding:48px 0;border-top:1px solid #D7DBE2}
+@media (max-width: 960px){
+.wrap{padding-left:20px !important;padding-right:20px !important}
+.r-grid{grid-template-columns:1fr !important;gap:32px !important}
+.r-g3{grid-template-columns:1fr !important}
+.r-logos{grid-template-columns:repeat(3,minmax(0,1fr)) !important}
+.r-nav{display:none !important}
+.r-h1{font-size:64px !important}
+.r-h2{font-size:34px !important}
+.r-big{font-size:40px !important}
+.r-email{font-size:24px !important}
+.r-sec{padding-top:72px !important;padding-bottom:72px !important}
+.m-row,.m-row.no-img,.p-row{grid-template-columns:1fr;gap:16px;padding:32px 0}
+}
+</style>
+</helmet>
+<div style="background: #F4F5F7; color: #0F1217; position: relative">
+<a class="skip" href="#contenu">Aller au contenu</a>
+
+<header style="border-bottom: 1px solid #D7DBE2; background: #F4F5F7">
+<div class="wrap" style="max-width: 1312px; margin: 0 auto; padding: 0 64px; min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap">
+<a href="#" style="text-decoration: none; font-weight: 700; font-size: 18px; letter-spacing: -0.01em">Raphaël Apard</a>
+<nav class="r-nav" aria-label="Navigation principale">
+<ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0; font-size: 15px; font-weight: 500">
+<li><a href="#domaines" style="text-decoration: none">Domaines</a></li>
+<li><a href="#ia" style="text-decoration: none">IA</a></li>
+<li><a href="#competences" style="text-decoration: none">Compétences</a></li>
+<li><a href="#missions" style="text-decoration: none">Missions</a></li>
+<li><a href="#certifications" style="text-decoration: none">Certifications</a></li>
+<li><a href="#contact" style="text-decoration: none">Contact</a></li>
+</ul>
+</nav>
+<div role="group" aria-label="Langue du site" style="display: flex; border: 1px solid #0F1217; border-radius: 4px; overflow: hidden">
+<button type="button" lang="fr" aria-pressed="true" style="min-width: 48px; min-height: 40px; border: 0; background: #0F1217; color: #FFFFFF; font: 500 13px 'JetBrains Mono', monospace; cursor: pointer">FR</button>
+<button type="button" lang="en" aria-pressed="false" style="min-width: 48px; min-height: 40px; border: 0; background: transparent; color: #0F1217; font: 500 13px 'JetBrains Mono', monospace; cursor: pointer">EN</button>
+</div>
+</div>
+</header>
+
+<main id="contenu">
+
+<section aria-labelledby="hero-title" class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 88px 64px 120px">
+<div class="r-grid" style="display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 72px; align-items: end">
+<div>
+<p class="mono" style="margin: 0; font-size: 14px; letter-spacing: 0.02em; color: #454D5A">Toulouse, France · Freelance depuis 2014</p>
+<h1 id="hero-title" class="r-h1" style="margin: 28px 0 0; font-size: 128px; line-height: 0.9; font-weight: 800; letter-spacing: -0.045em">Raphaël<br>Apard</h1>
+<p style="margin: 32px 0 0; font-size: 34px; line-height: 1.2; font-weight: 500; letter-spacing: -0.01em; color: {{accent}}">Développeur fullstack senior</p>
+<p style="margin: 28px 0 0; max-width: 36em; font-size: 20px; line-height: 1.6; color: #2A303A"><strong style="color: #0F1217">20 ans d'expérience.</strong> J'interviens sur l'ensemble du cycle de vie des applications web et des plateformes métier : architecture, développement, intégration continue (CI/CD), mise en production, maintenance, optimisation des performances et évolution des solutions existantes.</p>
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 20px 36px; margin-top: 44px">
+<a class="btn" href="mailto:raphael.apard@acolad.fr" style="display: inline-flex; align-items: center; gap: 12px; min-height: 56px; padding: 0 28px; border-radius: 4px; background: {{accent}}; color: #FFFFFF; font-size: 17px; font-weight: 600">Discuter d'une mission<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a>
+<ul aria-label="Profils en ligne" style="display: flex; flex-wrap: wrap; gap: 8px 28px; list-style: none; margin: 0; padding: 0; font-size: 16px; font-weight: 500">
+<li><a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; text-underline-offset: 5px">LinkedIn<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></li>
+<li><a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; text-underline-offset: 5px">Malt<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></li>
+<li><a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; text-underline-offset: 5px">GitHub<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></li>
+</ul>
+</div>
+</div>
+<figure style="margin: 0">
+<img src="../assets/img/portrait.webp" alt="Portrait de Raphaël Apard" width="468" height="542" style="display: block; width: 100%; height: auto; aspect-ratio: 468 / 542; object-fit: cover; border-radius: 4px">
+</figure>
+</div>
+</section>
+
+<section id="domaines" aria-labelledby="t-domaines" style="border-top: 1px solid #D7DBE2">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 112px 64px">
+<div class="r-grid" style="display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 64px">
+<h2 id="t-domaines" class="r-h2" style="margin: 0; font-size: 44px; line-height: 1.05; font-weight: 700; letter-spacing: -0.025em"><span class="mono" style="display: block; margin-bottom: 16px; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: {{accent}}">01</span>Domaines d'intervention</h2>
+<ul class="r-g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px 40px; list-style: none; margin: 0; padding: 0">
+<li style="padding-top: 20px; border-top: 2px solid #0F1217; font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em">Architecture applicative et choix techniques</li>
+<li style="padding-top: 20px; border-top: 2px solid #0F1217; font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em">Développement frontend et backend, applications métier et APIs</li>
+<li style="padding-top: 20px; border-top: 2px solid #0F1217; font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em">Tests unitaires, intégration et end-to-end</li>
+<li style="padding-top: 20px; border-top: 2px solid #0F1217; font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em">CI/CD, performance, sécurité et qualité web</li>
+<li style="padding-top: 20px; border-top: 2px solid #0F1217; font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em">Maintenance, refactoring et évolution applicative</li>
+<li style="padding-top: 20px; border-top: 2px solid #0F1217; font-size: 22px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em">Workflows agentiques et intégration d'outils via MCP</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="ia" aria-labelledby="t-ia" class="dark" style="background: #0F1217; color: #F4F5F7">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 112px 64px">
+<div class="r-grid" style="display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 64px">
+<h2 id="t-ia" class="r-h2" style="margin: 0; font-size: 44px; line-height: 1.05; font-weight: 700; letter-spacing: -0.025em"><span class="mono" style="display: block; margin-bottom: 16px; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: #8FA8FF">02</span>IA &amp; développement assisté</h2>
+<div>
+<div class="r-g3" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 48px">
+<p style="margin: 0; font-size: 19px; line-height: 1.65; color: #D9DEE5">Utilisation de Claude Code comme assistant de développement : analyse et prise en main de bases de code existantes, refactorisation, rédaction de tests, revue de code et automatisation des tâches récurrentes. Intégration de ces outils aux processus de développement (Git, CI/CD) tout en garantissant la qualité, la maintenabilité et la sécurité du code produit.</p>
+<p style="margin: 0; font-size: 19px; line-height: 1.65; color: #D9DEE5">Intégration de fonctionnalités d'IA dans les applications web : génération et traduction de contenu, assistants conversationnels, aide à la contribution et interconnexion avec des CMS, CRM, bases documentaires et outils métier via MCP.</p>
+</div>
+<ul aria-label="Outils" style="display: flex; flex-wrap: wrap; gap: 12px; list-style: none; margin: 56px 0 0; padding: 32px 0 0; border-top: 1px solid #2E3440">
+<li class="mono" style="padding: 10px 16px; border: 1px solid #4A5261; border-radius: 4px; font-size: 14px; color: #F4F5F7">Claude Code</li>
+<li class="mono" style="padding: 10px 16px; border: 1px solid #4A5261; border-radius: 4px; font-size: 14px; color: #F4F5F7">MCP (Figma, Playwright…)</li>
+<li class="mono" style="padding: 10px 16px; border: 1px solid #4A5261; border-radius: 4px; font-size: 14px; color: #F4F5F7">Intégration de LLM et APIs IA</li>
+</ul>
+</div>
+</div>
+</div>
+</section>
+
+<section aria-labelledby="t-clients" style="border-top: 1px solid #D7DBE2">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 72px 64px">
+<h2 id="t-clients" class="mono" style="margin: 0 0 28px; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Ils m'ont fait confiance</h2>
+<ul class="r-logos" style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 1px; list-style: none; margin: 0; padding: 0; background: #D7DBE2; border: 1px solid #D7DBE2; border-radius: 6px; overflow: hidden">
+<sc-for list="{{clients}}" as="l" hint-placeholder-count="12">
+<li style="display: flex; align-items: center; justify-content: center; height: 120px; padding: 16px; background: #FFFFFF"><img src="{{l.src}}" alt="{{l.name}}" loading="lazy" style="display: block; width: auto; max-width: 100%; height: {{l.h}}px; object-fit: contain; filter: {{logoFilter}}"></li>
+</sc-for>
+</ul>
+</div>
+</section>
+
+<section id="competences" aria-labelledby="t-comp" style="background: #FFFFFF; border-top: 1px solid #D7DBE2; border-bottom: 1px solid #D7DBE2">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 112px 64px">
+<h2 id="t-comp" class="r-h2" style="margin: 0 0 56px; font-size: 44px; line-height: 1.05; font-weight: 700; letter-spacing: -0.025em"><span class="mono" style="display: block; margin-bottom: 16px; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: {{accent}}">03</span>Compétences</h2>
+<div class="r-g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 56px 48px">
+<sc-for list="{{skills}}" as="c" hint-placeholder-count="6">
+<div style="padding-top: 20px; border-top: 2px solid #0F1217">
+<h3 style="margin: 0; font-size: 20px; font-weight: 700; letter-spacing: -0.01em">{{c.title}}</h3>
+<ul style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 18px 0 0; padding: 0">
+<sc-for list="{{c.items}}" as="s" hint-placeholder-count="6">
+<li class="mono" style="padding: 5px 10px; border: 1px solid #C3C9D2; border-radius: 4px; font-size: 13px; color: #2A303A">{{s.t}}</li>
+</sc-for>
+</ul>
+</div>
+</sc-for>
+</div>
+</div>
+</section>
+
+<section id="missions" aria-labelledby="t-missions">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 112px 64px 48px">
+<div class="r-grid" style="display: grid; grid-template-columns: 340px minmax(0, 1fr); gap: 64px; align-items: end; margin-bottom: 56px">
+<h2 id="t-missions" class="r-h2" style="margin: 0; font-size: 44px; line-height: 1.05; font-weight: 700; letter-spacing: -0.025em"><span class="mono" style="display: block; margin-bottom: 16px; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: {{accent}}">04</span>Missions</h2>
+<p style="margin: 0; font-size: 19px; line-height: 1.5; color: #454D5A"><strong style="color: #0F1217; font-weight: 600">Acolad Développement</strong> — freelance depuis oct. 2014</p>
+</div>
+
+<sc-for list="{{missions}}" as="m" hint-placeholder-count="5">
+<article class="{{m.rowClass}}">
+<div>
+<p class="mono" style="margin: 0; font-size: 14px; font-weight: 500; color: {{accent}}">{{m.period}}</p>
+<h3 style="margin: 10px 0 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em">{{m.client}}</h3>
+<sc-if value="{{m.hasPlace}}" hint-placeholder-val="{{true}}">
+<p class="mono" style="margin: 10px 0 0; font-size: 13px; color: #454D5A">{{m.place}}</p>
+</sc-if>
+</div>
+<div style="max-width: 44em">
+<p style="margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600">{{m.role}}</p>
+<p style="margin: 10px 0 0; font-size: 19px; line-height: 1.55; color: #2A303A">{{m.hook}}</p>
+<sc-if value="{{m.hasItems}}" hint-placeholder-val="{{true}}">
+<ul style="display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 24px 0 0; padding: 0; font-size: 16px; line-height: 1.55; color: #2A303A">
+<sc-for list="{{m.items}}" as="it" hint-placeholder-count="3">
+<li style="display: flex; gap: 14px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 10px; background: {{accent}}"></span><span>{{it.t}}</span></li>
+</sc-for>
+</ul>
+</sc-if>
+<sc-if value="{{m.hasStack}}" hint-placeholder-val="{{true}}">
+<ul aria-label="Stack technique" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 24px 0 0; padding: 0">
+<sc-for list="{{m.stack}}" as="s" hint-placeholder-count="5">
+<li class="mono" style="padding: 5px 10px; border: 1px solid #C3C9D2; border-radius: 4px; background: #FFFFFF; font-size: 13px; color: #2A303A">{{s.t}}</li>
+</sc-for>
+</ul>
+</sc-if>
+</div>
+<sc-if value="{{m.hasImg}}" hint-placeholder-val="{{true}}">
+<figure style="margin: 0">
+<img src="{{m.img}}" alt="{{m.alt}}" loading="lazy" width="1200" height="891" style="display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border: 1px solid #D7DBE2; border-radius: 6px; background: #FFFFFF">
+</figure>
+</sc-if>
+</article>
+</sc-for>
+</div>
+<div style="background: #FFFFFF; border-top: 1px solid #D7DBE2; border-bottom: 1px solid #D7DBE2">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 72px 64px 96px">
+<h3 style="margin: 0 0 32px; font-size: 26px; font-weight: 700; letter-spacing: -0.015em">Autres projets</h3>
+<ul class="r-g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; list-style: none; margin: 0; padding: 0">
+<sc-for list="{{others}}" as="o" hint-placeholder-count="3">
+<li>
+<article>
+<sc-if value="{{o.hasImg}}" hint-placeholder-val="{{true}}">
+<img src="{{o.img}}" alt="{{o.alt}}" loading="lazy" width="1200" height="891" style="display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border: 1px solid #D7DBE2; border-radius: 6px; background: #FFFFFF">
+</sc-if>
+<h4 style="margin: 20px 0 0; font-size: 20px; line-height: 1.25; font-weight: 700">{{o.client}}</h4>
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: #2A303A">{{o.text}}</p>
+</article>
+</li>
+</sc-for>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="parcours" aria-labelledby="t-avant">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 72px 64px 112px">
+<h2 id="t-avant" class="r-h2" style="margin: 0 0 40px; font-size: 32px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em">Autres expériences</h2>
+<article class="p-row">
+<div>
+<p class="mono" style="margin: 0; font-size: 14px; font-weight: 500; color: {{accent}}">2017 – 2022</p>
+<h3 style="margin: 10px 0 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em">Simplon</h3>
+<p class="mono" style="margin: 10px 0 0; font-size: 13px; color: #454D5A">Toulouse</p>
+</div>
+<div style="max-width: 44em">
+<p style="margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600">Formateur développeur web</p>
+<p style="margin: 10px 0 0; font-size: 19px; line-height: 1.55; color: #2A303A">Formation de publics en reconversion, d'étudiants et de développeurs juniors sur l'ensemble du cycle de vie d'une application web, deux jours par semaine en parallèle de mes missions freelance.</p>
+<ul style="display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 24px 0 0; padding: 0; font-size: 16px; line-height: 1.55; color: #2A303A">
+<li style="display: flex; gap: 14px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 10px; background: {{accent}}"></span><span>JavaScript moderne (ES6+), développement front-end et back-end, architectures MVC</span></li>
+<li style="display: flex; gap: 14px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 10px; background: {{accent}}"></span><span>Conception de bases de données relationnelles, workflows Git et GitHub, pipelines CI/CD</span></li>
+<li style="display: flex; gap: 14px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 10px; background: {{accent}}"></span><span>Pratiques d'équipe en entreprise, comme l'Agile, la revue de code et les flux Git</span></li>
+</ul>
+</div>
+</article>
+<article class="p-row">
+<div>
+<p class="mono" style="margin: 0; font-size: 14px; font-weight: 500; color: {{accent}}">2012 – 2014</p>
+<h3 style="margin: 10px 0 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em">Makina Corpus</h3>
+<p class="mono" style="margin: 10px 0 0; font-size: 13px; color: #454D5A">Toulouse</p>
+</div>
+<div style="max-width: 44em">
+<p style="margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600">Développeur Drupal</p>
+<p style="margin: 10px 0 0; font-size: 19px; line-height: 1.55; color: #2A303A">Développements Drupal pour des clients publics et privés au sein d'une agence web toulousaine.</p>
+<dl class="r-g3" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin: 28px 0 0">
+<div style="padding-top: 16px; border-top: 1px solid #D7DBE2">
+<dt style="font-size: 17px; font-weight: 700">labOrange</dt>
+<dd style="margin: 6px 0 0; font-size: 16px; line-height: 1.55; color: #2A303A">Plateforme Drupal 7, interconnexion d'applications métier et migration des contenus.</dd>
+</div>
+<div style="padding-top: 16px; border-top: 1px solid #D7DBE2">
+<dt style="font-size: 17px; font-weight: 700">Aerospace Valley</dt>
+<dd style="margin: 6px 0 0; font-size: 16px; line-height: 1.55; color: #2A303A">Site web du pôle de compétitivité.</dd>
+</div>
+</dl>
+</div>
+</article>
+</div>
+</section>
+
+<section id="certifications" aria-labelledby="t-cert" style="background: #FFFFFF; border-top: 1px solid #D7DBE2">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 112px 64px">
+<h2 id="t-cert" class="r-h2" style="margin: 0 0 56px; font-size: 44px; line-height: 1.05; font-weight: 700; letter-spacing: -0.025em"><span class="mono" style="display: block; margin-bottom: 16px; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; color: {{accent}}">05</span>Certifications · formation · langues</h2>
+<div class="r-g3" style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 56px 48px">
+<div>
+<h3 class="mono" style="margin: 0 0 8px; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Certifications</h3>
+<ul style="list-style: none; margin: 0; padding: 0">
+<li style="padding: 20px 0; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600">Acquia Certified Developer, Drupal 9</p>
+<p style="margin: 6px 0 0; display: flex; gap: 16px; align-items: center; font-size: 15px; color: #454D5A"><span class="mono">2022</span><a href="#" aria-label="Vérifier la certification Acquia Certified Developer, Drupal 9" style="display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-weight: 500; text-underline-offset: 4px">vérifier<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></p>
+</li>
+<li style="padding: 20px 0; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600">Certification Opquast, assurance qualité web</p>
+<p style="margin: 6px 0 0; display: flex; gap: 16px; align-items: center; font-size: 15px; color: #454D5A"><span class="mono">2021</span><a href="#" aria-label="Vérifier la certification Opquast" style="display: inline-flex; align-items: center; gap: 4px; min-height: 44px; font-weight: 500; text-underline-offset: 4px">vérifier<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></p>
+</li>
+</ul>
+</div>
+<div>
+<h3 class="mono" style="margin: 0 0 8px; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Formation</h3>
+<ul style="list-style: none; margin: 0; padding: 0">
+<li style="padding: 20px 0; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600">Licence professionnelle « Développeur d'applications web »</p>
+<p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #454D5A">Université Toulouse 1 Capitole · <span class="mono">2006 – 2007</span></p>
+</li>
+<li style="padding: 20px 0; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 18px; line-height: 1.35; font-weight: 600">BTS Informatique de gestion</p>
+<p style="margin: 6px 0 0; font-size: 15px; line-height: 1.5; color: #454D5A">Lycée Ozenne, Toulouse · <span class="mono">2004 – 2006</span></p>
+</li>
+</ul>
+</div>
+<div>
+<h3 class="mono" style="margin: 0 0 8px; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Langues</h3>
+<dl style="margin: 0">
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; border-top: 1px solid #D7DBE2"><dt style="font-size: 18px; font-weight: 600">Français</dt><dd style="margin: 0; font-size: 15px; color: #454D5A; text-align: right">langue maternelle</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; border-top: 1px solid #D7DBE2"><dt style="font-size: 18px; font-weight: 600">Anglais</dt><dd style="margin: 0; font-size: 15px; color: #454D5A; text-align: right">courant, usage professionnel</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; border-top: 1px solid #D7DBE2"><dt style="font-size: 18px; font-weight: 600">Espagnol</dt><dd style="margin: 0; font-size: 15px; color: #454D5A; text-align: right">conversationnel</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 16px; padding: 20px 0; border-top: 1px solid #D7DBE2; border-bottom: 1px solid #D7DBE2"><dt style="font-size: 18px; font-weight: 600">Vietnamien</dt><dd style="margin: 0; font-size: 15px; color: #454D5A; text-align: right">notions</dd></div>
+</dl>
+</div>
+</div>
+</div>
+</section>
+
+</main>
+
+<footer id="contact" class="dark" style="background: #0F1217; color: #F4F5F7">
+<div class="wrap r-sec" style="max-width: 1312px; margin: 0 auto; padding: 120px 64px 48px">
+<h2 class="r-big" style="margin: 0; max-width: 14em; font-size: 72px; line-height: 1; font-weight: 800; letter-spacing: -0.04em">Un projet ? Une équipe à renforcer ?</h2>
+<a class="r-email" href="mailto:raphael.apard@acolad.fr" style="display: inline-flex; align-items: center; gap: 16px; margin-top: 48px; font-size: 40px; font-weight: 500; letter-spacing: -0.02em; color: #8FA8FF; text-underline-offset: 10px; text-decoration-thickness: 2px">raphael.apard@acolad.fr<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="m13 6 6 6-6 6"></path></svg></a>
+<ul aria-label="Profils en ligne" style="display: flex; flex-wrap: wrap; gap: 8px 32px; list-style: none; margin: 40px 0 0; padding: 0; font-size: 17px; font-weight: 500">
+<li><a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; text-underline-offset: 5px">LinkedIn<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></li>
+<li><a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; text-underline-offset: 5px">Malt<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></li>
+<li><a href="#" style="display: inline-flex; align-items: center; gap: 6px; min-height: 44px; text-underline-offset: 5px">GitHub<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"></path><path d="M8 7h9v9"></path></svg></a></li>
+</ul>
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px; margin-top: 96px; padding-top: 24px; border-top: 1px solid #2E3440">
+<p class="mono" style="margin: 0; font-size: 13px; color: #A9B1BD">Acolad Développement · Toulouse</p>
+<a href="#" class="mono" style="font-size: 13px; color: #A9B1BD; text-underline-offset: 4px">Haut de page</a>
+</div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2443C9","options":["#2443C9","#0B6E4F","#B4401E","#0F1217"]},"logosColor":{"editor":"boolean","default":false},"$preview":{"width":1440,"height":8000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var t = function (xs) { return (xs || []).map(function (x) { return { t: x }; }); };
+    var missions = [
+      {
+        period: "2026", client: "Docteur Conso", place: "Toulouse",
+        role: "Développeur fullstack",
+        hook: "Refonte de la plateforme d'indicateurs de durabilité en Next.js et PostgreSQL.",
+        items: [],
+        stack: ["Next.js", "React", "PostgreSQL", "shadcn", "Tailwind CSS"],
+        img: "../assets/img/missions/docteur-conso-2026.webp", alt: "Capture d'écran de la nouvelle plateforme Docteur Conso"
+      },
+      {
+        period: "2023 – 2026", client: "OVHcloud", place: "Toulouse",
+        role: "Développeur TypeScript / React",
+        hook: "Fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
+        items: [
+          "Développement d'applications React/Next.js déployées hors de Drupal, alimentées par des sources de données variées",
+          "Développement d'applications React intégrées dans Drupal 10 et 11",
+          "Mise en place et maintenance des tests end-to-end et d'intégration avec Playwright",
+          "Optimisation des performances applicatives et des temps de réponse"
+        ],
+        stack: ["TypeScript", "React", "Next.js", "Zustand", "Drupal 10 / 11", "PHP", "Twig", "SCSS", "Playwright", "Cursor"],
+        img: "../assets/img/missions/ovhcloud.webp", alt: "Capture d'écran du site OVHcloud"
+      },
+      {
+        period: "2020 – 2021", client: "CNRS Images", place: "via OWS",
+        role: "Chef de projet technique et développeur Drupal",
+        hook: "Pilotage technique et développement de la plateforme photo et vidéo du CNRS.",
+        items: [
+          "Migration du catalogue de médias existant vers la nouvelle plateforme",
+          "Mise en place de rôles et de droits sur mesure pour les équipes éditoriales",
+          "Thème Twig / SCSS développé selon les critères d'accessibilité RGAA"
+        ],
+        stack: ["Drupal", "PHP", "MySQL", "Twig", "SCSS", "TypeScript"],
+        img: "../assets/img/missions/cnrs-images.webp", alt: "Capture d'écran de la plateforme CNRS Images"
+      },
+      {
+        period: "2020 – 2021", client: "Réseau Obépine / Université Paris 1 Panthéon-Sorbonne",
+        role: "Développeur fullstack",
+        hook: "Plateforme de rapports du réseau national de surveillance des eaux usées.",
+        items: [
+          "Automatisation des traitements de données et des rapports récurrents",
+          "Conception d'une gestion avancée des droits pour les laboratoires partenaires"
+        ],
+        stack: ["Drupal", "PHP", "Twig", "SCSS", "TypeScript"],
+        img: "../assets/img/missions/obepine.webp", alt: "Capture d'écran de la plateforme du réseau Obépine"
+      },
+      {
+        period: "2018 – 2020", client: "Docteur Conso", place: "Toulouse",
+        role: "Développeur fullstack Angular / TypeScript / Drupal",
+        hook: "Plateforme de collecte et de restitution d'indicateurs de durabilité.",
+        items: [
+          "Conception et développement de l'application front-end en Angular, avec une architecture modulaire et des composants réutilisables",
+          "Développement d'interfaces responsives et accessibles, avec les équipes UX/UI",
+          "Intégration d'un Drupal headless via JSON:API pour la gestion et la consommation des contenus métier",
+          "Mise en place des services d'accès aux données, gestion des états applicatifs et optimisation des performances des appels API"
+        ],
+        stack: ["Angular", "TypeScript", "RxJS", "Drupal headless"],
+        img: "../assets/img/missions/docteur-conso-2018.webp", alt: "Capture d'écran de la plateforme Docteur Conso"
+      }
+    ].map(function (m) {
+      return Object.assign({}, m, {
+        items: t(m.items), stack: t(m.stack),
+        hasPlace: !!m.place, hasItems: !!(m.items && m.items.length),
+        hasStack: !!(m.stack && m.stack.length), hasImg: !!m.img,
+        rowClass: m.img ? "m-row" : "m-row no-img"
+      });
+    });
+    var others = [
+      { client: "Hôpital Américain de Paris", text: "Pilotage technique et développement du site public de l'hôpital.", img: "../assets/img/projects/american-hospital.webp", alt: "Capture d'écran du site de l'Hôpital Américain de Paris" },
+      { client: "Ville d'Issy-les-Moulineaux", text: "Pilotage technique et développement du site de la ville. Intégration front en Twig, SCSS et TypeScript selon les critères d'accessibilité RGAA.", img: "../assets/img/projects/issy.webp", alt: "Capture d'écran du site de la ville d'Issy-les-Moulineaux" },
+      { client: "Syndex", text: "Site Drupal 8 en six langues d'un cabinet au service des représentants des salariés.", img: "../assets/img/projects/syndex.webp", alt: "Capture d'écran du site Syndex" }
+    ].map(function (o) { return Object.assign({}, o, { hasImg: !!o.img }); });
+    var skills = [
+      { title: "Front-end", items: ["TypeScript", "React", "Zustand", "Next.js", "Angular", "Accessibilité", "Core Web Vitals", "Sass/SCSS", "Tailwind CSS", "shadcn"] },
+      { title: "Back-end", items: ["PHP", "Node.js", "NestJS", "Laravel", "Symfony", "APIs REST", "GraphQL", "OAuth/JWT", "Intégration de LLM et APIs IA"] },
+      { title: "CMS", items: ["Drupal", "Drupal headless/JSON:API", "Payload CMS", "Strapi"] },
+      { title: "Données", items: ["PostgreSQL", "MySQL", "Apache Solr", "SQL", "MongoDB", "Migrate", "Redis"] },
+      { title: "Qualité & livraison", items: ["CI/CD", "Playwright", "Jest", "Docker", "Git", "Vitest", "Cypress", "BackstopJS", "Apache", "Nginx"] },
+      { title: "IA & Engineering", items: ["Claude Code", "MCP (Figma, Playwright…)"] }
+    ].map(function (c) { return { title: c.title, items: t(c.items) }; });
+    var clients = [
+      { name: "OVHcloud", src: "../assets/logos/ovhcloud.webp", h: 44 },
+      { name: "Université Paris 1 Panthéon-Sorbonne", src: "../assets/logos/pantheon-sorbonne.webp", h: 80 },
+      { name: "Hôpital Américain de Paris", src: "../assets/logos/american-hospital-paris.webp", h: 48 },
+      { name: "Ville d'Issy-les-Moulineaux", src: "../assets/logos/issy-com.webp", h: 64 },
+      { name: "Syndex", src: "../assets/logos/syndex.webp", h: 64 },
+      { name: "Université Paris-Saclay", src: "../assets/logos/paris-saclay.webp", h: 88 },
+      { name: "EY Fabernovel", src: "../assets/logos/ey-fabernovel.webp", h: 44 },
+      { name: "Axess Open Web Services", src: "../assets/logos/axess-ows.webp", h: 36 },
+      { name: "Human's Connexion", src: "../assets/logos/humans-connexion.webp", h: 40 },
+      { name: "Muzéo", src: "../assets/logos/muzeo.webp", h: 32 },
+      { name: "Docteur Conso", src: "../assets/logos/docteur-conso.webp", h: 72 },
+      { name: "Makina Corpus", src: "../assets/logos/makina-corpus.webp", h: 64 }
+    ];
+    return {
+      accent: this.props.accent ?? "#2443C9",
+      logoFilter: (this.props.logosColor ?? false) ? "none" : "grayscale(1)",
+      clients: clients,
+      missions: missions,
+      others: others,
+      skills: skills
+    };
+  }
+}
+</script>
+</body>
+</html>

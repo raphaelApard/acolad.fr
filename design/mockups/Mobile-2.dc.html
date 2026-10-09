@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Raphaël Apard — mobile, partie 2</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Schibsted+Grotesk:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F7;color:#0F1217;font-family:'Schibsted Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#0F1217}a:hover{color:#2443C9}
+.dark a{color:#F4F5F7}.dark a:hover{color:#8FA8FF}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+:focus-visible{outline:3px solid #2443C9;outline-offset:3px;border-radius:2px}
+.dark :focus-visible{outline-color:#8FA8FF}
+.sr{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+</style>
+</helmet>
+<div style="width: 390px; min-height: 3600px; background: #F4F5F7; color: #0F1217; display: flex; flex-direction: column">
+
+<section aria-labelledby="t-missions" style="padding: 64px 20px 24px">
+<h2 id="t-missions" style="margin: 0; font-size: 32px; line-height: 1.05; font-weight: 700; letter-spacing: -0.025em"><span class="mono" style="display: block; margin-bottom: 12px; font-size: 13px; font-weight: 500; color: {{accent}}">04</span>Missions</h2>
+<p style="margin: 14px 0 32px; font-size: 16px; line-height: 1.5; color: #454D5A"><strong style="color: #0F1217; font-weight: 600">Acolad Développement</strong> — freelance depuis oct. 2014</p>
+
+<sc-for list="{{missions}}" as="m" hint-placeholder-count="5">
+<article style="padding: 24px 0; border-top: 1px solid #D7DBE2">
+<p class="mono" style="margin: 0; display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 13px; font-weight: 500; color: {{accent}}"><span>{{m.period}}</span><sc-if value="{{m.hasPlace}}" hint-placeholder-val="{{true}}"><span style="color: #454D5A; font-weight: 400">{{m.place}}</span></sc-if></p>
+<h3 style="margin: 6px 0 0; font-size: inherit; font-weight: inherit">
+<button type="button" aria-expanded="{{m.expanded}}" aria-controls="{{m.id}}" onClick="{{m.toggle}}" style="display: flex; width: 100%; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #0F1217; font: inherit; text-align: left; cursor: pointer">
+<span style="display: flex; flex-direction: column; gap: 6px; min-width: 0"><span style="font-size: 23px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em">{{m.client}}</span><span style="font-size: 15px; line-height: 1.4; font-weight: 600; color: #2A303A">{{m.role}}</span></span>
+<span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; margin-top: 2px; border: 1px solid #C3C9D2; border-radius: 999px; background: #FFFFFF; transform: {{m.rot}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+</button>
+</h3>
+<div id="{{m.id}}">
+<sc-if value="{{m.open}}" hint-placeholder-val="{{false}}">
+<p style="margin: 14px 0 0; font-size: 17px; line-height: 1.55; color: #2A303A">{{m.hook}}</p>
+<sc-if value="{{m.hasImg}}" hint-placeholder-val="{{true}}">
+<img src="{{m.img}}" alt="{{m.alt}}" loading="lazy" width="1200" height="891" style="display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; margin-top: 18px; border: 1px solid #D7DBE2; border-radius: 6px; background: #FFFFFF">
+</sc-if>
+<sc-if value="{{m.hasItems}}" hint-placeholder-val="{{true}}">
+<p class="mono" style="margin: 20px 0 10px; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Réalisations</p>
+<ul style="display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 0; padding: 0; font-size: 15px; line-height: 1.55; color: #2A303A">
+<sc-for list="{{m.items}}" as="it" hint-placeholder-count="3">
+<li style="display: flex; gap: 12px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 9px; background: {{accent}}"></span><span>{{it.t}}</span></li>
+</sc-for>
+</ul>
+</sc-if>
+<sc-if value="{{m.hasStack}}" hint-placeholder-val="{{true}}">
+<ul aria-label="Stack technique" style="display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 18px 0 0; padding: 0">
+<sc-for list="{{m.stack}}" as="s" hint-placeholder-count="5">
+<li class="mono" style="padding: 4px 8px; border: 1px solid #C3C9D2; border-radius: 4px; background: #FFFFFF; font-size: 12px; color: #2A303A">{{s.t}}</li>
+</sc-for>
+</ul>
+</sc-if>
+</sc-if>
+</div>
+</article>
+</sc-for>
+</section>
+<section aria-labelledby="t-autres" style="padding: 40px 20px 56px; background: #FFFFFF; border-top: 1px solid #D7DBE2">
+<h3 id="t-autres" style="margin: 0 0 16px; font-size: 23px; font-weight: 700; letter-spacing: -0.015em">Autres projets</h3>
+<ul style="display: flex; flex-direction: column; list-style: none; margin: 0; padding: 0">
+<sc-for list="{{others}}" as="o" hint-placeholder-count="3">
+<li style="border-top: 1px solid #D7DBE2">
+<article style="padding: 16px 0">
+<h4 style="margin: 0; font-size: inherit; font-weight: inherit">
+<button type="button" aria-expanded="{{o.expanded}}" aria-controls="{{o.id}}" onClick="{{o.toggle}}" style="display: flex; width: 100%; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #0F1217; font: inherit; text-align: left; cursor: pointer">
+<span style="align-self: center; font-size: 19px; line-height: 1.25; font-weight: 700">{{o.client}}</span>
+<span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #C3C9D2; border-radius: 999px; background: #FFFFFF; transform: {{o.rot}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+</button>
+</h4>
+<div id="{{o.id}}">
+<sc-if value="{{o.open}}" hint-placeholder-val="{{false}}">
+<sc-if value="{{o.hasImg}}" hint-placeholder-val="{{true}}">
+<img src="{{o.img}}" alt="{{o.alt}}" loading="lazy" width="1200" height="891" style="display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; margin-top: 14px; border: 1px solid #D7DBE2; border-radius: 6px; background: #FFFFFF">
+</sc-if>
+<p style="margin: 12px 0 0; font-size: 15px; line-height: 1.55; color: #2A303A">{{o.text}}</p>
+</sc-if>
+</div>
+</article>
+</li>
+</sc-for>
+</ul>
+</section>
+
+<section aria-labelledby="t-avant" style="padding: 56px 20px 64px; border-top: 1px solid #D7DBE2">
+<h2 id="t-avant" style="margin: 0 0 8px; font-size: 28px; line-height: 1.1; font-weight: 700; letter-spacing: -0.02em">Autres expériences</h2>
+<article style="padding: 28px 0; border-bottom: 1px solid #D7DBE2">
+<p class="mono" style="margin: 0; display: flex; gap: 12px; font-size: 13px; font-weight: 500; color: {{accent}}"><span>2017 – 2022</span><span style="color: #454D5A; font-weight: 400">Toulouse</span></p>
+<h3 style="margin: 8px 0 0; font-size: inherit; font-weight: inherit">
+<button type="button" aria-expanded="{{e0.expanded}}" aria-controls="exp-e0" onClick="{{e0.toggle}}" style="display: flex; width: 100%; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #0F1217; font: inherit; text-align: left; cursor: pointer">
+<span style="display: flex; flex-direction: column; gap: 6px; min-width: 0"><span style="font-size: 23px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em">Simplon</span><span style="font-size: 15px; line-height: 1.4; font-weight: 600; color: #2A303A">Formateur développeur web</span></span>
+<span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #C3C9D2; border-radius: 999px; background: #FFFFFF; transform: {{e0.rot}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+</button>
+</h3>
+<div id="exp-e0">
+<sc-if value="{{e0.open}}" hint-placeholder-val="{{false}}">
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: #2A303A">Formation de publics en reconversion, d'étudiants et de développeurs juniors sur l'ensemble du cycle de vie d'une application web, deux jours par semaine en parallèle de mes missions freelance.</p>
+<ul style="display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 18px 0 0; padding: 0; font-size: 15px; line-height: 1.55; color: #2A303A">
+<li style="display: flex; gap: 12px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 9px; background: {{accent}}"></span><span>JavaScript moderne (ES6+), développement front-end et back-end, architectures MVC</span></li>
+<li style="display: flex; gap: 12px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 9px; background: {{accent}}"></span><span>Conception de bases de données relationnelles, workflows Git et GitHub, pipelines CI/CD</span></li>
+<li style="display: flex; gap: 12px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 9px; background: {{accent}}"></span><span>Pratiques d'équipe en entreprise, comme l'Agile, la revue de code et les flux Git</span></li>
+</ul>
+</sc-if>
+</div>
+</article>
+<article style="padding: 28px 0">
+<p class="mono" style="margin: 0; display: flex; gap: 12px; font-size: 13px; font-weight: 500; color: {{accent}}"><span>2012 – 2014</span><span style="color: #454D5A; font-weight: 400">Toulouse</span></p>
+<h3 style="margin: 8px 0 0; font-size: inherit; font-weight: inherit">
+<button type="button" aria-expanded="{{e1.expanded}}" aria-controls="exp-e1" onClick="{{e1.toggle}}" style="display: flex; width: 100%; align-items: flex-start; justify-content: space-between; gap: 16px; min-height: 44px; padding: 0; border: 0; background: transparent; color: #0F1217; font: inherit; text-align: left; cursor: pointer">
+<span style="display: flex; flex-direction: column; gap: 6px; min-width: 0"><span style="font-size: 23px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em">Makina Corpus</span><span style="font-size: 15px; line-height: 1.4; font-weight: 600; color: #2A303A">Développeur Drupal</span></span>
+<span aria-hidden="true" style="flex: none; display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border: 1px solid #C3C9D2; border-radius: 999px; background: #FFFFFF; transform: {{e1.rot}}"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"></path></svg></span>
+</button>
+</h3>
+<div id="exp-e1">
+<sc-if value="{{e1.open}}" hint-placeholder-val="{{false}}">
+<p style="margin: 8px 0 0; font-size: 16px; line-height: 1.55; color: #2A303A">Développements Drupal pour des clients publics et privés au sein d'une agence web toulousaine.</p>
+<dl style="margin: 18px 0 0">
+<div style="padding: 14px 0; border-top: 1px solid #D7DBE2">
+<dt style="font-size: 16px; font-weight: 700">labOrange</dt>
+<dd style="margin: 4px 0 0; font-size: 15px; line-height: 1.55; color: #2A303A">Plateforme Drupal 7, interconnexion d'applications métier et migration des contenus.</dd>
+</div>
+<div style="padding: 14px 0; border-top: 1px solid #D7DBE2">
+<dt style="font-size: 16px; font-weight: 700">Aerospace Valley</dt>
+<dd style="margin: 4px 0 0; font-size: 15px; line-height: 1.55; color: #2A303A">Site web du pôle de compétitivité.</dd>
+</div>
+</dl>
+</sc-if>
+</div>
+</article>
+</section>
+
+<section aria-labelledby="t-cert" style="padding: 64px 20px; background: #FFFFFF; border-top: 1px solid #D7DBE2">
+<h2 id="t-cert" style="margin: 0 0 32px; font-size: 32px; line-height: 1.05; font-weight: 700; letter-spacing: -0.025em"><span class="mono" style="display: block; margin-bottom: 12px; font-size: 13px; font-weight: 500; color: {{accent}}">05</span>Certifications · formation · langues</h2>
+<h3 class="mono" style="margin: 0 0 4px; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Certifications</h3>
+<ul style="list-style: none; margin: 0; padding: 0">
+<li style="padding: 16px 0 8px; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 17px; line-height: 1.35; font-weight: 600">Acquia Certified Developer, Drupal 9</p>
+<p style="margin: 2px 0 0; display: flex; gap: 16px; align-items: center; font-size: 14px; color: #454D5A"><span class="mono">2022</span><a href="#" aria-label="Vérifier la certification Acquia Certified Developer, Drupal 9" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; text-underline-offset: 4px">vérifier</a></p>
+</li>
+<li style="padding: 16px 0 8px; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 17px; line-height: 1.35; font-weight: 600">Certification Opquast, assurance qualité web</p>
+<p style="margin: 2px 0 0; display: flex; gap: 16px; align-items: center; font-size: 14px; color: #454D5A"><span class="mono">2021</span><a href="#" aria-label="Vérifier la certification Opquast" style="display: inline-flex; align-items: center; min-height: 44px; font-weight: 500; text-underline-offset: 4px">vérifier</a></p>
+</li>
+</ul>
+<h3 class="mono" style="margin: 36px 0 4px; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Formation</h3>
+<ul style="list-style: none; margin: 0; padding: 0">
+<li style="padding: 16px 0; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 17px; line-height: 1.35; font-weight: 600">Licence professionnelle « Développeur d'applications web »</p>
+<p style="margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: #454D5A">Université Toulouse 1 Capitole · <span class="mono">2006 – 2007</span></p>
+</li>
+<li style="padding: 16px 0; border-top: 1px solid #D7DBE2">
+<p style="margin: 0; font-size: 17px; line-height: 1.35; font-weight: 600">BTS Informatique de gestion</p>
+<p style="margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: #454D5A">Lycée Ozenne, Toulouse · <span class="mono">2004 – 2006</span></p>
+</li>
+</ul>
+<h3 class="mono" style="margin: 36px 0 4px; font-size: 12px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #454D5A">Langues</h3>
+<dl style="margin: 0">
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-top: 1px solid #D7DBE2"><dt style="font-size: 17px; font-weight: 600">Français</dt><dd style="margin: 0; font-size: 14px; color: #454D5A; text-align: right">langue maternelle</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-top: 1px solid #D7DBE2"><dt style="font-size: 17px; font-weight: 600">Anglais</dt><dd style="margin: 0; font-size: 14px; color: #454D5A; text-align: right">courant, usage professionnel</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-top: 1px solid #D7DBE2"><dt style="font-size: 17px; font-weight: 600">Espagnol</dt><dd style="margin: 0; font-size: 14px; color: #454D5A; text-align: right">conversationnel</dd></div>
+<div style="display: flex; justify-content: space-between; gap: 12px; padding: 14px 0; border-top: 1px solid #D7DBE2; border-bottom: 1px solid #D7DBE2"><dt style="font-size: 17px; font-weight: 600">Vietnamien</dt><dd style="margin: 0; font-size: 14px; color: #454D5A; text-align: right">notions</dd></div>
+</dl>
+</section>
+
+<footer class="dark" style="padding: 72px 20px 32px; background: #0F1217; color: #F4F5F7">
+<h2 style="margin: 0; font-size: 40px; line-height: 1.02; font-weight: 800; letter-spacing: -0.04em">Un projet ? Une équipe à renforcer ?</h2>
+<a href="mailto:raphael.apard@acolad.fr" style="display: inline-flex; align-items: center; min-height: 44px; margin-top: 28px; font-size: 21px; font-weight: 500; color: #8FA8FF; text-underline-offset: 6px; text-decoration-thickness: 2px">raphael.apard@acolad.fr</a>
+<ul aria-label="Profils en ligne" style="display: flex; gap: 28px; list-style: none; margin: 20px 0 0; padding: 0; font-size: 16px; font-weight: 500">
+<li><a href="#" style="display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: 5px">LinkedIn</a></li>
+<li><a href="#" style="display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: 5px">Malt</a></li>
+<li><a href="#" style="display: inline-flex; align-items: center; min-height: 44px; text-underline-offset: 5px">GitHub</a></li>
+</ul>
+<p class="mono" style="margin: 56px 0 0; padding-top: 20px; border-top: 1px solid #2E3440; font-size: 12px; color: #A9B1BD">Acolad Développement · Toulouse</p>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#2443C9","options":["#2443C9","#0B6E4F","#B4401E","#0F1217"]},"$preview":{"width":390,"height":3600}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var t = function (xs) { return (xs || []).map(function (x) { return { t: x }; }); };
+    var self = this;
+    var openAcc = (this.state || {}).openAcc || {};
+    var acc = function (key) {
+      var isOpen = !!openAcc[key];
+      return {
+        open: isOpen, expanded: isOpen ? "true" : "false",
+        rot: isOpen ? "rotate(180deg)" : "none",
+        toggle: function () {
+          var next = Object.assign({}, (self.state || {}).openAcc);
+          next[key] = !next[key];
+          self.setState({ openAcc: next });
+        }
+      };
+    };
+    var others = [
+      { client: "Hôpital Américain de Paris", text: "Pilotage technique et développement du site public de l'hôpital.", img: "../assets/img/projects/american-hospital.webp", alt: "Capture d'écran du site de l'Hôpital Américain de Paris" },
+      { client: "Ville d'Issy-les-Moulineaux", text: "Pilotage technique et développement du site de la ville. Intégration front en Twig, SCSS et TypeScript selon les critères d'accessibilité RGAA.", img: "../assets/img/projects/issy.webp", alt: "Capture d'écran du site de la ville d'Issy-les-Moulineaux" },
+      { client: "Syndex", text: "Site Drupal 8 en six langues d'un cabinet au service des représentants des salariés.", img: "../assets/img/projects/syndex.webp", alt: "Capture d'écran du site Syndex" }
+    ].map(function (o, i) { return Object.assign({}, o, acc("o" + i), { id: "other-" + i, hasImg: !!o.img }); });
+    var openMissions = (this.state || {}).openMissions || {};
+    var missions = [
+      {
+        period: "2026", client: "Docteur Conso", place: "Toulouse",
+        role: "Développeur fullstack",
+        hook: "Refonte de la plateforme d'indicateurs de durabilité en Next.js et PostgreSQL.",
+        items: [],
+        stack: ["Next.js", "React", "PostgreSQL", "shadcn", "Tailwind CSS"],
+        img: "../assets/img/missions/docteur-conso-2026.webp", alt: "Capture d'écran de la nouvelle plateforme Docteur Conso"
+      },
+      {
+        period: "2023 – 2026", client: "OVHcloud", place: "Toulouse",
+        role: "Développeur TypeScript / React",
+        hook: "Fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
+        items: [
+          "Développement d'applications React/Next.js déployées hors de Drupal, alimentées par des sources de données variées",
+          "Développement d'applications React intégrées dans Drupal 10 et 11",
+          "Mise en place et maintenance des tests end-to-end et d'intégration avec Playwright",
+          "Optimisation des performances applicatives et des temps de réponse"
+        ],
+        stack: ["TypeScript", "React", "Next.js", "Zustand", "Drupal 10 / 11", "PHP", "Twig", "SCSS", "Playwright", "Cursor"],
+        img: "../assets/img/missions/ovhcloud.webp", alt: "Capture d'écran du site OVHcloud"
+      },
+      {
+        period: "2020 – 2021", client: "CNRS Images", place: "via OWS",
+        role: "Chef de projet technique et développeur Drupal",
+        hook: "Pilotage technique et développement de la plateforme photo et vidéo du CNRS.",
+        items: [
+          "Migration du catalogue de médias existant vers la nouvelle plateforme",
+          "Mise en place de rôles et de droits sur mesure pour les équipes éditoriales",
+          "Thème Twig / SCSS développé selon les critères d'accessibilité RGAA"
+        ],
+        stack: ["Drupal", "PHP", "MySQL", "Twig", "SCSS", "TypeScript"],
+        img: "../assets/img/missions/cnrs-images.webp", alt: "Capture d'écran de la plateforme CNRS Images"
+      },
+      {
+        period: "2020 – 2021", client: "Réseau Obépine / Université Paris 1 Panthéon-Sorbonne",
+        role: "Développeur fullstack",
+        hook: "Plateforme de rapports du réseau national de surveillance des eaux usées.",
+        items: [
+          "Automatisation des traitements de données et des rapports récurrents",
+          "Conception d'une gestion avancée des droits pour les laboratoires partenaires"
+        ],
+        stack: ["Drupal", "PHP", "Twig", "SCSS", "TypeScript"],
+        img: "../assets/img/missions/obepine.webp", alt: "Capture d'écran de la plateforme du réseau Obépine"
+      },
+      {
+        period: "2018 – 2020", client: "Docteur Conso", place: "Toulouse",
+        role: "Développeur fullstack Angular / TypeScript / Drupal",
+        hook: "Plateforme de collecte et de restitution d'indicateurs de durabilité.",
+        items: [
+          "Conception et développement de l'application front-end en Angular, avec une architecture modulaire et des composants réutilisables",
+          "Développement d'interfaces responsives et accessibles, avec les équipes UX/UI",
+          "Intégration d'un Drupal headless via JSON:API pour la gestion et la consommation des contenus métier",
+          "Mise en place des services d'accès aux données, gestion des états applicatifs et optimisation des performances des appels API"
+        ],
+        stack: ["Angular", "TypeScript", "RxJS", "Drupal headless"],
+        img: "../assets/img/missions/docteur-conso-2018.webp", alt: "Capture d'écran de la plateforme Docteur Conso"
+      }
+    ].map(function (m, i) {
+      var n = (m.items || []).length;
+      var isOpen = !!openMissions[i];
+      return Object.assign({}, m, {
+        id: "mission-" + i, open: isOpen,
+        expanded: isOpen ? "true" : "false",
+        rot: isOpen ? "rotate(180deg)" : "none",
+        toggle: function () {
+          var next = Object.assign({}, (self.state || {}).openMissions);
+          next[i] = !next[i];
+          self.setState({ openMissions: next });
+        },
+        items: t(m.items), stack: t(m.stack), count: n,
+        hasPlace: !!m.place, hasItems: n > 0,
+        hasStack: !!(m.stack && m.stack.length), hasImg: !!m.img
+      });
+    });
+    return { accent: this.props.accent ?? "#2443C9", missions: missions, others: others, e0: acc("e0"), e1: acc("e1") };
+  }
+}
+</script>
+</body>
+</html>

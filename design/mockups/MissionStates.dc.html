@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Carte mission — champs absents</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&amp;family=Schibsted+Grotesk:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0;background:#F4F5F7;color:#0F1217;font-family:'Schibsted Grotesk',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace}
+.m-row{display:grid;grid-template-columns:240px minmax(0,1fr) 400px;gap:48px;padding:32px 0 40px;border-top:1px solid #D7DBE2}
+.m-row.no-img{grid-template-columns:240px minmax(0,1fr)}
+</style>
+</helmet>
+<div style="width: 1440px; height: 1240px; box-sizing: border-box; overflow: hidden; padding: 56px 64px; background: #F4F5F7; color: #0F1217">
+<h1 style="margin: 0 0 32px; font-size: 28px; font-weight: 700; letter-spacing: -0.015em">Carte mission — rendu selon les champs présents</h1>
+<sc-for list="{{variants}}" as="m" hint-placeholder-count="4">
+<div>
+<p class="mono" style="margin: 0 0 12px; display: inline-flex; padding: 4px 10px; border-radius: 4px; background: #0F1217; color: #FFFFFF; font-size: 12px">{{m.label}}</p>
+<article class="{{m.rowClass}}">
+<div>
+<p class="mono" style="margin: 0; font-size: 14px; font-weight: 500; color: #2443C9">{{m.period}}</p>
+<h2 style="margin: 10px 0 0; font-size: 26px; line-height: 1.15; font-weight: 700; letter-spacing: -0.015em">{{m.client}}</h2>
+<sc-if value="{{m.hasPlace}}" hint-placeholder-val="{{true}}">
+<p class="mono" style="margin: 10px 0 0; font-size: 13px; color: #454D5A">{{m.place}}</p>
+</sc-if>
+</div>
+<div style="max-width: 44em">
+<p style="margin: 0; font-size: 17px; line-height: 1.4; font-weight: 600">{{m.role}}</p>
+<p style="margin: 10px 0 0; font-size: 19px; line-height: 1.55; color: #2A303A">{{m.hook}}</p>
+<sc-if value="{{m.hasItems}}" hint-placeholder-val="{{true}}">
+<ul style="display: flex; flex-direction: column; gap: 8px; list-style: none; margin: 20px 0 0; padding: 0; font-size: 16px; line-height: 1.5; color: #2A303A">
+<sc-for list="{{m.items}}" as="it" hint-placeholder-count="3">
+<li style="display: flex; gap: 14px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; margin-top: 9px; background: #2443C9"></span><span>{{it.t}}</span></li>
+</sc-for>
+</ul>
+</sc-if>
+<sc-if value="{{m.hasStack}}" hint-placeholder-val="{{true}}">
+<ul aria-label="Stack technique" style="display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 20px 0 0; padding: 0">
+<sc-for list="{{m.stack}}" as="s" hint-placeholder-count="5">
+<li class="mono" style="padding: 5px 10px; border: 1px solid #C3C9D2; border-radius: 4px; background: #FFFFFF; font-size: 13px; color: #2A303A">{{s.t}}</li>
+</sc-for>
+</ul>
+</sc-if>
+</div>
+<sc-if value="{{m.hasImg}}" hint-placeholder-val="{{true}}">
+<img src="{{m.img}}" alt="{{m.alt}}" width="438" height="236" style="display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top; border: 1px solid #D7DBE2; border-radius: 6px; background: #FFFFFF">
+</sc-if>
+</article>
+</div>
+</sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1240}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var t = function (xs) { return (xs || []).map(function (x) { return { t: x }; }); };
+    var base = {
+      period: "2020 – 2021", client: "CNRS Images", place: "via OWS",
+      role: "Chef de projet technique et développeur Drupal",
+      hook: "Pilotage technique et développement de la plateforme photo et vidéo du CNRS.",
+      items: [
+        "Migration du catalogue de médias existant vers la nouvelle plateforme",
+        "Mise en place de rôles et de droits sur mesure pour les équipes éditoriales",
+        "Thème Twig / SCSS développé selon les critères d'accessibilité RGAA"
+      ],
+      stack: ["Drupal", "PHP", "MySQL", "Twig", "SCSS", "TypeScript"],
+      img: "../assets/img/missions/cnrs-images.webp", alt: "Capture d'écran de la plateforme CNRS Images"
+    };
+    var variants = [
+      Object.assign({}, base, { label: "Complète" }),
+      Object.assign({}, base, { label: "Sans réalisations", items: [] }),
+      Object.assign({}, base, { label: "Sans capture", img: null }),
+      Object.assign({}, base, { label: "Minimale — sans lieu, réalisations, stack ni capture", place: null, items: [], stack: [], img: null })
+    ].map(function (m) {
+      return Object.assign({}, m, {
+        items: t(m.items), stack: t(m.stack),
+        hasPlace: !!m.place, hasItems: m.items.length > 0,
+        hasStack: m.stack.length > 0, hasImg: !!m.img,
+        rowClass: m.img ? "m-row" : "m-row no-img"
+      });
+    });
+    return { variants: variants };
+  }
+}
+</script>
+</body>
+</html>
