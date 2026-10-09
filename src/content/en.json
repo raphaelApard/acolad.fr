@@ -591,7 +591,8 @@
     "optOut": {
       "label": "Measure my visits with Matomo",
       "on": "Your visits are measured anonymously.",
-      "off": "Your visits are no longer measured in this browser."
+      "off": "Your visits are no longer measured in this browser.",
+      "unavailable": "Audience measurement is not running in this browser (JavaScript turned off or a content blocker): your visits are not measured."
     }
   }
 }

@@ -107,7 +107,13 @@ export interface Content {
     updated: string;
     sections: LegalSection[];
     /** Matomo opt-out checkbox, shown at the end of the cookies section. */
-    optOut: { label: string; on: string; off: string };
+    optOut: {
+      label: string;
+      on: string;
+      off: string;
+      /** Shown until the tracker loads, and for good when it is blocked or JS is off. */
+      unavailable: string;
+    };
   };
   ui: {
     skipLink: string;

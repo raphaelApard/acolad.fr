@@ -29,18 +29,14 @@ const alternates = Object.fromEntries(langs.map((l) => [l, getContent(l).legal.p
             <p set:html={p} />
           ))}
           {i === legal.sections.length - 1 && (
-            <div
-              class="optout"
-              data-optout
-              data-on={legal.optOut.on}
-              data-off={legal.optOut.off}
-              hidden
-            >
+            <div class="optout" data-optout data-on={legal.optOut.on} data-off={legal.optOut.off}>
               <label>
-                <input type="checkbox" checked />
+                <input type="checkbox" disabled />
                 {legal.optOut.label}
               </label>
-              <p class="mono status" role="status" data-optout-status />
+              <p class="mono status" role="status" data-optout-status>
+                {legal.optOut.unavailable}
+              </p>
             </div>
           )}
         </section>
@@ -51,7 +47,8 @@ const alternates = Object.fromEntries(langs.map((l) => [l, getContent(l).legal.p
 </Base>
 
 <script>
-  // Matomo opt-out. Shown only once the tracker has loaded (production build, not blocked).
+  // Matomo opt-out. The checkbox stays disabled, with the "not measured" message, until the
+  // tracker has loaded; when it is blocked (or in dev builds) that is the right state.
   type Paq = { push: (command: unknown[]) => void };
   // Read at each call: matomo.js swaps the queue array for its own object when it loads.
   const paq = () => (window as unknown as { _paq?: Paq })._paq;
@@ -68,8 +65,8 @@ const alternates = Object.fromEntries(langs.map((l) => [l, getContent(l).legal.p
     // Functions pushed to _paq run with the tracker as `this` once matomo.js has loaded.
     paq()!.push([
       function (this: { isUserOptedOut: () => boolean }) {
+        input.disabled = false;
         render(this.isUserOptedOut());
-        box.hidden = false;
       },
     ]);
 
@@ -149,6 +146,11 @@ const alternates = Object.fromEntries(langs.map((l) => [l, getContent(l).legal.p
     gap: 12px;
     font-weight: 600;
     cursor: pointer;
+  }
+
+  .optout label:has(:disabled) {
+    color: var(--color-text-muted);
+    cursor: default;
   }
 
   .optout input {

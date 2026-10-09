@@ -170,6 +170,12 @@ for (const { lang, path, content } of locales) {
   });
 }
 
+test('says visits are not measured while Matomo is blocked', async ({ page }) => {
+  await page.goto(fr.legal.path);
+  await expect(page.getByRole('checkbox', { name: fr.legal.optOut.label })).toBeDisabled();
+  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.unavailable);
+});
+
 test('lets visitors opt out of Matomo', async ({ page }) => {
   // Stand-in for matomo.js: replays the queued _paq commands and keeps the opt-out state.
   await page.route('https://stats.acolad.net/js/', (route) =>
