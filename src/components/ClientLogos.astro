@@ -1,0 +1,100 @@
+---
+import type { Content } from '../content/types';
+
+interface Props {
+  content: Content;
+}
+
+const { clients } = Astro.props.content;
+---
+
+<section aria-labelledby="t-clients" class="clients">
+  <div class="wrap section">
+    <h2 id="t-clients" class="label">{clients.title}</h2>
+    <ul class="list-reset logos">
+      {
+        clients.logos.map((logo) => (
+          <li>
+            <img
+              src={logo.src}
+              alt={logo.name}
+              width={logo.naturalWidth}
+              height={logo.naturalHeight}
+              loading="lazy"
+              decoding="async"
+              style={`--logo-h: ${logo.height}`}
+            />
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .clients {
+    border-top: 1px solid var(--color-border);
+  }
+
+  .section {
+    padding-top: 72px;
+    padding-bottom: 72px;
+  }
+
+  .label {
+    margin-bottom: 28px;
+  }
+
+  .logos {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .logos li {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 120px;
+    padding: 16px;
+    background: var(--color-surface);
+  }
+
+  .logos img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: calc(var(--logo-h) * 1px);
+    object-fit: contain;
+    filter: grayscale(1);
+  }
+
+  @media (max-width: 960px) {
+    .section {
+      padding-top: 48px;
+      padding-bottom: 56px;
+    }
+
+    .label {
+      margin-bottom: 20px;
+    }
+
+    .logos {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .logos li {
+      height: 92px;
+      padding: 12px;
+    }
+
+    /* Mobile tiles are ~0.77× the desktop height; keep the same balance. */
+    .logos img {
+      height: calc(var(--logo-h) * 0.77px);
+    }
+  }
+</style>
