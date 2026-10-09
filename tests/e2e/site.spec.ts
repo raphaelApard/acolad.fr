@@ -201,6 +201,18 @@ for (const { lang, path, content } of locales) {
   });
 }
 
+test('copies the e-mail address from the footer', async ({ page, context }) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto('/');
+  const footer = page.getByRole('contentinfo');
+  await footer.getByRole('button', { name: fr.ui.copyEmail }).click();
+  await expect(footer.getByRole('button', { name: fr.ui.emailCopied })).toBeVisible();
+  await expect(page.getByRole('status').filter({ hasText: fr.ui.emailCopied })).toHaveCount(1);
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(fr.links.email);
+  // Back to the copy label after two seconds.
+  await expect(footer.getByRole('button', { name: fr.ui.copyEmail })).toBeVisible({ timeout: 4000 });
+});
+
 test('answers unknown URLs with a 404 and the error page', async ({ page }) => {
   const response = await page.goto('/cette-page-n-existe-pas/');
   expect(response!.status()).toBe(404);
@@ -210,7 +222,7 @@ test('answers unknown URLs with a 404 and the error page', async ({ page }) => {
 test('says visits are not measured while Matomo is blocked', async ({ page }) => {
   await page.goto(fr.legal.path);
   await expect(page.getByRole('checkbox', { name: fr.legal.optOut.label })).toBeDisabled();
-  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.unavailable);
+  await expect(page.getByRole('main').getByRole('status')).toHaveText(fr.legal.optOut.unavailable);
 });
 
 test('lets visitors opt out of Matomo', async ({ page }) => {
@@ -234,14 +246,14 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
   await page.goto(fr.legal.path);
   const box = page.getByRole('checkbox', { name: fr.legal.optOut.label });
   await expect(box).toBeChecked();
-  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.on);
+  await expect(page.getByRole('main').getByRole('status')).toHaveText(fr.legal.optOut.on);
 
   await box.uncheck();
-  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.off);
+  await expect(page.getByRole('main').getByRole('status')).toHaveText(fr.legal.optOut.off);
   expect(await page.evaluate(() => (window as unknown as { __tracker: { out: boolean } }).__tracker.out)).toBe(true);
 
   await box.check();
-  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.on);
+  await expect(page.getByRole('main').getByRole('status')).toHaveText(fr.legal.optOut.on);
 });
 
 test.describe('desktop', () => {

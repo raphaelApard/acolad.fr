@@ -136,5 +136,8 @@ export interface Content {
     /** Followed by the image description, for the screenshot buttons' accessible name. */
     enlargeImage: string;
     closeImage: string;
+    copyEmail: string;
+    /** Shown on the copy button, and announced, once the address is on the clipboard. */
+    emailCopied: string;
   };
 }
