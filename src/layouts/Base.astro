@@ -1,7 +1,5 @@
 ---
-import '@fontsource-variable/schibsted-grotesk';
-import '@fontsource/jetbrains-mono/400.css';
-import '@fontsource/jetbrains-mono/500.css';
+import { Font } from 'astro:assets';
 import '../styles/global.css';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import { langs } from '../content';
@@ -24,6 +22,8 @@ const portrait = new URL(content.hero.portrait.src, Astro.site).href;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>document.documentElement.classList.add('js');</script>
+    <Font cssVariable="--font-schibsted" preload />
+    <Font cssVariable="--font-jetbrains" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
