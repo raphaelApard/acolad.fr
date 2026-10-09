@@ -1,6 +1,6 @@
 # Changelog
 
-## 3.0.0 — unreleased
+## 3.0.0 — 2026-10-09
 
 The site becomes a static one-page résumé built with Astro, in French (`/`) and English (`/en/`),
 from a new design. Payload CMS and the multi-page site are removed.
