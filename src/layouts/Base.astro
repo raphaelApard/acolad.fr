@@ -4,15 +4,24 @@ import '../styles/global.css';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import { defaultLang, langs } from '../content';
 import { asset } from '../lib/images';
-import type { Content } from '../content/types';
+import type { Content, Lang } from '../content/types';
 
 interface Props {
   content: Content;
+  /** Defaults to the home page meta. */
+  title?: string;
+  description?: string;
+  /** Path of this page in every locale; defaults to the home pages. */
+  alternates?: Record<Lang, string>;
 }
 
 const { content } = Astro.props;
-const { lang, title, description } = content.meta;
-const canonical = getAbsoluteLocaleUrl(lang);
+const { lang } = content.meta;
+const title = Astro.props.title ?? content.meta.title;
+const description = Astro.props.description ?? content.meta.description;
+const url = (l: Lang) =>
+  Astro.props.alternates ? new URL(Astro.props.alternates[l], Astro.site).href : getAbsoluteLocaleUrl(l);
+const canonical = url(lang);
 const ogLocale = { fr: 'fr_FR', en: 'en_GB' }[lang];
 const ogImage = await getImage({ src: asset(content.hero.portrait.src), format: 'jpg', width: 468 });
 const portrait = new URL(ogImage.src, Astro.site).href;
@@ -31,8 +40,8 @@ const portrait = new URL(ogImage.src, Astro.site).href;
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
-    {langs.map((l) => <link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l)} />)}
-    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl(defaultLang)} />
+    {langs.map((l) => <link rel="alternate" hreflang={l} href={url(l)} />)}
+    <link rel="alternate" hreflang="x-default" href={url(defaultLang)} />
     <link rel="sitemap" href="/sitemap.xml" />
     <meta name="theme-color" content="#F4F5F7" />
     <meta property="og:type" content="website" />

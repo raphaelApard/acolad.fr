@@ -5,9 +5,12 @@ import Profiles from './Profiles.astro';
 
 interface Props {
   content: Content;
+  /** True on the legal notice page itself. */
+  onLegalPage?: boolean;
 }
 
-const { contact, links, ui } = Astro.props.content;
+const { contact, links, ui, legal } = Astro.props.content;
+const { onLegalPage = false } = Astro.props;
 ---
 
 <footer id="contact" class="dark">
@@ -19,7 +22,10 @@ const { contact, links, ui } = Astro.props.content;
     <Profiles links={links} label={ui.profiles} class="footer-profiles" />
     <div class="bottom">
       <p class="mono">{contact.footer}</p>
-      <a href="#top" class="mono desktop-only">{contact.backToTop}</a>
+      <div class="bottom-links">
+        <a href={legal.path} class="mono" aria-current={onLegalPage ? 'page' : undefined}>{legal.linkLabel}</a>
+        <a href="#top" class="mono desktop-only">{contact.backToTop}</a>
+      </div>
     </div>
   </div>
 </footer>
@@ -78,6 +84,12 @@ const { contact, links, ui } = Astro.props.content;
   .bottom p {
     margin: 0;
     color: var(--color-dark-muted);
+  }
+
+  .bottom-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 24px;
   }
 
   .dark .bottom a {

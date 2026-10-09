@@ -526,5 +526,73 @@
     "verifyAriaPrefix": "Vérifier la certification",
     "enlargeImage": "Agrandir l'image",
     "closeImage": "Fermer l'image"
+  },
+  "legal": {
+    "path": "/mentions-legales/",
+    "linkLabel": "Mentions légales",
+    "title": "Mentions légales",
+    "description": "Mentions légales, données personnelles et cookies du site de Raphaël Apard (Acolad Développement).",
+    "updated": "Dernière mise à jour : 9 octobre 2026",
+    "sections": [
+      {
+        "id": "editeur",
+        "title": "Éditeur du site",
+        "paragraphs": [
+          "<strong>Acolad Développement</strong>, société par actions simplifiée (SAS) au capital de 1 000 €",
+          "Siège social : 27 avenue de Sorèze, 31250 Revel, France",
+          "RCS Toulouse 807 777 917 · SIRET 807 777 917 00038",
+          "TVA intracommunautaire : FR29807777917",
+          "Téléphone : +33 6 13 78 91 34 · E-mail : <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>"
+        ]
+      },
+      {
+        "id": "publication",
+        "title": "Directeur de la publication",
+        "paragraphs": [
+          "Raphaël Apard, président d'Acolad Développement."
+        ]
+      },
+      {
+        "id": "hebergement",
+        "title": "Hébergement",
+        "paragraphs": [
+          "<strong>o2switch</strong>, SAS au capital de 100 000 €, RCS Clermont-Ferrand 510 909 807",
+          "Chemin des Pardiaux, 63000 Clermont-Ferrand, France",
+          "Téléphone : 04 44 44 60 40 · <a href=\"https://www.o2switch.fr\">o2switch.fr</a>"
+        ]
+      },
+      {
+        "id": "propriete-intellectuelle",
+        "title": "Propriété intellectuelle",
+        "paragraphs": [
+          "Les textes, la mise en page et les photographies de ce site appartiennent à Acolad Développement, sauf mention contraire. Toute reproduction ou réutilisation sans autorisation écrite préalable est interdite.",
+          "Les logos et captures d'écran des clients restent la propriété de leurs titulaires respectifs. Ils sont reproduits uniquement pour illustrer les missions réalisées."
+        ]
+      },
+      {
+        "id": "donnees-personnelles",
+        "title": "Données personnelles",
+        "paragraphs": [
+          "Ce site n'a ni formulaire ni espace client. Les seules données personnelles traitées sont celles que vous transmettez en écrivant à <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, et les données de mesure d'audience décrites plus bas.",
+          "Responsable du traitement : Acolad Développement, représentée par Raphaël Apard. Vos e-mails servent uniquement à répondre à votre demande et à suivre la relation commerciale. Ils sont conservés au plus 3 ans après le dernier échange et ne sont jamais transmis à des tiers.",
+          "Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition sur vos données. Pour l'exercer, écrivez à <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>. Vous pouvez aussi adresser une réclamation à la <a href=\"https://www.cnil.fr/fr/plaintes\">CNIL</a>."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies et mesure d'audience",
+        "paragraphs": [
+          "La fréquentation du site est mesurée avec Matomo, installé sur un serveur d'Acolad Développement (stats.acolad.net, hébergé en France par o2switch). Les statistiques servent uniquement à comprendre l'usage du site : elles ne sont ni transmises à des tiers ni croisées avec d'autres données, les adresses IP sont anonymisées et les données sont conservées 25 mois au plus.",
+          "Matomo dépose deux cookies : <code>_pk_id</code> (identifiant de visiteur, 13 mois) et <code>_pk_ses</code> (session, 30 minutes). Ainsi configurée, cette mesure d'audience est exemptée de consentement selon les recommandations de la CNIL. Vous pouvez néanmoins la refuser ci-dessous.",
+          "Le sélecteur de langue dépose un cookie <code>lang</code> (12 mois) qui mémorise votre choix. Aucun cookie publicitaire ni de réseau social n'est utilisé."
+        ]
+      }
+    ],
+    "optOut": {
+      "label": "Mesurer mes visites avec Matomo",
+      "on": "Vos visites sont mesurées de façon anonyme.",
+      "off": "Vos visites ne sont plus mesurées sur ce navigateur.",
+      "unavailable": "La mesure d'audience ne fonctionne pas dans ce navigateur (JavaScript désactivé ou bloqueur de contenu) : vos visites ne sont pas mesurées."
+    }
   }
 }
