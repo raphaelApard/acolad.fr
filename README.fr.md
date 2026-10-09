@@ -35,10 +35,12 @@ src/layouts/      Base.astro (head, SEO, hreflang, polices)
 src/components/   un composant par section ; TimelineRow affiche missions et expériences
 src/scripts/      disclosure.ts (accordéons mobiles)
 src/pages/        [...lang].astro (la page : `/` en français, `/en/` en anglais),
-                  mentions-legales.astro et en/legal-notice.astro (composant LegalPage)
+                  mentions-legales.astro et en/legal-notice.astro (composant LegalPage),
+                  404.astro et en/404.astro (NotFoundPage, servie par l'ErrorDocument d'Apache)
 src/assets/       images et logos sources, optimisés au build
 src/lib/          images.ts (relie les chemins d'images du contenu à src/assets)
-public/           copié tel quel (.htaccess)
+public/           copié tel quel (.htaccess, dont la CSP reçoit les empreintes des scripts au build)
+integrations/     csp-script-hashes.mjs (écrit ces empreintes)
 tests/            unitaires (Vitest) et e2e (Playwright)
 ```
 
@@ -55,6 +57,9 @@ tests/            unitaires (Vitest) et e2e (Playwright)
   dimensions sont lues dans les fichiers. Les logos ont aussi `height`, la hauteur affichée en
   desktop (×0,77 en mobile).
 - Les ancres de section (`nav[].id`) sont fixées dans les composants et identiques dans chaque langue.
+- Les pages d'accueil portent du JSON-LD (`src/components/JsonLd.astro`) : un `Person` et le
+  `ProfessionalService` qu'il dirige, construits à partir du contenu et des informations de la
+  société dans `src/content/business.ts` (raison sociale, adresse, TVA), communes aux deux langues.
 - Les mentions légales (`legal`) contiennent l'éditeur, l'hébergeur, les données personnelles et
   les cookies. Leurs paragraphes sont du HTML de confiance (liens, `<strong>`, `<code>`) ; à tenir
   à jour avec l'immatriculation de la société, l'hébergeur et les réglages Matomo. La section
@@ -94,20 +99,28 @@ liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par 
 `.user.ini`, `error_log`) ne sont jamais touchés.
 `public/.htaccess` est la configuration de production, copiée telle
 quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `acolad.fr/`
-vers `www.acolad.fr/`, des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/` (`/politique-confidentialite/`
-mène aux mentions légales), une 302
+vers `www.acolad.fr/`, des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/` (`/projets/*` vers `#missions`,
+`/services/` vers `#domaines`, `/contact/` vers `#contact`, `/politique-confidentialite/` vers les
+mentions légales), une 302
 de `/` vers `/en/` pour les navigateurs dont la première langue est l'anglais (sauf si le visiteur
 a choisi le français avec le sélecteur de langue, qui pose un cookie `lang`, vient du site lui-même,
 ou est un robot ou un outil d'audit comme Lighthouse), et les en-têtes de cache : un an, immutable, pour les
 fichiers empreintés de `/_astro/`, une semaine pour les favicons, `no-cache` pour les pages, le
 sitemap et robots.txt, `Vary: Accept-Language, Cookie` sur `/`.
+Il envoie aussi les en-têtes de sécurité (HSTS, `nosniff`, `X-Frame-Options`, `Referrer-Policy`,
+`Permissions-Policy`, COOP et une Content-Security-Policy). La CSP n'autorise pas `'unsafe-inline'`
+pour les scripts : `integrations/csp-script-hashes.mjs` écrit l'empreinte SHA-256 de chaque script
+inline dans `dist/.htaccess` après chaque build, et un test e2e vérifie qu'il n'en manque aucune.
+Une nouvelle origine de script ou de tracker doit être ajoutée à la CSP à la main. Vérifier la note
+sur [securityheaders.com](https://securityheaders.com/?q=www.acolad.fr) après déploiement.
 L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap. `/sitemap.xml` (`src/pages/sitemap.xml.ts`)
 liste les deux langues avec leurs alternates hreflang ; `/robots.txt` (`src/pages/robots.txt.ts`)
 l'indique aux robots. Les anciens `sitemap-index.xml` et `sitemap-0.xml` redirigent en 301 vers
 `/sitemap.xml`.
-Le tracker Matomo (`stats.acolad.net`, site 8) est dans `src/layouts/Base.astro` et n'est
-inclus que dans les builds de production ; les tests e2e bloquent ses requêtes. Le script est chargé
+Le tracker Matomo (`stats.acolad.net`, site 8) est `src/scripts/matomo.ts`, chargé par
+`src/layouts/Base.astro` et minifié au build ; il ne s'exécute que dans les builds de production et
+les tests e2e bloquent ses requêtes. Le script est chargé
 depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours) après l'événement
 `load` de la page.
 

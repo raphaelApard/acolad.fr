@@ -2,8 +2,8 @@
   "meta": {
     "lang": "en",
     "languageName": "English",
-    "title": "Raphaël Apard — Senior full-stack developer",
-    "description": "20 years of experience. I work across the whole lifecycle of web applications and business platforms."
+    "title": "Freelance Drupal developer in Toulouse – Raphaël Apard",
+    "description": "Senior full-stack and Drupal developer, freelance in Toulouse since 2014: Drupal, React, Next.js, TypeScript, PHP. 20 years of web experience."
   },
   "links": {
     "email": "raphael.apard@acolad.fr",
@@ -521,7 +521,9 @@
     "tools": "Tools",
     "verifyAriaPrefix": "Verify the certification",
     "enlargeImage": "Enlarge image",
-    "closeImage": "Close image"
+    "closeImage": "Close image",
+    "copyEmail": "Copy email",
+    "emailCopied": "Email copied"
   },
   "legal": {
     "path": "/en/legal-notice/",
@@ -534,7 +536,7 @@
         "id": "publisher",
         "title": "Publisher",
         "paragraphs": [
-          "<strong>Acolad Développement</strong>, simplified joint-stock company (SAS) with a share capital of €1,000",
+          "<strong>Acolad Développement</strong>, single-shareholder simplified joint-stock company (SASU) with a share capital of €1,000",
           "Registered office: 27 avenue de Sorèze, 31250 Revel, France",
           "Toulouse Trade and Companies Register (RCS) 807 777 917 · SIRET 807 777 917 00038",
           "EU VAT number: FR29807777917",
@@ -589,6 +591,17 @@
       "on": "Your visits are measured anonymously.",
       "off": "Your visits are no longer measured in this browser.",
       "unavailable": "Audience measurement is not running in this browser (JavaScript turned off or a content blocker): your visits are not measured."
+    }
+  },
+  "notFound": {
+    "path": "/en/404/",
+    "code": "Error 404",
+    "title": "This page does not exist",
+    "text": "The address may be wrong, or the page moved when the site was rebuilt. Everything now lives on the home page.",
+    "cta": "Back to the home page",
+    "image": {
+      "src": "/img/404-en.webp",
+      "alt": "An old Peugeot 404 parked on a country road next to a wooden sign: “Error 404, page not found. Sorry, this road is a dead end… Back to home”."
     }
   }
 }

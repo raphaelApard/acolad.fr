@@ -115,6 +115,16 @@ export interface Content {
       unavailable: string;
     };
   };
+  notFound: {
+    /** Error page path, served by Apache's ErrorDocument (see public/.htaccess). */
+    path: string;
+    code: string;
+    title: string;
+    text: string;
+    cta: string;
+    /** The road sign carries the error text, so each locale has its own picture. */
+    image: Image;
+  };
   ui: {
     skipLink: string;
     languageSwitch: string;
@@ -128,5 +138,8 @@ export interface Content {
     /** Followed by the image description, for the screenshot buttons' accessible name. */
     enlargeImage: string;
     closeImage: string;
+    copyEmail: string;
+    /** Shown on the copy button, and announced, once the address is on the clipboard. */
+    emailCopied: string;
   };
 }
