@@ -136,6 +136,24 @@ test.describe('desktop', () => {
   });
 });
 
+test('shrinks the sticky header and keeps anchors below it', async ({ page }) => {
+  await page.goto('/');
+  const header = page.locator('[data-header]');
+  await expect(header).not.toHaveAttribute('data-stuck');
+
+  const missions = fr.nav.find((item) => item.id === 'missions')!;
+  if (isMobile(page)) await page.getByRole('button', { name: fr.ui.openMenu }).click();
+  await page.getByRole('navigation', { name: fr.ui.mainNav }).getByRole('link', { name: missions.label }).click();
+  await expect(header).toHaveAttribute('data-stuck');
+
+  // Wait for the smooth scroll to settle, then check the heading is not under the header.
+  const heading = page.locator('#t-missions');
+  await expect(async () => {
+    const headerBottom = (await header.boundingBox())!.y + (await header.boundingBox())!.height;
+    expect((await heading.boundingBox())!.y).toBeGreaterThanOrEqual(headerBottom);
+  }).toPass();
+});
+
 test.describe('mobile', () => {
   test.skip(({ page }) => !isMobile(page), 'mobile only');
 
