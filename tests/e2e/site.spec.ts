@@ -210,6 +210,20 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
 test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 
+  test('keeps the top border of bordered sections below the sticky header', async ({ page }) => {
+    await page.goto('/');
+    const header = page.locator('[data-header]');
+    for (const id of ['domaines', 'competences', 'certifications']) {
+      await page.locator(`#main-nav a[href="#${id}"]`).click();
+      await expect(async () => {
+        const box = (await header.boundingBox())!;
+        const top = (await page.locator(`#${id}`).boundingBox())!.y - (box.y + box.height);
+        expect(top).toBeGreaterThanOrEqual(0.5);
+        expect(top).toBeLessThanOrEqual(1.5);
+      }).toPass();
+    }
+  });
+
   test('scrolls back to the top from the footer', async ({ page }) => {
     await page.goto('/');
     const link = page.getByRole('contentinfo').getByRole('link', { name: fr.contact.backToTop });
