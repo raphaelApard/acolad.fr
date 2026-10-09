@@ -24,7 +24,7 @@ const homes = Object.fromEntries(langs.map((l) => [l, getRelativeLocaleUrl(l)]))
 <Base content={content} title={`${notFound.title} — ${hero.name}`} noindex>
   <a class="skip-link" href="#content">{ui.skipLink}</a>
   <Header content={content} alternates={homes} />
-  <main id="content" class="wrap not-found">
+  <main id="content" class="not-found">
     <div class="copy">
       <p class="label code">{notFound.code}</p>
       <h1>{notFound.title}</h1>
@@ -36,7 +36,7 @@ const homes = Object.fromEntries(langs.map((l) => [l, getRelativeLocaleUrl(l)]))
       src={asset(notFound.image.src)}
       alt={notFound.image.alt}
       widths={[480, 704, 960, 1408]}
-      sizes="(max-width: 960px) calc(100vw - 40px), 640px"
+      sizes="(max-width: 960px) 100vw, 50vw"
       loading="eager"
       fetchpriority="high"
     />
@@ -45,21 +45,25 @@ const homes = Object.fromEntries(langs.map((l) => [l, getRelativeLocaleUrl(l)]))
 </Base>
 
 <style>
+  /* Desktop: two halves. The text keeps the page grid's left edge; the picture fills the
+     whole right half, edge to edge and top to bottom, cropped around the road sign. */
   .not-found {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    gap: 64px;
-    align-items: center;
-    padding-top: 96px;
-    padding-bottom: 128px;
+    grid-template-columns: 1fr 1fr;
+    min-height: 600px;
+  }
+
+  .copy {
+    align-self: center;
+    padding: 96px 64px 128px max(var(--gutter-desktop), calc((100vw - var(--container-max)) / 2 + var(--gutter-desktop)));
   }
 
   .picture {
     display: block;
     width: 100%;
-    height: auto;
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-md);
+    height: 100%;
+    object-fit: cover;
+    object-position: 30% center;
   }
 
   .code {
@@ -104,11 +108,18 @@ const homes = Object.fromEntries(langs.map((l) => [l, getRelativeLocaleUrl(l)]))
   }
 
   @media (max-width: 960px) {
+    /* Mobile: text, then the picture across the full width, uncropped. */
     .not-found {
       grid-template-columns: 1fr;
-      gap: 40px;
-      padding-top: 48px;
-      padding-bottom: 72px;
+      min-height: 0;
+    }
+
+    .copy {
+      padding: 48px var(--gutter-mobile) 40px;
+    }
+
+    .picture {
+      height: auto;
     }
 
     h1 {
