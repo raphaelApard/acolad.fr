@@ -29,11 +29,12 @@ RedirectMatch 301 ^/cplus2b/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/meettotravel/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/challenge-one/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/audio-analog/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/#contact
 RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/mentions-legales/#donnees-personnelles
-RedirectMatch 301 ^/projets/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/services/?$ https://www.acolad.fr/
+# Project pages, and their former index, now live in the missions section.
+RedirectMatch 301 ^/projets(/.*)?$ https://www.acolad.fr/#missions
+RedirectMatch 301 ^/services/?$ https://www.acolad.fr/#domaines
 
 # Former sitemap files, possibly already submitted to search engines
 RedirectMatch 301 ^/sitemap-(index|0)\.xml$ https://www.acolad.fr/sitemap.xml

@@ -91,8 +91,8 @@ the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.we
 `error_log`) are never touched.
 `public/.htaccess` is the production config, copied as is into the build:
 o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/`, a 301
-from the former `/fr/` and the former site's pages to `/` (`/politique-confidentialite/` goes to the
-legal notice), a 302 from `/` to `/en/` for browsers
+from the former `/fr/` and the former site's pages to `/` (`/projets/*` to `#missions`, `/services/`
+to `#domaines`, `/contact/` to `#contact`, `/politique-confidentialite/` to the legal notice), a 302 from `/` to `/en/` for browsers
 whose first language is English (skipped when the visitor picked French with the language switch,
 which sets a `lang` cookie, came from the site itself, or is a crawler or an audit tool such as
 Lighthouse), and cache headers: one year, immutable, for the fingerprinted `/_astro/`
