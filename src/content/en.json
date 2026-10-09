@@ -7,9 +7,9 @@
   },
   "links": {
     "email": "raphael.apard@acolad.fr",
-    "linkedin": null,
-    "malt": null,
-    "github": null
+    "linkedin": "https://www.linkedin.com/in/raphael-apard-81b90924/",
+    "malt": "https://www.malt.fr/profile/raphaelapard",
+    "github": "https://github.com/raphaelApard/"
   },
   "nav": [
     {
@@ -420,12 +420,12 @@
         {
           "name": "Acquia Certified Developer, Drupal 9",
           "year": "2022",
-          "verifyUrl": null
+          "verifyUrl": "https://certification.acquia.com/person/certified/raphael-apard"
         },
         {
           "name": "Opquast certification, web quality assurance",
           "year": "2021",
-          "verifyUrl": null
+          "verifyUrl": "https://directory.opquast.com/fr/certificat/OB5AYS/"
         }
       ]
     },

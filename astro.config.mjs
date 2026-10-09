@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   // Production URL, used for canonical, hreflang and sitemap URLs.
-  site: 'https://acolad.fr',
+  site: 'https://www.acolad.fr',
   trailingSlash: 'always',
   // One page per locale: inlining the CSS (~5 KB gzipped) saves a render-blocking request.
   build: {

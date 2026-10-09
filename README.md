@@ -71,17 +71,15 @@ tests/            unit (Vitest) and e2e (Playwright)
 
 ## Deployment
 
-`pnpm build`, then upload the content of `dist/` (including the hidden `.htaccess`) to any
-static host. On Apache, `public/.htaccess` adds a 301 from `/` to `/fr/`, compression, a
-one-year immutable cache for `/_astro/` and revalidation for pages. Other hosts ignore it and
-fall back to the meta-refresh page at `/`.
+`pnpm build`, then upload the content of `dist/` (including the hidden `.htaccess`) to the
+o2switch hosting. `public/.htaccess` is the production config, copied as is into the build:
+o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/` and
+301s from the former site's pages to the home page. `/` itself reaches `/fr/` through the
+meta-refresh page.
 The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
 sitemap URLs.
 
 ## Open items
 
-- [ ] Confirm the production URL (`site`, currently `https://acolad.fr`).
-- [ ] LinkedIn, Malt and GitHub URLs (`links` in both content files) — hidden until set.
-- [ ] Certification verify URLs (`verifyUrl`) — the "verify" link is hidden until set.
 - [ ] Proofread `src/content/en.json` (translated from the French copy).
 - [ ] Sharper portrait source (current one is 468 × 542).
