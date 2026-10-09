@@ -95,7 +95,8 @@ sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists both locales wit
 alternates; `/robots.txt` (`src/pages/robots.txt.ts`) points crawlers at it. The former
 `sitemap-index.xml` and `sitemap-0.xml` 301 to `/sitemap.xml`.
 The Matomo tracker (`stats.acolad.net`, site 8) sits in `src/layouts/Base.astro` and is only
-emitted in production builds; the e2e tests block its requests.
+emitted in production builds; the e2e tests block its requests. The script is loaded from
+`stats.acolad.net/js/` (same file as `matomo.js`, cached for 10 days) after the page `load` event.
 
 ## Open items
 
