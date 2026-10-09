@@ -100,7 +100,9 @@ liste les deux langues avec leurs alternates hreflang ; `/robots.txt` (`src/page
 l'indique aux robots. Les anciens `sitemap-index.xml` et `sitemap-0.xml` redirigent en 301 vers
 `/sitemap.xml`.
 Le tracker Matomo (`stats.acolad.net`, site 8) est dans `src/layouts/Base.astro` et n'est
-inclus que dans les builds de production ; les tests e2e bloquent ses requêtes.
+inclus que dans les builds de production ; les tests e2e bloquent ses requêtes. Le script est chargé
+depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours) après l'événement
+`load` de la page.
 
 ## Points ouverts
 
