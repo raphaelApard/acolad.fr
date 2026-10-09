@@ -598,6 +598,10 @@
     "code": "Error 404",
     "title": "This page does not exist",
     "text": "The address may be wrong, or the page moved when the site was rebuilt. Everything now lives on the home page.",
-    "cta": "Back to the home page"
+    "cta": "Back to the home page",
+    "image": {
+      "src": "/img/404-en.webp",
+      "alt": "An old Peugeot 404 parked on a country road next to a wooden sign: “Error 404, page not found. Sorry, this road is a dead end… Back to home”."
+    }
   }
 }
