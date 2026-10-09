@@ -94,7 +94,9 @@ git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and
 the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
 `error_log`) are never touched.
 `public/.htaccess` is the production config, copied as is into the build:
-o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/`, a 301
+o2switch PageSpeed (do not edit that block), a single 301 from plain HTTP and from the bare
+`acolad.fr` to `https://www.acolad.fr` with the same path (`X-Forwarded-Proto` is honoured so a
+TLS-terminating proxy cannot cause a loop), a 301
 from the former `/fr/` and the former site's pages to `/` (`/projets/*` to `#missions`, `/services/`
 to `#domaines`, `/contact/` to `#contact`, `/politique-confidentialite/` to the legal notice), a 302 from `/` to `/en/` for browsers
 whose first language is English (skipped when the visitor picked French with the language switch,
