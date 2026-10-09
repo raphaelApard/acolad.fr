@@ -8,24 +8,42 @@ RewriteEngine on
 RewriteCond %{HTTP_HOST} ^acolad\.fr$
 RewriteRule ^/?$ "https\:\/\/www\.acolad\.fr\/" [R=301,L]
 
+# Send the root to the default locale server-side (the meta-refresh page is a fallback).
+RedirectMatch 301 ^/$ https://www.acolad.fr/fr/
+
 # Redirections explicites des anciennes URLs
-RedirectMatch 301 ^/saclay/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/syndex/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/de-boeck/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/muzeopro/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/cplus2b/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/meettotravel/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/challenge-one/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/audio-analog/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/mentions-legales/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/projets/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/services/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/saclay/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/syndex/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/de-boeck/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/muzeopro/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/cplus2b/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/meettotravel/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/challenge-one/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/audio-analog/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/mentions-legales/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/projets/?$ https://www.acolad.fr/fr/
+RedirectMatch 301 ^/services/?$ https://www.acolad.fr/fr/
 
 # Former sitemap files, possibly already submitted to search engines
 RedirectMatch 301 ^/sitemap-(index|0)\.xml$ https://www.acolad.fr/sitemap.xml
+
+<IfModule mod_headers.c>
+  # Build assets (/_astro/) are fingerprinted and never change.
+  <If "%{REQUEST_URI} =~ m#^/_astro/#">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </If>
+  # Not fingerprinted: cache for a week.
+  <FilesMatch "^favicon\.(ico|svg)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  # Pages must revalidate so a new deploy is picked up immediately.
+  <FilesMatch "\.(html|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
 
 <Files 403.shtml>
 order allow,deny
