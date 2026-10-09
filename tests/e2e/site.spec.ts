@@ -210,6 +210,29 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
 test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 
+  test('tucks the top border of bordered sections under the sticky header border', async ({ page }) => {
+    await page.goto('/');
+    const header = page.locator('[data-header]');
+    for (const id of ['domaines', 'competences', 'certifications']) {
+      await page.locator(`#main-nav a[href="#${id}"]`).click();
+      await expect(async () => {
+        const box = (await header.boundingBox())!;
+        const top = (await page.locator(`#${id}`).boundingBox())!.y - (box.y + box.height);
+        expect(top).toBeGreaterThanOrEqual(-1.5);
+        expect(top).toBeLessThanOrEqual(-0.5);
+      }).toPass();
+    }
+  });
+
+  test('scrolls back to the top from the footer', async ({ page }) => {
+    await page.goto('/');
+    const link = page.getByRole('contentinfo').getByRole('link', { name: fr.contact.backToTop });
+    await link.scrollIntoViewIfNeeded();
+    expect(await page.evaluate(() => scrollY)).toBeGreaterThan(1000);
+    await link.click();
+    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
+  });
+
   test('shows every mission panel without toggles', async ({ page }) => {
     await page.goto('/');
     // Anchored: the screenshot buttons' names also contain the client.
@@ -229,11 +252,11 @@ test('shrinks the sticky header and keeps anchors below it', async ({ page }) =>
   await page.getByRole('navigation', { name: fr.ui.mainNav }).getByRole('link', { name: missions.label }).click();
   await expect(header).toHaveAttribute('data-stuck');
 
-  // Wait for the smooth scroll to settle, then check the heading is not under the header.
-  const heading = page.locator('#t-missions');
+  // Once the smooth scroll settles, the section starts right at the bottom of the header.
+  const section = page.locator('#missions');
   await expect(async () => {
-    const headerBottom = (await header.boundingBox())!.y + (await header.boundingBox())!.height;
-    expect((await heading.boundingBox())!.y).toBeGreaterThanOrEqual(headerBottom);
+    const box = (await header.boundingBox())!;
+    expect(Math.abs((await section.boundingBox())!.y - (box.y + box.height))).toBeLessThan(1);
   }).toPass();
 });
 

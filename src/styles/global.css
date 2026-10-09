@@ -15,8 +15,8 @@
 }
 
 html {
-  /* Anchors and focused elements land below the sticky header. */
-  scroll-padding-top: var(--header-stuck-height);
+  /* Anchors and focused elements land right below the sticky header (+ its 1px border). */
+  scroll-padding-top: calc(var(--header-stuck-height) + 1px);
   scroll-behavior: smooth;
   -webkit-text-size-adjust: 100%;
 }
@@ -59,6 +59,12 @@ a:hover {
 
 [id] {
   scroll-margin-top: 16px;
+}
+
+/* Nav targets: the section starts exactly at the bottom of the sticky header. */
+section[id],
+footer[id] {
+  scroll-margin-top: 0;
 }
 
 /* Skip link, first focusable element of every page */
