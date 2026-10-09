@@ -1,5 +1,13 @@
 # Changelog
 
+## 3.2.1 — 2026-10-09
+
+- "Back to top" scrolls again (it pointed at the sticky header, which is always in view).
+- Menu anchors land with the section starting right at the bottom of the sticky header, with a
+  single border line for sections that have one.
+- The stuck header has a visible shadow.
+- Vietnamese is removed from the languages.
+
 ## 3.2.0 — 2026-10-09
 
 - Legal notice at `/mentions-legales/` and `/en/legal-notice/`, linked from the footer: publisher,
