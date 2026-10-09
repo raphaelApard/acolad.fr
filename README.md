@@ -33,7 +33,9 @@ src/layouts/      Base.astro (head, SEO, hreflang, fonts)
 src/components/   one component per section; TimelineRow renders missions and experience
 src/scripts/      disclosure.ts (mobile accordions)
 src/pages/        [lang]/index.astro (the page), index.astro (redirect / → /fr/)
-public/           images and logos (WebP)
+src/assets/       source images and logos, optimised at build time
+src/lib/          images.ts (resolves content image paths to src/assets)
+public/           copied as is (.htaccess)
 tests/            unit (Vitest) and e2e (Playwright)
 ```
 
@@ -45,8 +47,8 @@ tests/            unit (Vitest) and e2e (Playwright)
 - Optional fields render nothing when absent or `null`: `place`, `achievements`, `stack`,
   `image`, `projects`, profile links (`links.linkedin`, `links.malt`, `links.github`) and
   certification `verifyUrl`.
-- Every image needs `width` and `height` (its intrinsic size); logos need `naturalWidth` /
-  `naturalHeight` plus `height`, the rendered desktop height (mobile uses ×0.77).
+- Image `src` values are paths under `src/assets` (e.g. `/img/portrait.webp`); intrinsic sizes
+  are read from the files. Logos also need `height`, the rendered desktop height (mobile uses ×0.77).
 - Section anchors (`nav[].id`) are fixed in the components and identical in every locale.
 
 ## Layout rules
@@ -59,10 +61,20 @@ tests/            unit (Vitest) and e2e (Playwright)
   carrying these classes its own `display` rule: wrap it instead.
 - Panels collapse only once JS has run (`html.js`), so content stays readable without JS.
 
+## Performance
+
+- Fonts go through Astro's Fonts API (`fonts` in `astro.config.mjs`): Latin woff2 files only,
+  Schibsted Grotesk preloaded, metric-matched fallbacks so the swap does not shift the layout.
+- Images go through `astro:assets`: screenshots and portrait get a `srcset` (WebP), logos are
+  resized to their display height at 1x and 2x. Below-the-fold images are lazy-loaded.
+- CSS is inlined in each page (`build.inlineStylesheets`), so nothing blocks the first render.
+
 ## Deployment
 
-`pnpm build`, then upload the content of `dist/` to any static host. The root `/` is a
-meta-refresh page to `/fr/`; on Apache a server-side 301 from `/` to `/fr/` is better.
+`pnpm build`, then upload the content of `dist/` (including the hidden `.htaccess`) to any
+static host. On Apache, `public/.htaccess` adds a 301 from `/` to `/fr/`, compression, a
+one-year immutable cache for `/_astro/` and revalidation for pages. Other hosts ignore it and
+fall back to the meta-refresh page at `/`.
 The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
 sitemap URLs.
 
