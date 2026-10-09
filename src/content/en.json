@@ -282,6 +282,7 @@
       {
         "period": "2020 – 2021",
         "client": "CNRS Images",
+        "logo": "/logos/cnrs.webp",
         "place": "via OWS",
         "role": "Technical project manager and Drupal developer",
         "hook": "Technical lead and development of CNRS's photo and video platform.",

@@ -282,6 +282,7 @@
       {
         "period": "2020 – 2021",
         "client": "CNRS Images",
+        "logo": "/logos/cnrs.webp",
         "place": "via OWS",
         "role": "Chef de projet technique et développeur Drupal",
         "hook": "Pilotage technique et développement de la plateforme photo et vidéo du CNRS.",
