@@ -180,30 +180,71 @@ const { ui, nav, hero } = content;
     gap: 8px;
   }
 
+  /* Compact two-way switch: a pill marks the current language and slides towards the other
+     one on hover, previewing the change. Assumes exactly two languages. */
   .lang-switch {
-    display: flex;
-    border: 1px solid var(--color-ink);
-    border-radius: var(--radius-sm);
-    overflow: hidden;
+    position: relative;
+    display: inline-grid;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    padding: 2px;
+    border-radius: 999px;
+    background: var(--color-border);
+  }
+
+  .lang-switch::before {
+    content: '';
+    position: absolute;
+    top: 2px;
+    bottom: 2px;
+    left: 2px;
+    width: calc(50% - 2px);
+    border-radius: 999px;
+    background: var(--color-ink);
+    transition: transform 0.2s ease;
+  }
+
+  .lang-switch:has(a:last-child[aria-current])::before,
+  .lang-switch:has(a:first-child[aria-current]):has(a:last-child:hover)::before {
+    transform: translateX(100%);
+  }
+
+  .lang-switch:has(a:last-child[aria-current]):has(a:first-child:hover)::before {
+    transform: none;
   }
 
   .lang-switch a {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 48px;
-    min-height: 40px;
-    font: 500 13px var(--font-mono);
+    min-width: 34px;
+    min-height: 26px;
+    border-radius: 999px;
+    color: var(--color-text-muted);
+    font: 500 12px var(--font-mono);
     text-decoration: none;
+    transition: color 0.2s ease;
   }
 
-  .lang-switch a[aria-current] {
-    background: var(--color-ink);
+  .lang-switch a[aria-current],
+  .lang-switch a:not([aria-current]):hover {
     color: var(--color-surface);
   }
 
+  .lang-switch:has(a:not([aria-current]):hover) a[aria-current] {
+    color: var(--color-text-muted);
+  }
+
   .lang-switch a:focus-visible {
-    outline-offset: -3px;
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lang-switch::before,
+    .lang-switch a {
+      transition: none;
+    }
   }
 
   .menu-button {
@@ -236,10 +277,6 @@ const { ui, nav, hero } = content;
 
     .brand {
       font-size: 17px;
-    }
-
-    .lang-switch a {
-      min-width: 44px;
     }
 
     /* Without JS the nav stays visible and wraps under the bar. */
