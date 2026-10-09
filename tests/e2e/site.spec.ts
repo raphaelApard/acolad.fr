@@ -18,8 +18,18 @@ test.beforeEach(async ({ page }) => {
 test('serves a robots.txt that points at the sitemap', async ({ request }) => {
   const response = await request.get('/robots.txt');
   expect(response.ok()).toBe(true);
-  expect(await response.text()).toContain('Sitemap: https://www.acolad.fr/sitemap-index.xml');
-  expect((await request.get('/sitemap-index.xml')).ok()).toBe(true);
+  expect(await response.text()).toContain('Sitemap: https://www.acolad.fr/sitemap.xml');
+});
+
+test('lists every locale in the sitemap with its alternates', async ({ request }) => {
+  const response = await request.get('/sitemap.xml');
+  expect(response.ok()).toBe(true);
+  const xml = await response.text();
+  for (const lang of ['fr', 'en']) {
+    expect(xml).toContain(`<loc>https://www.acolad.fr/${lang}/</loc>`);
+    expect(xml).toContain(`hreflang="${lang}" href="https://www.acolad.fr/${lang}/"`);
+  }
+  expect(xml).toContain('hreflang="x-default"');
 });
 
 test('serves the favicons', async ({ request }) => {

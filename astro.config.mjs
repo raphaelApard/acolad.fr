@@ -1,6 +1,5 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
-import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
   // Production URL, used for canonical, hreflang and sitemap URLs.
@@ -55,15 +54,5 @@ export default defineConfig({
         ],
       },
     },
-  ],
-  integrations: [
-    sitemap({
-      // `/` is only a redirect to `/fr/`.
-      filter: (page) => new URL(page).pathname !== '/',
-      i18n: {
-        defaultLocale: 'fr',
-        locales: { fr: 'fr-FR', en: 'en-GB' },
-      },
-    }),
   ],
 });

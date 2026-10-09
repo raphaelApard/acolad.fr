@@ -24,8 +24,8 @@ RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/projets/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/services/?$ https://www.acolad.fr/
 
-# Crawlers probe /sitemap.xml by default; the build writes sitemap-index.xml
-RedirectMatch 301 ^/sitemap\.xml$ https://www.acolad.fr/sitemap-index.xml
+# Former sitemap files, possibly already submitted to search engines
+RedirectMatch 301 ^/sitemap-(index|0)\.xml$ https://www.acolad.fr/sitemap.xml
 
 <Files 403.shtml>
 order allow,deny
