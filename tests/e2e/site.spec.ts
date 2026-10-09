@@ -210,7 +210,7 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
 test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 
-  test('keeps the top border of bordered sections below the sticky header', async ({ page }) => {
+  test('tucks the top border of bordered sections under the sticky header border', async ({ page }) => {
     await page.goto('/');
     const header = page.locator('[data-header]');
     for (const id of ['domaines', 'competences', 'certifications']) {
@@ -218,8 +218,8 @@ test.describe('desktop', () => {
       await expect(async () => {
         const box = (await header.boundingBox())!;
         const top = (await page.locator(`#${id}`).boundingBox())!.y - (box.y + box.height);
-        expect(top).toBeGreaterThanOrEqual(0.5);
-        expect(top).toBeLessThanOrEqual(1.5);
+        expect(top).toBeGreaterThanOrEqual(-1.5);
+        expect(top).toBeLessThanOrEqual(-0.5);
       }).toPass();
     }
   });

@@ -21,8 +21,9 @@ const { domains } = Astro.props.content;
 <style>
   .domains {
     border-top: 1px solid var(--color-border);
-    /* Land 1px lower than other anchors so the sticky header never covers this top border. */
-    scroll-margin-top: 1px;
+    /* Land 1px higher than other anchors: this top border then sits under the sticky header's
+       own border, leaving a single line instead of a double one. */
+    scroll-margin-top: -1px;
   }
 
   .section {
