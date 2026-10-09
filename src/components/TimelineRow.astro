@@ -134,13 +134,12 @@ const panelId = `${id}-panel`;
     grid-column: 2;
   }
 
-  /* The tile starts on the title row (not the period) and is centred on its first line:
-     10px title margin + (30px line - 56px tile) / 2. */
+  /* The tile starts on the title row (not the period), its top level with the title's. */
   .meta.has-logo > :global(.logo) {
     grid-column: 1;
     grid-row: 2 / span 2;
     align-self: start;
-    margin-top: -3px;
+    margin-top: 10px;
   }
 
   .period {
@@ -228,9 +227,8 @@ const panelId = `${id}-panel`;
       column-gap: 14px;
     }
 
-    /* 6px heading margin + (26px line - 44px tile) / 2. */
     .meta.has-logo > :global(.logo) {
-      margin-top: -3px;
+      margin-top: 6px;
       --tile: 44px !important;
     }
 
