@@ -72,6 +72,8 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 - Les images passent par `astro:assets` : captures et portrait ont un `srcset` (WebP), les logos
   sont redimensionnés à leur hauteur d'affichage en 1x et 2x. Les images sous la ligne de
   flottaison sont chargées en différé.
+  Les logos sont posés sur des tuiles blanches : leurs sources n'ont pas de transparence, un canal
+  alpha fait plus que doubler le poids du WebP.
 - Le CSS est inliné dans chaque page (`build.inlineStylesheets`) : rien ne bloque le premier rendu.
 
 ## Déploiement

@@ -69,6 +69,8 @@ tests/            unit (Vitest) and e2e (Playwright)
   every face preloaded (no request chain behind the HTML), metric-matched fallbacks so the swap does not shift the layout.
 - Images go through `astro:assets`: screenshots and portrait get a `srcset` (WebP), logos are
   resized to their display height at 1x and 2x. Below-the-fold images are lazy-loaded.
+  Logos sit on white tiles, so their sources have no transparency: an alpha channel more than
+  doubles the WebP size.
 - CSS is inlined in each page (`build.inlineStylesheets`), so nothing blocks the first render.
 
 ## Deployment
