@@ -10,6 +10,11 @@ const locales = [
 
 const isMobile = (page: Page) => (page.viewportSize()?.width ?? 0) <= 960;
 
+// The build embeds the Matomo tracker: keep test runs out of the stats.
+test.beforeEach(async ({ page }) => {
+  await page.route('https://stats.acolad.net/**', (route) => route.abort());
+});
+
 test('redirects the root to the French page', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/fr\/$/);

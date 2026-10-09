@@ -90,6 +90,8 @@ vers `www.acolad.fr/` et des 301 des pages de l'ancien site vers l'accueil. `/` 
 via la page meta-refresh.
 L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap.
+Le tracker Matomo (`stats.acolad.net`, site 8) est dans `src/layouts/Base.astro` et n'est
+inclus que dans les builds de production ; les tests e2e bloquent ses requêtes.
 
 ## Points ouverts
 

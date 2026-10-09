@@ -86,6 +86,8 @@ o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.aco
 meta-refresh page.
 The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
 sitemap URLs.
+The Matomo tracker (`stats.acolad.net`, site 8) sits in `src/layouts/Base.astro` and is only
+emitted in production builds; the e2e tests block its requests.
 
 ## Open items
 
