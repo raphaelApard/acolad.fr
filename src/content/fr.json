@@ -233,6 +233,7 @@
       {
         "period": "2026",
         "client": "Docteur Conso",
+        "logo": "/logos/docteur-conso.webp",
         "place": "Toulouse",
         "role": "Développeur fullstack",
         "hook": "Refonte de la plateforme d'indicateurs de durabilité en Next.js et PostgreSQL.",
@@ -251,6 +252,7 @@
       {
         "period": "2023 – 2026",
         "client": "OVHcloud",
+        "logo": "/logos/ovhcloud.webp",
         "place": "Toulouse",
         "role": "Développeur TypeScript / React",
         "hook": "Fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
@@ -280,6 +282,7 @@
       {
         "period": "2020 – 2021",
         "client": "CNRS Images",
+        "logo": "/logos/cnrs.webp",
         "place": "via OWS",
         "role": "Chef de projet technique et développeur Drupal",
         "hook": "Pilotage technique et développement de la plateforme photo et vidéo du CNRS.",
@@ -304,6 +307,7 @@
       {
         "period": "2020 – 2021",
         "client": "Réseau Obépine / Université Paris 1 Panthéon-Sorbonne",
+        "logo": "/logos/pantheon-sorbonne.webp",
         "role": "Développeur fullstack",
         "hook": "Plateforme de rapports du réseau national de surveillance des eaux usées.",
         "achievements": [
@@ -325,6 +329,7 @@
       {
         "period": "2018 – 2020",
         "client": "Docteur Conso",
+        "logo": "/logos/docteur-conso.webp",
         "place": "Toulouse",
         "role": "Développeur fullstack Angular / TypeScript / Drupal",
         "hook": "Plateforme de collecte et de restitution d'indicateurs de durabilité.",
@@ -382,6 +387,7 @@
       {
         "period": "2017 – 2022",
         "company": "Simplon",
+        "logo": "/logos/simplon.webp",
         "place": "Toulouse",
         "role": "Formateur développeur web",
         "text": "Formation de publics en reconversion, d'étudiants et de développeurs juniors sur l'ensemble du cycle de vie d'une application web, deux jours par semaine en parallèle de mes missions freelance.",
@@ -394,6 +400,7 @@
       {
         "period": "2012 – 2014",
         "company": "Makina Corpus",
+        "logo": "/logos/makina-corpus.webp",
         "place": "Toulouse",
         "role": "Développeur Drupal",
         "text": "Développements Drupal pour des clients publics et privés au sein d'une agence web toulousaine.",
@@ -411,6 +418,7 @@
       {
         "period": "2011 – 2012",
         "company": "X-Prime Groupe",
+        "logo": "/logos/x-prime.webp",
         "place": "Toulouse",
         "role": "Développeur Drupal",
         "text": "Développements Drupal pour les clients d'une agence de communication toulousaine.",
@@ -428,6 +436,7 @@
       {
         "period": "2006 – 2007",
         "company": "Université Toulouse 1 Capitole",
+        "logo": "/logos/ut-capitole.webp",
         "place": "Toulouse",
         "role": "Développeur PHP",
         "text": "Service de formation ouverte et à distance (FOAD) : installation et administration d'une instance Moodle, développement de modules spécifiques pour Moodle 1.8 (podcasting, visioconférence, gestion des notes) et support aux utilisateurs."
@@ -435,6 +444,7 @@
       {
         "period": "2006",
         "company": "Université de Guadalajara",
+        "logo": "/logos/guadalajara.webp",
         "place": "Guadalajara, Mexique",
         "role": "Stage de développement web",
         "text": "Développement d'un portail étudiants et enseignants sous Joomla, avec des modules spécifiques."

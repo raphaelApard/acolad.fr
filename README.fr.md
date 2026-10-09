@@ -47,7 +47,8 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 - Les deux fichiers doivent garder la même structure (vérifié par `pnpm test`) et respecter
   `src/content/types.ts` (vérifié par `pnpm check` / `pnpm build`).
 - Les champs optionnels n'affichent rien s'ils sont absents ou `null` : `place`,
-  `achievements`, `stack`, `image`, `projects`, liens de profils (`links.linkedin`,
+  `achievements`, `stack`, `image`, `projects`, `logo` (missions et expériences ;
+  affiché dans une tuile carrée), liens de profils (`links.linkedin`,
   `links.malt`, `links.github`) et `verifyUrl` des certifications.
 - Les `src` d'images sont des chemins sous `src/assets` (ex. `/img/portrait.webp`) ; les
   dimensions sont lues dans les fichiers. Les logos ont aussi `height`, la hauteur affichée en
