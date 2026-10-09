@@ -6,6 +6,10 @@ export default defineConfig({
   // Production URL, used for canonical, hreflang and sitemap URLs.
   site: 'https://acolad.fr',
   trailingSlash: 'always',
+  // One page per locale: inlining the CSS (~5 KB gzipped) saves a render-blocking request.
+  build: {
+    inlineStylesheets: 'always',
+  },
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr', 'en'],
