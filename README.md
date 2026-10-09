@@ -35,7 +35,8 @@ src/layouts/      Base.astro (head, SEO, hreflang, fonts)
 src/components/   one component per section; TimelineRow renders missions and experience
 src/scripts/      disclosure.ts (mobile accordions)
 src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English),
-                  mentions-legales.astro and en/legal-notice.astro (LegalPage component)
+                  mentions-legales.astro and en/legal-notice.astro (LegalPage component),
+                  404.astro and en/404.astro (NotFoundPage, served by Apache's ErrorDocument)
 src/assets/       source images and logos, optimised at build time
 src/lib/          images.ts (resolves content image paths to src/assets)
 public/           copied as is (.htaccess, whose CSP gets its script hashes at build time)

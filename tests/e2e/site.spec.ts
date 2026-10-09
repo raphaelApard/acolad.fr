@@ -180,6 +180,33 @@ for (const { lang, path, content } of locales) {
   });
 }
 
+for (const { lang, path, content } of locales) {
+  test.describe(`404 page (${lang})`, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(content.notFound.path);
+    });
+
+    test('stays out of search results and leads home', async ({ page }) => {
+      await expect(page.locator('html')).toHaveAttribute('lang', lang);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(content.notFound.title);
+      await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
+      await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
+      await expect(page.getByRole('main').getByRole('link', { name: content.notFound.cta })).toHaveAttribute('href', path);
+    });
+
+    test('has no WCAG AA violations', async ({ page }) => {
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      expect(results.violations).toEqual([]);
+    });
+  });
+}
+
+test('answers unknown URLs with a 404 and the error page', async ({ page }) => {
+  const response = await page.goto('/cette-page-n-existe-pas/');
+  expect(response!.status()).toBe(404);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(fr.notFound.title);
+});
+
 test('says visits are not measured while Matomo is blocked', async ({ page }) => {
   await page.goto(fr.legal.path);
   await expect(page.getByRole('checkbox', { name: fr.legal.optOut.label })).toBeDisabled();

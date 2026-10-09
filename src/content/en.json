@@ -590,5 +590,12 @@
       "off": "Your visits are no longer measured in this browser.",
       "unavailable": "Audience measurement is not running in this browser (JavaScript turned off or a content blocker): your visits are not measured."
     }
+  },
+  "notFound": {
+    "path": "/en/404/",
+    "code": "Error 404",
+    "title": "This page does not exist",
+    "text": "The address may be wrong, or the page moved when the site was rebuilt. Everything now lives on the home page.",
+    "cta": "Back to the home page"
   }
 }

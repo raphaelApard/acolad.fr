@@ -36,6 +36,12 @@ RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/mentions-
 RedirectMatch 301 ^/projets(/.*)?$ https://www.acolad.fr/#missions
 RedirectMatch 301 ^/services/?$ https://www.acolad.fr/#domaines
 
+# Custom error pages: French by default, English under /en/.
+ErrorDocument 404 /404.html
+<If "%{REQUEST_URI} =~ m#^/en/#">
+  ErrorDocument 404 /en/404/index.html
+</If>
+
 # Former sitemap files, possibly already submitted to search engines
 RedirectMatch 301 ^/sitemap-(index|0)\.xml$ https://www.acolad.fr/sitemap.xml
 
