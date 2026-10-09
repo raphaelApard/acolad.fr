@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import type { Content } from '../content/types';
+import { asset } from '../lib/images';
 import ArrowRight from './icons/ArrowRight.astro';
 import Profiles from './Profiles.astro';
 
@@ -24,11 +26,12 @@ const [firstName, ...lastNames] = hero.name.split(' ');
       </div>
     </div>
     <figure class="portrait">
-      <img
-        src={hero.portrait.src}
+      <Image
+        src={asset(hero.portrait.src)}
         alt={hero.portrait.alt}
-        width={hero.portrait.width}
-        height={hero.portrait.height}
+        widths={[224, 336, 468]}
+        sizes="(max-width: 960px) 112px, (max-width: 1286px) 28vw, 360px"
+        loading="eager"
         fetchpriority="high"
       />
     </figure>

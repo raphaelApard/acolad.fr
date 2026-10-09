@@ -49,9 +49,7 @@
     "cta": "Let's talk about a project",
     "portrait": {
       "src": "/img/portrait.webp",
-      "alt": "Portrait of Raphaël Apard",
-      "width": 468,
-      "height": 542
+      "alt": "Portrait of Raphaël Apard"
     }
   },
   "domains": {
@@ -85,86 +83,62 @@
       {
         "name": "OVHcloud",
         "src": "/logos/ovhcloud.webp",
-        "height": 44,
-        "naturalWidth": 260,
-        "naturalHeight": 127
+        "height": 44
       },
       {
         "name": "Paris 1 Panthéon-Sorbonne University",
         "src": "/logos/pantheon-sorbonne.webp",
-        "height": 80,
-        "naturalWidth": 296,
-        "naturalHeight": 296
+        "height": 80
       },
       {
         "name": "American Hospital of Paris",
         "src": "/logos/american-hospital-paris.webp",
-        "height": 48,
-        "naturalWidth": 250,
-        "naturalHeight": 110
+        "height": 48
       },
       {
         "name": "City of Issy-les-Moulineaux",
         "src": "/logos/issy-com.webp",
-        "height": 64,
-        "naturalWidth": 194,
-        "naturalHeight": 190
+        "height": 64
       },
       {
         "name": "Syndex",
         "src": "/logos/syndex.webp",
-        "height": 64,
-        "naturalWidth": 221,
-        "naturalHeight": 228
+        "height": 64
       },
       {
         "name": "Paris-Saclay University",
         "src": "/logos/paris-saclay.webp",
-        "height": 88,
-        "naturalWidth": 296,
-        "naturalHeight": 296
+        "height": 88
       },
       {
         "name": "EY Fabernovel",
         "src": "/logos/ey-fabernovel.webp",
-        "height": 44,
-        "naturalWidth": 400,
-        "naturalHeight": 159
+        "height": 44
       },
       {
         "name": "Axess Open Web Services",
         "src": "/logos/axess-ows.webp",
-        "height": 36,
-        "naturalWidth": 390,
-        "naturalHeight": 109
+        "height": 36
       },
       {
         "name": "Human's Connexion",
         "src": "/logos/humans-connexion.webp",
-        "height": 40,
-        "naturalWidth": 224,
-        "naturalHeight": 64
+        "height": 40
       },
       {
         "name": "Muzéo",
         "src": "/logos/muzeo.webp",
-        "height": 32,
-        "naturalWidth": 400,
-        "naturalHeight": 109
+        "height": 32
       },
       {
         "name": "Docteur Conso",
         "src": "/logos/docteur-conso.webp",
-        "height": 72,
-        "naturalWidth": 400,
-        "naturalHeight": 400
+        "height": 72
       },
       {
         "name": "Makina Corpus",
         "src": "/logos/makina-corpus.webp",
-        "height": 64,
-        "naturalWidth": 176,
-        "naturalHeight": 190
+        "height": 64
       }
     ]
   },
@@ -271,9 +245,7 @@
         ],
         "image": {
           "src": "/img/missions/docteur-conso-2026.webp",
-          "alt": "Screenshot of the new Docteur Conso platform",
-          "width": 1200,
-          "height": 749
+          "alt": "Screenshot of the new Docteur Conso platform"
         }
       },
       {
@@ -302,9 +274,7 @@
         ],
         "image": {
           "src": "/img/missions/ovhcloud.webp",
-          "alt": "Screenshot of the OVHcloud website",
-          "width": 1200,
-          "height": 891
+          "alt": "Screenshot of the OVHcloud website"
         }
       },
       {
@@ -328,9 +298,7 @@
         ],
         "image": {
           "src": "/img/missions/cnrs-images.webp",
-          "alt": "Screenshot of the CNRS Images platform",
-          "width": 438,
-          "height": 236
+          "alt": "Screenshot of the CNRS Images platform"
         }
       },
       {
@@ -351,9 +319,7 @@
         ],
         "image": {
           "src": "/img/missions/obepine.webp",
-          "alt": "Screenshot of the Obépine network platform",
-          "width": 438,
-          "height": 236
+          "alt": "Screenshot of the Obépine network platform"
         }
       },
       {
@@ -376,9 +342,7 @@
         ],
         "image": {
           "src": "/img/missions/docteur-conso-2018.webp",
-          "alt": "Screenshot of the Docteur Conso platform",
-          "width": 1200,
-          "height": 932
+          "alt": "Screenshot of the Docteur Conso platform"
         }
       }
     ]
@@ -391,9 +355,7 @@
         "text": "Technical lead and development of the hospital's public website.",
         "image": {
           "src": "/img/projects/american-hospital.webp",
-          "alt": "Screenshot of the American Hospital of Paris website",
-          "width": 438,
-          "height": 236
+          "alt": "Screenshot of the American Hospital of Paris website"
         }
       },
       {
@@ -401,9 +363,7 @@
         "text": "Technical lead and development of the city's website. Front-end integration in Twig, SCSS and TypeScript to RGAA accessibility criteria.",
         "image": {
           "src": "/img/projects/issy.webp",
-          "alt": "Screenshot of the City of Issy-les-Moulineaux website",
-          "width": 1200,
-          "height": 891
+          "alt": "Screenshot of the City of Issy-les-Moulineaux website"
         }
       },
       {
@@ -411,9 +371,7 @@
         "text": "Six-language Drupal 8 website for a consultancy serving employee representatives.",
         "image": {
           "src": "/img/projects/syndex.webp",
-          "alt": "Screenshot of the Syndex website",
-          "width": 1200,
-          "height": 891
+          "alt": "Screenshot of the Syndex website"
         }
       }
     ]

@@ -1,7 +1,9 @@
 ---
 // One mission or experience row. Desktop: meta | body | screenshot, always open.
 // Mobile: period/place line + toggle (title, role); everything else is in the panel.
+import { Image as Picture } from 'astro:assets';
 import type { Image } from '../content/types';
+import { asset } from '../lib/images';
 import Chevron from './icons/Chevron.astro';
 
 interface Props {
@@ -83,14 +85,12 @@ const panelId = `${id}-panel`;
     {
       image && (
         <figure class="figure">
-          <img
+          <Picture
             class="shot"
-            src={image.src}
+            src={asset(image.src)}
             alt={image.alt}
-            width={image.width}
-            height={image.height}
-            loading="lazy"
-            decoding="async"
+            widths={[400, 800, 1200]}
+            sizes="(max-width: 960px) calc(100vw - 40px), 400px"
           />
         </figure>
       )

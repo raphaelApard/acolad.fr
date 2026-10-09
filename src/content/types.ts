@@ -4,10 +4,9 @@
 export type Lang = 'fr' | 'en';
 
 export interface Image {
+  /** Path under src/assets, e.g. `/img/portrait.webp`; sizes come from the file itself. */
   src: string;
   alt: string;
-  width: number;
-  height: number;
 }
 
 export interface Mission {
@@ -57,8 +56,6 @@ export interface Content {
       src: string;
       /** Rendered height in px on desktop, tuned per logo to balance visual weight. */
       height: number;
-      naturalWidth: number;
-      naturalHeight: number;
     }[]; };
   skills: {
     number: string;

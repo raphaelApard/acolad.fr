@@ -1,8 +1,9 @@
 ---
-import { Font } from 'astro:assets';
+import { Font, getImage } from 'astro:assets';
 import '../styles/global.css';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import { langs } from '../content';
+import { asset } from '../lib/images';
 import type { Content } from '../content/types';
 
 interface Props {
@@ -13,7 +14,8 @@ const { content } = Astro.props;
 const { lang, title, description } = content.meta;
 const canonical = getAbsoluteLocaleUrl(lang);
 const ogLocale = { fr: 'fr_FR', en: 'en_GB' }[lang];
-const portrait = new URL(content.hero.portrait.src, Astro.site).href;
+const ogImage = await getImage({ src: asset(content.hero.portrait.src), format: 'jpg', width: 468 });
+const portrait = new URL(ogImage.src, Astro.site).href;
 ---
 
 <!doctype html>
