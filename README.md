@@ -108,8 +108,9 @@ The production URL is set in `astro.config.mjs` (`site`) and drives canonical, h
 sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists both locales with their hreflang
 alternates; `/robots.txt` (`src/pages/robots.txt.ts`) points crawlers at it. The former
 `sitemap-index.xml` and `sitemap-0.xml` 301 to `/sitemap.xml`.
-The Matomo tracker (`stats.acolad.net`, site 8) sits in `src/layouts/Base.astro` and is only
-emitted in production builds; the e2e tests block its requests. The script is loaded from
+The Matomo tracker (`stats.acolad.net`, site 8) is `src/scripts/matomo.ts`, loaded by
+`src/layouts/Base.astro` and minified at build time; it only runs in production builds and the e2e
+tests block its requests. The script is loaded from
 `stats.acolad.net/js/` (same file as `matomo.js`, cached for 10 days) after the page `load` event.
 
 ## Open items
