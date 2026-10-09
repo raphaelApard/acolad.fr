@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.0.0 — unreleased
+
+The site becomes a static one-page résumé built with Astro, in French and English (`/fr/`, `/en/`),
+from a new design. Payload CMS and the multi-page site are removed.
+
+- All copy lives in two JSON files typed against a shared shape; tests keep both locales in sync.
+- Mobile layout below 960px: menu button, accordions for missions, other projects and experience,
+  skill groups clamped to one line.
+- Fonts are self-hosted (Latin subset, preloaded heading font), images are resized per slot with
+  a `srcset`, the CSS is inlined and an `.htaccess` sets caching on Apache hosts.
+- Playwright and axe check routing, mobile interactions and WCAG AA on desktop and mobile widths.
+
 ## 2.0.0 — 2026-09-30
 
 The site is rebuilt with Astro and its content moves to Payload CMS, in French and English. Pages, URLs,
