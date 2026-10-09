@@ -48,8 +48,9 @@ const { missions, otherProjects, ui } = Astro.props.content;
 
   .intro {
     display: grid;
-    grid-template-columns: 340px minmax(0, 1fr);
-    gap: 64px;
+    /* Same columns as TimelineRow, so the company line starts above the roles. */
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 48px;
     align-items: end;
     margin-bottom: 56px;
   }
