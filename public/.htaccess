@@ -1,17 +1,14 @@
-# o2switch pagespeed start / DO NOT REMOVE OR EDIT
 <IfModule pagespeed_module>
 ModPagespeed on
 ModPagespeedRewriteLevel PassThrough
 ModPagespeedEnableFilters add_head,extend_cache
 </IfModule>
-# o2switch pagespeed end / DO NOT REMOVE OR EDIT
 
 RewriteEngine on
 RewriteCond %{HTTP_HOST} ^acolad\.fr$
 RewriteRule ^/?$ "https\:\/\/www\.acolad\.fr\/" [R=301,L]
 
-
-# Redirections explicites des URLs connues
+# Redirections explicites des anciennes URLs
 RedirectMatch 301 ^/saclay/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/syndex/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/de-boeck/?$ https://www.acolad.fr/
