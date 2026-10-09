@@ -21,6 +21,8 @@ Site one-page statique et bilingue (`/fr/`, `/en/`) construit avec [Astro](https
 | `pnpm check` | Vérification des types Astro et TypeScript |
 | `pnpm test` | Tests unitaires (fichiers de contenu) |
 | `pnpm test:e2e` | Build, serveur et Playwright en desktop (1440) et mobile (390), axe WCAG AA inclus |
+| `pnpm deploy:prod` | Tests, build et synchronisation de `dist/` vers la prod (voir Déploiement) |
+| `pnpm deploy:dry` | Idem, mais liste seulement ce qui changerait sur le serveur |
 
 Premier lancement e2e : `pnpm exec playwright install chromium`.
 
@@ -74,8 +76,15 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 
 ## Déploiement
 
-`pnpm build`, puis envoyer le contenu de `dist/` (y compris le fichier caché `.htaccess`) sur
-l'hébergement o2switch. `public/.htaccess` est la configuration de production, copiée telle
+`pnpm deploy:prod` (`scripts/deploy.sh`) lance les tests, build et synchronise `dist/` (y compris le fichier caché
+`.htaccess`) vers l'hébergement o2switch avec `rsync --delete`. Il contient les vrais paramètres
+du serveur, il est donc ignoré par git : le créer avec
+`cp scripts/deploy.example.sh scripts/deploy.sh` et renseigner `REMOTE_USER`, `REMOTE_HOST` et
+`REMOTE_PATH`. Ton IP doit d'abord être autorisée dans cPanel (Accès SSH). Le script affiche
+les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'arrête après la
+liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
+`.user.ini`, `error_log`) ne sont jamais touchés.
+`public/.htaccess` est la configuration de production, copiée telle
 quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `acolad.fr/`
 vers `www.acolad.fr/` et des 301 des pages de l'ancien site vers l'accueil. `/` mène à `/fr/`
 via la page meta-refresh.

@@ -26,3 +26,6 @@ blob-report/
 
 # Local tooling
 .claude/
+
+# Deployment script with real server settings (see scripts/deploy.example.sh)
+scripts/deploy.sh
