@@ -238,11 +238,11 @@ test('shrinks the sticky header and keeps anchors below it', async ({ page }) =>
   await page.getByRole('navigation', { name: fr.ui.mainNav }).getByRole('link', { name: missions.label }).click();
   await expect(header).toHaveAttribute('data-stuck');
 
-  // Wait for the smooth scroll to settle, then check the heading is not under the header.
-  const heading = page.locator('#t-missions');
+  // Once the smooth scroll settles, the section starts right at the bottom of the header.
+  const section = page.locator('#missions');
   await expect(async () => {
-    const headerBottom = (await header.boundingBox())!.y + (await header.boundingBox())!.height;
-    expect((await heading.boundingBox())!.y).toBeGreaterThanOrEqual(headerBottom);
+    const box = (await header.boundingBox())!;
+    expect(Math.abs((await section.boundingBox())!.y - (box.y + box.height))).toBeLessThan(1);
   }).toPass();
 });
 
