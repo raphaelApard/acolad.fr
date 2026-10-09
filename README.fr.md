@@ -89,8 +89,10 @@ quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de 
 vers `www.acolad.fr/` et des 301 des pages de l'ancien site vers l'accueil. `/` mène à `/fr/`
 via la page meta-refresh.
 L'URL de production est définie dans `astro.config.mjs` (`site`)
-et sert aux URL canonical, hreflang et sitemap. `/robots.txt` (`src/pages/robots.txt.ts`) en
-est généré et indique `sitemap-index.xml` aux robots ; `/sitemap.xml` y redirige aussi en 301.
+et sert aux URL canonical, hreflang et sitemap. `/sitemap.xml` (`src/pages/sitemap.xml.ts`)
+liste les deux langues avec leurs alternates hreflang ; `/robots.txt` (`src/pages/robots.txt.ts`)
+l'indique aux robots. Les anciens `sitemap-index.xml` et `sitemap-0.xml` redirigent en 301 vers
+`/sitemap.xml`.
 Le tracker Matomo (`stats.acolad.net`, site 8) est dans `src/layouts/Base.astro` et n'est
 inclus que dans les builds de production ; les tests e2e bloquent ses requêtes.
 

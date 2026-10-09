@@ -10,6 +10,8 @@ from a new design. Payload CMS and the multi-page site are removed.
   skill groups clamped to one line.
 - Fonts are self-hosted (Latin subset, preloaded heading font), images are resized per slot with
   a `srcset`, the CSS is inlined and an `.htaccess` sets caching on Apache hosts.
+- `/sitemap.xml` (one file, with hreflang alternates) and `/robots.txt` are generated from the
+  site URL.
 - Playwright and axe check routing, mobile interactions and WCAG AA on desktop and mobile widths.
 
 ## 2.0.0 — 2026-09-30
