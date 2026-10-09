@@ -98,8 +98,9 @@ les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'ar
 liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
 `.user.ini`, `error_log`) ne sont jamais touchés.
 `public/.htaccess` est la configuration de production, copiée telle
-quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `acolad.fr/`
-vers `www.acolad.fr/`, des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/` (`/projets/*` vers `#missions`,
+quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une seule 301 du HTTP et du domaine nu
+`acolad.fr` vers `https://www.acolad.fr` en gardant le chemin (`X-Forwarded-Proto` est pris en
+compte pour qu'un proxy qui termine le TLS ne provoque pas de boucle), des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/` (`/projets/*` vers `#missions`,
 `/services/` vers `#domaines`, `/contact/` vers `#contact`, `/politique-confidentialite/` vers les
 mentions légales), une 302
 de `/` vers `/en/` pour les navigateurs dont la première langue est l'anglais (sauf si le visiteur
