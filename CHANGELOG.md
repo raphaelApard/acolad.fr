@@ -1,5 +1,17 @@
 # Changelog
 
+## 3.1.0 — 2026-10-09
+
+- Other experience goes back to 2006: X-Prime Groupe, Université Toulouse 1 Capitole and the
+  University of Guadalajara.
+- Missions and experience show the company logo in a square tile beside the name; the screenshot
+  column is narrower (240px) so descriptions get more room.
+- Project screenshots open full size in a lightbox (close button, Escape or a click beside the
+  image); the full-size file is only fetched on open.
+- Other projects name the agency they were built through (via OWS, via Fabernovel).
+- The header is sticky and shrinks from 76px to 48px once the page scrolls, without moving the
+  content; the language switch is a compact sliding toggle.
+
 ## 3.0.1 — 2026-10-09
 
 - The Matomo tracker is loaded from `stats.acolad.net/js/`, which browsers cache for 10 days

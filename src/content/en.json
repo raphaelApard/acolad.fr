@@ -233,6 +233,7 @@
       {
         "period": "2026",
         "client": "Docteur Conso",
+        "logo": "/logos/docteur-conso.webp",
         "place": "Toulouse",
         "role": "Full-stack developer",
         "hook": "Rebuild of the sustainability indicators platform with Next.js and PostgreSQL.",
@@ -251,6 +252,7 @@
       {
         "period": "2023 – 2026",
         "client": "OVHcloud",
+        "logo": "/logos/ovhcloud.webp",
         "place": "Toulouse",
         "role": "TypeScript / React developer",
         "hook": "Business features on OVHcloud's web platforms, from requirements to production.",
@@ -280,6 +282,7 @@
       {
         "period": "2020 – 2021",
         "client": "CNRS Images",
+        "logo": "/logos/cnrs.webp",
         "place": "via OWS",
         "role": "Technical project manager and Drupal developer",
         "hook": "Technical lead and development of CNRS's photo and video platform.",
@@ -304,6 +307,7 @@
       {
         "period": "2020 – 2021",
         "client": "Obépine network / Paris 1 Panthéon-Sorbonne University",
+        "logo": "/logos/pantheon-sorbonne.webp",
         "role": "Full-stack developer",
         "hook": "Reporting platform for the national wastewater monitoring network.",
         "achievements": [
@@ -325,6 +329,7 @@
       {
         "period": "2018 – 2020",
         "client": "Docteur Conso",
+        "logo": "/logos/docteur-conso.webp",
         "place": "Toulouse",
         "role": "Full-stack developer, Angular / TypeScript / Drupal",
         "hook": "Platform for collecting and reporting sustainability indicators.",
@@ -352,6 +357,7 @@
     "items": [
       {
         "client": "American Hospital of Paris",
+        "place": "via OWS",
         "text": "Technical lead and development of the hospital's public website.",
         "image": {
           "src": "/img/projects/american-hospital.webp",
@@ -360,6 +366,7 @@
       },
       {
         "client": "City of Issy-les-Moulineaux",
+        "place": "via OWS",
         "text": "Technical lead and development of the city's website. Front-end integration in Twig, SCSS and TypeScript to RGAA accessibility criteria.",
         "image": {
           "src": "/img/projects/issy.webp",
@@ -368,6 +375,7 @@
       },
       {
         "client": "Syndex",
+        "place": "via Fabernovel",
         "text": "Six-language Drupal 8 website for a consultancy serving employee representatives.",
         "image": {
           "src": "/img/projects/syndex.webp",
@@ -382,6 +390,7 @@
       {
         "period": "2017 – 2022",
         "company": "Simplon",
+        "logo": "/logos/simplon.webp",
         "place": "Toulouse",
         "role": "Web development trainer",
         "text": "Trained career changers, students and junior developers across the whole lifecycle of a web application, two days a week alongside my freelance work.",
@@ -394,6 +403,7 @@
       {
         "period": "2012 – 2014",
         "company": "Makina Corpus",
+        "logo": "/logos/makina-corpus.webp",
         "place": "Toulouse",
         "role": "Drupal developer",
         "text": "Drupal development for public and private clients at a Toulouse web agency.",
@@ -407,6 +417,40 @@
             "text": "Website of the competitiveness cluster."
           }
         ]
+      },
+      {
+        "period": "2011 – 2012",
+        "company": "X-Prime Groupe",
+        "logo": "/logos/x-prime.webp",
+        "place": "Toulouse",
+        "role": "Drupal developer",
+        "text": "Drupal development for the clients of a Toulouse communications agency.",
+        "projects": [
+          {
+            "name": "Pierre Fabre Laboratories",
+            "text": "Multisite platform: pierre-fabre.com and rh.pierre-fabre.com."
+          },
+          {
+            "name": "ADP Paris LifeStyle",
+            "text": "Development and maintenance of a Drupal site in 10 languages, web services for the mobile app."
+          }
+        ]
+      },
+      {
+        "period": "2006 – 2007",
+        "company": "Toulouse 1 Capitole University",
+        "logo": "/logos/ut-capitole.webp",
+        "place": "Toulouse",
+        "role": "PHP developer",
+        "text": "Open and distance learning department: installed and ran a Moodle instance, built custom Moodle 1.8 modules (podcasting, video conferencing, grade management) and supported users."
+      },
+      {
+        "period": "2006",
+        "company": "University of Guadalajara",
+        "logo": "/logos/guadalajara.webp",
+        "place": "Guadalajara, Mexico",
+        "role": "Web development intern",
+        "text": "Built a student and faculty portal on Joomla, with custom modules."
       }
     ]
   },
@@ -479,6 +523,8 @@
     "mainNav": "Main navigation",
     "profiles": "Online profiles",
     "tools": "Tools",
-    "verifyAriaPrefix": "Verify the certification"
+    "verifyAriaPrefix": "Verify the certification",
+    "enlargeImage": "Enlarge image",
+    "closeImage": "Close image"
   }
 }

@@ -12,6 +12,8 @@ export interface Image {
 export interface Mission {
   period: string;
   client: string;
+  /** Company logo, path under src/assets (e.g. `/logos/ovhcloud.webp`). */
+  logo?: string;
   place?: string;
   role: string;
   hook: string;
@@ -22,6 +24,8 @@ export interface Mission {
 
 export interface OtherProject {
   client: string;
+  /** Agency the project was done through, e.g. `via OWS`. */
+  place?: string;
   text: string;
   image?: Image;
 }
@@ -29,6 +33,8 @@ export interface OtherProject {
 export interface Experience {
   period: string;
   company: string;
+  /** Company logo, path under src/assets (e.g. `/logos/ovhcloud.webp`). */
+  logo?: string;
   place?: string;
   role: string;
   text: string;
@@ -94,5 +100,8 @@ export interface Content {
     tools: string;
     /** Followed by the certification name, for the "verify" link's accessible name. */
     verifyAriaPrefix: string;
+    /** Followed by the image description, for the screenshot buttons' accessible name. */
+    enlargeImage: string;
+    closeImage: string;
   };
 }

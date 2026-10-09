@@ -1,14 +1,14 @@
 ---
-import { Image } from 'astro:assets';
 import type { Content } from '../content/types';
-import { asset } from '../lib/images';
 import Chevron from './icons/Chevron.astro';
+import ZoomableImage from './ZoomableImage.astro';
 
 interface Props {
   otherProjects: Content['otherProjects'];
+  enlargeLabel: string;
 }
 
-const { otherProjects } = Astro.props;
+const { otherProjects, enlargeLabel } = Astro.props;
 ---
 
 <div class="band">
@@ -21,7 +21,10 @@ const { otherProjects } = Astro.props;
             <article data-disclosure>
               <h4 class="mobile-only toggle-heading">
                 <button type="button" class="disclosure-toggle" aria-expanded="false" aria-controls={`other-${i}`}>
-                  <span class="client">{project.client}</span>
+                  <span class="toggle-text">
+                    <span class="client">{project.client}</span>
+                    {project.place && <span class="mono place">{project.place}</span>}
+                  </span>
                   <span class="chevron" aria-hidden="true">
                     <Chevron />
                   </span>
@@ -29,15 +32,16 @@ const { otherProjects } = Astro.props;
               </h4>
               <div id={`other-${i}`} data-disclosure-panel>
                 {project.image && (
-                  <Image
-                    class="shot"
-                    src={asset(project.image.src)}
+                  <ZoomableImage
+                    class="zoom-shot"
+                    src={project.image.src}
                     alt={project.image.alt}
-                    widths={[400, 800, 1200]}
+                    label={enlargeLabel}
                     sizes="(max-width: 960px) calc(100vw - 40px), 370px"
                   />
                 )}
                 <h4 class="desktop-only client">{project.client}</h4>
+                {project.place && <p class="desktop-only mono place">{project.place}</p>}
                 <p class="text">{project.text}</p>
               </div>
             </article>
@@ -80,6 +84,12 @@ const { otherProjects } = Astro.props;
     font-weight: 700;
   }
 
+  .place {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
   .text {
     margin: 8px 0 0;
     font-size: 16px;
@@ -117,17 +127,29 @@ const { otherProjects } = Astro.props;
       font-weight: inherit;
     }
 
-    .toggle-heading .client {
+    .toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
       align-self: center;
+      min-width: 0;
+    }
+
+    .toggle-heading .client {
       margin: 0;
       font-size: 19px;
+    }
+
+    .toggle-heading .place {
+      margin: 0;
+      font-weight: 400;
     }
 
     .chevron {
       margin-top: 0;
     }
 
-    .shot {
+    .zoom-shot {
       margin-top: 14px;
     }
 

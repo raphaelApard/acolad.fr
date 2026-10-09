@@ -8,7 +8,7 @@ interface Props {
   content: Content;
 }
 
-const { missions, otherProjects } = Astro.props.content;
+const { missions, otherProjects, ui } = Astro.props.content;
 ---
 
 <section id="missions" aria-labelledby="t-missions">
@@ -23,6 +23,7 @@ const { missions, otherProjects } = Astro.props.content;
           id={`mission-${i}`}
           period={m.period}
           title={m.client}
+          logo={m.logo}
           place={m.place}
           role={m.role}
           text={m.hook}
@@ -31,11 +32,12 @@ const { missions, otherProjects } = Astro.props.content;
           stack={m.stack}
           stackLabel={missions.stackLabel}
           image={m.image}
+          enlargeLabel={ui.enlargeImage}
         />
       ))
     }
   </div>
-  <OtherProjects otherProjects={otherProjects} />
+  <OtherProjects otherProjects={otherProjects} enlargeLabel={ui.enlargeImage} />
 </section>
 
 <style>
@@ -46,8 +48,9 @@ const { missions, otherProjects } = Astro.props.content;
 
   .intro {
     display: grid;
-    grid-template-columns: 340px minmax(0, 1fr);
-    gap: 64px;
+    /* Same columns as TimelineRow, so the company line starts above the roles. */
+    grid-template-columns: 300px minmax(0, 1fr);
+    gap: 48px;
     align-items: end;
     margin-bottom: 56px;
   }
