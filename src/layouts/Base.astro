@@ -25,7 +25,7 @@ const portrait = new URL(ogImage.src, Astro.site).href;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>document.documentElement.classList.add('js');</script>
     <Font cssVariable="--font-schibsted" preload />
-    <Font cssVariable="--font-jetbrains" />
+    <Font cssVariable="--font-jetbrains" preload />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
