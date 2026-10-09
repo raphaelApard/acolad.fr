@@ -526,5 +526,72 @@
     "verifyAriaPrefix": "Verify the certification",
     "enlargeImage": "Enlarge image",
     "closeImage": "Close image"
+  },
+  "legal": {
+    "path": "/en/legal-notice/",
+    "linkLabel": "Legal notice",
+    "title": "Legal notice",
+    "description": "Legal notice, personal data and cookies for Raphaël Apard's website (Acolad Développement).",
+    "updated": "Last updated: 9 October 2026",
+    "sections": [
+      {
+        "id": "publisher",
+        "title": "Publisher",
+        "paragraphs": [
+          "<strong>Acolad Développement</strong>, simplified joint-stock company (SAS) with a share capital of €1,000",
+          "Registered office: 27 avenue de Sorèze, 31250 Revel, France",
+          "Toulouse Trade and Companies Register (RCS) 807 777 917 · SIRET 807 777 917 00038",
+          "EU VAT number: FR29807777917",
+          "Phone: +33 6 13 78 91 34 · Email: <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>"
+        ]
+      },
+      {
+        "id": "publication-director",
+        "title": "Publication director",
+        "paragraphs": [
+          "Raphaël Apard, president of Acolad Développement."
+        ]
+      },
+      {
+        "id": "hosting",
+        "title": "Hosting",
+        "paragraphs": [
+          "<strong>o2switch</strong>, SAS with a share capital of €100,000, RCS Clermont-Ferrand 510 909 807",
+          "Chemin des Pardiaux, 63000 Clermont-Ferrand, France",
+          "Phone: +33 4 44 44 60 40 · <a href=\"https://www.o2switch.fr\">o2switch.fr</a>"
+        ]
+      },
+      {
+        "id": "intellectual-property",
+        "title": "Intellectual property",
+        "paragraphs": [
+          "The text, layout and photographs on this site belong to Acolad Développement unless stated otherwise. They may not be reproduced or reused without prior written permission.",
+          "Client logos and screenshots remain the property of their respective owners. They are shown only to illustrate the work carried out."
+        ]
+      },
+      {
+        "id": "personal-data",
+        "title": "Personal data",
+        "paragraphs": [
+          "This site has no form and no user account. The only personal data processed is what you send by writing to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, and the audience measurement data described below.",
+          "Data controller: Acolad Développement, represented by Raphaël Apard. Your emails are used only to answer your request and follow up the business relationship. They are kept for at most 3 years after the last exchange and are never passed on to third parties.",
+          "Under the GDPR and the French Data Protection Act, you have the right to access, rectify, erase, restrict and port your data, and to object to its processing. To exercise these rights, write to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>. You may also lodge a complaint with the <a href=\"https://www.cnil.fr/en/home\">CNIL</a>, the French data protection authority."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies and audience measurement",
+        "paragraphs": [
+          "Visits are measured with Matomo, installed on a server run by Acolad Développement (stats.acolad.net, hosted in France by o2switch). The statistics are used only to understand how the site is used: they are not shared with third parties or combined with other data, IP addresses are anonymised and data is kept for at most 25 months.",
+          "Matomo sets two cookies: <code>_pk_id</code> (visitor ID, 13 months) and <code>_pk_ses</code> (session, 30 minutes). Configured this way, this audience measurement is exempt from consent under the CNIL's guidelines. You can still opt out below.",
+          "The language switch sets a <code>lang</code> cookie (12 months) that remembers your choice. No advertising or social media cookies are used."
+        ]
+      }
+    ],
+    "optOut": {
+      "label": "Measure my visits with Matomo",
+      "on": "Your visits are measured anonymously.",
+      "off": "Your visits are no longer measured in this browser."
+    }
   }
 }

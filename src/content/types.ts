@@ -42,6 +42,14 @@ export interface Experience {
   projects?: { name: string; text: string }[];
 }
 
+export interface LegalSection {
+  /** Anchor of the section heading. */
+  id: string;
+  title: string;
+  /** Trusted HTML from this repository: links, <strong> and <code> only. */
+  paragraphs: string[];
+}
+
 export interface Content {
   meta: { lang: Lang; languageName: string; title: string; description: string };
   links: { email: string; linkedin: string | null; malt: string | null; github: string | null };
@@ -90,6 +98,17 @@ export interface Content {
     languages: { title: string; items: { name: string; level: string }[] };
   };
   contact: { title: string; footer: string; backToTop: string };
+  legal: {
+    /** Page URL, also used as the footer link target. */
+    path: string;
+    linkLabel: string;
+    title: string;
+    description: string;
+    updated: string;
+    sections: LegalSection[];
+    /** Matomo opt-out checkbox, shown at the end of the cookies section. */
+    optOut: { label: string; on: string; off: string };
+  };
   ui: {
     skipLink: string;
     languageSwitch: string;

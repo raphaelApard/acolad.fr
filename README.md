@@ -34,7 +34,8 @@ src/styles/       tokens.css (from the design), global.css (base and shared util
 src/layouts/      Base.astro (head, SEO, hreflang, fonts)
 src/components/   one component per section; TimelineRow renders missions and experience
 src/scripts/      disclosure.ts (mobile accordions)
-src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English)
+src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English),
+                  mentions-legales.astro and en/legal-notice.astro (LegalPage component)
 src/assets/       source images and logos, optimised at build time
 src/lib/          images.ts (resolves content image paths to src/assets)
 public/           copied as is (.htaccess)
@@ -53,6 +54,10 @@ tests/            unit (Vitest) and e2e (Playwright)
 - Image `src` values are paths under `src/assets` (e.g. `/img/portrait.webp`); intrinsic sizes
   are read from the files. Logos also need `height`, the rendered desktop height (mobile uses ×0.77).
 - Section anchors (`nav[].id`) are fixed in the components and identical in every locale.
+- The legal notice (`legal`) holds the publisher, host, personal data and cookie details. Its
+  paragraphs are trusted HTML (links, `<strong>`, `<code>`); keep them in step with the company
+  registration, the host and the Matomo settings. The cookies section ends with a Matomo opt-out
+  checkbox, shown once the tracker has loaded.
 
 ## Layout rules
 
@@ -85,7 +90,8 @@ the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.we
 `error_log`) are never touched.
 `public/.htaccess` is the production config, copied as is into the build:
 o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/`, a 301
-from the former `/fr/` and the former site's pages to `/`, a 302 from `/` to `/en/` for browsers
+from the former `/fr/` and the former site's pages to `/` (`/politique-confidentialite/` goes to the
+legal notice), a 302 from `/` to `/en/` for browsers
 whose first language is English (skipped when the visitor picked French with the language switch,
 which sets a `lang` cookie, came from the site itself, or is a crawler or an audit tool such as
 Lighthouse), and cache headers: one year, immutable, for the fingerprinted `/_astro/`

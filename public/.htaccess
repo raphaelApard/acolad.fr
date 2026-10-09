@@ -31,8 +31,7 @@ RedirectMatch 301 ^/challenge-one/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/audio-analog/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/mentions-legales/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/mentions-legales/#donnees-personnelles
 RedirectMatch 301 ^/projets/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/services/?$ https://www.acolad.fr/
 

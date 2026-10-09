@@ -124,6 +124,83 @@ for (const { lang, path, content } of locales) {
   });
 }
 
+for (const { lang, path, content } of locales) {
+  test.describe(content.legal.path, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(content.legal.path);
+    });
+
+    test('declares its language, canonical and alternates', async ({ page }) => {
+      await expect(page.locator('html')).toHaveAttribute('lang', lang);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(content.legal.title);
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://www.acolad.fr${content.legal.path}`);
+      for (const l of locales) {
+        await expect(page.locator(`link[rel="alternate"][hreflang="${l.lang}"]`)).toHaveAttribute(
+          'href',
+          `https://www.acolad.fr${l.content.legal.path}`,
+        );
+      }
+    });
+
+    test('links the language switch to the other legal page', async ({ page }) => {
+      const group = page.getByRole('group', { name: content.ui.languageSwitch });
+      for (const l of locales) {
+        await expect(group.locator(`a[hreflang="${l.lang}"]`)).toHaveAttribute('href', l.content.legal.path);
+      }
+    });
+
+    test('points the nav back to the home page sections', async ({ page }) => {
+      // Checked in the DOM: on mobile the nav sits in the closed menu.
+      const first = content.nav[0]!;
+      await expect(page.locator('#main-nav a').first()).toHaveAttribute('href', `${path}#${first.id}`);
+    });
+
+    test('is reachable from the home page footer', async ({ page }) => {
+      await page.goto(path);
+      await page.getByRole('contentinfo').getByRole('link', { name: content.legal.linkLabel }).click();
+      await expect(page).toHaveURL(new RegExp(`${content.legal.path}$`));
+      await expect(page.getByRole('contentinfo').getByRole('link', { name: content.legal.linkLabel }))
+        .toHaveAttribute('aria-current', 'page');
+    });
+
+    test('has no WCAG AA violations', async ({ page }) => {
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      expect(results.violations).toEqual([]);
+    });
+  });
+}
+
+test('lets visitors opt out of Matomo', async ({ page }) => {
+  // Stand-in for matomo.js: replays the queued _paq commands and keeps the opt-out state.
+  await page.route('https://stats.acolad.net/js/', (route) =>
+    route.fulfill({
+      contentType: 'application/javascript',
+      body: `(() => {
+        const tracker = { out: false, isUserOptedOut() { return this.out; } };
+        const queue = window._paq;
+        window._paq = { push(c) {
+          if (typeof c[0] === 'function') c[0].call(tracker);
+          else if (c[0] === 'optUserOut') tracker.out = true;
+          else if (c[0] === 'forgetUserOptOut') tracker.out = false;
+        } };
+        queue.forEach((c) => window._paq.push(c));
+        window.__tracker = tracker;
+      })();`,
+    }),
+  );
+  await page.goto(fr.legal.path);
+  const box = page.getByRole('checkbox', { name: fr.legal.optOut.label });
+  await expect(box).toBeChecked();
+  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.on);
+
+  await box.uncheck();
+  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.off);
+  expect(await page.evaluate(() => (window as unknown as { __tracker: { out: boolean } }).__tracker.out)).toBe(true);
+
+  await box.check();
+  await expect(page.getByRole('status')).toHaveText(fr.legal.optOut.on);
+});
+
 test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 
