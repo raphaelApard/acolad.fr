@@ -23,3 +23,6 @@ blob-report/
 # Misc
 .DS_Store
 *.tsbuildinfo
+
+# Local tooling
+.claude/
