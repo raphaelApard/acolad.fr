@@ -86,8 +86,9 @@ liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par 
 `.user.ini`, `error_log`) ne sont jamais touchés.
 `public/.htaccess` est la configuration de production, copiée telle
 quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `acolad.fr/`
-vers `www.acolad.fr/` et des 301 des pages de l'ancien site vers l'accueil. `/` mène à `/fr/`
-via la page meta-refresh.
+vers `www.acolad.fr/`, des 301 des pages de l'ancien site vers l'accueil, et les en-têtes de cache : un an, immutable, pour les
+fichiers empreintés de `/_astro/`, une semaine pour les favicons, `no-cache` pour les pages, le
+sitemap et robots.txt. `/` mène à `/fr/` via la page meta-refresh.
 L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap. `/sitemap.xml` (`src/pages/sitemap.xml.ts`)
 liste les deux langues avec leurs alternates hreflang ; `/robots.txt` (`src/pages/robots.txt.ts`)

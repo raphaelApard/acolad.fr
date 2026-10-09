@@ -81,9 +81,9 @@ git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and
 the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
 `error_log`) are never touched.
 `public/.htaccess` is the production config, copied as is into the build:
-o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/` and
-301s from the former site's pages to the home page. `/` itself reaches `/fr/` through the
-meta-refresh page.
+o2switch PageSpeed (do not edit that block), a 301 from `acolad.fr/` to `www.acolad.fr/`,
+301s from the former site's pages to the home page, and cache headers: one year, immutable, for the fingerprinted `/_astro/`
+files, one week for the favicons, `no-cache` for pages, sitemap and robots.txt. `/` itself reaches `/fr/` through the meta-refresh page.
 The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
 sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists both locales with their hreflang
 alternates; `/robots.txt` (`src/pages/robots.txt.ts`) points crawlers at it. The former
