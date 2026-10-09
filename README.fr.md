@@ -2,7 +2,7 @@
 
 # Raphaël Apard — site one-page
 
-Site one-page statique et bilingue (`/fr/`, `/en/`) construit avec [Astro](https://astro.build)
+Site one-page statique et bilingue (français sur `/`, anglais sur `/en/`) construit avec [Astro](https://astro.build)
 à partir de la maquette validée dans [`design/`](design/README.fr.md).
 
 ## Prérequis
@@ -34,7 +34,7 @@ src/styles/       tokens.css (issu du design), global.css (base et utilitaires p
 src/layouts/      Base.astro (head, SEO, hreflang, polices)
 src/components/   un composant par section ; TimelineRow affiche missions et expériences
 src/scripts/      disclosure.ts (accordéons mobiles)
-src/pages/        [lang]/index.astro (la page), index.astro (redirection / → /fr/)
+src/pages/        [...lang].astro (la page : `/` en français, `/en/` en anglais)
 src/assets/       images et logos sources, optimisés au build
 src/lib/          images.ts (relie les chemins d'images du contenu à src/assets)
 public/           copié tel quel (.htaccess)
@@ -87,11 +87,13 @@ les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'ar
 liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
 `.user.ini`, `error_log`) ne sont jamais touchés.
 `public/.htaccess` est la configuration de production, copiée telle
-quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `/` vers `/fr/`
-(la page meta-refresh n'est qu'un repli), une 301 de `acolad.fr/` vers `www.acolad.fr/`, des 301
-des pages de l'ancien site vers `/fr/`, et les en-têtes de cache : un an, immutable, pour les
+quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une 301 de `acolad.fr/`
+vers `www.acolad.fr/`, des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/`, une 302
+de `/` vers `/en/` pour les navigateurs dont la première langue est l'anglais (sauf si le visiteur
+a choisi le français avec le sélecteur de langue, qui pose un cookie `lang`, vient du site lui-même,
+ou est un robot ou un outil d'audit comme Lighthouse), et les en-têtes de cache : un an, immutable, pour les
 fichiers empreintés de `/_astro/`, une semaine pour les favicons, `no-cache` pour les pages, le
-sitemap et robots.txt.
+sitemap et robots.txt, `Vary: Accept-Language, Cookie` sur `/`.
 L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap. `/sitemap.xml` (`src/pages/sitemap.xml.ts`)
 liste les deux langues avec leurs alternates hreflang ; `/robots.txt` (`src/pages/robots.txt.ts`)

@@ -1,11 +1,11 @@
 import type { APIRoute } from 'astro';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
-import { langs } from '../content';
+import { defaultLang, langs } from '../content';
 
 // One file is enough for one page per locale; alternates mirror the hreflang links in Base.astro.
 const alternates = [
   ...langs.map((lang) => ({ hreflang: lang, href: getAbsoluteLocaleUrl(lang) })),
-  { hreflang: 'x-default', href: getAbsoluteLocaleUrl('fr') },
+  { hreflang: 'x-default', href: getAbsoluteLocaleUrl(defaultLang) },
 ]
   .map(({ hreflang, href }) => `<xhtml:link rel="alternate" hreflang="${hreflang}" href="${href}"/>`)
   .join('');

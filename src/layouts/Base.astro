@@ -2,7 +2,7 @@
 import { Font, getImage } from 'astro:assets';
 import '../styles/global.css';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
-import { langs } from '../content';
+import { defaultLang, langs } from '../content';
 import { asset } from '../lib/images';
 import type { Content } from '../content/types';
 
@@ -32,7 +32,7 @@ const portrait = new URL(ogImage.src, Astro.site).href;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="canonical" href={canonical} />
     {langs.map((l) => <link rel="alternate" hreflang={l} href={getAbsoluteLocaleUrl(l)} />)}
-    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl('fr')} />
+    <link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl(defaultLang)} />
     <link rel="sitemap" href="/sitemap.xml" />
     <meta name="theme-color" content="#F4F5F7" />
     <meta property="og:type" content="website" />

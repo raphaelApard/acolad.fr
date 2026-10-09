@@ -12,9 +12,9 @@ export default defineConfig({
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr', 'en'],
+    // French at the root (/), English under /en/.
     routing: {
-      prefixDefaultLocale: true,
-      redirectToDefaultLocale: false,
+      prefixDefaultLocale: false,
     },
   },
   // Self-hosted fonts, Latin subset only (the copy has no other script).

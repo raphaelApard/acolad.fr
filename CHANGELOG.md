@@ -2,7 +2,7 @@
 
 ## 3.0.0 — unreleased
 
-The site becomes a static one-page résumé built with Astro, in French and English (`/fr/`, `/en/`),
+The site becomes a static one-page résumé built with Astro, in French (`/`) and English (`/en/`),
 from a new design. Payload CMS and the multi-page site are removed.
 
 - All copy lives in two JSON files typed against a shared shape; tests keep both locales in sync.
@@ -12,6 +12,8 @@ from a new design. Payload CMS and the multi-page site are removed.
   a `srcset`, the CSS is inlined and an `.htaccess` sets caching on Apache hosts.
 - `/sitemap.xml` (one file, with hreflang alternates) and `/robots.txt` are generated from the
   site URL.
+- English-speaking browsers are sent from `/` to `/en/` unless the visitor picked French; the former
+  `/fr/` URL 301s to `/`.
 - Playwright and axe check routing, mobile interactions and WCAG AA on desktop and mobile widths.
 
 ## 2.0.0 — 2026-09-30
