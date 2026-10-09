@@ -407,6 +407,37 @@
             "text": "Site web du pôle de compétitivité."
           }
         ]
+      },
+      {
+        "period": "2011 – 2012",
+        "company": "X-Prime Groupe",
+        "place": "Toulouse",
+        "role": "Développeur Drupal",
+        "text": "Développements Drupal pour les clients d'une agence de communication toulousaine.",
+        "projects": [
+          {
+            "name": "Laboratoires Pierre Fabre",
+            "text": "Plateforme multisite : pierre-fabre.com et rh.pierre-fabre.com."
+          },
+          {
+            "name": "ADP Paris LifeStyle",
+            "text": "Développement et maintenance d'un site Drupal en 10 langues, webservices pour l'application mobile."
+          }
+        ]
+      },
+      {
+        "period": "2006 – 2007",
+        "company": "Université Toulouse 1 Capitole",
+        "place": "Toulouse",
+        "role": "Développeur PHP",
+        "text": "Service de formation ouverte et à distance (FOAD) : installation et administration d'une instance Moodle, développement de modules spécifiques pour Moodle 1.8 (podcasting, visioconférence, gestion des notes) et support aux utilisateurs."
+      },
+      {
+        "period": "2006",
+        "company": "Université de Guadalajara",
+        "place": "Guadalajara, Mexique",
+        "role": "Stage de développement web",
+        "text": "Développement d'un portail étudiants et enseignants sous Joomla, avec des modules spécifiques."
       }
     ]
   },
