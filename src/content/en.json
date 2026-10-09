@@ -521,7 +521,9 @@
     "tools": "Tools",
     "verifyAriaPrefix": "Verify the certification",
     "enlargeImage": "Enlarge image",
-    "closeImage": "Close image"
+    "closeImage": "Close image",
+    "copyEmail": "Copy email",
+    "emailCopied": "Email copied"
   },
   "legal": {
     "path": "/en/legal-notice/",
