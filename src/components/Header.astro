@@ -25,7 +25,7 @@ const { ui, nav, hero } = content;
     </nav>
 
     <div class="actions">
-      <div role="group" aria-label={ui.languageSwitch} class="lang-switch">
+      <div role="group" aria-label={ui.languageSwitch} class="lang-switch" data-lang-switch>
         {
           langs.map((l) => (
             <a
@@ -58,6 +58,14 @@ const { ui, nav, hero } = content;
 </header>
 
 <script>
+  // Remember an explicit language choice: the server then stops sending
+  // English-speaking browsers from / to /en/ (see public/.htaccess).
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch] a')) {
+    link.addEventListener('click', () => {
+      document.cookie = `lang=${link.hreflang}; path=/; max-age=31536000; samesite=lax; secure`;
+    });
+  }
+
   const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
   const menu = document.querySelector<HTMLElement>('[data-menu]');
 

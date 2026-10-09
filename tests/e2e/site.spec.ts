@@ -39,6 +39,14 @@ test('serves the favicons', async ({ request }) => {
   }
 });
 
+test('remembers the language picked in the switch', async ({ page, context }) => {
+  await page.goto('/en/');
+  await page.getByRole('group', { name: en.ui.languageSwitch }).locator('a[hreflang="fr"]').click();
+  await expect(page).toHaveURL(/\/$/);
+  const cookie = (await context.cookies()).find((c) => c.name === 'lang');
+  expect(cookie?.value).toBe('fr');
+});
+
 for (const { lang, path, content } of locales) {
   test.describe(path, () => {
     test.beforeEach(async ({ page }) => {

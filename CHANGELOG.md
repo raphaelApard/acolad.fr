@@ -12,7 +12,8 @@ from a new design. Payload CMS and the multi-page site are removed.
   a `srcset`, the CSS is inlined and an `.htaccess` sets caching on Apache hosts.
 - `/sitemap.xml` (one file, with hreflang alternates) and `/robots.txt` are generated from the
   site URL.
-- The former `/fr/` URL 301s to `/`.
+- English-speaking browsers are sent from `/` to `/en/` unless the visitor picked French; the former
+  `/fr/` URL 301s to `/`.
 - Playwright and axe check routing, mobile interactions and WCAG AA on desktop and mobile widths.
 
 ## 2.0.0 — 2026-09-30
