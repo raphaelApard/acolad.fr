@@ -15,6 +15,19 @@ test.beforeEach(async ({ page }) => {
   await page.route('https://stats.acolad.net/**', (route) => route.abort());
 });
 
+test('serves a robots.txt that points at the sitemap', async ({ request }) => {
+  const response = await request.get('/robots.txt');
+  expect(response.ok()).toBe(true);
+  expect(await response.text()).toContain('Sitemap: https://www.acolad.fr/sitemap-index.xml');
+  expect((await request.get('/sitemap-index.xml')).ok()).toBe(true);
+});
+
+test('serves the favicons', async ({ request }) => {
+  for (const path of ['/favicon.ico', '/favicon.svg']) {
+    expect((await request.get(path)).ok()).toBe(true);
+  }
+});
+
 test('redirects the root to the French page', async ({ page }) => {
   await page.goto('/');
   await expect(page).toHaveURL(/\/fr\/$/);
