@@ -55,6 +55,9 @@ tests/            unit (Vitest) and e2e (Playwright)
 - Image `src` values are paths under `src/assets` (e.g. `/img/portrait.webp`); intrinsic sizes
   are read from the files. Logos also need `height`, the rendered desktop height (mobile uses ×0.77).
 - Section anchors (`nav[].id`) are fixed in the components and identical in every locale.
+- The home pages carry JSON-LD (`src/components/JsonLd.astro`): a `Person` and the
+  `ProfessionalService` they run, built from the content plus the company facts in
+  `src/content/business.ts` (legal name, address, VAT number), which are the same in every locale.
 - The legal notice (`legal`) holds the publisher, host, personal data and cookie details. Its
   paragraphs are trusted HTML (links, `<strong>`, `<code>`); keep them in step with the company
   registration, the host and the Matomo settings. The cookies section ends with a Matomo opt-out

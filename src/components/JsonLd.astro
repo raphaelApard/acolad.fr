@@ -1,0 +1,66 @@
+---
+// Person + ProfessionalService structured data for the home pages. The @ids are shared by
+// both locales so search engines see one person and one company.
+import { getImage } from 'astro:assets';
+import { getAbsoluteLocaleUrl } from 'astro:i18n';
+import { business } from '../content/business';
+import type { Content } from '../content/types';
+import { asset } from '../lib/images';
+
+interface Props {
+  content: Content;
+}
+
+const { meta, hero, links, skills, missions } = Astro.props.content;
+const site = Astro.site!;
+const personId = new URL('#person', site).href;
+const businessId = new URL('#business', site).href;
+const url = getAbsoluteLocaleUrl(meta.lang);
+const portrait = await getImage({ src: asset(hero.portrait.src), format: 'jpg', width: 468 });
+const image = new URL(portrait.src, site).href;
+const sameAs = [links.linkedin, links.malt, links.github].filter((link): link is string => Boolean(link));
+
+const graph = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Person',
+      '@id': personId,
+      name: hero.name,
+      jobTitle: hero.title,
+      description: meta.description,
+      url,
+      image,
+      email: `mailto:${links.email}`,
+      address: { '@type': 'PostalAddress', addressLocality: business.homeLocality, addressCountry: 'FR' },
+      knowsAbout: skills.groups.flatMap((group) => group.items),
+      sameAs,
+      worksFor: { '@id': businessId },
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': businessId,
+      name: missions.company,
+      legalName: business.legalName,
+      description: meta.description,
+      url,
+      image,
+      email: links.email,
+      telephone: business.telephone,
+      foundingDate: business.foundingDate,
+      vatID: business.vatID,
+      address: { '@type': 'PostalAddress', ...business.address },
+      areaServed: [
+        { '@type': 'City', name: business.homeLocality },
+        { '@type': 'Country', name: 'France' },
+      ],
+      founder: { '@id': personId },
+      employee: { '@id': personId },
+    },
+  ],
+};
+// "<" escaped so the JSON can never close the script element.
+const json = JSON.stringify(graph).replace(/</g, '\\u003c');
+---
+
+<script type="application/ld+json" set:html={json} />
