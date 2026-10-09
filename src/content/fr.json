@@ -357,6 +357,7 @@
     "items": [
       {
         "client": "Hôpital Américain de Paris",
+        "place": "via OWS",
         "text": "Pilotage technique et développement du site public de l'hôpital.",
         "image": {
           "src": "/img/projects/american-hospital.webp",
@@ -365,6 +366,7 @@
       },
       {
         "client": "Ville d'Issy-les-Moulineaux",
+        "place": "via OWS",
         "text": "Pilotage technique et développement du site de la ville. Intégration front en Twig, SCSS et TypeScript selon les critères d'accessibilité RGAA.",
         "image": {
           "src": "/img/projects/issy.webp",
@@ -373,6 +375,7 @@
       },
       {
         "client": "Syndex",
+        "place": "via Fabernovel",
         "text": "Site Drupal 8 en six langues d'un cabinet au service des représentants des salariés.",
         "image": {
           "src": "/img/projects/syndex.webp",

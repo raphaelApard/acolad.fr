@@ -357,6 +357,7 @@
     "items": [
       {
         "client": "American Hospital of Paris",
+        "place": "via OWS",
         "text": "Technical lead and development of the hospital's public website.",
         "image": {
           "src": "/img/projects/american-hospital.webp",
@@ -365,6 +366,7 @@
       },
       {
         "client": "City of Issy-les-Moulineaux",
+        "place": "via OWS",
         "text": "Technical lead and development of the city's website. Front-end integration in Twig, SCSS and TypeScript to RGAA accessibility criteria.",
         "image": {
           "src": "/img/projects/issy.webp",
@@ -373,6 +375,7 @@
       },
       {
         "client": "Syndex",
+        "place": "via Fabernovel",
         "text": "Six-language Drupal 8 website for a consultancy serving employee representatives.",
         "image": {
           "src": "/img/projects/syndex.webp",
