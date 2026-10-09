@@ -1,5 +1,10 @@
 # Changelog
 
+## 3.0.1 — 2026-10-09
+
+- The Matomo tracker is loaded from `stats.acolad.net/js/`, which browsers cache for 10 days
+  (`matomo.js` had no cache header).
+
 ## 3.0.0 — 2026-10-09
 
 The site becomes a static one-page résumé built with Astro, in French (`/`) and English (`/en/`),
