@@ -407,6 +407,37 @@
             "text": "Website of the competitiveness cluster."
           }
         ]
+      },
+      {
+        "period": "2011 – 2012",
+        "company": "X-Prime Groupe",
+        "place": "Toulouse",
+        "role": "Drupal developer",
+        "text": "Drupal development for the clients of a Toulouse communications agency.",
+        "projects": [
+          {
+            "name": "Pierre Fabre Laboratories",
+            "text": "Multisite platform: pierre-fabre.com and rh.pierre-fabre.com."
+          },
+          {
+            "name": "ADP Paris LifeStyle",
+            "text": "Development and maintenance of a Drupal site in 10 languages, web services for the mobile app."
+          }
+        ]
+      },
+      {
+        "period": "2006 – 2007",
+        "company": "Toulouse 1 Capitole University",
+        "place": "Toulouse",
+        "role": "PHP developer",
+        "text": "Open and distance learning department: installed and ran a Moodle instance, built custom Moodle 1.8 modules (podcasting, video conferencing, grade management) and supported users."
+      },
+      {
+        "period": "2006",
+        "company": "University of Guadalajara",
+        "place": "Guadalajara, Mexico",
+        "role": "Web development intern",
+        "text": "Built a student and faculty portal on Joomla, with custom modules."
       }
     ]
   },
