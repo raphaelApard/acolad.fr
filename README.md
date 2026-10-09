@@ -66,7 +66,7 @@ tests/            unit (Vitest) and e2e (Playwright)
 ## Performance
 
 - Fonts go through Astro's Fonts API (`fonts` in `astro.config.mjs`): Latin woff2 files only,
-  Schibsted Grotesk preloaded, metric-matched fallbacks so the swap does not shift the layout.
+  every face preloaded (no request chain behind the HTML), metric-matched fallbacks so the swap does not shift the layout.
 - Images go through `astro:assets`: screenshots and portrait get a `srcset` (WebP), logos are
   resized to their display height at 1x and 2x. Below-the-fold images are lazy-loaded.
 - CSS is inlined in each page (`build.inlineStylesheets`), so nothing blocks the first render.

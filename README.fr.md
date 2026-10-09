@@ -67,7 +67,7 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 ## Performance
 
 - Les polices passent par l'API Fonts d'Astro (`fonts` dans `astro.config.mjs`) : fichiers
-  woff2 latins uniquement, Schibsted Grotesk préchargée, polices de repli ajustées pour que le
+  woff2 latins uniquement, toutes préchargées (aucune chaîne de requêtes après le HTML), polices de repli ajustées pour que le
   changement de police ne décale pas la mise en page.
 - Les images passent par `astro:assets` : captures et portrait ont un `srcset` (WebP), les logos
   sont redimensionnés à leur hauteur d'affichage en 1x et 2x. Les images sous la ligne de
