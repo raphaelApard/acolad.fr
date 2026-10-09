@@ -53,6 +53,7 @@ const portrait = new URL(ogImage.src, Astro.site).href;
     <script>
       import '../scripts/matomo';
     </script>
+    <slot name="head" />
   </head>
   <body>
     <slot />

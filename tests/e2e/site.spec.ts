@@ -91,6 +91,16 @@ for (const { lang, path, content } of locales) {
       }
     });
 
+    test('describes the person and the company in JSON-LD', async ({ page }) => {
+      const json = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
+      const types = Object.fromEntries(json['@graph'].map((node: { '@type': string }) => [node['@type'], node]));
+      expect(types.Person.name).toBe(content.hero.name);
+      expect(types.Person.jobTitle).toBe(content.hero.title);
+      expect(types.Person.worksFor['@id']).toBe(types.ProfessionalService['@id']);
+      expect(types.ProfessionalService.name).toBe(content.missions.company);
+      expect(types.ProfessionalService.founder['@id']).toBe(types.Person['@id']);
+    });
+
     test('has a single h1 and an anchor for every nav item', async ({ page }) => {
       await expect(page.locator('h1')).toHaveCount(1);
       for (const item of content.nav) {

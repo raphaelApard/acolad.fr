@@ -56,6 +56,9 @@ tests/            unitaires (Vitest) et e2e (Playwright)
   dimensions sont lues dans les fichiers. Les logos ont aussi `height`, la hauteur affichée en
   desktop (×0,77 en mobile).
 - Les ancres de section (`nav[].id`) sont fixées dans les composants et identiques dans chaque langue.
+- Les pages d'accueil portent du JSON-LD (`src/components/JsonLd.astro`) : un `Person` et le
+  `ProfessionalService` qu'il dirige, construits à partir du contenu et des informations de la
+  société dans `src/content/business.ts` (raison sociale, adresse, TVA), communes aux deux langues.
 - Les mentions légales (`legal`) contiennent l'éditeur, l'hébergeur, les données personnelles et
   les cookies. Leurs paragraphes sont du HTML de confiance (liens, `<strong>`, `<code>`) ; à tenir
   à jour avec l'immatriculation de la société, l'hébergeur et les réglages Matomo. La section
