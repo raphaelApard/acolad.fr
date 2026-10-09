@@ -520,6 +520,8 @@
     "mainNav": "Main navigation",
     "profiles": "Online profiles",
     "tools": "Tools",
-    "verifyAriaPrefix": "Verify the certification"
+    "verifyAriaPrefix": "Verify the certification",
+    "enlargeImage": "Enlarge image",
+    "closeImage": "Close image"
   }
 }

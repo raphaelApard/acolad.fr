@@ -1,0 +1,113 @@
+---
+// One modal for every screenshot (see ZoomableImage.astro). The native <dialog>
+// handles Escape, focus trapping and returning focus to the thumbnail.
+import type { Content } from '../content/types';
+import Close from './icons/Close.astro';
+
+interface Props {
+  content: Content;
+}
+
+const { ui } = Astro.props.content;
+---
+
+<dialog class="lightbox" data-lightbox>
+  <button type="button" class="close" aria-label={ui.closeImage}>
+    <Close />
+  </button>
+</dialog>
+
+<script>
+  const dialog = document.querySelector<HTMLDialogElement>('[data-lightbox]');
+
+  if (dialog) {
+    // Created on first use rather than in the markup: its size is only known once a screenshot is picked.
+    let image: HTMLImageElement | undefined;
+
+    for (const trigger of document.querySelectorAll<HTMLButtonElement>('[data-lightbox-src]')) {
+      trigger.addEventListener('click', () => {
+        const { lightboxSrc = '', lightboxAlt = '', lightboxWidth = '', lightboxHeight = '' } = trigger.dataset;
+        image ??= dialog.appendChild(document.createElement('img'));
+        image.decoding = 'async';
+        image.src = lightboxSrc;
+        image.alt = lightboxAlt;
+        image.width = Number(lightboxWidth);
+        image.height = Number(lightboxHeight);
+        dialog.setAttribute('aria-label', lightboxAlt);
+        dialog.showModal();
+      });
+    }
+
+    // Anything but the image closes: the close button and the dimmed area around it.
+    dialog.addEventListener('click', (event) => {
+      if (event.target !== image) dialog.close();
+    });
+
+    // Drop the image so the next one never flashes the previous screenshot.
+    dialog.addEventListener('close', () => image?.removeAttribute('src'));
+  }
+</script>
+
+<style>
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: 72px 24px 24px;
+    border: 0;
+    background: transparent;
+    cursor: zoom-out;
+  }
+
+  .lightbox[open] {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lightbox::backdrop {
+    background: rgb(15 18 23 / 0.88);
+  }
+
+  img {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    cursor: default;
+  }
+
+  .close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: var(--color-surface);
+    color: var(--color-ink);
+    cursor: pointer;
+  }
+
+  .close:focus-visible {
+    outline: 3px solid var(--color-dark-accent);
+    outline-offset: 3px;
+  }
+
+  /* Keep the page from scrolling behind the open lightbox. */
+  :global(html:has(.lightbox[open])) {
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,45 @@
+---
+// Screenshot that opens full size in the page lightbox (see Lightbox.astro).
+// The thumbnail is cropped to 16:10; the lightbox shows the whole image.
+import type { HTMLAttributes } from 'astro/types';
+import { getImage, Image } from 'astro:assets';
+import { asset } from '../lib/images';
+
+interface Props extends HTMLAttributes<'button'> {
+  src: string;
+  alt: string;
+  sizes: string;
+  /** Accessible name prefix, e.g. "Enlarge image". */
+  label: string;
+}
+
+const { src, alt, sizes, label, class: className, ...rest } = Astro.props;
+const image = asset(src);
+// Only fetched when the lightbox opens.
+const full = await getImage({ src: image, width: Math.min(image.width, 1600), format: 'webp' });
+---
+
+<button
+  type="button"
+  class:list={['zoom', className]}
+  aria-label={`${label} — ${alt}`}
+  data-lightbox-src={full.src}
+  data-lightbox-alt={alt}
+  data-lightbox-width={full.attributes.width}
+  data-lightbox-height={full.attributes.height}
+  {...rest}
+>
+  <Image class="shot" src={image} alt={alt} widths={[400, 800, 1200]} sizes={sizes} />
+</button>
+
+<style>
+  .zoom {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: var(--radius-md);
+    background: none;
+    cursor: zoom-in;
+  }
+</style>

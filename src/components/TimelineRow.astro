@@ -1,11 +1,10 @@
 ---
 // One mission or experience row. Desktop: meta | body | screenshot, always open.
 // Mobile: period/place line + toggle (title, role); everything else is in the panel.
-import { Image as Picture } from 'astro:assets';
 import type { Image } from '../content/types';
-import { asset } from '../lib/images';
 import Chevron from './icons/Chevron.astro';
 import LogoTile from './LogoTile.astro';
+import ZoomableImage from './ZoomableImage.astro';
 
 interface Props {
   id: string;
@@ -20,10 +19,12 @@ interface Props {
   stack?: string[];
   stackLabel?: string;
   image?: Image;
+  /** Accessible name prefix of the screenshot button. */
+  enlargeLabel?: string;
   projects?: { name: string; text: string }[];
 }
 
-const { id, period, title, logo, place, role, text, achievements, achievementsLabel, stack, stackLabel, image, projects } =
+const { id, period, title, logo, place, role, text, achievements, achievementsLabel, stack, stackLabel, image, enlargeLabel = '', projects } =
   Astro.props;
 const panelId = `${id}-panel`;
 ---
@@ -88,12 +89,11 @@ const panelId = `${id}-panel`;
     {
       image && (
         <figure class="figure">
-          <Picture
-            class="shot"
-            src={asset(image.src)}
+          <ZoomableImage
+            src={image.src}
             alt={image.alt}
-            widths={[400, 800, 1200]}
-            sizes="(max-width: 960px) calc(100vw - 40px), 280px"
+            label={enlargeLabel}
+            sizes="(max-width: 960px) calc(100vw - 40px), 240px"
           />
         </figure>
       )
@@ -104,7 +104,7 @@ const panelId = `${id}-panel`;
 <style>
   .row {
     display: grid;
-    grid-template-columns: 300px minmax(0, 1fr) 280px;
+    grid-template-columns: 300px minmax(0, 1fr) 240px;
     gap: 48px;
     padding: 48px 0;
     border-top: 1px solid var(--color-border);

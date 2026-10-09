@@ -520,6 +520,8 @@
     "closeMenu": "Fermer le menu",
     "mainNav": "Navigation principale",
     "tools": "Outils",
-    "verifyAriaPrefix": "Vérifier la certification"
+    "verifyAriaPrefix": "Vérifier la certification",
+    "enlargeImage": "Agrandir l'image",
+    "closeImage": "Fermer l'image"
   }
 }
