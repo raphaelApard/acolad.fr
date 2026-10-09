@@ -5,8 +5,16 @@ ModPagespeedEnableFilters add_head,extend_cache
 </IfModule>
 
 RewriteEngine on
-RewriteCond %{HTTP_HOST} ^acolad\.fr$
-RewriteRule ^/?$ "https\:\/\/www\.acolad\.fr\/" [R=301,L]
+
+# Canonical origin: https://www.acolad.fr, reached in a single 301 that keeps the path.
+# The bare domain always moves to www.
+RewriteCond %{HTTP_HOST} ^acolad\.fr$ [NC]
+RewriteRule ^ https://www.acolad.fr%{REQUEST_URI} [R=301,L,NE]
+# Plain HTTP moves to HTTPS. X-Forwarded-Proto covers a front proxy that terminates TLS
+# itself, so HTTPS requests forwarded to Apache in clear never loop.
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP:X-Forwarded-Proto} !=https
+RewriteRule ^ https://www.acolad.fr%{REQUEST_URI} [R=301,L,NE]
 
 # French lives at the root; the former /fr/ URL is kept for links already shared.
 RedirectMatch 301 ^/fr/?$ https://www.acolad.fr/
@@ -18,7 +26,7 @@ RewriteCond %{HTTP:Accept-Language} ^en [NC]
 RewriteCond %{HTTP_COOKIE} !(^|;\s*)lang=fr
 RewriteCond %{HTTP_REFERER} !^https://(www\.)?acolad\.fr/ [NC]
 RewriteCond %{HTTP_USER_AGENT} !(bot|crawl|spider|slurp|preview|lighthouse|headless) [NC]
-RewriteRule ^$ /en/ [R=302,L]
+RewriteRule ^$ https://www.acolad.fr/en/ [R=302,L]
 
 # Redirections explicites des anciennes URLs
 RedirectMatch 301 ^/saclay/?$ https://www.acolad.fr/
