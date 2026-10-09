@@ -24,6 +24,8 @@ export interface Mission {
 
 export interface OtherProject {
   client: string;
+  /** Agency the project was done through, e.g. `via OWS`. */
+  place?: string;
   text: string;
   image?: Image;
 }

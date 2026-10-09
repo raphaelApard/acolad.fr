@@ -21,7 +21,10 @@ const { otherProjects, enlargeLabel } = Astro.props;
             <article data-disclosure>
               <h4 class="mobile-only toggle-heading">
                 <button type="button" class="disclosure-toggle" aria-expanded="false" aria-controls={`other-${i}`}>
-                  <span class="client">{project.client}</span>
+                  <span class="toggle-text">
+                    <span class="client">{project.client}</span>
+                    {project.place && <span class="mono place">{project.place}</span>}
+                  </span>
                   <span class="chevron" aria-hidden="true">
                     <Chevron />
                   </span>
@@ -38,6 +41,7 @@ const { otherProjects, enlargeLabel } = Astro.props;
                   />
                 )}
                 <h4 class="desktop-only client">{project.client}</h4>
+                {project.place && <p class="desktop-only mono place">{project.place}</p>}
                 <p class="text">{project.text}</p>
               </div>
             </article>
@@ -80,6 +84,12 @@ const { otherProjects, enlargeLabel } = Astro.props;
     font-weight: 700;
   }
 
+  .place {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
   .text {
     margin: 8px 0 0;
     font-size: 16px;
@@ -117,10 +127,22 @@ const { otherProjects, enlargeLabel } = Astro.props;
       font-weight: inherit;
     }
 
-    .toggle-heading .client {
+    .toggle-text {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
       align-self: center;
+      min-width: 0;
+    }
+
+    .toggle-heading .client {
       margin: 0;
       font-size: 19px;
+    }
+
+    .toggle-heading .place {
+      margin: 0;
+      font-weight: 400;
     }
 
     .chevron {
