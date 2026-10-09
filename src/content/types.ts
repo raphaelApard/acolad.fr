@@ -122,6 +122,8 @@ export interface Content {
     title: string;
     text: string;
     cta: string;
+    /** The road sign carries the error text, so each locale has its own picture. */
+    image: Image;
   };
   ui: {
     skipLink: string;

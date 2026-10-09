@@ -4,7 +4,9 @@
 import Base from '../layouts/Base.astro';
 import Header from './Header.astro';
 import Footer from './Footer.astro';
+import { Image } from 'astro:assets';
 import ArrowRight from './icons/ArrowRight.astro';
+import { asset } from '../lib/images';
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import { getContent, langs } from '../content';
 import type { Lang } from '../content/types';
@@ -23,18 +25,41 @@ const homes = Object.fromEntries(langs.map((l) => [l, getRelativeLocaleUrl(l)]))
   <a class="skip-link" href="#content">{ui.skipLink}</a>
   <Header content={content} alternates={homes} />
   <main id="content" class="wrap not-found">
-    <p class="label code">{notFound.code}</p>
-    <h1>{notFound.title}</h1>
-    <p class="text">{notFound.text}</p>
-    <a class="cta" href={homes[content.meta.lang]}>{notFound.cta}<ArrowRight /></a>
+    <div class="copy">
+      <p class="label code">{notFound.code}</p>
+      <h1>{notFound.title}</h1>
+      <p class="text">{notFound.text}</p>
+      <a class="cta" href={homes[content.meta.lang]}>{notFound.cta}<ArrowRight /></a>
+    </div>
+    <Image
+      class="picture"
+      src={asset(notFound.image.src)}
+      alt={notFound.image.alt}
+      widths={[480, 704, 960, 1408]}
+      sizes="(max-width: 960px) calc(100vw - 40px), 640px"
+      loading="eager"
+      fetchpriority="high"
+    />
   </main>
   <Footer content={content} />
 </Base>
 
 <style>
   .not-found {
-    padding-top: 120px;
-    padding-bottom: 160px;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+    gap: 64px;
+    align-items: center;
+    padding-top: 96px;
+    padding-bottom: 128px;
+  }
+
+  .picture {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
   }
 
   .code {
@@ -44,7 +69,7 @@ const homes = Object.fromEntries(langs.map((l) => [l, getRelativeLocaleUrl(l)]))
   h1 {
     max-width: 14em;
     margin: 16px 0 0;
-    font-size: 64px;
+    font-size: 56px;
     line-height: 1;
     font-weight: 800;
     letter-spacing: -0.04em;
@@ -80,8 +105,10 @@ const homes = Object.fromEntries(langs.map((l) => [l, getRelativeLocaleUrl(l)]))
 
   @media (max-width: 960px) {
     .not-found {
-      padding-top: 64px;
-      padding-bottom: 96px;
+      grid-template-columns: 1fr;
+      gap: 40px;
+      padding-top: 48px;
+      padding-bottom: 72px;
     }
 
     h1 {

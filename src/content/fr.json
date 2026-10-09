@@ -598,6 +598,10 @@
     "code": "Erreur 404",
     "title": "Cette page n'existe pas",
     "text": "L'adresse est peut-être incorrecte, ou la page a été déplacée lors de la refonte du site. Tout le contenu est désormais sur la page d'accueil.",
-    "cta": "Retour à l'accueil"
+    "cta": "Retour à l'accueil",
+    "image": {
+      "src": "/img/404-fr.webp",
+      "alt": "Une vieille Peugeot 404 garée sur une route de campagne, à côté d'un panneau en bois : « Erreur 404, page non trouvée. Désolé, cette route est une impasse… Retour à l'accueil »."
+    }
   }
 }

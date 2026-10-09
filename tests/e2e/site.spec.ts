@@ -192,6 +192,7 @@ for (const { lang, path, content } of locales) {
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
       await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
       await expect(page.getByRole('main').getByRole('link', { name: content.notFound.cta })).toHaveAttribute('href', path);
+      await expect(page.getByRole('img', { name: content.notFound.image.alt })).toBeVisible();
     });
 
     test('has no WCAG AA violations', async ({ page }) => {
