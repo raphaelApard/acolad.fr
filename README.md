@@ -3,8 +3,9 @@
 # Raphaël Apard — one-page site
 
 Static, bilingual (French at `/`, English at `/en/`) one-page site built with [Astro](https://astro.build)
-from the validated design handoff in [`design/`](design/README.md). Its content is edited in a
-[Payload](https://payloadcms.com) back office (`cms/`) and pulled before each build.
+from the validated design handoff in [`design/`](design/README.md). Its content is edited in the
+**Acolad backoffice**, the multi-tenant [Payload](https://payloadcms.com) CMS shared by every client
+site (tenant `acolad`, collections `acolad-v2-*`), and pulled before each build.
 
 ## Requirements
 
@@ -16,7 +17,7 @@ from the validated design handoff in [`design/`](design/README.md). Its content 
 | Command | What it does |
 |---|---|
 | `pnpm install` | Install dependencies |
-| `pnpm content:pull` | Fetch the content and its images from the CMS (`PAYLOAD_URL`, default http://localhost:3000) |
+| `pnpm content:pull` | Fetch the content and its images from the backoffice (`PAYLOAD_URL`, default http://localhost:3000; `PAYLOAD_TENANT`, default `acolad`) |
 | `pnpm content:fixture` | Use the test data in `fixtures/` instead (no CMS needed) |
 | `pnpm dev` | Dev server on http://localhost:4321 |
 | `pnpm build` | Static build into `dist/` |
@@ -24,7 +25,8 @@ from the validated design handoff in [`design/`](design/README.md). Its content 
 | `pnpm check` | Type-check Astro and TypeScript files |
 | `pnpm test` | Unit tests (test data, CMS-to-site mapping) |
 | `pnpm test:e2e` | Copies the test data, builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA included |
-| `pnpm cms <script>` | Run a script of the back office: `dev`, `build`, `start`, `generate:types`, `migrate`… |
+| `pnpm sync:cms-types` | Copy the content types from the backoffice (next to this repository, or `BACKOFFICE_DIR`) |
+| `pnpm cms <script>` | Run a script of the former standalone back office (`cms/`, see below) |
 | `pnpm deploy:prod` | Tests, fetches the content, builds and syncs `dist/` to production (see Deployment) |
 | `pnpm deploy:dry` | Same, but only lists what would change on the server |
 
@@ -34,10 +36,11 @@ from the validated design handoff in [`design/`](design/README.md). Its content 
 ## Structure
 
 ```
-cms/              Payload back office (Next.js app, SQLite): collections, globals, section blocks
+cms/              former standalone Payload back office, no longer read by the site
 fixtures/         test data in the site's shape (fr.json, en.json, media/)
 scripts/          content.ts (pull from the CMS or copy the fixtures), deploy scripts
 src/content/      types.ts (shape of the content), cms.ts (CMS documents → content), index.ts (loader),
+                  payload-types.ts (copied from the backoffice),
                   data/ (pulled content, git-ignored), business.ts (company facts)
 src/styles/       tokens.css (from the design), global.css (base and shared utilities)
 src/layouts/      Base.astro (head, SEO, hreflang, fonts)
@@ -55,7 +58,7 @@ tests/            unit (Vitest) and e2e (Playwright)
 
 ## Editing content
 
-Content is edited in the back office (`pnpm cms dev`, then http://localhost:3000/admin), in French
+Content is edited in the Acolad backoffice (`/admin`, tenant `acolad`), in French
 and English (locale switch at the top of each document):
 
 - **Home page**: the hero, then the sections as blocks (expertise, AI band, client logos, skills,
@@ -82,8 +85,13 @@ The home pages carry JSON-LD (`src/components/JsonLd.astro`): a `Person` and the
 `ProfessionalService` they run, built from the content plus the company facts in
 `src/content/business.ts` (legal name, address, VAT number).
 
-After a change to the content model (`cms/src/`), run `pnpm cms generate:types` (the site imports
-`cms/src/payload-types.ts`) and `pnpm cms generate:importmap` when admin components change.
+The content model lives in the backoffice (`src/sites/acolad-v2/`), where the former globals are
+one document per tenant. After a change there, run `pnpm sync:cms-types` and commit
+`src/content/payload-types.ts`. The dashboard's "Publish acolad.fr" panel runs the command set in
+the backoffice's `ACOLAD_V2_PUBLISH_COMMAND`.
+
+`cms/` is the standalone back office the site used before. It never held the live content (that
+was `fixtures/`, imported into the backoffice) and the site no longer reads it.
 
 ## Layout rules
 

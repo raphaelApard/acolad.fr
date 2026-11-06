@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+
+- The content is edited in the Acolad backoffice, the multi-tenant CMS shared by every client site
+  (tenant `acolad`), instead of the site's own back office. `pnpm content:pull` gives the same
+  content as `fixtures/`, which were imported into it.
+
 ## 3.3.1 — 2026-10-09
 
 - Plain HTTP and the bare `acolad.fr` redirect to `https://www.acolad.fr` in a single 301 that keeps

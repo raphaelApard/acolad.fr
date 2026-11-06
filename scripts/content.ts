@@ -1,7 +1,8 @@
 // Writes the content the site is built from: src/content/data/<lang>.json and the images
 // they use in src/assets/media/ (both git-ignored).
 //
-//   node scripts/content.ts pull              from the CMS at $PAYLOAD_URL (or $CMS_URL)
+//   node scripts/content.ts pull              from the Acolad backoffice at $PAYLOAD_URL (or $CMS_URL),
+//                                             tenant $PAYLOAD_TENANT (default `acolad`)
 //   node scripts/content.ts pull --fixtures   same, but into fixtures/ (refreshes the test data)
 //   node scripts/content.ts fixture           copies fixtures/ (test data, no CMS needed)
 //
@@ -12,7 +13,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { toContent, type CmsDocuments } from '../src/content/cms.ts';
 import type { Lang } from '../src/content/types.ts';
-import type { Media } from '../cms/src/payload-types.ts';
+import type { AcoladV2Media as Media } from '../src/content/payload-types.ts';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const langs: Lang[] = ['fr', 'en'];
@@ -34,6 +35,7 @@ async function copyFixtures() {
 
 async function pull(target: { data: string; media: string }) {
   const base = (process.env.PAYLOAD_URL || process.env.CMS_URL || 'http://localhost:3000').replace(/\/$/, '');
+  const tenant = process.env.PAYLOAD_TENANT || 'acolad';
 
   async function get<T>(url: string): Promise<T> {
     const res = await fetch(`${base}${url}`);
@@ -51,8 +53,14 @@ async function pull(target: { data: string; media: string }) {
 
   const contents = await Promise.all(
     langs.map(async (lang) => {
-      // depth 3: home → mission → company → logo.
-      const global = <T>(slug: string) => get<T>(`/api/globals/${slug}?locale=${lang}&depth=3`);
+      // The backoffice hosts several sites: this one's former globals are one document per tenant
+      // in the `acolad-v2-*` collections. depth 3: home → mission → company → logo.
+      const global = async <T>(slug: string) => {
+        const where = `where[tenant.slug][equals]=${encodeURIComponent(tenant)}`;
+        const { docs } = await get<{ docs: T[] }>(`/api/acolad-v2-${slug}?${where}&limit=1&locale=${lang}&depth=3`);
+        if (!docs[0]) throw new Error(`CMS: tenant "${tenant}" has no acolad-v2-${slug} document`);
+        return docs[0];
+      };
       const docs: CmsDocuments = {
         site: await global('site'),
         home: await global('home'),
@@ -66,7 +74,9 @@ async function pull(target: { data: string; media: string }) {
   // Download everything before touching the target, so a failure leaves the previous content.
   const files = await Promise.all(
     [...media].map(async ([name, url]) => {
-      const res = await fetch(new URL(url, base));
+      // The backoffice answers with URLs on its public address: fetch the file where the content came from.
+      const { pathname, search } = new URL(url, base);
+      const res = await fetch(`${base}${pathname}${search}`);
       if (!res.ok) throw new Error(`GET ${url}: HTTP ${res.status}`);
       return [name, Buffer.from(await res.arrayBuffer())] as const;
     }),
