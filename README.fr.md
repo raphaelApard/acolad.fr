@@ -3,8 +3,9 @@
 # Raphaël Apard — site one-page
 
 Site one-page statique et bilingue (français sur `/`, anglais sur `/en/`) construit avec [Astro](https://astro.build)
-à partir de la maquette validée dans [`design/`](design/README.fr.md). Son contenu est saisi dans un
-back-office [Payload](https://payloadcms.com) (`cms/`) et récupéré avant chaque build.
+à partir de la maquette validée dans [`design/`](design/README.fr.md). Son contenu est saisi dans le
+**backoffice Acolad**, le CMS [Payload](https://payloadcms.com) multi-tenant partagé par tous les sites
+clients (tenant `acolad`, collections `acolad-v2-*`), et récupéré avant chaque build.
 
 ## Prérequis
 
@@ -16,7 +17,7 @@ back-office [Payload](https://payloadcms.com) (`cms/`) et récupéré avant chaq
 | Commande | Rôle |
 |---|---|
 | `pnpm install` | Installe les dépendances |
-| `pnpm content:pull` | Récupère le contenu et ses images depuis le CMS (`PAYLOAD_URL`, par défaut http://localhost:3000) |
+| `pnpm content:pull` | Récupère le contenu et ses images depuis le backoffice (`PAYLOAD_URL`, par défaut http://localhost:3000 ; `PAYLOAD_TENANT`, par défaut `acolad`) |
 | `pnpm content:fixture` | Utilise à la place les données de test de `fixtures/` (sans CMS) |
 | `pnpm dev` | Serveur de dev sur http://localhost:4321 |
 | `pnpm build` | Build statique dans `dist/` |
@@ -24,7 +25,8 @@ back-office [Payload](https://payloadcms.com) (`cms/`) et récupéré avant chaq
 | `pnpm check` | Vérification des types Astro et TypeScript |
 | `pnpm test` | Tests unitaires (données de test, conversion CMS → site) |
 | `pnpm test:e2e` | Copie des données de test, build, serveur et Playwright en desktop (1440) et mobile (390), axe WCAG AA inclus |
-| `pnpm cms <script>` | Lance un script du back-office : `dev`, `build`, `start`, `generate:types`, `migrate`… |
+| `pnpm sync:cms-types` | Copie les types du contenu depuis le backoffice (à côté de ce dépôt, ou `BACKOFFICE_DIR`) |
+| `pnpm cms <script>` | Lance un script de l'ancien back-office autonome (`cms/`, voir plus bas) |
 | `pnpm deploy:prod` | Tests, récupération du contenu, build et synchronisation de `dist/` vers la prod (voir Déploiement) |
 | `pnpm deploy:dry` | Idem, mais liste seulement ce qui changerait sur le serveur |
 
@@ -34,10 +36,11 @@ ou `pnpm content:fixture`. Premier lancement e2e : `pnpm exec playwright install
 ## Structure
 
 ```
-cms/              back-office Payload (app Next.js, SQLite) : collections, globals, blocs de section
+cms/              ancien back-office Payload autonome, que le site ne lit plus
 fixtures/         données de test au format du site (fr.json, en.json, media/)
 scripts/          content.ts (récupère depuis le CMS ou copie les fixtures), scripts de déploiement
 src/content/      types.ts (forme du contenu), cms.ts (documents CMS → contenu), index.ts (chargement),
+                  payload-types.ts (copié depuis le backoffice),
                   data/ (contenu récupéré, ignoré par git), business.ts (infos société)
 src/styles/       tokens.css (issu du design), global.css (base et utilitaires partagés)
 src/layouts/      Base.astro (head, SEO, hreflang, polices)
@@ -55,7 +58,7 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 
 ## Modifier le contenu
 
-Le contenu se saisit dans le back-office (`pnpm cms dev`, puis http://localhost:3000/admin), en
+Le contenu se saisit dans le backoffice Acolad (`/admin`, tenant `acolad`), en
 français et en anglais (sélecteur de langue en haut de chaque document) :
 
 - **Page d'accueil** : l'en-tête, puis les sections en blocs (domaines, bande IA, logos clients,
@@ -83,8 +86,13 @@ Les pages d'accueil portent du JSON-LD (`src/components/JsonLd.astro`) : un `Per
 `ProfessionalService` qu'il dirige, construits à partir du contenu et des informations de la
 société dans `src/content/business.ts` (raison sociale, adresse, TVA).
 
-Après un changement du modèle de contenu (`cms/src/`), lancer `pnpm cms generate:types` (le site
-importe `cms/src/payload-types.ts`) et `pnpm cms generate:importmap` si des composants d'admin changent.
+Le modèle de contenu vit dans le backoffice (`src/sites/acolad-v2/`), où les anciens globals sont un
+document par tenant. Après un changement, lancer `pnpm sync:cms-types` et commiter
+`src/content/payload-types.ts`. Le panneau « Publier acolad.fr » du tableau de bord lance la commande
+définie dans `ACOLAD_V2_PUBLISH_COMMAND` côté backoffice.
+
+`cms/` est l'ancien back-office autonome. Il n'a jamais contenu le contenu en ligne (c'était
+`fixtures/`, importé dans le backoffice) et le site ne le lit plus.
 
 ## Règles de mise en page
 

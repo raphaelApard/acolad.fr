@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { toContent, type CmsDocuments } from '../../src/content/cms';
-import type { Company, Media } from '../../cms/src/payload-types';
+import type { AcoladV2Company as Company, AcoladV2Media as Media } from '../../src/content/payload-types';
 
 const media = (id: number, filename: string, alt = ''): Media =>
   ({ id, filename, alt, url: `/api/media/file/${filename}` }) as Media;

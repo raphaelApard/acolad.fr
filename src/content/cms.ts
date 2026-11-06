@@ -1,24 +1,25 @@
 // Turns the CMS documents of one locale into the content the site is built from.
 // Pure function: `scripts/content.ts` fetches the documents and downloads the images.
 
+// Types of the site's collections in the Acolad backoffice (copied by `pnpm sync:cms-types`).
 import type {
-  AiBlock,
-  ClientsBlock,
-  Company,
-  CredentialsBlock,
-  DomainsBlock,
-  Experience as CmsExperience,
-  ExperienceBlock,
-  Home,
-  Legal,
-  Media,
-  Mission as CmsMission,
-  MissionsBlock,
-  NotFound,
-  Project,
-  Site,
-  SkillsBlock,
-} from '../../cms/src/payload-types';
+  AcoladV2AiBlock as AiBlock,
+  AcoladV2ClientsBlock as ClientsBlock,
+  AcoladV2Company as Company,
+  AcoladV2CredentialsBlock as CredentialsBlock,
+  AcoladV2DomainsBlock as DomainsBlock,
+  AcoladV2Experience as CmsExperience,
+  AcoladV2ExperienceBlock as ExperienceBlock,
+  AcoladV2Home as Home,
+  AcoladV2Legal as Legal,
+  AcoladV2Media as Media,
+  AcoladV2Mission as CmsMission,
+  AcoladV2MissionsBlock as MissionsBlock,
+  AcoladV2NotFound as NotFound,
+  AcoladV2Project as Project,
+  AcoladV2Site as Site,
+  AcoladV2SkillsBlock as SkillsBlock,
+} from './payload-types';
 import {
   contactAnchor,
   sectionAnchors,

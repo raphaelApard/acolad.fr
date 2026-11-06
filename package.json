@@ -13,7 +13,8 @@
     "deploy:dry": "scripts/deploy.sh --dry-run",
     "content:pull": "node scripts/content.ts pull",
     "content:fixture": "node scripts/content.ts fixture",
-    "cms": "pnpm --filter cms"
+    "cms": "pnpm --filter cms",
+    "sync:cms-types": "node scripts/sync-cms-types.ts"
   },
   "dependencies": {
     "@fontsource-variable/schibsted-grotesk": "^5.3.0",
