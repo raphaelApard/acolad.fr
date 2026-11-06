@@ -173,6 +173,7 @@
           "items": [
             "PHP",
             "Node.js",
+            "Fastify",
             "NestJS",
             "Laravel",
             "Symfony",
