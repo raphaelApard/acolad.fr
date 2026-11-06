@@ -1,7 +1,10 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import fr from '../../src/content/fr.json' with { type: 'json' };
-import en from '../../src/content/en.json' with { type: 'json' };
+import { en, fr, section } from '../content';
+
+const frMissions = section(fr, 'missions');
+const frExperience = section(fr, 'experience');
+const frSkills = section(fr, 'skills');
 
 // French is served at the root, English under /en/.
 const locales = [
@@ -51,10 +54,10 @@ test('opens screenshots full size and closes them', async ({ page }) => {
   await page.goto('/');
   // On mobile the screenshot sits in the collapsed mission panel.
   if (isMobile(page)) {
-    await page.getByRole('button', { name: new RegExp(`^${fr.missions.items[0]!.client}`) }).first().click();
+    await page.getByRole('button', { name: new RegExp(`^${frMissions.items[0]!.client}`) }).first().click();
   }
-  const trigger = page.getByRole('button', { name: fr.missions.items[0]!.image!.alt });
-  const lightbox = page.getByRole('dialog', { name: fr.missions.items[0]!.image!.alt });
+  const trigger = page.getByRole('button', { name: frMissions.items[0]!.image!.alt });
+  const lightbox = page.getByRole('dialog', { name: frMissions.items[0]!.image!.alt });
 
   // Escape closes and gives the focus back to the thumbnail.
   await trigger.click();
@@ -97,7 +100,7 @@ for (const { lang, path, content } of locales) {
       expect(types.Person.name).toBe(content.hero.name);
       expect(types.Person.jobTitle).toBe(content.hero.title);
       expect(types.Person.worksFor['@id']).toBe(types.ProfessionalService['@id']);
-      expect(types.ProfessionalService.name).toBe(content.missions.company);
+      expect(types.ProfessionalService.name).toBe(section(content, 'missions').company);
       expect(types.ProfessionalService.founder['@id']).toBe(types.Person['@id']);
     });
 
@@ -286,8 +289,8 @@ test.describe('desktop', () => {
   test('shows every mission panel without toggles', async ({ page }) => {
     await page.goto('/');
     // Anchored: the screenshot buttons' names also contain the client.
-    await expect(page.getByRole('button', { name: new RegExp(`^${fr.missions.items[0]!.client}`) })).toHaveCount(0);
-    await expect(page.getByText(fr.missions.items[1]!.achievements![0]!)).toBeVisible();
+    await expect(page.getByRole('button', { name: new RegExp(`^${frMissions.items[0]!.client}`) })).toHaveCount(0);
+    await expect(page.getByText(frMissions.items[1]!.achievements![0]!)).toBeVisible();
     await expect(page.getByRole('button', { name: fr.ui.openMenu })).toBeHidden();
   });
 });
@@ -333,9 +336,9 @@ test.describe('mobile', () => {
 
   test('toggles mission, project and experience panels', async ({ page }) => {
     const toggles = [
-      fr.missions.items[1]!.client,
-      fr.otherProjects.items[0]!.client,
-      fr.experience.items[0]!.company,
+      frMissions.items[1]!.client,
+      frMissions.otherProjects.items[0]!.client,
+      frExperience.items[0]!.company,
     ];
     for (const name of toggles) {
       const button = page.getByRole('button', { name: new RegExp(`^${name}`) });
@@ -349,18 +352,18 @@ test.describe('mobile', () => {
   });
 
   test('shows the skill toggle only on overflowing groups', async ({ page }) => {
-    const toggle = (group: string) => page.getByRole('button', { name: `${fr.skills.expandLabel} — ${group}` });
+    const toggle = (group: string) => page.getByRole('button', { name: `${frSkills.expandLabel} — ${group}` });
     // "IA & Engineering" has two chips that fit on one line.
-    await expect(toggle(fr.skills.groups[5]!.title)).toHaveCount(0);
+    await expect(toggle(frSkills.groups[5]!.title)).toHaveCount(0);
 
-    const frontEnd = toggle(fr.skills.groups[0]!.title);
+    const frontEnd = toggle(frSkills.groups[0]!.title);
     await expect(frontEnd).toBeVisible();
     const list = page.locator('#skills-0');
     const height = async () => (await list.boundingBox())!.height;
     expect(await height()).toBeLessThanOrEqual(28);
     await frontEnd.click();
     await expect(
-      page.getByRole('button', { name: `${fr.skills.collapseLabel} — ${fr.skills.groups[0]!.title}` }),
+      page.getByRole('button', { name: `${frSkills.collapseLabel} — ${frSkills.groups[0]!.title}` }),
     ).toHaveAttribute('aria-expanded', 'true');
     expect(await height()).toBeGreaterThan(28);
   });

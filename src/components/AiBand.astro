@@ -1,12 +1,13 @@
 ---
-import type { Content } from '../content/types';
+import type { Content, AiSection } from '../content/types';
 import SectionTitle from './SectionTitle.astro';
 
 interface Props {
-  content: Content;
+  section: AiSection;
+  ui: Content['ui'];
 }
 
-const { ai, ui } = Astro.props.content;
+const { section: ai, ui } = Astro.props;
 ---
 
 <section id="ia" aria-labelledby="t-ai" class="dark">

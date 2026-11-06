@@ -1,12 +1,12 @@
 ---
-import type { Content } from '../content/types';
+import type { ExperienceSection } from '../content/types';
 import TimelineRow from './TimelineRow.astro';
 
 interface Props {
-  content: Content;
+  section: ExperienceSection;
 }
 
-const { experience } = Astro.props.content;
+const { section: experience } = Astro.props;
 ---
 
 <section id="parcours" aria-labelledby="t-experience">

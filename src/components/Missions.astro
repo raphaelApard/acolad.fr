@@ -1,14 +1,16 @@
 ---
-import type { Content } from '../content/types';
+import type { Content, MissionsSection } from '../content/types';
 import SectionTitle from './SectionTitle.astro';
 import TimelineRow from './TimelineRow.astro';
 import OtherProjects from './OtherProjects.astro';
 
 interface Props {
-  content: Content;
+  section: MissionsSection;
+  ui: Content['ui'];
 }
 
-const { missions, otherProjects, ui } = Astro.props.content;
+const { section: missions, ui } = Astro.props;
+const { otherProjects } = missions;
 ---
 
 <section id="missions" aria-labelledby="t-missions">

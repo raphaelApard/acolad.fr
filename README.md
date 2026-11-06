@@ -3,11 +3,12 @@
 # Raphaël Apard — one-page site
 
 Static, bilingual (French at `/`, English at `/en/`) one-page site built with [Astro](https://astro.build)
-from the validated design handoff in [`design/`](design/README.md).
+from the validated design handoff in [`design/`](design/README.md). Its content is edited in a
+[Payload](https://payloadcms.com) back office (`cms/`) and pulled before each build.
 
 ## Requirements
 
-- Node.js 22.12+
+- Node.js 22.18+ (the content script runs TypeScript directly)
 - pnpm 10
 
 ## Scripts
@@ -15,21 +16,29 @@ from the validated design handoff in [`design/`](design/README.md).
 | Command | What it does |
 |---|---|
 | `pnpm install` | Install dependencies |
+| `pnpm content:pull` | Fetch the content and its images from the CMS (`PAYLOAD_URL`, default http://localhost:3000) |
+| `pnpm content:fixture` | Use the test data in `fixtures/` instead (no CMS needed) |
 | `pnpm dev` | Dev server on http://localhost:4321 |
 | `pnpm build` | Static build into `dist/` |
 | `pnpm preview` | Serve `dist/` locally |
 | `pnpm check` | Type-check Astro and TypeScript files |
-| `pnpm test` | Unit tests (content files) |
-| `pnpm test:e2e` | Builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA included |
-| `pnpm deploy:prod` | Tests, builds and syncs `dist/` to production (see Deployment) |
+| `pnpm test` | Unit tests (test data, CMS-to-site mapping) |
+| `pnpm test:e2e` | Copies the test data, builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA included |
+| `pnpm cms <script>` | Run a script of the back office: `dev`, `build`, `start`, `generate:types`, `migrate`… |
+| `pnpm deploy:prod` | Tests, fetches the content, builds and syncs `dist/` to production (see Deployment) |
 | `pnpm deploy:dry` | Same, but only lists what would change on the server |
 
-First e2e run: `pnpm exec playwright install chromium`.
+`pnpm dev` and `pnpm build` need the content first: run `pnpm content:pull` (CMS running) or
+`pnpm content:fixture`. First e2e run: `pnpm exec playwright install chromium`.
 
 ## Structure
 
 ```
-src/content/      fr.json, en.json (all copy), types.ts (their shape), index.ts (typed loader)
+cms/              Payload back office (Next.js app, SQLite): collections, globals, section blocks
+fixtures/         test data in the site's shape (fr.json, en.json, media/)
+scripts/          content.ts (pull from the CMS or copy the fixtures), deploy scripts
+src/content/      types.ts (shape of the content), cms.ts (CMS documents → content), index.ts (loader),
+                  data/ (pulled content, git-ignored), business.ts (company facts)
 src/styles/       tokens.css (from the design), global.css (base and shared utilities)
 src/layouts/      Base.astro (head, SEO, hreflang, fonts)
 src/components/   one component per section; TimelineRow renders missions and experience
@@ -37,7 +46,7 @@ src/scripts/      disclosure.ts (mobile accordions)
 src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English),
                   mentions-legales.astro and en/legal-notice.astro (LegalPage component),
                   404.astro and en/404.astro (NotFoundPage, served by Apache's ErrorDocument)
-src/assets/       source images and logos, optimised at build time
+src/assets/       media/ (pulled images, git-ignored), optimised at build time
 src/lib/          images.ts (resolves content image paths to src/assets)
 public/           copied as is (.htaccess, whose CSP gets its script hashes at build time)
 integrations/     csp-script-hashes.mjs (writes those hashes)
@@ -46,23 +55,35 @@ tests/            unit (Vitest) and e2e (Playwright)
 
 ## Editing content
 
-- All copy lives in `src/content/<lang>.json`; components never hard-code text.
-- Both files must keep the same structure (enforced by `pnpm test`) and match
-  `src/content/types.ts` (enforced by `pnpm check` / `pnpm build`).
-- Optional fields render nothing when absent or `null`: `place`, `achievements`, `stack`,
-  `image`, `projects`, `logo` (missions and experience; shown in a square tile),
-  profile links (`links.linkedin`, `links.malt`, `links.github`) and
-  certification `verifyUrl`.
-- Image `src` values are paths under `src/assets` (e.g. `/img/portrait.webp`); intrinsic sizes
-  are read from the files. Logos also need `height`, the rendered desktop height (mobile uses ×0.77).
-- Section anchors (`nav[].id`) are fixed in the components and identical in every locale.
-- The home pages carry JSON-LD (`src/components/JsonLd.astro`): a `Person` and the
-  `ProfessionalService` they run, built from the content plus the company facts in
-  `src/content/business.ts` (legal name, address, VAT number), which are the same in every locale.
-- The legal notice (`legal`) holds the publisher, host, personal data and cookie details. Its
-  paragraphs are trusted HTML (links, `<strong>`, `<code>`); keep them in step with the company
-  registration, the host and the Matomo settings. The cookies section ends with a Matomo opt-out
-  checkbox, shown once the tracker has loaded.
+Content is edited in the back office (`pnpm cms dev`, then http://localhost:3000/admin), in French
+and English (locale switch at the top of each document):
+
+- **Home page**: the hero, then the sections as blocks (expertise, AI band, client logos, skills,
+  missions, other experience, certifications). Drag them to reorder; each kind is used once.
+  Numbered titles ("01", "02"…) follow the page order; a section with a menu label is in the menu.
+- **Missions**, **Experience**, **Other projects**: one document each, picked and ordered by
+  their section on the home page.
+- **Companies**: name and logo, shared by the logo band, missions and experience. A mission can
+  show another name than its company's ("Displayed name").
+- **Site settings** (SEO, e-mail and profiles, footer, interface labels), **Legal notice**,
+  **404 page**. Legal paragraphs are trusted HTML (links, `<strong>`, `<code>`); keep them in step
+  with the company registration, the host and the Matomo settings.
+
+`pnpm content:pull` turns the CMS documents into `src/content/data/<lang>.json` (shape:
+`src/content/types.ts`, mapping: `src/content/cms.ts`) and downloads the images to
+`src/assets/media/`. Optional fields render nothing when empty. Section anchors are fixed in the
+components (`sectionAnchors`), identical in every locale. Routes (legal notice, 404) are files in
+`src/pages`, so their paths are in `cms.ts`, not in the CMS.
+
+`fixtures/` holds a copy of the content in the same shape, used by the tests (and the live content
+until the CMS is in production). Refresh it from a running CMS with `node scripts/content.ts pull --fixtures`.
+
+The home pages carry JSON-LD (`src/components/JsonLd.astro`): a `Person` and the
+`ProfessionalService` they run, built from the content plus the company facts in
+`src/content/business.ts` (legal name, address, VAT number).
+
+After a change to the content model (`cms/src/`), run `pnpm cms generate:types` (the site imports
+`cms/src/payload-types.ts`) and `pnpm cms generate:importmap` when admin components change.
 
 ## Layout rules
 
@@ -89,7 +110,8 @@ tests/            unit (Vitest) and e2e (Playwright)
 `pnpm deploy:prod` (`scripts/deploy.sh`) runs the tests, builds and syncs `dist/` (including the hidden `.htaccess`)
 to the o2switch hosting with `rsync --delete`. It holds the real server settings, so it is
 git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and fill in
-`REMOTE_USER`, `REMOTE_HOST` and `REMOTE_PATH`. Your IP must be allowed in cPanel
+`REMOTE_USER`, `REMOTE_HOST`, `REMOTE_PATH`, and where the content comes from: `CONTENT_SOURCE=cms`
+with `PAYLOAD_URL`, or `CONTENT_SOURCE=fixture` (`fixtures/`) while the CMS is not in production. Your IP must be allowed in cPanel
 (SSH access) first. It shows the changes and asks before syncing; `pnpm deploy:dry` stops after
 the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
 `error_log`) are never touched.

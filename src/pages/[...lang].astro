@@ -29,13 +29,26 @@ const content = getContent((Astro.params.lang ?? defaultLang) as Lang);
   <Header content={content} />
   <main id="content">
     <Hero content={content} />
-    <Domains content={content} />
-    <AiBand content={content} />
-    <ClientLogos content={content} />
-    <Skills content={content} />
-    <Missions content={content} />
-    <Experience content={content} />
-    <Credentials content={content} />
+    {
+      content.sections.map((section) => {
+        switch (section.type) {
+          case 'domains':
+            return <Domains section={section} />;
+          case 'ai':
+            return <AiBand section={section} ui={content.ui} />;
+          case 'clients':
+            return <ClientLogos section={section} />;
+          case 'skills':
+            return <Skills section={section} />;
+          case 'missions':
+            return <Missions section={section} ui={content.ui} />;
+          case 'experience':
+            return <Experience section={section} />;
+          case 'credentials':
+            return <Credentials section={section} ui={content.ui} />;
+        }
+      })
+    }
   </main>
   <Footer content={content} />
   <Lightbox content={content} />

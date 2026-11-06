@@ -1,0 +1,616 @@
+{
+  "meta": {
+    "lang": "en",
+    "languageName": "English",
+    "title": "Freelance Drupal developer in Toulouse – Raphaël Apard",
+    "description": "Senior full-stack and Drupal developer, freelance in Toulouse since 2014: Drupal, React, Next.js, TypeScript, PHP. 20 years of web experience."
+  },
+  "links": {
+    "email": "raphael.apard@acolad.fr",
+    "linkedin": "https://www.linkedin.com/in/raphael-apard-81b90924/",
+    "malt": "https://www.malt.fr/profile/raphaelapard",
+    "github": "https://github.com/raphaelApard/"
+  },
+  "nav": [
+    {
+      "id": "domaines",
+      "label": "Expertise"
+    },
+    {
+      "id": "ia",
+      "label": "AI"
+    },
+    {
+      "id": "competences",
+      "label": "Skills"
+    },
+    {
+      "id": "missions",
+      "label": "Projects"
+    },
+    {
+      "id": "certifications",
+      "label": "Certifications"
+    },
+    {
+      "id": "contact",
+      "label": "Contact"
+    }
+  ],
+  "hero": {
+    "name": "Raphaël Apard",
+    "title": "Senior full-stack developer",
+    "leadStrong": "20 years of experience.",
+    "lead": "I work across the whole lifecycle of web applications and business platforms: architecture, development, continuous integration (CI/CD), production releases, maintenance, performance optimisation and the evolution of existing solutions.",
+    "info": [
+      "Toulouse, France",
+      "Freelance since 2014"
+    ],
+    "cta": "Let's talk about a project",
+    "portrait": {
+      "src": "/media/portrait.webp",
+      "alt": "Portrait of Raphaël Apard"
+    }
+  },
+  "sections": [
+    {
+      "type": "domains",
+      "number": "01",
+      "title": "Areas of expertise",
+      "items": [
+        "Application architecture and technical choices",
+        "Front-end and back-end development, business applications and APIs",
+        "Unit, integration and end-to-end testing",
+        "CI/CD, performance, security and web quality",
+        "Maintenance, refactoring and application evolution",
+        "Agentic workflows and tool integration via MCP"
+      ]
+    },
+    {
+      "type": "ai",
+      "number": "02",
+      "title": "AI & assisted development",
+      "paragraphs": [
+        "Using Claude Code as a development assistant: analysing and getting to grips with existing codebases, refactoring, writing tests, code review and automating recurring tasks. Integrating these tools into development processes (Git, CI/CD) while ensuring the quality, maintainability and security of the code produced.",
+        "Integrating AI features into web applications: content generation and translation, conversational assistants, authoring assistance and connections to CMSs, CRMs, document repositories and business tools via MCP."
+      ],
+      "tags": [
+        "Claude Code",
+        "MCP (Figma, Playwright…)",
+        "LLM and AI API integration"
+      ]
+    },
+    {
+      "type": "clients",
+      "title": "Trusted by",
+      "logos": [
+        {
+          "name": "OVHcloud",
+          "src": "/media/logo-ovhcloud.webp",
+          "height": 44
+        },
+        {
+          "name": "Paris 1 Panthéon-Sorbonne University",
+          "src": "/media/logo-pantheon-sorbonne.webp",
+          "height": 80
+        },
+        {
+          "name": "American Hospital of Paris",
+          "src": "/media/logo-american-hospital-paris.webp",
+          "height": 48
+        },
+        {
+          "name": "City of Issy-les-Moulineaux",
+          "src": "/media/logo-issy-com.webp",
+          "height": 64
+        },
+        {
+          "name": "Syndex",
+          "src": "/media/logo-syndex.webp",
+          "height": 64
+        },
+        {
+          "name": "Paris-Saclay University",
+          "src": "/media/logo-paris-saclay.webp",
+          "height": 88
+        },
+        {
+          "name": "EY Fabernovel",
+          "src": "/media/logo-ey-fabernovel.webp",
+          "height": 44
+        },
+        {
+          "name": "Axess Open Web Services",
+          "src": "/media/logo-axess-ows.webp",
+          "height": 36
+        },
+        {
+          "name": "Human's Connexion",
+          "src": "/media/logo-humans-connexion.webp",
+          "height": 40
+        },
+        {
+          "name": "Muzéo",
+          "src": "/media/logo-muzeo.webp",
+          "height": 32
+        },
+        {
+          "name": "Docteur Conso",
+          "src": "/media/logo-docteur-conso.webp",
+          "height": 72
+        },
+        {
+          "name": "Makina Corpus",
+          "src": "/media/logo-makina-corpus.webp",
+          "height": 64
+        }
+      ]
+    },
+    {
+      "type": "skills",
+      "number": "03",
+      "title": "Skills",
+      "expandLabel": "Show all",
+      "collapseLabel": "Show less",
+      "groups": [
+        {
+          "title": "Front-end",
+          "items": [
+            "TypeScript",
+            "React",
+            "Zustand",
+            "Next.js",
+            "Angular",
+            "Accessibility",
+            "Core Web Vitals",
+            "Sass/SCSS",
+            "Tailwind CSS",
+            "shadcn"
+          ]
+        },
+        {
+          "title": "Back-end",
+          "items": [
+            "PHP",
+            "Node.js",
+            "NestJS",
+            "Laravel",
+            "Symfony",
+            "REST APIs",
+            "GraphQL",
+            "OAuth/JWT",
+            "LLM and AI API integration"
+          ]
+        },
+        {
+          "title": "CMS",
+          "items": [
+            "Drupal",
+            "Drupal headless/JSON:API",
+            "Payload CMS",
+            "Strapi"
+          ]
+        },
+        {
+          "title": "Data",
+          "items": [
+            "PostgreSQL",
+            "MySQL",
+            "Apache Solr",
+            "SQL",
+            "MongoDB",
+            "Migrate",
+            "Redis"
+          ]
+        },
+        {
+          "title": "Quality & delivery",
+          "items": [
+            "CI/CD",
+            "Playwright",
+            "Jest",
+            "Docker",
+            "Git",
+            "Vitest",
+            "Cypress",
+            "BackstopJS",
+            "Apache",
+            "Nginx"
+          ]
+        },
+        {
+          "title": "IA & Engineering",
+          "items": [
+            "Claude Code",
+            "MCP (Figma, Playwright…)"
+          ]
+        }
+      ]
+    },
+    {
+      "type": "missions",
+      "number": "04",
+      "title": "Projects",
+      "company": "Acolad Développement",
+      "since": "freelance since Oct. 2014",
+      "achievementsLabel": "Achievements",
+      "stackLabel": "Tech stack",
+      "items": [
+        {
+          "period": "2026",
+          "client": "Docteur Conso",
+          "logo": "/media/logo-docteur-conso.webp",
+          "place": "Toulouse",
+          "role": "Full-stack developer",
+          "hook": "Rebuild of the sustainability indicators platform with Next.js and PostgreSQL.",
+          "stack": [
+            "Next.js",
+            "React",
+            "PostgreSQL",
+            "shadcn",
+            "Tailwind CSS"
+          ],
+          "image": {
+            "src": "/media/mission-docteur-conso-2026.webp",
+            "alt": "Screenshot of the new Docteur Conso platform"
+          }
+        },
+        {
+          "period": "2023 – 2026",
+          "client": "OVHcloud",
+          "logo": "/media/logo-ovhcloud.webp",
+          "place": "Toulouse",
+          "role": "TypeScript / React developer",
+          "hook": "Business features on OVHcloud's web platforms, from requirements to production.",
+          "achievements": [
+            "Built React/Next.js applications deployed outside Drupal, fed by a variety of data sources",
+            "Built React applications embedded in Drupal 10 and 11",
+            "Set up and maintained end-to-end and integration tests with Playwright",
+            "Optimised application performance and response times"
+          ],
+          "stack": [
+            "TypeScript",
+            "React",
+            "Next.js",
+            "Zustand",
+            "Drupal 10 / 11",
+            "PHP",
+            "Twig",
+            "SCSS",
+            "Playwright",
+            "Cursor"
+          ],
+          "image": {
+            "src": "/media/mission-ovhcloud.webp",
+            "alt": "Screenshot of the OVHcloud website"
+          }
+        },
+        {
+          "period": "2020 – 2021",
+          "client": "CNRS Images",
+          "logo": "/media/logo-cnrs.webp",
+          "place": "via OWS",
+          "role": "Technical project manager and Drupal developer",
+          "hook": "Technical lead and development of CNRS's photo and video platform.",
+          "achievements": [
+            "Migrated the existing media catalogue to the new platform",
+            "Set up custom roles and permissions for the editorial teams",
+            "Twig / SCSS theme built to RGAA accessibility criteria"
+          ],
+          "stack": [
+            "Drupal",
+            "PHP",
+            "MySQL",
+            "Twig",
+            "SCSS",
+            "TypeScript"
+          ],
+          "image": {
+            "src": "/media/mission-cnrs-images.webp",
+            "alt": "Screenshot of the CNRS Images platform"
+          }
+        },
+        {
+          "period": "2020 – 2021",
+          "client": "Obépine network / Paris 1 Panthéon-Sorbonne University",
+          "logo": "/media/logo-pantheon-sorbonne.webp",
+          "role": "Full-stack developer",
+          "hook": "Reporting platform for the national wastewater monitoring network.",
+          "achievements": [
+            "Automated data processing and recurring reports",
+            "Designed advanced permission management for partner laboratories"
+          ],
+          "stack": [
+            "Drupal",
+            "PHP",
+            "Twig",
+            "SCSS",
+            "TypeScript"
+          ],
+          "image": {
+            "src": "/media/mission-obepine.webp",
+            "alt": "Screenshot of the Obépine network platform"
+          }
+        },
+        {
+          "period": "2018 – 2020",
+          "client": "Docteur Conso",
+          "logo": "/media/logo-docteur-conso.webp",
+          "place": "Toulouse",
+          "role": "Full-stack developer, Angular / TypeScript / Drupal",
+          "hook": "Platform for collecting and reporting sustainability indicators.",
+          "achievements": [
+            "Designed and built the Angular front-end application, with a modular architecture and reusable components",
+            "Built responsive, accessible interfaces together with the UX/UI teams",
+            "Integrated a headless Drupal via JSON:API to manage and consume business content",
+            "Implemented data access services, application state management and API call performance optimisation"
+          ],
+          "stack": [
+            "Angular",
+            "TypeScript",
+            "RxJS",
+            "Drupal headless"
+          ],
+          "image": {
+            "src": "/media/mission-docteur-conso-2018.webp",
+            "alt": "Screenshot of the Docteur Conso platform"
+          }
+        }
+      ],
+      "otherProjects": {
+        "title": "Other projects",
+        "items": [
+          {
+            "client": "American Hospital of Paris",
+            "place": "via OWS",
+            "text": "Technical lead and development of the hospital's public website.",
+            "image": {
+              "src": "/media/project-american-hospital.webp",
+              "alt": "Screenshot of the American Hospital of Paris website"
+            }
+          },
+          {
+            "client": "City of Issy-les-Moulineaux",
+            "place": "via OWS",
+            "text": "Technical lead and development of the city's website. Front-end integration in Twig, SCSS and TypeScript to RGAA accessibility criteria.",
+            "image": {
+              "src": "/media/project-issy.webp",
+              "alt": "Screenshot of the City of Issy-les-Moulineaux website"
+            }
+          },
+          {
+            "client": "Syndex",
+            "place": "via Fabernovel",
+            "text": "Six-language Drupal 8 website for a consultancy serving employee representatives.",
+            "image": {
+              "src": "/media/project-syndex.webp",
+              "alt": "Screenshot of the Syndex website"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "experience",
+      "title": "Other experience",
+      "items": [
+        {
+          "period": "2017 – 2022",
+          "company": "Simplon",
+          "logo": "/media/logo-simplon.webp",
+          "place": "Toulouse",
+          "role": "Web development trainer",
+          "text": "Trained career changers, students and junior developers across the whole lifecycle of a web application, two days a week alongside my freelance work.",
+          "achievements": [
+            "Modern JavaScript (ES6+), front-end and back-end development, MVC architectures",
+            "Relational database design, Git and GitHub workflows, CI/CD pipelines",
+            "Team practices used in companies, such as Agile, code review and Git flows"
+          ]
+        },
+        {
+          "period": "2012 – 2014",
+          "company": "Makina Corpus",
+          "logo": "/media/logo-makina-corpus.webp",
+          "place": "Toulouse",
+          "role": "Drupal developer",
+          "text": "Drupal development for public and private clients at a Toulouse web agency.",
+          "projects": [
+            {
+              "name": "labOrange",
+              "text": "Drupal 7 platform, integration of business applications and content migration."
+            },
+            {
+              "name": "Aerospace Valley",
+              "text": "Website of the competitiveness cluster."
+            }
+          ]
+        },
+        {
+          "period": "2011 – 2012",
+          "company": "X-Prime Groupe",
+          "logo": "/media/logo-x-prime.webp",
+          "place": "Toulouse",
+          "role": "Drupal developer",
+          "text": "Drupal development for the clients of a Toulouse communications agency.",
+          "projects": [
+            {
+              "name": "Pierre Fabre Laboratories",
+              "text": "Multisite platform: pierre-fabre.com and rh.pierre-fabre.com."
+            },
+            {
+              "name": "ADP Paris LifeStyle",
+              "text": "Development and maintenance of a Drupal site in 10 languages, web services for the mobile app."
+            }
+          ]
+        },
+        {
+          "period": "2006 – 2007",
+          "company": "Toulouse 1 Capitole University",
+          "logo": "/media/logo-ut-capitole.webp",
+          "place": "Toulouse",
+          "role": "PHP developer",
+          "text": "Open and distance learning department: installed and ran a Moodle instance, built custom Moodle 1.8 modules (podcasting, video conferencing, grade management) and supported users."
+        },
+        {
+          "period": "2006",
+          "company": "University of Guadalajara",
+          "logo": "/media/logo-guadalajara.webp",
+          "place": "Guadalajara, Mexico",
+          "role": "Web development intern",
+          "text": "Built a student and faculty portal on Joomla, with custom modules."
+        }
+      ]
+    },
+    {
+      "type": "credentials",
+      "number": "05",
+      "title": "Certifications · education · languages",
+      "verifyLabel": "verify",
+      "certifications": {
+        "title": "Certifications",
+        "items": [
+          {
+            "name": "Acquia Certified Developer, Drupal 9",
+            "year": "2022",
+            "verifyUrl": "https://certification.acquia.com/person/certified/raphael-apard"
+          },
+          {
+            "name": "Opquast certification, web quality assurance",
+            "year": "2021",
+            "verifyUrl": "https://directory.opquast.com/fr/certificat/OB5AYS/"
+          }
+        ]
+      },
+      "education": {
+        "title": "Education",
+        "items": [
+          {
+            "name": "Professional bachelor's degree, \"Web application developer\"",
+            "school": "Toulouse 1 Capitole University",
+            "period": "2006 – 2007"
+          },
+          {
+            "name": "BTS (two-year technical degree) in business computing",
+            "school": "Lycée Ozenne, Toulouse",
+            "period": "2004 – 2006"
+          }
+        ]
+      },
+      "languages": {
+        "title": "Languages",
+        "items": [
+          {
+            "name": "French",
+            "level": "native"
+          },
+          {
+            "name": "English",
+            "level": "fluent, professional use"
+          },
+          {
+            "name": "Spanish",
+            "level": "conversational"
+          }
+        ]
+      }
+    }
+  ],
+  "contact": {
+    "title": "A project? A team to strengthen?",
+    "footer": "Acolad Développement · Toulouse",
+    "backToTop": "Back to top"
+  },
+  "ui": {
+    "skipLink": "Skip to content",
+    "languageSwitch": "Site language",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainNav": "Main navigation",
+    "profiles": "Online profiles",
+    "tools": "Tools",
+    "verifyAriaPrefix": "Verify the certification",
+    "enlargeImage": "Enlarge image",
+    "closeImage": "Close image",
+    "copyEmail": "Copy email",
+    "emailCopied": "Email copied"
+  },
+  "legal": {
+    "path": "/en/legal-notice/",
+    "linkLabel": "Legal notice",
+    "title": "Legal notice",
+    "description": "Legal notice, personal data and cookies for Raphaël Apard's website (Acolad Développement).",
+    "updated": "Last updated: 9 October 2026",
+    "sections": [
+      {
+        "id": "publisher",
+        "title": "Publisher",
+        "paragraphs": [
+          "<strong>Acolad Développement</strong>, single-shareholder simplified joint-stock company (SASU) with a share capital of €1,000",
+          "Registered office: 27 avenue de Sorèze, 31250 Revel, France",
+          "Toulouse Trade and Companies Register (RCS) 807 777 917 · SIRET 807 777 917 00038",
+          "EU VAT number: FR29807777917",
+          "Phone: +33 6 13 78 91 34 · Email: <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>"
+        ]
+      },
+      {
+        "id": "publication-director",
+        "title": "Publication director",
+        "paragraphs": [
+          "Raphaël Apard, president of Acolad Développement."
+        ]
+      },
+      {
+        "id": "hosting",
+        "title": "Hosting",
+        "paragraphs": [
+          "<strong>o2switch</strong>, SAS with a share capital of €100,000, RCS Clermont-Ferrand 510 909 807",
+          "Chemin des Pardiaux, 63000 Clermont-Ferrand, France",
+          "Phone: +33 4 44 44 60 40 · <a href=\"https://www.o2switch.fr\">o2switch.fr</a>"
+        ]
+      },
+      {
+        "id": "intellectual-property",
+        "title": "Intellectual property",
+        "paragraphs": [
+          "The text, layout and photographs on this site belong to Acolad Développement unless stated otherwise. They may not be reproduced or reused without prior written permission.",
+          "Client logos and screenshots remain the property of their respective owners. They are shown only to illustrate the work carried out."
+        ]
+      },
+      {
+        "id": "personal-data",
+        "title": "Personal data",
+        "paragraphs": [
+          "This site has no form and no user account. The only personal data processed is what you send by writing to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, and the audience measurement data described below.",
+          "Data controller: Acolad Développement, represented by Raphaël Apard. Your emails are used only to answer your request and follow up the business relationship. They are kept for at most 3 years after the last exchange and are never passed on to third parties.",
+          "Under the GDPR and the French Data Protection Act, you have the right to access, rectify, erase, restrict and port your data, and to object to its processing. To exercise these rights, write to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>. You may also lodge a complaint with the <a href=\"https://www.cnil.fr/en/home\">CNIL</a>, the French data protection authority."
+        ]
+      },
+      {
+        "id": "cookies",
+        "title": "Cookies and audience measurement",
+        "paragraphs": [
+          "Visits are measured with Matomo, installed on a server run by Acolad Développement (stats.acolad.net, hosted in France by o2switch). The statistics are used only to understand how the site is used: they are not shared with third parties or combined with other data, IP addresses are anonymised and data is kept for at most 25 months.",
+          "Matomo sets two cookies: <code>_pk_id</code> (visitor ID, 13 months) and <code>_pk_ses</code> (session, 30 minutes). Configured this way, this audience measurement is exempt from consent under the CNIL's guidelines. You can still opt out below.",
+          "The language switch sets a <code>lang</code> cookie (12 months) that remembers your choice. No advertising or social media cookies are used."
+        ]
+      }
+    ],
+    "optOut": {
+      "label": "Measure my visits with Matomo",
+      "on": "Your visits are measured anonymously.",
+      "off": "Your visits are no longer measured in this browser.",
+      "unavailable": "Audience measurement is not running in this browser (JavaScript turned off or a content blocker): your visits are not measured."
+    }
+  },
+  "notFound": {
+    "path": "/en/404/",
+    "code": "Error 404",
+    "title": "This page does not exist",
+    "text": "The address may be wrong, or the page moved when the site was rebuilt. Everything now lives on the home page.",
+    "cta": "Back to the home page",
+    "image": {
+      "src": "/media/404-en.webp",
+      "alt": "An old Peugeot 404 parked on a country road next to a wooden sign: “Error 404, page not found. Sorry, this road is a dead end… Back to home”."
+    }
+  }
+}

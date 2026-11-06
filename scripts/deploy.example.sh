@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Build the site and sync dist/ to the production host over SSH.
+# Fetch the content, build the site and sync dist/ to the production host over SSH.
 #
 # Copy this file to scripts/deploy.sh (git-ignored), fill in the server
 # settings below, then run:
@@ -12,6 +12,11 @@ REMOTE_USER="user"
 REMOTE_HOST="example.com"
 REMOTE_PATH="/home/user/example.com/htdocs"
 SSH_PORT=22
+
+# Where the content comes from: "cms" pulls it from PAYLOAD_URL, "fixture" uses fixtures/
+# (the test data, which is the live content until the CMS is in production).
+CONTENT_SOURCE="cms"
+PAYLOAD_URL="https://cms.example.com"
 
 cd "$(dirname "$0")/.."
 
@@ -39,6 +44,11 @@ rsync_opts=(
 target="$REMOTE_USER@$REMOTE_HOST:$REMOTE_PATH/"
 
 pnpm test
+if [[ "$CONTENT_SOURCE" == "fixture" ]]; then
+  pnpm content:fixture
+else
+  PAYLOAD_URL="$PAYLOAD_URL" pnpm content:pull
+fi
 pnpm build
 
 if $dry_run; then

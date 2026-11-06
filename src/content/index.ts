@@ -1,18 +1,19 @@
 import type { Content, Lang } from './types';
-import frJson from './fr.json';
-import enJson from './en.json';
 
-// Typed assignments make the build fail when a content file drifts from `Content`.
-const fr: Content = { ...frJson, meta: { ...frJson.meta, lang: 'fr' } };
-const en: Content = { ...enJson, meta: { ...enJson.meta, lang: 'en' } };
+// Written by `pnpm content:pull` (from the CMS) or `pnpm content:fixture` (test data), git-ignored.
+const files = import.meta.glob<Content>('./data/*.json', { eager: true, import: 'default' });
 
-const contents: Record<Lang, Content> = { fr, en };
-
-export const langs = Object.keys(contents) as Lang[];
+export const langs: Lang[] = ['fr', 'en'];
 
 // Must match `i18n.defaultLocale` in astro.config.mjs.
 export const defaultLang: Lang = 'fr';
 
 export function getContent(lang: Lang): Content {
-  return contents[lang];
+  const content = files[`./data/${lang}.json`];
+  if (!content) {
+    throw new Error(
+      `src/content/data/${lang}.json is missing: run \`pnpm content:pull\` (from the CMS) or \`pnpm content:fixture\` (test data).`,
+    );
+  }
+  return content;
 }

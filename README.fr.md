@@ -3,11 +3,12 @@
 # Raphaël Apard — site one-page
 
 Site one-page statique et bilingue (français sur `/`, anglais sur `/en/`) construit avec [Astro](https://astro.build)
-à partir de la maquette validée dans [`design/`](design/README.fr.md).
+à partir de la maquette validée dans [`design/`](design/README.fr.md). Son contenu est saisi dans un
+back-office [Payload](https://payloadcms.com) (`cms/`) et récupéré avant chaque build.
 
 ## Prérequis
 
-- Node.js 22.12+
+- Node.js 22.18+ (le script de contenu exécute directement du TypeScript)
 - pnpm 10
 
 ## Scripts
@@ -15,21 +16,29 @@ Site one-page statique et bilingue (français sur `/`, anglais sur `/en/`) const
 | Commande | Rôle |
 |---|---|
 | `pnpm install` | Installe les dépendances |
+| `pnpm content:pull` | Récupère le contenu et ses images depuis le CMS (`PAYLOAD_URL`, par défaut http://localhost:3000) |
+| `pnpm content:fixture` | Utilise à la place les données de test de `fixtures/` (sans CMS) |
 | `pnpm dev` | Serveur de dev sur http://localhost:4321 |
 | `pnpm build` | Build statique dans `dist/` |
 | `pnpm preview` | Sert `dist/` en local |
 | `pnpm check` | Vérification des types Astro et TypeScript |
-| `pnpm test` | Tests unitaires (fichiers de contenu) |
-| `pnpm test:e2e` | Build, serveur et Playwright en desktop (1440) et mobile (390), axe WCAG AA inclus |
-| `pnpm deploy:prod` | Tests, build et synchronisation de `dist/` vers la prod (voir Déploiement) |
+| `pnpm test` | Tests unitaires (données de test, conversion CMS → site) |
+| `pnpm test:e2e` | Copie des données de test, build, serveur et Playwright en desktop (1440) et mobile (390), axe WCAG AA inclus |
+| `pnpm cms <script>` | Lance un script du back-office : `dev`, `build`, `start`, `generate:types`, `migrate`… |
+| `pnpm deploy:prod` | Tests, récupération du contenu, build et synchronisation de `dist/` vers la prod (voir Déploiement) |
 | `pnpm deploy:dry` | Idem, mais liste seulement ce qui changerait sur le serveur |
 
-Premier lancement e2e : `pnpm exec playwright install chromium`.
+`pnpm dev` et `pnpm build` ont besoin du contenu : lancer d'abord `pnpm content:pull` (CMS démarré)
+ou `pnpm content:fixture`. Premier lancement e2e : `pnpm exec playwright install chromium`.
 
 ## Structure
 
 ```
-src/content/      fr.json, en.json (tous les textes), types.ts (leur forme), index.ts (chargement typé)
+cms/              back-office Payload (app Next.js, SQLite) : collections, globals, blocs de section
+fixtures/         données de test au format du site (fr.json, en.json, media/)
+scripts/          content.ts (récupère depuis le CMS ou copie les fixtures), scripts de déploiement
+src/content/      types.ts (forme du contenu), cms.ts (documents CMS → contenu), index.ts (chargement),
+                  data/ (contenu récupéré, ignoré par git), business.ts (infos société)
 src/styles/       tokens.css (issu du design), global.css (base et utilitaires partagés)
 src/layouts/      Base.astro (head, SEO, hreflang, polices)
 src/components/   un composant par section ; TimelineRow affiche missions et expériences
@@ -37,7 +46,7 @@ src/scripts/      disclosure.ts (accordéons mobiles)
 src/pages/        [...lang].astro (la page : `/` en français, `/en/` en anglais),
                   mentions-legales.astro et en/legal-notice.astro (composant LegalPage),
                   404.astro et en/404.astro (NotFoundPage, servie par l'ErrorDocument d'Apache)
-src/assets/       images et logos sources, optimisés au build
+src/assets/       media/ (images récupérées, ignorées par git), optimisées au build
 src/lib/          images.ts (relie les chemins d'images du contenu à src/assets)
 public/           copié tel quel (.htaccess, dont la CSP reçoit les empreintes des scripts au build)
 integrations/     csp-script-hashes.mjs (écrit ces empreintes)
@@ -46,24 +55,36 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 
 ## Modifier le contenu
 
-- Tous les textes sont dans `src/content/<lang>.json` ; aucun texte en dur dans les composants.
-- Les deux fichiers doivent garder la même structure (vérifié par `pnpm test`) et respecter
-  `src/content/types.ts` (vérifié par `pnpm check` / `pnpm build`).
-- Les champs optionnels n'affichent rien s'ils sont absents ou `null` : `place`,
-  `achievements`, `stack`, `image`, `projects`, `logo` (missions et expériences ;
-  affiché dans une tuile carrée), liens de profils (`links.linkedin`,
-  `links.malt`, `links.github`) et `verifyUrl` des certifications.
-- Les `src` d'images sont des chemins sous `src/assets` (ex. `/img/portrait.webp`) ; les
-  dimensions sont lues dans les fichiers. Les logos ont aussi `height`, la hauteur affichée en
-  desktop (×0,77 en mobile).
-- Les ancres de section (`nav[].id`) sont fixées dans les composants et identiques dans chaque langue.
-- Les pages d'accueil portent du JSON-LD (`src/components/JsonLd.astro`) : un `Person` et le
-  `ProfessionalService` qu'il dirige, construits à partir du contenu et des informations de la
-  société dans `src/content/business.ts` (raison sociale, adresse, TVA), communes aux deux langues.
-- Les mentions légales (`legal`) contiennent l'éditeur, l'hébergeur, les données personnelles et
-  les cookies. Leurs paragraphes sont du HTML de confiance (liens, `<strong>`, `<code>`) ; à tenir
-  à jour avec l'immatriculation de la société, l'hébergeur et les réglages Matomo. La section
-  cookies se termine par une case d'opposition à Matomo, affichée une fois le tracker chargé.
+Le contenu se saisit dans le back-office (`pnpm cms dev`, puis http://localhost:3000/admin), en
+français et en anglais (sélecteur de langue en haut de chaque document) :
+
+- **Page d'accueil** : l'en-tête, puis les sections en blocs (domaines, bande IA, logos clients,
+  compétences, missions, autres expériences, certifications). Glisser pour réordonner ; chaque
+  type ne sert qu'une fois. Les titres numérotés (« 01 », « 02 »…) suivent l'ordre de la page ;
+  une section avec un libellé de menu apparaît dans le menu.
+- **Missions**, **Expériences**, **Autres projets** : un document chacun, choisis et ordonnés par
+  leur section sur la page d'accueil.
+- **Entreprises** : nom et logo, partagés par le bandeau de logos, les missions et les expériences.
+  Une mission peut afficher un autre nom que celui de son entreprise (« Nom affiché »).
+- **Réglages du site** (SEO, e-mail et profils, pied de page, libellés d'interface), **Mentions
+  légales**, **Page 404**. Les paragraphes des mentions sont du HTML de confiance (liens,
+  `<strong>`, `<code>`) ; à tenir à jour avec l'immatriculation, l'hébergeur et les réglages Matomo.
+
+`pnpm content:pull` transforme les documents du CMS en `src/content/data/<lang>.json` (forme :
+`src/content/types.ts`, conversion : `src/content/cms.ts`) et télécharge les images dans
+`src/assets/media/`. Les champs optionnels vides n'affichent rien. Les ancres de section sont
+fixées dans les composants (`sectionAnchors`), identiques dans chaque langue. Les routes (mentions
+légales, 404) sont des fichiers de `src/pages` : leurs chemins sont dans `cms.ts`, pas dans le CMS.
+
+`fixtures/` contient une copie du contenu au même format, utilisée par les tests (et contenu en
+ligne tant que le CMS n'est pas en production). La rafraîchir depuis un CMS démarré avec `node scripts/content.ts pull --fixtures`.
+
+Les pages d'accueil portent du JSON-LD (`src/components/JsonLd.astro`) : un `Person` et le
+`ProfessionalService` qu'il dirige, construits à partir du contenu et des informations de la
+société dans `src/content/business.ts` (raison sociale, adresse, TVA).
+
+Après un changement du modèle de contenu (`cms/src/`), lancer `pnpm cms generate:types` (le site
+importe `cms/src/payload-types.ts`) et `pnpm cms generate:importmap` si des composants d'admin changent.
 
 ## Règles de mise en page
 
@@ -92,8 +113,9 @@ tests/            unitaires (Vitest) et e2e (Playwright)
 `pnpm deploy:prod` (`scripts/deploy.sh`) lance les tests, build et synchronise `dist/` (y compris le fichier caché
 `.htaccess`) vers l'hébergement o2switch avec `rsync --delete`. Il contient les vrais paramètres
 du serveur, il est donc ignoré par git : le créer avec
-`cp scripts/deploy.example.sh scripts/deploy.sh` et renseigner `REMOTE_USER`, `REMOTE_HOST` et
-`REMOTE_PATH`. Ton IP doit d'abord être autorisée dans cPanel (Accès SSH). Le script affiche
+`cp scripts/deploy.example.sh scripts/deploy.sh` et renseigner `REMOTE_USER`, `REMOTE_HOST`,
+`REMOTE_PATH` et la source du contenu : `CONTENT_SOURCE=cms` avec `PAYLOAD_URL`, ou
+`CONTENT_SOURCE=fixture` (`fixtures/`) tant que le CMS n'est pas en production. Ton IP doit d'abord être autorisée dans cPanel (Accès SSH). Le script affiche
 les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'arrête après la
 liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
 `.user.ini`, `error_log`) ne sont jamais touchés.
