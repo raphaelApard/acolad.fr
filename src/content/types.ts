@@ -1,10 +1,11 @@
-// Shape of src/content/<lang>.json. Optional fields must render nothing when absent
-// (see design/mockups/MissionStates.dc.html).
+// Shape of the content the site is built from: src/content/data/<lang>.json, written by
+// `pnpm content:pull` (from the CMS) or `pnpm content:fixture` (from fixtures/).
+// Optional fields must render nothing when absent (see design/mockups/MissionStates.dc.html).
 
 export type Lang = 'fr' | 'en';
 
 export interface Image {
-  /** Path under src/assets, e.g. `/img/portrait.webp`; sizes come from the file itself. */
+  /** Path under src/assets, e.g. `/media/portrait.webp`; sizes come from the file itself. */
   src: string;
   alt: string;
 }
@@ -12,7 +13,7 @@ export interface Image {
 export interface Mission {
   period: string;
   client: string;
-  /** Company logo, path under src/assets (e.g. `/logos/ovhcloud.webp`). */
+  /** Company logo, path under src/assets. */
   logo?: string;
   place?: string;
   role: string;
@@ -33,7 +34,7 @@ export interface OtherProject {
 export interface Experience {
   period: string;
   company: string;
-  /** Company logo, path under src/assets (e.g. `/logos/ovhcloud.webp`). */
+  /** Company logo, path under src/assets. */
   logo?: string;
   place?: string;
   role: string;
@@ -46,9 +47,102 @@ export interface LegalSection {
   /** Anchor of the section heading. */
   id: string;
   title: string;
-  /** Trusted HTML from this repository: links, <strong> and <code> only. */
+  /** Trusted HTML from the CMS: links, <strong> and <code> only. */
   paragraphs: string[];
 }
+
+export interface ClientLogo {
+  name: string;
+  src: string;
+  /** Rendered height in px on desktop, tuned per logo to balance visual weight. */
+  height: number;
+}
+
+// Home page sections, in page order. Each type appears at most once: its anchor is fixed in
+// its component (see `sectionAnchors`). `number` ("01", "02"…) follows the page order.
+
+export interface DomainsSection {
+  type: 'domains';
+  number: string;
+  title: string;
+  items: string[];
+}
+
+export interface AiSection {
+  type: 'ai';
+  number: string;
+  title: string;
+  paragraphs: string[];
+  tags: string[];
+}
+
+export interface ClientsSection {
+  type: 'clients';
+  title: string;
+  logos: ClientLogo[];
+}
+
+export interface SkillsSection {
+  type: 'skills';
+  number: string;
+  title: string;
+  expandLabel: string;
+  collapseLabel: string;
+  groups: { title: string; items: string[] }[];
+}
+
+export interface MissionsSection {
+  type: 'missions';
+  number: string;
+  title: string;
+  company: string;
+  since: string;
+  achievementsLabel: string;
+  stackLabel: string;
+  items: Mission[];
+  otherProjects: { title: string; items: OtherProject[] };
+}
+
+export interface ExperienceSection {
+  type: 'experience';
+  title: string;
+  items: Experience[];
+}
+
+export interface CredentialsSection {
+  type: 'credentials';
+  number: string;
+  title: string;
+  verifyLabel: string;
+  certifications: { title: string; items: { name: string; year: string; verifyUrl: string | null }[] };
+  education: { title: string; items: { name: string; school: string; period: string }[] };
+  languages: { title: string; items: { name: string; level: string }[] };
+}
+
+export type Section =
+  | DomainsSection
+  | AiSection
+  | ClientsSection
+  | SkillsSection
+  | MissionsSection
+  | ExperienceSection
+  | CredentialsSection;
+
+export type SectionType = Section['type'];
+
+/** Anchor (`id`) of each section, fixed in its component and identical in every locale. */
+export const sectionAnchors = {
+  domains: 'domaines',
+  ai: 'ia',
+  clients: null,
+  skills: 'competences',
+  missions: 'missions',
+  experience: 'parcours',
+  credentials: 'certifications',
+} as const satisfies Record<SectionType, string | null>;
+
+/** Anchor of the footer, the last menu entry. */
+export const contactAnchor = 'contact';
 
 export interface Content {
   meta: { lang: Lang; languageName: string; title: string; description: string };
@@ -63,40 +157,7 @@ export interface Content {
     cta: string;
     portrait: Image;
   };
-  domains: { number: string; title: string; items: string[] };
-  ai: { number: string; title: string; paragraphs: string[]; tags: string[] };
-  clients: { title: string; logos: {
-      name: string;
-      src: string;
-      /** Rendered height in px on desktop, tuned per logo to balance visual weight. */
-      height: number;
-    }[]; };
-  skills: {
-    number: string;
-    title: string;
-    expandLabel: string;
-    collapseLabel: string;
-    groups: { title: string; items: string[] }[];
-  };
-  missions: {
-    number: string;
-    title: string;
-    company: string;
-    since: string;
-    achievementsLabel: string;
-    stackLabel: string;
-    items: Mission[];
-  };
-  otherProjects: { title: string; items: OtherProject[] };
-  experience: { title: string; items: Experience[] };
-  credentials: {
-    number: string;
-    title: string;
-    verifyLabel: string;
-    certifications: { title: string; items: { name: string; year: string; verifyUrl: string | null }[] };
-    education: { title: string; items: { name: string; school: string; period: string }[] };
-    languages: { title: string; items: { name: string; level: string }[] };
-  };
+  sections: Section[];
   contact: { title: string; footer: string; backToTop: string };
   legal: {
     /** Page URL, also used as the footer link target. */
@@ -142,4 +203,9 @@ export interface Content {
     /** Shown on the copy button, and announced, once the address is on the clipboard. */
     emailCopied: string;
   };
+}
+
+/** The section of a given type, if the page has one. */
+export function findSection<T extends SectionType>(content: Content, type: T): Extract<Section, { type: T }> | undefined {
+  return content.sections.find((s): s is Extract<Section, { type: T }> => s.type === type);
 }

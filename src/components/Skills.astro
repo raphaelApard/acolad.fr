@@ -1,13 +1,13 @@
 ---
-import type { Content } from '../content/types';
+import type { SkillsSection } from '../content/types';
 import SectionTitle from './SectionTitle.astro';
 import Chevron from './icons/Chevron.astro';
 
 interface Props {
-  content: Content;
+  section: SkillsSection;
 }
 
-const { skills } = Astro.props.content;
+const { section: skills } = Astro.props;
 ---
 
 <section id="competences" aria-labelledby="t-skills" class="skills">

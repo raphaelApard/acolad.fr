@@ -1,7 +1,7 @@
 import { existsSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import fr from '../../src/content/fr.json';
-import en from '../../src/content/en.json';
+import { en, fr } from '../content';
+import { sectionAnchors, type Content } from '../../src/content/types';
 
 // Replace every leaf value by its type so only the structure is compared.
 function shape(value: unknown): unknown {
@@ -12,25 +12,44 @@ function shape(value: unknown): unknown {
   return value === null ? 'null' : typeof value;
 }
 
-function imageSources(content: typeof fr): string[] {
+function imageSources(content: Content): string[] {
   return [
     content.hero.portrait.src,
-    ...content.clients.logos.map((l) => l.src),
-    ...content.missions.items.flatMap((m) => (m.image ? [m.image.src] : [])),
-    ...content.otherProjects.items.flatMap((o) => (o.image ? [o.image.src] : [])),
+    content.notFound.image.src,
+    ...content.sections.flatMap((s) => {
+      switch (s.type) {
+        case 'clients':
+          return s.logos.map((l) => l.src);
+        case 'missions':
+          return [
+            ...s.items.flatMap((m) => [m.logo, m.image?.src]),
+            ...s.otherProjects.items.map((o) => o.image?.src),
+          ].filter((src): src is string => Boolean(src));
+        case 'experience':
+          return s.items.flatMap((e) => (e.logo ? [e.logo] : []));
+        default:
+          return [];
+      }
+    }),
   ];
 }
 
-describe('content files', () => {
-  it('share the same structure in every locale', () => {
+describe('test content (fixtures/)', () => {
+  it('shares the same structure in every locale', () => {
     expect(shape(en)).toEqual(shape(fr));
   });
 
-  it('keep the same anchors in every locale', () => {
+  it('keeps the same sections and anchors in every locale', () => {
+    expect(en.sections.map((s) => s.type)).toEqual(fr.sections.map((s) => s.type));
     expect(en.nav.map((n) => n.id)).toEqual(fr.nav.map((n) => n.id));
   });
 
-  it('declare their own locale', () => {
+  it('only links the menu to sections on the page, or to the footer', () => {
+    const anchors = [...fr.sections.map((s) => sectionAnchors[s.type]), 'contact'];
+    for (const item of fr.nav) expect(anchors).toContain(item.id);
+  });
+
+  it('declares its own locale', () => {
     expect(fr.meta.lang).toBe('fr');
     expect(en.meta.lang).toBe('en');
   });
@@ -38,9 +57,9 @@ describe('content files', () => {
   it.each([
     ['fr', fr],
     ['en', en],
-  ])('only reference images that exist (%s)', (_, content) => {
+  ])('only references images that exist (%s)', (_, content) => {
     for (const src of imageSources(content)) {
-      expect(existsSync(`src/assets${src}`), src).toBe(true);
+      expect(existsSync(`fixtures${src}`), src).toBe(true);
     }
   });
 });

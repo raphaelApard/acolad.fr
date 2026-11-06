@@ -1,0 +1,7 @@
+packages:
+  - cms
+
+onlyBuiltDependencies:
+  - esbuild
+  - sharp
+  - unrs-resolver

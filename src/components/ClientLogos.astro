@@ -1,13 +1,13 @@
 ---
 import { Image } from 'astro:assets';
-import type { Content } from '../content/types';
+import type { ClientsSection } from '../content/types';
 import { asset } from '../lib/images';
 
 interface Props {
-  content: Content;
+  section: ClientsSection;
 }
 
-const { clients } = Astro.props.content;
+const { section: clients } = Astro.props;
 
 // Render each logo at its display size (1x and 2x) instead of shipping the source file.
 const logos = clients.logos.map((logo) => {

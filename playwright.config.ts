@@ -14,7 +14,7 @@ export default defineConfig({
     { name: 'mobile', use: { ...devices['Desktop Chrome'], viewport: { width: 390, height: 844 }, hasTouch: true } },
   ],
   webServer: {
-    command: `pnpm build && pnpm preview --port ${port} --ignore-lock`,
+    command: `pnpm content:fixture && pnpm build && pnpm preview --port ${port} --ignore-lock`,
     url: `http://localhost:${port}/`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,

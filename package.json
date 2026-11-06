@@ -10,7 +10,10 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "deploy:prod": "scripts/deploy.sh",
-    "deploy:dry": "scripts/deploy.sh --dry-run"
+    "deploy:dry": "scripts/deploy.sh --dry-run",
+    "content:pull": "node scripts/content.ts pull",
+    "content:fixture": "node scripts/content.ts fixture",
+    "cms": "pnpm --filter cms"
   },
   "dependencies": {
     "@fontsource-variable/schibsted-grotesk": "^5.3.0",
@@ -24,5 +27,8 @@
     "sharp": "0.35.5",
     "typescript": "^6.0.3",
     "vitest": "^5.0.3"
+  },
+  "engines": {
+    "node": ">=22.18"
   }
 }

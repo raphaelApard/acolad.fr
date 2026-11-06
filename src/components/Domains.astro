@@ -1,12 +1,12 @@
 ---
-import type { Content } from '../content/types';
+import type { DomainsSection } from '../content/types';
 import SectionTitle from './SectionTitle.astro';
 
 interface Props {
-  content: Content;
+  section: DomainsSection;
 }
 
-const { domains } = Astro.props.content;
+const { section: domains } = Astro.props;
 ---
 
 <section id="domaines" aria-labelledby="t-domains" class="domains">
