@@ -572,7 +572,7 @@
     "title": "Mentions légales",
     "description": "Mentions légales, données personnelles et cookies du site de Raphaël Apard (Acolad Développement).",
     "updated": "Dernière mise à jour : 8 novembre 2026",
-    "updatedAt": "2026-11-08T16:31:40.765Z",
+    "updatedAt": "2026-11-08T16:38:25.441Z",
     "sections": [
       {
         "id": "editeur",
@@ -613,9 +613,8 @@
         "id": "donnees-personnelles",
         "title": "Données personnelles",
         "paragraphs": [
-          "Ce site n'a ni formulaire ni espace client. Les seules données personnelles traitées sont celles que vous transmettez en écrivant à <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, les données de mesure d'audience décrites plus bas et les journaux techniques de l'hébergeur.",
+          "Ce site n'a ni formulaire ni espace client. Les seules données personnelles traitées sont celles que vous transmettez en écrivant à <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, et les données de mesure d'audience décrites plus bas.",
           "Responsable du traitement : Acolad Développement, représentée par Raphaël Apard. Vos e-mails servent uniquement à répondre à votre demande et à suivre la relation commerciale. Ils sont conservés au plus 3 ans après le dernier échange et ne sont jamais transmis à des tiers.",
-          "Comme tout serveur web, celui d'o2switch enregistre dans ses journaux l'adresse IP, la date, la page demandée et le navigateur de chaque visite. Ces journaux servent à la sécurité et au bon fonctionnement du site, en application de l'obligation légale de conservation des données de connexion, et sont conservés un an au plus.",
           "Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition sur vos données, ainsi que du droit de définir des directives sur leur sort après votre décès. Pour exercer ces droits, écrivez à <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a> ; une réponse vous est apportée dans un délai d'un mois. Vous pouvez aussi adresser une réclamation à la <a href=\"https://www.cnil.fr/fr/plaintes\">CNIL</a>."
         ]
       },
