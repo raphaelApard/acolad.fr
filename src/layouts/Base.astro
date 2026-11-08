@@ -1,9 +1,8 @@
 ---
-import { Font, getImage } from 'astro:assets';
+import { Font } from 'astro:assets';
 import '../styles/global.css';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import { defaultLang, langs } from '../content';
-import { asset } from '../lib/images';
 import type { Content, Lang } from '../content/types';
 
 interface Props {
@@ -25,8 +24,6 @@ const url = (l: Lang) =>
   Astro.props.alternates ? new URL(Astro.props.alternates[l], Astro.site).href : getAbsoluteLocaleUrl(l);
 const canonical = url(lang);
 const ogLocale = { fr: 'fr_FR', en: 'en_GB' }[lang];
-const ogImage = await getImage({ src: asset(content.hero.portrait.src), format: 'jpg', width: 468 });
-const portrait = new URL(ogImage.src, Astro.site).href;
 ---
 
 <!doctype html>
@@ -59,7 +56,6 @@ const portrait = new URL(ogImage.src, Astro.site).href;
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content={ogLocale} />
-    <meta property="og:image" content={portrait} />
     <script>
       import '../scripts/matomo';
     </script>

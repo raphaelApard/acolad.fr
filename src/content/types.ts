@@ -5,7 +5,7 @@
 export type Lang = 'fr' | 'en';
 
 export interface Image {
-  /** Path under src/assets, e.g. `/media/portrait.webp`; sizes come from the file itself. */
+  /** Path under src/assets, e.g. `/media/404-fr.webp`; sizes come from the file itself. */
   src: string;
   alt: string;
 }
@@ -155,7 +155,6 @@ export interface Content {
     lead: string;
     info: string[];
     cta: string;
-    portrait: Image;
   };
   sections: Section[];
   contact: { title: string; footer: string; backToTop: string };

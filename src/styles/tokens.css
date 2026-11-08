@@ -33,7 +33,7 @@
   --header-stuck-height: 48px;  /* once scrolled: the sticky header shrinks to this */          /* single breakpoint: below it, every grid stacks */
 
   /* Shape */
-  --radius-sm: 4px;             /* buttons, chips, portrait */
+  --radius-sm: 4px;             /* buttons, chips */
   --radius-md: 6px;             /* screenshots, logo grid */
   --focus-ring: 3px solid var(--color-accent);
   --focus-offset: 3px;

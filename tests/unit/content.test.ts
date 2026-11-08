@@ -14,7 +14,6 @@ function shape(value: unknown): unknown {
 
 function imageSources(content: Content): string[] {
   return [
-    content.hero.portrait.src,
     content.notFound.image.src,
     ...content.sections.flatMap((s) => {
       switch (s.type) {

@@ -5,6 +5,7 @@
 - The content is edited in the Acolad backoffice, the multi-tenant CMS shared by every client site
   (tenant `acolad`), instead of the site's own back office. `pnpm content:pull` gives the same
   content as `fixtures/`, which were imported into it.
+- The hero no longer shows a portrait; pages have no `og:image` and the JSON-LD no `image`.
 
 ## 3.3.1 — 2026-10-09
 
