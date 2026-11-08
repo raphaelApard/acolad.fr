@@ -47,7 +47,40 @@
       "Toulouse, France",
       "Freelance depuis 2014"
     ],
-    "cta": "Discuter d'une mission"
+    "cta": "Discuter d'une mission",
+    "facts": {
+      "title": "En bref",
+      "items": [
+        {
+          "label": "Statut",
+          "text": "Freelance depuis oct. 2014 (Acolad Développement)"
+        },
+        {
+          "label": "Stack principale",
+          "tags": [
+            "TypeScript",
+            "Node.js",
+            "React",
+            "Next.js",
+            "Astro",
+            "Payload CMS"
+          ]
+        },
+        {
+          "label": "Clients",
+          "text": "OVHcloud, EY Fabernovel, Université Paris 1 Panthéon-Sorbonne, Hôpital Américain de Paris…"
+        },
+        {
+          "label": "Une de mes dernières missions",
+          "strong": "OVHcloud",
+          "text": "fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
+          "link": {
+            "label": "Voir les missions",
+            "href": "#missions"
+          }
+        }
+      ]
+    }
   },
   "sections": [
     {

@@ -58,6 +58,17 @@ export interface Experience {
   projects?: { name: string; text: string }[];
 }
 
+/** One row of the hero's "at a glance" card; every field but the label is optional. */
+export interface HeroFact {
+  label: string;
+  /** Bold lead-in before the text, e.g. a client name. */
+  strong?: string;
+  text?: string;
+  /** Rendered as chips. */
+  tags?: string[];
+  link?: { label: string; href: string };
+}
+
 export interface LegalSection {
   /** Anchor of the section heading. */
   id: string;
@@ -179,6 +190,8 @@ export interface Content {
     lead: string;
     info: string[];
     cta: string;
+    /** Card beside the hero text; absent: the text spans the full width. */
+    facts?: { title: string; items: HeroFact[] };
   };
   sections: Section[];
   contact: { title: string; footer: string; backToTop: string };

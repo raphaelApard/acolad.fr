@@ -1557,6 +1557,23 @@ export interface AcoladV2Home {
      */
     cta: string;
     portrait: number | AcoladV2Media;
+    facts?: {
+      title?: string | null;
+      items?:
+        | {
+            label: string;
+            strong?: string | null;
+            text?: string | null;
+            tags?: string[] | null;
+            linkLabel?: string | null;
+            /**
+             * Absolute URL, or an anchor of this page such as #missions.
+             */
+            linkHref?: string | null;
+            id?: string | null;
+          }[]
+        | null;
+    };
   };
   sections?:
     | (
@@ -3126,6 +3143,22 @@ export interface AcoladV2HomeSelect<T extends boolean = true> {
         info?: T;
         cta?: T;
         portrait?: T;
+        facts?:
+          | T
+          | {
+              title?: T;
+              items?:
+                | T
+                | {
+                    label?: T;
+                    strong?: T;
+                    text?: T;
+                    tags?: T;
+                    linkLabel?: T;
+                    linkHref?: T;
+                    id?: T;
+                  };
+            };
       };
   sections?:
     | T

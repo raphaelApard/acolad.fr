@@ -18,6 +18,8 @@
   for after one's death and the one-month answer delay.
 - The AI skills group is named "IA & ingénierie" in French and "AI & engineering" in English.
 - Client logos link to the company website (new `website` field on backoffice companies).
+- The hero shows an "at a glance" card (status, main stack, clients, a recent project) beside the
+  text, edited in the backoffice home (`hero.facts`).
 
 ## 3.3.1 — 2026-10-09
 
