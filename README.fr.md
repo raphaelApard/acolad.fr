@@ -132,7 +132,8 @@ quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une seule 3
 `acolad.fr` vers `https://www.acolad.fr` en gardant le chemin (`X-Forwarded-Proto` est pris en
 compte pour qu'un proxy qui termine le TLS ne provoque pas de boucle), des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/` (`/projets/*` vers `#missions`,
 `/services/` vers `#domaines`, `/contact/` vers `#contact`, `/politique-confidentialite/` vers les
-mentions légales), une 302
+mentions légales, et les URL des sites Drupal et de 2004 ; la liste complète et sa vérification sont
+dans [`docs/redirects.md`](docs/redirects.md)), une 301 de `…/index.html` vers l'URL du dossier, une 302
 de `/` vers `/en/` pour les navigateurs dont la première langue est l'anglais (sauf si le visiteur
 a choisi le français avec le sélecteur de langue, qui pose un cookie `lang`, vient du site lui-même,
 ou est un robot ou un outil d'audit comme Lighthouse), et les en-têtes de cache : un an, immutable, pour les

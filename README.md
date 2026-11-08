@@ -128,7 +128,9 @@ o2switch PageSpeed (do not edit that block), a single 301 from plain HTTP and fr
 `acolad.fr` to `https://www.acolad.fr` with the same path (`X-Forwarded-Proto` is honoured so a
 TLS-terminating proxy cannot cause a loop), a 301
 from the former `/fr/` and the former site's pages to `/` (`/projets/*` to `#missions`, `/services/`
-to `#domaines`, `/contact/` to `#contact`, `/politique-confidentialite/` to the legal notice), a 302 from `/` to `/en/` for browsers
+to `#domaines`, `/contact/` to `#contact`, `/politique-confidentialite/` to the legal notice, and the
+Drupal and 2004 sites' URLs; the full list and how to check it is in
+[`docs/redirects.md`](docs/redirects.md)), a 301 from `…/index.html` to its directory URL, a 302 from `/` to `/en/` for browsers
 whose first language is English (skipped when the visitor picked French with the language switch,
 which sets a `lang` cookie, came from the site itself, or is a crawler or an audit tool such as
 Lighthouse), and cache headers: one year, immutable, for the fingerprinted `/_astro/`
