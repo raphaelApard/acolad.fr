@@ -3,7 +3,8 @@
     "lang": "fr",
     "languageName": "Français",
     "title": "Développeur Fullstack TypeScript freelance à Toulouse – Raphaël Apard",
-    "description": "Développeur fullstack TypeScript freelance à Toulouse depuis 2014 : React, Next.js, Node.js, Drupal, PHP. 20 ans d'expérience du web."
+    "description": "Développeur fullstack TypeScript freelance à Toulouse depuis 2014 : React, Next.js, Node.js, Drupal, PHP. 20 ans d'expérience du web.",
+    "updatedAt": "2026-11-08T16:13:41.382Z"
   },
   "links": {
     "email": "raphael.apard@acolad.fr",
@@ -309,7 +310,8 @@
                   "Le travail se faisait en Scrum et en Kanban, avec les équipes produit, UX et métier."
                 ]
               }
-            ]
+            ],
+            "updatedAt": "2026-11-08T16:13:41.382Z"
           }
         },
         {
@@ -570,6 +572,7 @@
     "title": "Mentions légales",
     "description": "Mentions légales, données personnelles et cookies du site de Raphaël Apard (Acolad Développement).",
     "updated": "Dernière mise à jour : 9 octobre 2026",
+    "updatedAt": "2026-11-06T14:53:06.380Z",
     "sections": [
       {
         "id": "editeur",

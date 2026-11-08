@@ -88,6 +88,13 @@ function paragraphs(text: string): string[] {
 export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath): Content {
   const { site, home, legal, notFound } = docs;
 
+  // Dates of the documents the home page shows; the latest one dates the page in the sitemap.
+  const dates: string[] = [site.updatedAt, home.updatedAt];
+  const dated = <T extends { updatedAt: string }>(doc: T): T => {
+    dates.push(doc.updatedAt);
+    return doc;
+  };
+
   const image = (value: Relation<Media>, what: string): Image => {
     const media = populated(value, what);
     return { src: mediaPath(media), alt: media.alt ?? '' };
@@ -95,7 +102,7 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   const optionalImage = (value: Relation<Media>, what: string): Image | undefined =>
     value ? image(value, what) : undefined;
   const logo = (company: Company): string | undefined =>
-    company.logo ? mediaPath(populated(company.logo, `logo of ${company.name}`)) : undefined;
+    company.logo ? mediaPath(populated(dated(company).logo, `logo of ${company.name}`)) : undefined;
 
   let counter = 0;
   const number = () => String(++counter).padStart(2, '0');
@@ -112,11 +119,13 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       description: required(study.description, what('description')),
       intro: required(study.intro, what('introduction')),
       sections: study.sections.map((s) => ({ heading: s.heading, paragraphs: paragraphs(s.body) })),
+      updatedAt: m.updatedAt,
     };
   };
 
   const mission = (m: CmsMission): Mission => {
-    const company = populated(m.company, `client of mission ${m.id}`);
+    dated(m);
+    const company = dated(populated(m.company, `client of mission ${m.id}`));
     return {
       period: m.period,
       client: m.displayName || company.name,
@@ -132,7 +141,8 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   };
 
   const project = (p: Project): OtherProject => {
-    const company = populated(p.company, `client of project ${p.id}`);
+    dated(p);
+    const company = dated(populated(p.company, `client of project ${p.id}`));
     return {
       client: p.displayName || company.name,
       place: optional(p.place),
@@ -142,7 +152,8 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   };
 
   const experience = (e: CmsExperience): Experience => {
-    const company = populated(e.company, `company of experience ${e.id}`);
+    dated(e);
+    const company = dated(populated(e.company, `company of experience ${e.id}`));
     return {
       period: e.period,
       company: e.displayName || company.name,
@@ -259,7 +270,14 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   const { ui } = site;
 
   return {
-    meta: { lang, languageName: languageNames[lang], title: site.seo.title, description: site.seo.description },
+    meta: {
+      lang,
+      languageName: languageNames[lang],
+      title: site.seo.title,
+      description: site.seo.description,
+      // ISO 8601 strings in UTC compare as dates
+      updatedAt: dates.reduce((latest, date) => (date > latest ? date : latest)),
+    },
     links: {
       email: site.links.email,
       linkedin: site.links.linkedin || null,
@@ -300,6 +318,7 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       title: legal.title,
       description: legal.description,
       updated: legal.updated,
+      updatedAt: legal.updatedAt,
       sections: (legal.sections ?? []).map((s) => ({
         id: s.anchor,
         title: s.title,

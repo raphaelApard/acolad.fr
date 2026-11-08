@@ -15,6 +15,7 @@ function documents(sections: unknown[]): CmsDocuments {
       links: { email: 'a@b.fr', linkedin: '', malt: null, github: 'https://github.com/x' },
       contact: { navLabel: 'Contact', title: 'A project?', footer: 'Footer', backToTop: 'Top' },
       ui: { home: 'Home', breadcrumb: 'Breadcrumb', caseStudyLink: 'Case study' },
+      updatedAt: '2026-01-01T00:00:00.000Z',
     },
     home: {
       hero: {
@@ -27,6 +28,7 @@ function documents(sections: unknown[]): CmsDocuments {
         portrait: media(2, 'portrait.webp', 'Portrait'),
       },
       sections,
+      updatedAt: '2026-02-01T00:00:00.000Z',
     },
     legal: {
       linkLabel: 'Legal',
@@ -35,6 +37,7 @@ function documents(sections: unknown[]): CmsDocuments {
       updated: 'Today',
       sections: [{ anchor: 'publisher', title: 'Publisher', paragraphs: [{ html: '<strong>Acme</strong>' }] }],
       optOut: { label: 'l', on: 'on', off: 'off', unavailable: 'u' },
+      updatedAt: '2025-12-01T00:00:00.000Z',
     },
     notFound: { code: '404', title: 'Lost', text: 'Text', cta: 'Home', image: media(3, '404.webp', 'Sign') },
   } as unknown as CmsDocuments;
@@ -62,6 +65,7 @@ const missions = {
       achievements: [],
       stack: ['React'],
       image: null,
+      updatedAt: '2026-03-01T00:00:00.000Z',
     },
   ],
   otherProjects: { title: 'Other', projects: [{ id: 1, company: simplon, displayName: 'Simplon school', text: 'T' }] },
@@ -144,6 +148,7 @@ describe('toContent', () => {
         description: 'Meta',
         intro: 'Intro',
         sections: [{ heading: 'Context', paragraphs: ['One.', 'Two.'] }],
+        updatedAt: '2026-03-01T00:00:00.000Z',
       });
     }
   });
@@ -158,6 +163,13 @@ describe('toContent', () => {
     expect(() =>
       toContent('en', documents([{ ...missions, missions: [complete, { ...complete, id: 2 }] }]), () => ''),
     ).toThrow(/two missions have the "ovhcloud"/);
+  });
+
+  it('dates the home page from the latest document it shows, the legal notice from its own', () => {
+    expect(toContent('fr', documents([domains]), () => '').meta.updatedAt).toBe('2026-02-01T00:00:00.000Z');
+    const content = toContent('fr', documents([missions]), (m) => `/media/${m.filename}`);
+    expect(content.meta.updatedAt).toBe('2026-03-01T00:00:00.000Z');
+    expect(content.legal.updatedAt).toBe('2025-12-01T00:00:00.000Z');
   });
 
   it('rejects a kind of section used twice', () => {

@@ -35,10 +35,13 @@ test('lists every locale in the sitemap with its alternates', async ({ request }
   }
   expect(xml).toContain('hreflang="x-default"');
   for (const { content } of locales) {
+    expect(xml).toContain(`<loc>https://www.acolad.fr${content.legal.path}</loc>`);
     for (const mission of section(content, 'missions').items) {
       if (mission.caseStudy) expect(xml).toContain(`<loc>https://www.acolad.fr${mission.caseStudy.path}</loc>`);
     }
   }
+  const urls = xml.match(/<url>/g)!.length;
+  expect(xml.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)).toHaveLength(urls);
 });
 
 test('serves the favicons', async ({ request }) => {

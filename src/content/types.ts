@@ -20,6 +20,8 @@ export interface CaseStudy {
   description: string;
   intro: string;
   sections: { heading: string; paragraphs: string[] }[];
+  /** Last change of the mission (ISO date), for the sitemap. */
+  updatedAt: string;
 }
 
 export interface Mission {
@@ -158,7 +160,14 @@ export const sectionAnchors = {
 export const contactAnchor = 'contact';
 
 export interface Content {
-  meta: { lang: Lang; languageName: string; title: string; description: string };
+  meta: {
+    lang: Lang;
+    languageName: string;
+    title: string;
+    description: string;
+    /** Latest change of the documents the home page shows (ISO date), for the sitemap. */
+    updatedAt: string;
+  };
   links: { email: string; linkedin: string | null; malt: string | null; github: string | null };
   nav: { id: string; label: string }[];
   hero: {
@@ -178,6 +187,8 @@ export interface Content {
     title: string;
     description: string;
     updated: string;
+    /** Last change of the legal notice document (ISO date), for the sitemap. */
+    updatedAt: string;
     sections: LegalSection[];
     /** Matomo opt-out checkbox, shown at the end of the cookies section. */
     optOut: {
