@@ -4,7 +4,7 @@
     "languageName": "English",
     "title": "Freelance Fullstack TypeScript Developer in Toulouse – Raphaël Apard",
     "description": "Freelance full-stack TypeScript developer in Toulouse since 2014: React, Next.js, Node.js, Drupal, PHP. 20 years of web experience.",
-    "updatedAt": "2026-11-08T16:13:41.382Z"
+    "updatedAt": "2026-11-08T16:31:40.692Z"
   },
   "links": {
     "email": "raphael.apard@acolad.fr",
@@ -571,8 +571,8 @@
     "linkLabel": "Legal notice",
     "title": "Legal notice",
     "description": "Legal notice, personal data and cookies for Raphaël Apard's website (Acolad Développement).",
-    "updated": "Last updated: 9 October 2026",
-    "updatedAt": "2026-11-06T14:53:06.380Z",
+    "updated": "Last updated: 8 November 2026",
+    "updatedAt": "2026-11-08T16:31:40.765Z",
     "sections": [
       {
         "id": "publisher",
@@ -613,9 +613,10 @@
         "id": "personal-data",
         "title": "Personal data",
         "paragraphs": [
-          "This site has no form and no user account. The only personal data processed is what you send by writing to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, and the audience measurement data described below.",
+          "This site has no form and no user account. The only personal data processed is what you send by writing to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, the audience measurement data described below and the host's server logs.",
           "Data controller: Acolad Développement, represented by Raphaël Apard. Your emails are used only to answer your request and follow up the business relationship. They are kept for at most 3 years after the last exchange and are never passed on to third parties.",
-          "Under the GDPR and the French Data Protection Act, you have the right to access, rectify, erase, restrict and port your data, and to object to its processing. To exercise these rights, write to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>. You may also lodge a complaint with the <a href=\"https://www.cnil.fr/en/home\">CNIL</a>, the French data protection authority."
+          "Like any web server, o2switch's server records in its logs the IP address, date, requested page and browser of each visit. These logs are used for security and to keep the site running, under the legal obligation to retain connection data, and are kept for at most one year.",
+          "Under the GDPR and the French Data Protection Act, you have the right to access, rectify, erase, restrict and port your data, and to object to its processing, as well as to set instructions for what happens to your data after your death. To exercise these rights, write to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>; you will get an answer within one month. You may also lodge a complaint with the <a href=\"https://www.cnil.fr/en/home\">CNIL</a>, the French data protection authority."
         ]
       },
       {
@@ -623,7 +624,7 @@
         "title": "Cookies and audience measurement",
         "paragraphs": [
           "Visits are measured with Matomo, installed on a server run by Acolad Développement (stats.acolad.net, hosted in France by o2switch). The statistics are used only to understand how the site is used: they are not shared with third parties or combined with other data, IP addresses are anonymised and data is kept for at most 25 months.",
-          "Matomo sets two cookies: <code>_pk_id</code> (visitor ID, 13 months) and <code>_pk_ses</code> (session, 30 minutes). Configured this way, this audience measurement is exempt from consent under the CNIL's guidelines. You can still opt out below.",
+          "Matomo sets two cookies: <code>_pk_id</code> (visitor ID, 13 months) and <code>_pk_ses</code> (session, 30 minutes). Configured this way, this audience measurement is exempt from consent under the CNIL's guidelines. You can still opt out below: a <code>mtm_consent_removed</code> cookie (13 months) then remembers your choice.",
           "The language switch sets a <code>lang</code> cookie (12 months) that remembers your choice. No advertising or social media cookies are used."
         ]
       }

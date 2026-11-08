@@ -14,6 +14,8 @@
 - Former Drupal (`/work/*`, `/node/*`, `/raphael-apard`, `/clients`) and 2004 (`/htfr/*`,
   `/plan-mappy/*`) URLs, `/services/*` and `…/index.html` redirect with a 301
   ([`docs/redirects.md`](docs/redirects.md)).
+- The legal notice lists the `mtm_consent_removed` opt-out cookie, the host's server logs, the
+  right to set instructions for after one's death and the one-month answer delay.
 
 ## 3.3.1 — 2026-10-09
 
