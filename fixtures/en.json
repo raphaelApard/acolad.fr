@@ -2,8 +2,8 @@
   "meta": {
     "lang": "en",
     "languageName": "English",
-    "title": "Freelance Drupal developer in Toulouse – Raphaël Apard",
-    "description": "Senior full-stack and Drupal developer, freelance in Toulouse since 2014: Drupal, React, Next.js, TypeScript, PHP. 20 years of web experience."
+    "title": "Freelance Fullstack TypeScript Developer in Toulouse – Raphaël Apard",
+    "description": "Freelance full-stack TypeScript developer in Toulouse since 2014: React, Next.js, Node.js, Drupal, PHP. 20 years of web experience."
   },
   "links": {
     "email": "raphael.apard@acolad.fr",
@@ -39,7 +39,7 @@
   ],
   "hero": {
     "name": "Raphaël Apard",
-    "title": "Senior full-stack developer",
+    "title": "Freelance Fullstack TypeScript Developer in Toulouse",
     "leadStrong": "20 years of experience.",
     "lead": "I work across the whole lifecycle of web applications and business platforms: architecture, development, continuous integration (CI/CD), production releases, maintenance, performance optimisation and the evolution of existing solutions.",
     "info": [

@@ -1,9 +1,9 @@
 {
   "meta": {
     "lang": "fr",
-    "title": "Développeur Drupal freelance à Toulouse – Raphaël Apard",
-    "description": "Développeur fullstack senior et Drupal, freelance à Toulouse depuis 2014 : Drupal, React, Next.js, TypeScript, PHP. 20 ans d'expérience du web.",
-    "languageName": "Français"
+    "languageName": "Français",
+    "title": "Développeur Fullstack TypeScript freelance à Toulouse – Raphaël Apard",
+    "description": "Développeur fullstack TypeScript freelance à Toulouse depuis 2014 : React, Next.js, Node.js, Drupal, PHP. 20 ans d'expérience du web."
   },
   "links": {
     "email": "raphael.apard@acolad.fr",
@@ -39,7 +39,7 @@
   ],
   "hero": {
     "name": "Raphaël Apard",
-    "title": "Développeur fullstack senior",
+    "title": "Développeur Fullstack TypeScript freelance à Toulouse",
     "leadStrong": "20 ans d'expérience.",
     "lead": "J'interviens sur l'ensemble du cycle de vie des applications web et des plateformes métier : architecture, développement, intégration continue (CI/CD), mise en production, maintenance, optimisation des performances et évolution des solutions existantes.",
     "info": [
@@ -521,9 +521,9 @@
     "skipLink": "Aller au contenu",
     "languageSwitch": "Langue du site",
     "openMenu": "Ouvrir le menu",
-    "profiles": "Profils en ligne",
     "closeMenu": "Fermer le menu",
     "mainNav": "Navigation principale",
+    "profiles": "Profils en ligne",
     "tools": "Outils",
     "verifyAriaPrefix": "Vérifier la certification",
     "enlargeImage": "Agrandir l'image",
