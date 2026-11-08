@@ -191,7 +191,12 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
           title: b.title,
           logos: documents(b.companies)
             .filter((c) => c.logo)
-            .map((c) => ({ name: c.name, src: logo(c)!, height: c.logoHeight ?? 48 })),
+            .map((c) => ({
+              name: c.name,
+              src: logo(c)!,
+              height: c.logoHeight ?? 48,
+              url: optional(c.website),
+            })),
         };
       }
       case 'skills': {

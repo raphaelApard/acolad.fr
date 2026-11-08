@@ -84,37 +84,44 @@
         {
           "name": "OVHcloud",
           "src": "/media/logo-ovhcloud.webp",
-          "height": 44
+          "height": 44,
+          "url": "https://www.ovhcloud.com"
         },
         {
           "name": "Paris 1 Panthéon-Sorbonne University",
           "src": "/media/logo-pantheon-sorbonne.webp",
-          "height": 80
+          "height": 80,
+          "url": "https://www.pantheonsorbonne.fr"
         },
         {
           "name": "American Hospital of Paris",
           "src": "/media/logo-american-hospital-paris.webp",
-          "height": 48
+          "height": 48,
+          "url": "https://www.american-hospital.org"
         },
         {
           "name": "City of Issy-les-Moulineaux",
           "src": "/media/logo-issy-com.webp",
-          "height": 64
+          "height": 64,
+          "url": "https://www.issy.com"
         },
         {
           "name": "Syndex",
           "src": "/media/logo-syndex.webp",
-          "height": 64
+          "height": 64,
+          "url": "https://www.syndex.fr"
         },
         {
           "name": "Paris-Saclay University",
           "src": "/media/logo-paris-saclay.webp",
-          "height": 88
+          "height": 88,
+          "url": "https://www.universite-paris-saclay.fr"
         },
         {
           "name": "EY Fabernovel",
           "src": "/media/logo-ey-fabernovel.webp",
-          "height": 44
+          "height": 44,
+          "url": "https://www.fabernovel.com"
         },
         {
           "name": "Axess Open Web Services",
@@ -129,7 +136,8 @@
         {
           "name": "Muzéo",
           "src": "/media/logo-muzeo.webp",
-          "height": 32
+          "height": 32,
+          "url": "https://www.muzeo.com"
         },
         {
           "name": "Docteur Conso",
@@ -139,7 +147,8 @@
         {
           "name": "Makina Corpus",
           "src": "/media/logo-makina-corpus.webp",
-          "height": 64
+          "height": 64,
+          "url": "https://makina-corpus.com"
         }
       ]
     },

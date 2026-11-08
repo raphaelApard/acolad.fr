@@ -1668,6 +1668,10 @@ export interface AcoladV2Company {
    * Desktop height, tuned per logo to balance their visual weight (mobile uses ×0.77).
    */
   logoHeight?: number | null;
+  /**
+   * Company website; the logo in the clients section links to it.
+   */
+  website?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -3372,6 +3376,7 @@ export interface AcoladV2CompaniesSelect<T extends boolean = true> {
   name?: T;
   logo?: T;
   logoHeight?: T;
+  website?: T;
   updatedAt?: T;
   createdAt?: T;
 }

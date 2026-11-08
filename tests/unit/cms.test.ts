@@ -117,6 +117,14 @@ describe('toContent', () => {
     });
   });
 
+  it('links a client logo to the company website when it has one', () => {
+    const withSite = { ...clients, companies: [{ ...ovh, website: 'https://www.ovhcloud.com' }] };
+    const content = toContent('en', documents([withSite]), (m) => `/media/${m.filename}`);
+    const section = content.sections[0];
+    if (section?.type !== 'clients') throw new Error('expected clients');
+    expect(section.logos[0]?.url).toBe('https://www.ovhcloud.com');
+  });
+
   it('reports every image it uses', () => {
     const used: string[] = [];
     toContent('en', documents([clients, missions]), (m) => {

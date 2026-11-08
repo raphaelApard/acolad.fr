@@ -17,6 +17,7 @@
 - The legal notice lists the `mtm_consent_removed` opt-out cookie, the right to set instructions
   for after one's death and the one-month answer delay.
 - The AI skills group is named "IA & ingénierie" in French and "AI & engineering" in English.
+- Client logos link to the company website (new `website` field on backoffice companies).
 
 ## 3.3.1 — 2026-10-09
 

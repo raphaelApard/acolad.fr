@@ -23,14 +23,27 @@ const logos = clients.logos.map((logo) => {
       {
         logos.map((logo) => (
           <li>
-            <Image
-              src={logo.image}
-              alt={logo.name}
-              width={logo.width}
-              height={logo.height}
-              densities={[1, 2]}
-              style={`--logo-h: ${logo.height}`}
-            />
+            {logo.url ? (
+              <a href={logo.url} rel="noopener" target="_blank">
+                <Image
+                  src={logo.image}
+                  alt={logo.name}
+                  width={logo.width}
+                  height={logo.height}
+                  densities={[1, 2]}
+                  style={`--logo-h: ${logo.height}`}
+                />
+              </a>
+            ) : (
+              <Image
+                src={logo.image}
+                alt={logo.name}
+                width={logo.width}
+                height={logo.height}
+                densities={[1, 2]}
+                style={`--logo-h: ${logo.height}`}
+              />
+            )}
           </li>
         ))
       }
@@ -63,12 +76,29 @@ const logos = clients.logos.map((logo) => {
   }
 
   .logos li {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     height: 120px;
     padding: 16px;
     background: var(--color-surface);
+  }
+
+  /* The whole tile is the link target. */
+  .logos a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .logos a:focus-visible {
+    outline: none;
+  }
+
+  .logos li:has(a:focus-visible) {
+    outline: var(--focus-ring);
+    outline-offset: -3px;
   }
 
   .logos img {
@@ -78,6 +108,12 @@ const logos = clients.logos.map((logo) => {
     height: calc(var(--logo-h) * 1px);
     object-fit: contain;
     filter: grayscale(1);
+    transition: filter 0.2s;
+  }
+
+  .logos a:hover img,
+  .logos a:focus-visible img {
+    filter: none;
   }
 
   @media (max-width: 960px) {

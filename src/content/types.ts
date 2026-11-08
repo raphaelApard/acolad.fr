@@ -69,6 +69,8 @@ export interface LegalSection {
 export interface ClientLogo {
   name: string;
   src: string;
+  /** Company website; the logo links to it when set. */
+  url?: string;
   /** Rendered height in px on desktop, tuned per logo to balance visual weight. */
   height: number;
 }
