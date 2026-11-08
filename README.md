@@ -154,3 +154,7 @@ tests block its requests. The script is loaded from
 ## Open items
 
 - [ ] Proofread `src/content/en.json` (translated from the French copy).
+- [ ] Before the backoffice goes to production: check at build time that every page has a title
+  and a meta description of a sensible length, and turn on drafts for the `acolad-v2-*`
+  collections (today every save goes out with the next "Publish").
+- [ ] Complete the OVHcloud case study (live content editing: what was built, for whom, results).
