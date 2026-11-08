@@ -24,6 +24,7 @@ import {
   contactAnchor,
   sectionAnchors,
   type Content,
+  type CaseStudy,
   type Experience,
   type Image,
   type Lang,
@@ -46,6 +47,7 @@ export type MediaPath = (media: Media) => string;
 const languageNames: Record<Lang, string> = { fr: 'Français', en: 'English' };
 const legalPaths: Record<Lang, string> = { fr: '/mentions-legales/', en: '/en/legal-notice/' };
 const notFoundPaths: Record<Lang, string> = { fr: '/404.html', en: '/en/404/' };
+const caseStudyPath = (lang: Lang, slug: string) => `${lang === 'fr' ? '' : `/${lang}`}/missions/${slug}/`;
 
 type Relation<T> = number | T | null | undefined;
 
@@ -69,8 +71,29 @@ function optional(value: string | null | undefined): string | undefined {
   return value ? value : undefined;
 }
 
+/** A text field that the site cannot do without, though the CMS does not enforce it. */
+function required(value: string | null | undefined, what: string): string {
+  if (!value) throw new Error(`CMS: ${what} is empty`);
+  return value;
+}
+
+/** Paragraphs of a multi-line text, separated by blank lines. */
+function paragraphs(text: string): string[] {
+  return text
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
 export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath): Content {
   const { site, home, legal, notFound } = docs;
+
+  // Dates of the documents the home page shows; the latest one dates the page in the sitemap.
+  const dates: string[] = [site.updatedAt, home.updatedAt];
+  const dated = <T extends { updatedAt: string }>(doc: T): T => {
+    dates.push(doc.updatedAt);
+    return doc;
+  };
 
   const image = (value: Relation<Media>, what: string): Image => {
     const media = populated(value, what);
@@ -79,13 +102,30 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   const optionalImage = (value: Relation<Media>, what: string): Image | undefined =>
     value ? image(value, what) : undefined;
   const logo = (company: Company): string | undefined =>
-    company.logo ? mediaPath(populated(company.logo, `logo of ${company.name}`)) : undefined;
+    company.logo ? mediaPath(populated(dated(company).logo, `logo of ${company.name}`)) : undefined;
 
   let counter = 0;
   const number = () => String(++counter).padStart(2, '0');
 
+  const caseStudy = (m: CmsMission): CaseStudy | undefined => {
+    const study = m.caseStudy;
+    if (!study?.slug) return undefined;
+    const what = (field: string) => `${field} of the "${study.slug}" case study (${lang})`;
+    if (!study.sections?.length) throw new Error(`CMS: ${what('sections')} are empty`);
+    return {
+      slug: study.slug,
+      path: caseStudyPath(lang, study.slug),
+      title: required(study.title, what('title')),
+      description: required(study.description, what('description')),
+      intro: required(study.intro, what('introduction')),
+      sections: study.sections.map((s) => ({ heading: s.heading, paragraphs: paragraphs(s.body) })),
+      updatedAt: m.updatedAt,
+    };
+  };
+
   const mission = (m: CmsMission): Mission => {
-    const company = populated(m.company, `client of mission ${m.id}`);
+    dated(m);
+    const company = dated(populated(m.company, `client of mission ${m.id}`));
     return {
       period: m.period,
       client: m.displayName || company.name,
@@ -96,11 +136,13 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       achievements: nonEmpty(m.achievements?.map((a) => a.text)),
       stack: nonEmpty(m.stack),
       image: optionalImage(m.image, `screenshot of mission ${m.id}`),
+      caseStudy: caseStudy(m),
     };
   };
 
   const project = (p: Project): OtherProject => {
-    const company = populated(p.company, `client of project ${p.id}`);
+    dated(p);
+    const company = dated(populated(p.company, `client of project ${p.id}`));
     return {
       client: p.displayName || company.name,
       place: optional(p.place),
@@ -110,7 +152,8 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   };
 
   const experience = (e: CmsExperience): Experience => {
-    const company = populated(e.company, `company of experience ${e.id}`);
+    dated(e);
+    const company = dated(populated(e.company, `company of experience ${e.id}`));
     return {
       period: e.period,
       company: e.displayName || company.name,
@@ -213,6 +256,9 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   if (sections.some((s, i) => sections.findIndex((o) => o.type === s.type) !== i)) {
     throw new Error('CMS: a kind of section is used twice on the home page');
   }
+  const slugs = sections.flatMap((s) => (s.type === 'missions' ? s.items.flatMap((m) => m.caseStudy?.slug ?? []) : []));
+  const duplicate = slugs.find((slug, i) => slugs.indexOf(slug) !== i);
+  if (duplicate) throw new Error(`CMS: two missions have the "${duplicate}" case study address`);
 
   const nav: Content['nav'] = blocks.flatMap((block) => {
     const id = sectionAnchors[block.blockType];
@@ -224,7 +270,14 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   const { ui } = site;
 
   return {
-    meta: { lang, languageName: languageNames[lang], title: site.seo.title, description: site.seo.description },
+    meta: {
+      lang,
+      languageName: languageNames[lang],
+      title: site.seo.title,
+      description: site.seo.description,
+      // ISO 8601 strings in UTC compare as dates
+      updatedAt: dates.reduce((latest, date) => (date > latest ? date : latest)),
+    },
     links: {
       email: site.links.email,
       linkedin: site.links.linkedin || null,
@@ -255,6 +308,9 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       closeImage: ui.closeImage,
       copyEmail: ui.copyEmail,
       emailCopied: ui.emailCopied,
+      home: required(ui.home, 'site setting ui.home'),
+      breadcrumb: required(ui.breadcrumb, 'site setting ui.breadcrumb'),
+      caseStudyLink: required(ui.caseStudyLink, 'site setting ui.caseStudyLink'),
     },
     legal: {
       path: legalPaths[lang],
@@ -262,6 +318,7 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       title: legal.title,
       description: legal.description,
       updated: legal.updated,
+      updatedAt: legal.updatedAt,
       sections: (legal.sections ?? []).map((s) => ({
         id: s.anchor,
         title: s.title,

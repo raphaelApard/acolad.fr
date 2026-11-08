@@ -34,6 +34,14 @@ test('lists every locale in the sitemap with its alternates', async ({ request }
     expect(xml).toContain(`hreflang="${lang}" href="https://www.acolad.fr${path}"`);
   }
   expect(xml).toContain('hreflang="x-default"');
+  for (const { content } of locales) {
+    expect(xml).toContain(`<loc>https://www.acolad.fr${content.legal.path}</loc>`);
+    for (const mission of section(content, 'missions').items) {
+      if (mission.caseStudy) expect(xml).toContain(`<loc>https://www.acolad.fr${mission.caseStudy.path}</loc>`);
+    }
+  }
+  const urls = xml.match(/<url>/g)!.length;
+  expect(xml.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)).toHaveLength(urls);
 });
 
 test('serves the favicons', async ({ request }) => {
@@ -102,6 +110,13 @@ for (const { lang, path, content } of locales) {
       expect(types.Person.worksFor['@id']).toBe(types.ProfessionalService['@id']);
       expect(types.ProfessionalService.name).toBe(section(content, 'missions').company);
       expect(types.ProfessionalService.founder['@id']).toBe(types.Person['@id']);
+      const credentials = section(content, 'credentials');
+      expect(types.Person.hasCredential.map((c: { name: string }) => c.name)).toEqual(
+        credentials.certifications.items.map((c) => c.name),
+      );
+      expect(types.Person.knowsLanguage).toHaveLength(credentials.languages.items.length);
+      expect(types.ProfilePage.mainEntity['@id']).toBe(types.Person['@id']);
+      expect(types.ProfilePage.isPartOf['@id']).toBe(types.WebSite['@id']);
     });
 
     test('has a single h1 and an anchor for every nav item', async ({ page }) => {
@@ -174,6 +189,54 @@ for (const { lang, path, content } of locales) {
       await expect(page).toHaveURL(new RegExp(`${content.legal.path}$`));
       await expect(page.getByRole('contentinfo').getByRole('link', { name: content.legal.linkLabel }))
         .toHaveAttribute('aria-current', 'page');
+    });
+
+    test('has no WCAG AA violations', async ({ page }) => {
+      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+      expect(results.violations).toEqual([]);
+    });
+  });
+}
+
+for (const { lang, path, content } of locales) {
+  const missions = section(content, 'missions');
+  const mission = missions.items.find((m) => m.caseStudy);
+  if (!mission?.caseStudy) throw new Error(`fixtures/${lang}.json has no case study`);
+  const study = mission.caseStudy;
+
+  test.describe(study.path, () => {
+    test.beforeEach(async ({ page }) => {
+      await page.goto(study.path);
+    });
+
+    test('declares its language, canonical and alternates', async ({ page }) => {
+      await expect(page.locator('html')).toHaveAttribute('lang', lang);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(study.title);
+      await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', study.description);
+      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://www.acolad.fr${study.path}`);
+      for (const l of locales) {
+        const other = section(l.content, 'missions').items.find((m) => m.caseStudy?.slug === study.slug)!;
+        await expect(page.locator(`link[rel="alternate"][hreflang="${l.lang}"]`)).toHaveAttribute(
+          'href',
+          `https://www.acolad.fr${other.caseStudy!.path}`,
+        );
+      }
+    });
+
+    test('leads back home through its breadcrumb, also in JSON-LD', async ({ page }) => {
+      const breadcrumb = page.getByRole('navigation', { name: content.ui.breadcrumb });
+      await expect(breadcrumb.getByRole('link', { name: content.ui.home })).toHaveAttribute('href', path);
+      await expect(breadcrumb.getByRole('link', { name: missions.title })).toHaveAttribute('href', `${path}#missions`);
+      const json = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
+      const types = Object.fromEntries(json['@graph'].map((node: { '@type': string }) => [node['@type'], node]));
+      expect(types.Article.headline).toBe(study.title);
+      expect(types.BreadcrumbList.itemListElement.at(-1).item).toBe(`https://www.acolad.fr${study.path}`);
+    });
+
+    test('is linked from its mission on the home page', async ({ page }) => {
+      await page.goto(path);
+      // Checked in the DOM: on mobile the link sits in the collapsed mission panel.
+      await expect(page.locator(`#missions a[href="${study.path}"]`)).toHaveCount(1);
     });
 
     test('has no WCAG AA violations', async ({ page }) => {

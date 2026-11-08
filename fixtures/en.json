@@ -2,8 +2,9 @@
   "meta": {
     "lang": "en",
     "languageName": "English",
-    "title": "Freelance Drupal developer in Toulouse – Raphaël Apard",
-    "description": "Senior full-stack and Drupal developer, freelance in Toulouse since 2014: Drupal, React, Next.js, TypeScript, PHP. 20 years of web experience."
+    "title": "Freelance Fullstack TypeScript Developer in Toulouse – Raphaël Apard",
+    "description": "Freelance full-stack TypeScript developer in Toulouse since 2014: React, Next.js, Node.js, Drupal, PHP. 20 years of web experience.",
+    "updatedAt": "2026-11-08T16:13:41.382Z"
   },
   "links": {
     "email": "raphael.apard@acolad.fr",
@@ -39,7 +40,7 @@
   ],
   "hero": {
     "name": "Raphaël Apard",
-    "title": "Senior full-stack developer",
+    "title": "Freelance Fullstack TypeScript Developer in Toulouse",
     "leadStrong": "20 years of experience.",
     "lead": "I work across the whole lifecycle of web applications and business platforms: architecture, development, continuous integration (CI/CD), production releases, maintenance, performance optimisation and the evolution of existing solutions.",
     "info": [
@@ -280,6 +281,37 @@
           "image": {
             "src": "/media/mission-ovhcloud.webp",
             "alt": "Screenshot of the OVHcloud website"
+          },
+          "caseStudy": {
+            "slug": "ovhcloud",
+            "path": "/en/missions/ovhcloud/",
+            "title": "OVHcloud: React applications on Drupal data, with live content editing",
+            "description": "Freelance mission for OVHcloud (2023-2026): React and TypeScript applications with Zustand, fed by Drupal 10/11, with live content editing.",
+            "intro": "From 2023 to 2026 I worked as a freelancer with the OVHcloud web teams in Toulouse, on a mission found through Malt. My role: design and deliver business features on the OVHcloud web platforms, from requirements gathering to production.",
+            "sections": [
+              {
+                "heading": "The context",
+                "paragraphs": [
+                  "The OVHcloud web platforms run on Drupal 10 and 11. Part of the business features are React applications: some are embedded in Drupal pages, others are deployed outside Drupal and fed by various data sources."
+                ]
+              },
+              {
+                "heading": "A React application fed by Drupal",
+                "paragraphs": [
+                  "The application is written in TypeScript with React, and its state is managed with Zustand. Its data comes from Drupal, which remains the working tool of the editorial teams.",
+                  "It brings live content editing to that Drupal data."
+                ]
+              },
+              {
+                "heading": "Quality and ways of working",
+                "paragraphs": [
+                  "I set up and maintained the end-to-end and integration tests with Playwright, and worked on application performance (Core Web Vitals, response times).",
+                  "I raised code quality through reviews, refactoring and shared good practices, and mentored developers on technical choices. Development was AI-assisted with Cursor, with a systematic review of the generated code.",
+                  "The team worked in Scrum and Kanban with the product, UX and business teams."
+                ]
+              }
+            ],
+            "updatedAt": "2026-11-08T16:13:41.382Z"
           }
         },
         {
@@ -529,7 +561,10 @@
     "enlargeImage": "Enlarge image",
     "closeImage": "Close image",
     "copyEmail": "Copy email",
-    "emailCopied": "Email copied"
+    "emailCopied": "Email copied",
+    "home": "Home",
+    "breadcrumb": "Breadcrumb",
+    "caseStudyLink": "Read the case study"
   },
   "legal": {
     "path": "/en/legal-notice/",
@@ -537,6 +572,7 @@
     "title": "Legal notice",
     "description": "Legal notice, personal data and cookies for Raphaël Apard's website (Acolad Développement).",
     "updated": "Last updated: 9 October 2026",
+    "updatedAt": "2026-11-06T14:53:06.380Z",
     "sections": [
       {
         "id": "publisher",

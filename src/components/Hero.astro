@@ -13,8 +13,11 @@ const [firstName, ...lastNames] = hero.name.split(' ');
 
 <section aria-labelledby="hero-title" class="wrap hero">
   <p class="mono info">{hero.info.join(' · ')}</p>
-  <h1 id="hero-title" class="name">{firstName}<br />{lastNames.join(' ')}</h1>
-  <p class="title">{hero.title}</p>
+  <!-- The role is part of the h1: it carries the query the page targets, not only the name. -->
+  <h1 id="hero-title" class="heading">
+    <span class="name">{firstName}<br />{lastNames.join(' ')}</span><span class="sr-only">, </span>
+    <span class="title">{hero.title}</span>
+  </h1>
   <p class="lead"><strong>{hero.leadStrong}</strong> {hero.lead}</p>
   <div class="actions">
     <a class="cta" href={`mailto:${links.email}`}>{hero.cta}<ArrowRight /></a>
@@ -35,8 +38,18 @@ const [firstName, ...lastNames] = hero.name.split(' ');
     color: var(--color-text-muted);
   }
 
-  .name {
+  .heading {
     margin: 28px 0 0;
+    font: inherit;
+    letter-spacing: normal;
+  }
+
+  .name,
+  .title {
+    display: block;
+  }
+
+  .name {
     font-size: 128px;
     line-height: 0.9;
     font-weight: 800;
@@ -104,8 +117,11 @@ const [firstName, ...lastNames] = hero.name.split(' ');
       letter-spacing: 0;
     }
 
-    .name {
+    .heading {
       margin-top: 20px;
+    }
+
+    .name {
       font-size: 60px;
       line-height: 0.92;
     }

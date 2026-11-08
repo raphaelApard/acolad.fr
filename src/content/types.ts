@@ -10,6 +10,20 @@ export interface Image {
   alt: string;
 }
 
+/** A mission's page of its own (see src/components/CaseStudyPage.astro). */
+export interface CaseStudy {
+  /** Same in every locale. */
+  slug: string;
+  /** Page URL, e.g. `/missions/ovhcloud/` or `/en/missions/ovhcloud/`. */
+  path: string;
+  title: string;
+  description: string;
+  intro: string;
+  sections: { heading: string; paragraphs: string[] }[];
+  /** Last change of the mission (ISO date), for the sitemap. */
+  updatedAt: string;
+}
+
 export interface Mission {
   period: string;
   client: string;
@@ -21,6 +35,7 @@ export interface Mission {
   achievements?: string[];
   stack?: string[];
   image?: Image;
+  caseStudy?: CaseStudy;
 }
 
 export interface OtherProject {
@@ -145,7 +160,14 @@ export const sectionAnchors = {
 export const contactAnchor = 'contact';
 
 export interface Content {
-  meta: { lang: Lang; languageName: string; title: string; description: string };
+  meta: {
+    lang: Lang;
+    languageName: string;
+    title: string;
+    description: string;
+    /** Latest change of the documents the home page shows (ISO date), for the sitemap. */
+    updatedAt: string;
+  };
   links: { email: string; linkedin: string | null; malt: string | null; github: string | null };
   nav: { id: string; label: string }[];
   hero: {
@@ -165,6 +187,8 @@ export interface Content {
     title: string;
     description: string;
     updated: string;
+    /** Last change of the legal notice document (ISO date), for the sitemap. */
+    updatedAt: string;
     sections: LegalSection[];
     /** Matomo opt-out checkbox, shown at the end of the cookies section. */
     optOut: {
@@ -201,6 +225,12 @@ export interface Content {
     copyEmail: string;
     /** Shown on the copy button, and announced, once the address is on the clipboard. */
     emailCopied: string;
+    /** First breadcrumb entry of the inner pages. */
+    home: string;
+    /** Accessible name of the breadcrumb navigation. */
+    breadcrumb: string;
+    /** Link from a mission to its case study, followed by the client name for screen readers. */
+    caseStudyLink: string;
   };
 }
 

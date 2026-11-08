@@ -1264,6 +1264,7 @@ export interface AcoladPage {
   schemaType: 'WebPage' | 'ContactPage';
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1758,6 +1759,31 @@ export interface AcoladV2Mission {
     | null;
   stack?: string[] | null;
   image?: (number | null) | AcoladV2Media;
+  /**
+   * Optional: a page of its own for this mission, linked from the home page. Leave the address empty for no page.
+   */
+  caseStudy?: {
+    /**
+     * Last part of the page URL, the same in every language: “ovhcloud” gives /missions/ovhcloud/.
+     */
+    slug?: string | null;
+    title?: string | null;
+    /**
+     * About 150 characters, shown by search engines.
+     */
+    description?: string | null;
+    intro?: string | null;
+    sections?:
+      | {
+          heading: string;
+          /**
+           * Separate paragraphs with a blank line.
+           */
+          body: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1939,6 +1965,9 @@ export interface AcoladV2Site {
     closeImage: string;
     copyEmail: string;
     emailCopied: string;
+    home?: string | null;
+    breadcrumb?: string | null;
+    caseStudyLink?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -2857,6 +2886,7 @@ export interface AcoladPagesSelect<T extends boolean = true> {
   schemaType?: T;
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -3271,6 +3301,21 @@ export interface AcoladV2MissionsSelect<T extends boolean = true> {
       };
   stack?: T;
   image?: T;
+  caseStudy?:
+    | T
+    | {
+        slug?: T;
+        title?: T;
+        description?: T;
+        intro?: T;
+        sections?:
+          | T
+          | {
+              heading?: T;
+              body?: T;
+              id?: T;
+            };
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3392,6 +3437,9 @@ export interface AcoladV2SiteSelect<T extends boolean = true> {
         closeImage?: T;
         copyEmail?: T;
         emailCopied?: T;
+        home?: T;
+        breadcrumb?: T;
+        caseStudyLink?: T;
       };
   updatedAt?: T;
   createdAt?: T;
