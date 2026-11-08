@@ -119,7 +119,7 @@ describe('toContent', () => {
       used.push(m.filename!);
       return `/media/${m.filename}`;
     });
-    expect(new Set(used)).toEqual(new Set(['portrait.webp', 'logo-ovh.webp', '404.webp']));
+    expect(new Set(used)).toEqual(new Set(['logo-ovh.webp', '404.webp']));
   });
 
   it('rejects a kind of section used twice', () => {

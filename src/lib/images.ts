@@ -1,6 +1,6 @@
 import type { ImageMetadata } from 'astro';
 
-// Content files reference images by their path under src/assets (e.g. `/img/portrait.webp`)
+// Content files reference images by their path under src/assets (e.g. `/media/404-fr.webp`)
 // so that Astro can optimise them and read their intrinsic size.
 const files = import.meta.glob<{ default: ImageMetadata }>('../assets/**/*.{webp,png,jpg,jpeg}', { eager: true });
 

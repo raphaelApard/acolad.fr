@@ -109,7 +109,7 @@ définie dans `ACOLAD_V2_PUBLISH_COMMAND` côté backoffice.
 - Les polices passent par l'API Fonts d'Astro (`fonts` dans `astro.config.mjs`) : fichiers
   woff2 latins uniquement, toutes préchargées (aucune chaîne de requêtes après le HTML), polices de repli ajustées pour que le
   changement de police ne décale pas la mise en page.
-- Les images passent par `astro:assets` : captures et portrait ont un `srcset` (WebP), les logos
+- Les images passent par `astro:assets` : les captures ont un `srcset` (WebP), les logos
   sont redimensionnés à leur hauteur d'affichage en 1x et 2x. Les images sous la ligne de
   flottaison sont chargées en différé.
   Les logos sont posés sur des tuiles blanches : leurs sources n'ont pas de transparence, un canal
@@ -158,4 +158,3 @@ depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours)
 ## Points ouverts
 
 - [ ] Relire `src/content/en.json` (traduit depuis le français).
-- [ ] Portrait en meilleure définition (l'actuel fait 468 × 542).

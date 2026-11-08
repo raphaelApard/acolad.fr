@@ -39,7 +39,7 @@ export interface CmsDocuments {
   notFound: NotFound;
 }
 
-/** Path of an image under src/assets, e.g. `/media/portrait.webp`; registers it for download. */
+/** Path of an image under src/assets, e.g. `/media/404-fr.webp`; registers it for download. */
 export type MediaPath = (media: Media) => string;
 
 // Routes are files in src/pages, so their paths live in the code, not in the CMS.
@@ -239,7 +239,6 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       lead: home.hero.lead,
       info: home.hero.info ?? [],
       cta: home.hero.cta,
-      portrait: image(home.hero.portrait, 'hero portrait'),
     },
     sections,
     contact: { title: site.contact.title, footer: site.contact.footer, backToTop: site.contact.backToTop },

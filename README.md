@@ -107,7 +107,7 @@ was `fixtures/`, imported into the backoffice) and the site no longer reads it.
 
 - Fonts go through Astro's Fonts API (`fonts` in `astro.config.mjs`): Latin woff2 files only,
   every face preloaded (no request chain behind the HTML), metric-matched fallbacks so the swap does not shift the layout.
-- Images go through `astro:assets`: screenshots and portrait get a `srcset` (WebP), logos are
+- Images go through `astro:assets`: screenshots get a `srcset` (WebP), logos are
   resized to their display height at 1x and 2x. Below-the-fold images are lazy-loaded.
   Logos sit on white tiles, so their sources have no transparency: an alpha channel more than
   doubles the WebP size.
@@ -152,4 +152,3 @@ tests block its requests. The script is loaded from
 ## Open items
 
 - [ ] Proofread `src/content/en.json` (translated from the French copy).
-- [ ] Sharper portrait source (current one is 468 × 542).
