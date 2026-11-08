@@ -10,6 +10,18 @@ export interface Image {
   alt: string;
 }
 
+/** A mission's page of its own (see src/components/CaseStudyPage.astro). */
+export interface CaseStudy {
+  /** Same in every locale. */
+  slug: string;
+  /** Page URL, e.g. `/missions/ovhcloud/` or `/en/missions/ovhcloud/`. */
+  path: string;
+  title: string;
+  description: string;
+  intro: string;
+  sections: { heading: string; paragraphs: string[] }[];
+}
+
 export interface Mission {
   period: string;
   client: string;
@@ -21,6 +33,7 @@ export interface Mission {
   achievements?: string[];
   stack?: string[];
   image?: Image;
+  caseStudy?: CaseStudy;
 }
 
 export interface OtherProject {
@@ -201,6 +214,12 @@ export interface Content {
     copyEmail: string;
     /** Shown on the copy button, and announced, once the address is on the clipboard. */
     emailCopied: string;
+    /** First breadcrumb entry of the inner pages. */
+    home: string;
+    /** Accessible name of the breadcrumb navigation. */
+    breadcrumb: string;
+    /** Link from a mission to its case study, followed by the client name for screen readers. */
+    caseStudyLink: string;
   };
 }
 

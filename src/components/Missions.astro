@@ -35,6 +35,7 @@ const { otherProjects } = missions;
           stackLabel={missions.stackLabel}
           image={m.image}
           enlargeLabel={ui.enlargeImage}
+          link={m.caseStudy && { href: m.caseStudy.path, label: ui.caseStudyLink }}
         />
       ))
     }

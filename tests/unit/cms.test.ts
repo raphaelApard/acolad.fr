@@ -14,7 +14,7 @@ function documents(sections: unknown[]): CmsDocuments {
       seo: { title: 'Title', description: 'Description' },
       links: { email: 'a@b.fr', linkedin: '', malt: null, github: 'https://github.com/x' },
       contact: { navLabel: 'Contact', title: 'A project?', footer: 'Footer', backToTop: 'Top' },
-      ui: {},
+      ui: { home: 'Home', breadcrumb: 'Breadcrumb', caseStudyLink: 'Case study' },
     },
     home: {
       hero: {
@@ -120,6 +120,44 @@ describe('toContent', () => {
       return `/media/${m.filename}`;
     });
     expect(new Set(used)).toEqual(new Set(['logo-ovh.webp', '404.webp']));
+  });
+
+  it('gives a case study its path in each locale and splits its paragraphs', () => {
+    const study = {
+      slug: 'ovhcloud',
+      title: 'OVHcloud',
+      description: 'Meta',
+      intro: 'Intro',
+      sections: [{ heading: 'Context', body: 'One.\n\n  Two.\n' }],
+    };
+    const withStudy = { ...missions, missions: [{ ...missions.missions[0], caseStudy: study }] };
+    for (const [lang, path] of [
+      ['fr', '/missions/ovhcloud/'],
+      ['en', '/en/missions/ovhcloud/'],
+    ] as const) {
+      const section = toContent(lang, documents([withStudy]), (m) => `/media/${m.filename}`).sections[0];
+      if (section?.type !== 'missions') throw new Error('expected missions');
+      expect(section.items[0]?.caseStudy).toEqual({
+        slug: 'ovhcloud',
+        path,
+        title: 'OVHcloud',
+        description: 'Meta',
+        intro: 'Intro',
+        sections: [{ heading: 'Context', paragraphs: ['One.', 'Two.'] }],
+      });
+    }
+  });
+
+  it('rejects an incomplete case study, and two case studies at the same address', () => {
+    const study = { slug: 'ovhcloud', title: 'T', description: '', intro: 'I', sections: [{ heading: 'H', body: 'B' }] };
+    const mission = { ...missions.missions[0], caseStudy: study };
+    expect(() =>
+      toContent('en', documents([{ ...missions, missions: [mission] }]), () => ''),
+    ).toThrow(/description of the "ovhcloud" case study \(en\) is empty/);
+    const complete = { ...mission, caseStudy: { ...study, description: 'D' } };
+    expect(() =>
+      toContent('en', documents([{ ...missions, missions: [complete, { ...complete, id: 2 }] }]), () => ''),
+    ).toThrow(/two missions have the "ovhcloud"/);
   });
 
   it('rejects a kind of section used twice', () => {

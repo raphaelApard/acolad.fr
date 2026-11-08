@@ -2,6 +2,7 @@
 // One mission or experience row. Desktop: meta | body | screenshot, always open.
 // Mobile: period/place line + toggle (title, role); everything else is in the panel.
 import type { Image } from '../content/types';
+import ArrowRight from './icons/ArrowRight.astro';
 import Chevron from './icons/Chevron.astro';
 import LogoTile from './LogoTile.astro';
 import ZoomableImage from './ZoomableImage.astro';
@@ -22,10 +23,27 @@ interface Props {
   /** Accessible name prefix of the screenshot button. */
   enlargeLabel?: string;
   projects?: { name: string; text: string }[];
+  /** Link to the entry's own page; `label` is followed by `title` for screen readers. */
+  link?: { href: string; label: string };
 }
 
-const { id, period, title, logo, place, role, text, achievements, achievementsLabel, stack, stackLabel, image, enlargeLabel = '', projects } =
-  Astro.props;
+const {
+  id,
+  period,
+  title,
+  logo,
+  place,
+  role,
+  text,
+  achievements,
+  achievementsLabel,
+  stack,
+  stackLabel,
+  image,
+  enlargeLabel = '',
+  projects,
+  link,
+} = Astro.props;
 const panelId = `${id}-panel`;
 ---
 
@@ -52,6 +70,17 @@ const panelId = `${id}-panel`;
     <div class="body">
       <p class="desktop-only role">{role}</p>
       <p class="text">{text}</p>
+      {
+        link && (
+          <p class="more">
+            <a href={link.href}>
+              {link.label}
+              <span class="sr-only"> — {title}</span>
+              <ArrowRight />
+            </a>
+          </p>
+        )
+      }
       {
         achievements && achievements.length > 0 && (
           <div class="achievements">
@@ -179,6 +208,20 @@ const panelId = `${id}-panel`;
     color: var(--color-text);
   }
 
+  .more {
+    margin-top: 14px;
+  }
+
+  .more a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    color: var(--color-accent);
+    font-weight: 600;
+    text-underline-offset: 4px;
+  }
+
   .achievements,
   .stack {
     margin-top: 24px;
@@ -283,6 +326,11 @@ const panelId = `${id}-panel`;
       order: 1;
       margin-top: 14px;
       font-size: 17px;
+    }
+
+    .more {
+      order: 1;
+      margin-top: 8px;
     }
 
     .figure {

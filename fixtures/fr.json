@@ -280,6 +280,36 @@
           "image": {
             "src": "/media/mission-ovhcloud.webp",
             "alt": "Capture d'écran du site OVHcloud"
+          },
+          "caseStudy": {
+            "slug": "ovhcloud",
+            "path": "/missions/ovhcloud/",
+            "title": "OVHcloud : applications React sur des données Drupal, avec édition de contenu en direct",
+            "description": "Mission freelance pour OVHcloud (2023-2026) : applications React et TypeScript avec Zustand, alimentées par Drupal 10/11, édition de contenu en direct.",
+            "intro": "De 2023 à 2026, j'ai travaillé en freelance avec les équipes web d'OVHcloud à Toulouse, sur une mission trouvée via Malt. Mon rôle : concevoir et livrer des fonctionnalités métier sur les plateformes web d'OVHcloud, du recueil des besoins jusqu'à la mise en production.",
+            "sections": [
+              {
+                "heading": "Le contexte",
+                "paragraphs": [
+                  "Les plateformes web d'OVHcloud reposent sur Drupal 10 et 11. Une partie des fonctionnalités métier y prend la forme d'applications React : certaines sont intégrées dans les pages Drupal, d'autres sont déployées en dehors et alimentées par des sources de données variées."
+                ]
+              },
+              {
+                "heading": "Une application React alimentée par Drupal",
+                "paragraphs": [
+                  "L'application est écrite en TypeScript avec React, et son état est géré avec Zustand. Ses données viennent de Drupal, qui reste l'outil de travail des équipes éditoriales.",
+                  "Elle intègre l'édition de contenu en direct (live content editing) sur ces données Drupal."
+                ]
+              },
+              {
+                "heading": "Qualité et méthode de travail",
+                "paragraphs": [
+                  "J'ai mis en place et maintenu les tests end-to-end et d'intégration avec Playwright, et travaillé sur les performances des applications (Core Web Vitals, temps de réponse).",
+                  "J'ai contribué à la qualité du code par les revues, le refactoring et le partage de bonnes pratiques, et accompagné les développeurs sur les choix techniques. Le développement était assisté par l'IA avec Cursor, avec une relecture systématique du code généré.",
+                  "Le travail se faisait en Scrum et en Kanban, avec les équipes produit, UX et métier."
+                ]
+              }
+            ]
           }
         },
         {
@@ -529,7 +559,10 @@
     "enlargeImage": "Agrandir l'image",
     "closeImage": "Fermer l'image",
     "copyEmail": "Copier l'e-mail",
-    "emailCopied": "E-mail copié"
+    "emailCopied": "E-mail copié",
+    "home": "Accueil",
+    "breadcrumb": "Fil d'Ariane",
+    "caseStudyLink": "Lire l'étude de cas"
   },
   "legal": {
     "path": "/mentions-legales/",

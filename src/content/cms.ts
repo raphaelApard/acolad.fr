@@ -24,6 +24,7 @@ import {
   contactAnchor,
   sectionAnchors,
   type Content,
+  type CaseStudy,
   type Experience,
   type Image,
   type Lang,
@@ -46,6 +47,7 @@ export type MediaPath = (media: Media) => string;
 const languageNames: Record<Lang, string> = { fr: 'Français', en: 'English' };
 const legalPaths: Record<Lang, string> = { fr: '/mentions-legales/', en: '/en/legal-notice/' };
 const notFoundPaths: Record<Lang, string> = { fr: '/404.html', en: '/en/404/' };
+const caseStudyPath = (lang: Lang, slug: string) => `${lang === 'fr' ? '' : `/${lang}`}/missions/${slug}/`;
 
 type Relation<T> = number | T | null | undefined;
 
@@ -69,6 +71,20 @@ function optional(value: string | null | undefined): string | undefined {
   return value ? value : undefined;
 }
 
+/** A text field that the site cannot do without, though the CMS does not enforce it. */
+function required(value: string | null | undefined, what: string): string {
+  if (!value) throw new Error(`CMS: ${what} is empty`);
+  return value;
+}
+
+/** Paragraphs of a multi-line text, separated by blank lines. */
+function paragraphs(text: string): string[] {
+  return text
+    .split(/\n\s*\n/)
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
 export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath): Content {
   const { site, home, legal, notFound } = docs;
 
@@ -84,6 +100,21 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   let counter = 0;
   const number = () => String(++counter).padStart(2, '0');
 
+  const caseStudy = (m: CmsMission): CaseStudy | undefined => {
+    const study = m.caseStudy;
+    if (!study?.slug) return undefined;
+    const what = (field: string) => `${field} of the "${study.slug}" case study (${lang})`;
+    if (!study.sections?.length) throw new Error(`CMS: ${what('sections')} are empty`);
+    return {
+      slug: study.slug,
+      path: caseStudyPath(lang, study.slug),
+      title: required(study.title, what('title')),
+      description: required(study.description, what('description')),
+      intro: required(study.intro, what('introduction')),
+      sections: study.sections.map((s) => ({ heading: s.heading, paragraphs: paragraphs(s.body) })),
+    };
+  };
+
   const mission = (m: CmsMission): Mission => {
     const company = populated(m.company, `client of mission ${m.id}`);
     return {
@@ -96,6 +127,7 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       achievements: nonEmpty(m.achievements?.map((a) => a.text)),
       stack: nonEmpty(m.stack),
       image: optionalImage(m.image, `screenshot of mission ${m.id}`),
+      caseStudy: caseStudy(m),
     };
   };
 
@@ -213,6 +245,9 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
   if (sections.some((s, i) => sections.findIndex((o) => o.type === s.type) !== i)) {
     throw new Error('CMS: a kind of section is used twice on the home page');
   }
+  const slugs = sections.flatMap((s) => (s.type === 'missions' ? s.items.flatMap((m) => m.caseStudy?.slug ?? []) : []));
+  const duplicate = slugs.find((slug, i) => slugs.indexOf(slug) !== i);
+  if (duplicate) throw new Error(`CMS: two missions have the "${duplicate}" case study address`);
 
   const nav: Content['nav'] = blocks.flatMap((block) => {
     const id = sectionAnchors[block.blockType];
@@ -255,6 +290,9 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       closeImage: ui.closeImage,
       copyEmail: ui.copyEmail,
       emailCopied: ui.emailCopied,
+      home: required(ui.home, 'site setting ui.home'),
+      breadcrumb: required(ui.breadcrumb, 'site setting ui.breadcrumb'),
+      caseStudyLink: required(ui.caseStudyLink, 'site setting ui.caseStudyLink'),
     },
     legal: {
       path: legalPaths[lang],
