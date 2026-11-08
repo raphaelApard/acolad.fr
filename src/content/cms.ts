@@ -85,6 +85,17 @@ function paragraphs(text: string): string[] {
     .filter(Boolean);
 }
 
+function heroFacts(facts: Home['hero']['facts']): Content['hero']['facts'] {
+  const items = (facts?.items ?? []).map((item) => ({
+    label: item.label,
+    strong: optional(item.strong),
+    text: optional(item.text),
+    tags: nonEmpty(item.tags),
+    link: item.linkLabel && item.linkHref ? { label: item.linkLabel, href: item.linkHref } : undefined,
+  }));
+  return facts?.title && items.length > 0 ? { title: facts.title, items } : undefined;
+}
+
 export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath): Content {
   const { site, home, legal, notFound } = docs;
 
@@ -191,7 +202,12 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
           title: b.title,
           logos: documents(b.companies)
             .filter((c) => c.logo)
-            .map((c) => ({ name: c.name, src: logo(c)!, height: c.logoHeight ?? 48 })),
+            .map((c) => ({
+              name: c.name,
+              src: logo(c)!,
+              height: c.logoHeight ?? 48,
+              url: optional(c.website),
+            })),
         };
       }
       case 'skills': {
@@ -292,6 +308,7 @@ export function toContent(lang: Lang, docs: CmsDocuments, mediaPath: MediaPath):
       lead: home.hero.lead,
       info: home.hero.info ?? [],
       cta: home.hero.cta,
+      facts: heroFacts(home.hero.facts),
     },
     sections,
     contact: { title: site.contact.title, footer: site.contact.footer, backToTop: site.contact.backToTop },

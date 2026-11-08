@@ -47,7 +47,40 @@
       "Toulouse, France",
       "Freelance depuis 2014"
     ],
-    "cta": "Discuter d'une mission"
+    "cta": "Discuter d'une mission",
+    "facts": {
+      "title": "En bref",
+      "items": [
+        {
+          "label": "Statut",
+          "text": "Freelance depuis oct. 2014 (Acolad Développement)"
+        },
+        {
+          "label": "Stack principale",
+          "tags": [
+            "TypeScript",
+            "Node.js",
+            "React",
+            "Next.js",
+            "Astro",
+            "Payload CMS"
+          ]
+        },
+        {
+          "label": "Clients",
+          "text": "OVHcloud, EY Fabernovel, Université Paris 1 Panthéon-Sorbonne, Hôpital Américain de Paris…"
+        },
+        {
+          "label": "Une de mes dernières missions",
+          "strong": "OVHcloud",
+          "text": "fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
+          "link": {
+            "label": "Voir les missions",
+            "href": "#missions"
+          }
+        }
+      ]
+    }
   },
   "sections": [
     {
@@ -84,37 +117,44 @@
         {
           "name": "OVHcloud",
           "src": "/media/logo-ovhcloud.webp",
-          "height": 44
+          "height": 44,
+          "url": "https://www.ovhcloud.com"
         },
         {
           "name": "Université Paris 1 Panthéon-Sorbonne",
           "src": "/media/logo-pantheon-sorbonne.webp",
-          "height": 80
+          "height": 80,
+          "url": "https://www.pantheonsorbonne.fr"
         },
         {
           "name": "Hôpital Américain de Paris",
           "src": "/media/logo-american-hospital-paris.webp",
-          "height": 48
+          "height": 48,
+          "url": "https://www.american-hospital.org"
         },
         {
           "name": "Ville d'Issy-les-Moulineaux",
           "src": "/media/logo-issy-com.webp",
-          "height": 64
+          "height": 64,
+          "url": "https://www.issy.com"
         },
         {
           "name": "Syndex",
           "src": "/media/logo-syndex.webp",
-          "height": 64
+          "height": 64,
+          "url": "https://www.syndex.fr"
         },
         {
           "name": "Université Paris-Saclay",
           "src": "/media/logo-paris-saclay.webp",
-          "height": 88
+          "height": 88,
+          "url": "https://www.universite-paris-saclay.fr"
         },
         {
           "name": "EY Fabernovel",
           "src": "/media/logo-ey-fabernovel.webp",
-          "height": 44
+          "height": 44,
+          "url": "https://www.fabernovel.com"
         },
         {
           "name": "Axess Open Web Services",
@@ -129,7 +169,8 @@
         {
           "name": "Muzéo",
           "src": "/media/logo-muzeo.webp",
-          "height": 32
+          "height": 32,
+          "url": "https://www.muzeo.com"
         },
         {
           "name": "Docteur Conso",
@@ -139,7 +180,8 @@
         {
           "name": "Makina Corpus",
           "src": "/media/logo-makina-corpus.webp",
-          "height": 64
+          "height": 64,
+          "url": "https://makina-corpus.com"
         }
       ]
     },

@@ -117,6 +117,38 @@ describe('toContent', () => {
     });
   });
 
+  it('links a client logo to the company website when it has one', () => {
+    const withSite = { ...clients, companies: [{ ...ovh, website: 'https://www.ovhcloud.com' }] };
+    const content = toContent('en', documents([withSite]), (m) => `/media/${m.filename}`);
+    const section = content.sections[0];
+    if (section?.type !== 'clients') throw new Error('expected clients');
+    expect(section.logos[0]?.url).toBe('https://www.ovhcloud.com');
+  });
+
+  it('maps the hero facts, dropping empty fields and half-filled links', () => {
+    const docs = documents([]);
+    docs.home.hero.facts = {
+      title: 'At a glance',
+      items: [
+        { label: 'Stack', strong: '', text: null, tags: ['React'], linkLabel: 'See', linkHref: '' },
+        { label: 'Latest', strong: 'OVHcloud', text: 'Features', tags: [], linkLabel: 'See', linkHref: '#missions' },
+      ],
+    };
+    expect(toContent('en', docs, () => '').hero.facts).toEqual({
+      title: 'At a glance',
+      items: [
+        { label: 'Stack', tags: ['React'] },
+        { label: 'Latest', strong: 'OVHcloud', text: 'Features', link: { label: 'See', href: '#missions' } },
+      ],
+    });
+  });
+
+  it('leaves the hero facts out when the card has no title or no row', () => {
+    const docs = documents([]);
+    docs.home.hero.facts = { title: 'At a glance', items: [] };
+    expect(toContent('en', docs, () => '').hero.facts).toBeUndefined();
+  });
+
   it('reports every image it uses', () => {
     const used: string[] = [];
     toContent('en', documents([clients, missions]), (m) => {
