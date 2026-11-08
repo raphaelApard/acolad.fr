@@ -94,8 +94,18 @@ export interface Config {
     'acolad-v2-site': AcoladV2Site;
     'acolad-v2-legal': AcoladV2Legal;
     'acolad-v2-not-found': AcoladV2NotFound;
+    'ifreht-pages': IfrehtPage;
+    'ifreht-articles': IfrehtArticle;
+    'ifreht-categories': IfrehtCategory;
+    'ifreht-authors': IfrehtAuthor;
+    'ifreht-media': IfrehtMedia;
+    'ifreht-documents': IfrehtDocument;
+    'ifreht-redirects': IfrehtRedirect;
+    'ifreht-settings': IfrehtSetting;
     'cp-forms': CpForm;
     'cp-form-submissions': CpFormSubmission;
+    'ifreht-forms': IfrehtForm;
+    'ifreht-form-submissions': IfrehtFormSubmission;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -130,8 +140,18 @@ export interface Config {
     'acolad-v2-site': AcoladV2SiteSelect<false> | AcoladV2SiteSelect<true>;
     'acolad-v2-legal': AcoladV2LegalSelect<false> | AcoladV2LegalSelect<true>;
     'acolad-v2-not-found': AcoladV2NotFoundSelect<false> | AcoladV2NotFoundSelect<true>;
+    'ifreht-pages': IfrehtPagesSelect<false> | IfrehtPagesSelect<true>;
+    'ifreht-articles': IfrehtArticlesSelect<false> | IfrehtArticlesSelect<true>;
+    'ifreht-categories': IfrehtCategoriesSelect<false> | IfrehtCategoriesSelect<true>;
+    'ifreht-authors': IfrehtAuthorsSelect<false> | IfrehtAuthorsSelect<true>;
+    'ifreht-media': IfrehtMediaSelect<false> | IfrehtMediaSelect<true>;
+    'ifreht-documents': IfrehtDocumentsSelect<false> | IfrehtDocumentsSelect<true>;
+    'ifreht-redirects': IfrehtRedirectsSelect<false> | IfrehtRedirectsSelect<true>;
+    'ifreht-settings': IfrehtSettingsSelect<false> | IfrehtSettingsSelect<true>;
     'cp-forms': CpFormsSelect<false> | CpFormsSelect<true>;
     'cp-form-submissions': CpFormSubmissionsSelect<false> | CpFormSubmissionsSelect<true>;
+    'ifreht-forms': IfrehtFormsSelect<false> | IfrehtFormsSelect<true>;
+    'ifreht-form-submissions': IfrehtFormSubmissionsSelect<false> | IfrehtFormSubmissionsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -185,7 +205,7 @@ export interface Tenant {
   /**
    * Kind of website, which decides the collections its editors work with.
    */
-  site: 'generic' | 'corps-parlant' | 'acolad' | 'acolad-v2';
+  site: 'generic' | 'corps-parlant' | 'acolad' | 'acolad-v2' | 'ifreht';
   /**
    * Primary domain of the client site, e.g. www.client.com
    */
@@ -1556,18 +1576,26 @@ export interface AcoladV2Home {
      * Links to the contact section.
      */
     cta: string;
-    portrait: number | AcoladV2Media;
+    /**
+     * Card shown beside the hero text. Left empty, the card is not shown.
+     */
     facts?: {
+      /**
+       * e.g. “At a glance”.
+       */
       title?: string | null;
       items?:
         | {
             label: string;
+            /**
+             * e.g. a client name.
+             */
             strong?: string | null;
             text?: string | null;
             tags?: string[] | null;
             linkLabel?: string | null;
             /**
-             * Absolute URL, or an anchor of this page such as #missions.
+             * Absolute URL, or an anchor of this page such as #missions
              */
             linkHref?: string | null;
             id?: string | null;
@@ -1588,31 +1616,6 @@ export interface AcoladV2Home {
     | null;
   updatedAt: string;
   createdAt: string;
-}
-/**
- * The site build resizes and converts every image: upload the best quality available.
- *
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "acolad-v2-media".
- */
-export interface AcoladV2Media {
-  id: number;
-  tenant?: (number | null) | Tenant;
-  /**
-   * Describes the image for screen readers. Logos use the company name instead.
-   */
-  alt?: string | null;
-  updatedAt: string;
-  createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1678,6 +1681,10 @@ export interface AcoladV2Company {
   tenant?: (number | null) | Tenant;
   name: string;
   /**
+   * Company website; the logo in the clients section links to it.
+   */
+  website?: string | null;
+  /**
    * Opaque background (no transparency): the logo sits on a white tile.
    */
   logo?: (number | null) | AcoladV2Media;
@@ -1685,12 +1692,33 @@ export interface AcoladV2Company {
    * Desktop height, tuned per logo to balance their visual weight (mobile uses ×0.77).
    */
   logoHeight?: number | null;
-  /**
-   * Company website; the logo in the clients section links to it.
-   */
-  website?: string | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * The site build resizes and converts every image: upload the best quality available.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "acolad-v2-media".
+ */
+export interface AcoladV2Media {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  /**
+   * Describes the image for screen readers. Logos use the company name instead.
+   */
+  alt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -2052,11 +2080,886 @@ export interface AcoladV2NotFound {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-pages".
+ */
+export interface IfrehtPage {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  /**
+   * Used in the admin, the menus and breadcrumbs, and as the browser title unless SEO sets one
+   */
+  title: string;
+  /**
+   * “accueil” is the home page (/). Otherwise the page is served at /<address>.
+   */
+  slug: string;
+  layout: (
+    | IfrehtSliderBlock
+    | IfrehtHeroBlock
+    | IfrehtPageHeaderBlock
+    | IfrehtContentBlock
+    | IfrehtMediaTextBlock
+    | IfrehtCardsBlock
+    | IfrehtKeyFactsBlock
+    | IfrehtFeaturesBlock
+    | IfrehtProgrammeBlock
+    | IfrehtPricingBlock
+    | IfrehtTeamBlock
+    | IfrehtFaqBlock
+    | IfrehtLatestArticlesBlock
+    | IfrehtContactFormBlock
+    | IfrehtCallToActionBlock
+  )[];
+  meta: {
+    /**
+     * About 60 characters; falls back to the title
+     */
+    title?: string | null;
+    /**
+     * About 155 characters, shown under the title in results
+     */
+    description?: string | null;
+    /**
+     * Social cards (1200 × 630); falls back to the main image
+     */
+    image?: (number | null) | IfrehtMedia;
+    noindex?: boolean | null;
+    /**
+     * Tells search engines what the page is (schema.org AboutPage, Course, ContactPage)
+     */
+    kind: 'page' | 'about' | 'course' | 'contact';
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtSliderBlock".
+ */
+export interface IfrehtSliderBlock {
+  slides: {
+    image: number | IfrehtMedia;
+    /**
+     * A line break is kept
+     */
+    title: string;
+    /**
+     * A line break is kept
+     */
+    subtitle?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'slider';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-media".
+ */
+export interface IfrehtMedia {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  /**
+   * What the image shows, for screen readers and search engines. Leave a single dash (-) for a purely decorative image.
+   */
+  alt: string;
+  credit?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtHeroBlock".
+ */
+export interface IfrehtHeroBlock {
+  eyebrow?: string | null;
+  title: string;
+  lead?: string | null;
+  actions?:
+    | {
+        label: string;
+        type?: ('page' | 'document' | 'custom') | null;
+        page?: (number | null) | IfrehtPage;
+        document?: (number | null) | IfrehtDocument;
+        /**
+         * https://…, mailto:…, tel:…, or a path of the site such as /articles
+         */
+        url?: string | null;
+        appearance: 'primary' | 'secondary';
+        id?: string | null;
+      }[]
+    | null;
+  facts?:
+    | {
+        value: string;
+        label: string;
+        id?: string | null;
+      }[]
+    | null;
+  image?: (number | null) | IfrehtMedia;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-documents".
+ */
+export interface IfrehtDocument {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  /**
+   * Shown next to the download link, e.g. “Registration form 2026”
+   */
+  title: string;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtPageHeaderBlock".
+ */
+export interface IfrehtPageHeaderBlock {
+  eyebrow?: string | null;
+  /**
+   * Falls back to the page title
+   */
+  title?: string | null;
+  lead?: string | null;
+  image?: (number | null) | IfrehtMedia;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pageHeader';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtContentBlock".
+ */
+export interface IfrehtContentBlock {
+  title?: string | null;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'content';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtMediaTextBlock".
+ */
+export interface IfrehtMediaTextBlock {
+  eyebrow?: string | null;
+  title: string;
+  body: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  actions?:
+    | {
+        label: string;
+        type?: ('page' | 'document' | 'custom') | null;
+        page?: (number | null) | IfrehtPage;
+        document?: (number | null) | IfrehtDocument;
+        /**
+         * https://…, mailto:…, tel:…, or a path of the site such as /articles
+         */
+        url?: string | null;
+        appearance: 'primary' | 'secondary';
+        id?: string | null;
+      }[]
+    | null;
+  image: number | IfrehtMedia;
+  imagePosition?: ('left' | 'right') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'mediaText';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtCardsBlock".
+ */
+export interface IfrehtCardsBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  cards: {
+    title: string;
+    text: string;
+    image?: (number | null) | IfrehtMedia;
+    link: {
+      label: string;
+      type?: ('page' | 'document' | 'custom') | null;
+      page?: (number | null) | IfrehtPage;
+      document?: (number | null) | IfrehtDocument;
+      /**
+       * https://…, mailto:…, tel:…, or a path of the site such as /articles
+       */
+      url?: string | null;
+    };
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'cards';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtKeyFactsBlock".
+ */
+export interface IfrehtKeyFactsBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  items: {
+    value: string;
+    label: string;
+    text?: string | null;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'keyFacts';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtFeaturesBlock".
+ */
+export interface IfrehtFeaturesBlock {
+  items: {
+    icon?: (number | null) | IfrehtMedia;
+    text: string;
+    link: {
+      label: string;
+      type?: ('page' | 'document' | 'custom') | null;
+      page?: (number | null) | IfrehtPage;
+      document?: (number | null) | IfrehtDocument;
+      /**
+       * https://…, mailto:…, tel:…, or a path of the site such as /articles
+       */
+      url?: string | null;
+    };
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'features';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtProgrammeBlock".
+ */
+export interface IfrehtProgrammeBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  hours?: string | null;
+  place?: string | null;
+  modules: {
+    /**
+     * e.g. 24 and 25 January 2026
+     */
+    dates: string;
+    title: string;
+    /**
+     * One topic per line
+     */
+    topics?: string | null;
+    id?: string | null;
+  }[];
+  note?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'programme';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtPricingBlock".
+ */
+export interface IfrehtPricingBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  offers: {
+    name: string;
+    /**
+     * Empty: price on request
+     */
+    price?: number | null;
+    priceNote?: string | null;
+    details?: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    id?: string | null;
+  }[];
+  actions?:
+    | {
+        label: string;
+        type?: ('page' | 'document' | 'custom') | null;
+        page?: (number | null) | IfrehtPage;
+        document?: (number | null) | IfrehtDocument;
+        /**
+         * https://…, mailto:…, tel:…, or a path of the site such as /articles
+         */
+        url?: string | null;
+        appearance: 'primary' | 'secondary';
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pricing';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtTeamBlock".
+ */
+export interface IfrehtTeamBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  people: (number | IfrehtAuthor)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'team';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-authors".
+ */
+export interface IfrehtAuthor {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  /**
+   * Their articles are listed at /articles/<address>
+   */
+  slug: string;
+  /**
+   * e.g. Co-founder — hypnotherapist, psychoanalyst
+   */
+  role?: string | null;
+  bio?: string | null;
+  photo?: (number | null) | IfrehtMedia;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtFaqBlock".
+ */
+export interface IfrehtFaqBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  items: {
+    question: string;
+    answer: {
+      root: {
+        type: string;
+        children: {
+          type: any;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'faq';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtLatestArticlesBlock".
+ */
+export interface IfrehtLatestArticlesBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  count: number;
+  category?: (number | null) | IfrehtCategory;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'latestArticles';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-categories".
+ */
+export interface IfrehtCategory {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  /**
+   * The list is served at /articles/<address>
+   */
+  slug: string;
+  /**
+   * Shown at the top of the list, and as its search description
+   */
+  description?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtContactFormBlock".
+ */
+export interface IfrehtContactFormBlock {
+  eyebrow?: string | null;
+  title?: string | null;
+  intro?: string | null;
+  form: number | IfrehtForm;
+  showDetails?: boolean | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'contactForm';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-forms".
+ */
+export interface IfrehtForm {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  title: string;
+  fields?:
+    | (
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            defaultValue?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'checkbox';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'email';
+          }
+        | {
+            message?: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            } | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'message';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            placeholder?: string | null;
+            options?:
+              | {
+                  label: string;
+                  value: string;
+                  id?: string | null;
+                }[]
+              | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'select';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'text';
+          }
+        | {
+            name: string;
+            label?: string | null;
+            width?: number | null;
+            defaultValue?: string | null;
+            required?: boolean | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'textarea';
+          }
+      )[]
+    | null;
+  submitButtonLabel?: string | null;
+  confirmationType?: ('message' | 'redirect') | null;
+  confirmationMessage?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  redirect?: {
+    type?: ('reference' | 'custom') | null;
+    reference?: {
+      relationTo: 'ifreht-pages';
+      value: number | IfrehtPage;
+    } | null;
+    url?: string | null;
+  };
+  emails?:
+    | {
+        emailTo?: string | null;
+        cc?: string | null;
+        bcc?: string | null;
+        replyTo?: string | null;
+        emailFrom?: string | null;
+        subject: string;
+        message?: {
+          root: {
+            type: string;
+            children: {
+              type: any;
+              version: number;
+              [k: string]: unknown;
+            }[];
+            direction: ('ltr' | 'rtl') | null;
+            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+            indent: number;
+            version: number;
+          };
+          [k: string]: unknown;
+        } | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtCallToActionBlock".
+ */
+export interface IfrehtCallToActionBlock {
+  title: string;
+  text?: string | null;
+  actions?:
+    | {
+        label: string;
+        type?: ('page' | 'document' | 'custom') | null;
+        page?: (number | null) | IfrehtPage;
+        document?: (number | null) | IfrehtDocument;
+        /**
+         * https://…, mailto:…, tel:…, or a path of the site such as /articles
+         */
+        url?: string | null;
+        appearance: 'primary' | 'secondary';
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'callToAction';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-articles".
+ */
+export interface IfrehtArticle {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  title: string;
+  /**
+   * The article is served at /articles/<address>
+   */
+  slug: string;
+  publishedAt: string;
+  categories?: (number | IfrehtCategory)[] | null;
+  authors?: (number | IfrehtAuthor)[] | null;
+  image?: (number | null) | IfrehtMedia;
+  /**
+   * Two or three sentences, shown on the article lists and as the description when SEO sets none
+   */
+  excerpt?: string | null;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Address of a YouTube video shown under the text (conference replays)
+   */
+  video?: string | null;
+  meta?: {
+    /**
+     * About 60 characters; falls back to the title
+     */
+    title?: string | null;
+    /**
+     * About 155 characters, shown under the title in results
+     */
+    description?: string | null;
+    /**
+     * Social cards (1200 × 630); falls back to the main image
+     */
+    image?: (number | null) | IfrehtMedia;
+    noindex?: boolean | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-redirects".
+ */
+export interface IfrehtRedirect {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  from: string;
+  to: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-settings".
+ */
+export interface IfrehtSetting {
+  id: number;
+  tenant?: (number | null) | Tenant;
+  name: string;
+  shortName: string;
+  /**
+   * For search engines, on pages that set none
+   */
+  description?: string | null;
+  email?: string | null;
+  phones?:
+    | {
+        number: string;
+        person?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  addresses?:
+    | {
+        /**
+         * e.g. Training centre
+         */
+        label: string;
+        street: string;
+        postalCode: string;
+        city: string;
+        id?: string | null;
+      }[]
+    | null;
+  legal?: {
+    company?: string | null;
+    siren?: string | null;
+    nda?: string | null;
+  };
+  navigation?:
+    | {
+        label: string;
+        type?: ('page' | 'document' | 'custom') | null;
+        page?: (number | null) | IfrehtPage;
+        document?: (number | null) | IfrehtDocument;
+        /**
+         * https://…, mailto:…, tel:…, or a path of the site such as /articles
+         */
+        url?: string | null;
+        children?:
+          | {
+              label: string;
+              type?: ('page' | 'document' | 'custom') | null;
+              page?: (number | null) | IfrehtPage;
+              document?: (number | null) | IfrehtDocument;
+              /**
+               * https://…, mailto:…, tel:…, or a path of the site such as /articles
+               */
+              url?: string | null;
+              id?: string | null;
+            }[]
+          | null;
+        id?: string | null;
+      }[]
+    | null;
+  footerLinks?:
+    | {
+        label: string;
+        type?: ('page' | 'document' | 'custom') | null;
+        page?: (number | null) | IfrehtPage;
+        document?: (number | null) | IfrehtDocument;
+        /**
+         * https://…, mailto:…, tel:…, or a path of the site such as /articles
+         */
+        url?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Offered for download in the footer and wherever a block asks for it
+   */
+  registrationForm?: (number | null) | IfrehtDocument;
+  elearningUrl?: string | null;
+  /**
+   * Address of the hosted sign-up form (Brevo…); the footer shows no newsletter without it
+   */
+  newsletterUrl?: string | null;
+  social?:
+    | {
+        network: 'facebook' | 'instagram' | 'linkedin' | 'youtube';
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cp-form-submissions".
  */
 export interface CpFormSubmission {
   id: number;
   form: number | CpForm;
+  submissionData?:
+    | {
+        field: string;
+        value: string;
+        id?: string | null;
+      }[]
+    | null;
+  tenant?: (number | null) | Tenant;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-form-submissions".
+ */
+export interface IfrehtFormSubmission {
+  id: number;
+  form: number | IfrehtForm;
   submissionData?:
     | {
         field: string;
@@ -2201,12 +3104,52 @@ export interface PayloadLockedDocument {
         value: number | AcoladV2NotFound;
       } | null)
     | ({
+        relationTo: 'ifreht-pages';
+        value: number | IfrehtPage;
+      } | null)
+    | ({
+        relationTo: 'ifreht-articles';
+        value: number | IfrehtArticle;
+      } | null)
+    | ({
+        relationTo: 'ifreht-categories';
+        value: number | IfrehtCategory;
+      } | null)
+    | ({
+        relationTo: 'ifreht-authors';
+        value: number | IfrehtAuthor;
+      } | null)
+    | ({
+        relationTo: 'ifreht-media';
+        value: number | IfrehtMedia;
+      } | null)
+    | ({
+        relationTo: 'ifreht-documents';
+        value: number | IfrehtDocument;
+      } | null)
+    | ({
+        relationTo: 'ifreht-redirects';
+        value: number | IfrehtRedirect;
+      } | null)
+    | ({
+        relationTo: 'ifreht-settings';
+        value: number | IfrehtSetting;
+      } | null)
+    | ({
         relationTo: 'cp-forms';
         value: number | CpForm;
       } | null)
     | ({
         relationTo: 'cp-form-submissions';
         value: number | CpFormSubmission;
+      } | null)
+    | ({
+        relationTo: 'ifreht-forms';
+        value: number | IfrehtForm;
+      } | null)
+    | ({
+        relationTo: 'ifreht-form-submissions';
+        value: number | IfrehtFormSubmission;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -3142,7 +4085,6 @@ export interface AcoladV2HomeSelect<T extends boolean = true> {
         lead?: T;
         info?: T;
         cta?: T;
-        portrait?: T;
         facts?:
           | T
           | {
@@ -3407,9 +4349,9 @@ export interface AcoladV2ProjectsSelect<T extends boolean = true> {
 export interface AcoladV2CompaniesSelect<T extends boolean = true> {
   tenant?: T;
   name?: T;
+  website?: T;
   logo?: T;
   logoHeight?: T;
-  website?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -3532,6 +4474,532 @@ export interface AcoladV2NotFoundSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-pages_select".
+ */
+export interface IfrehtPagesSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  slug?: T;
+  layout?:
+    | T
+    | {
+        slider?: T | IfrehtSliderBlockSelect<T>;
+        hero?: T | IfrehtHeroBlockSelect<T>;
+        pageHeader?: T | IfrehtPageHeaderBlockSelect<T>;
+        content?: T | IfrehtContentBlockSelect<T>;
+        mediaText?: T | IfrehtMediaTextBlockSelect<T>;
+        cards?: T | IfrehtCardsBlockSelect<T>;
+        keyFacts?: T | IfrehtKeyFactsBlockSelect<T>;
+        features?: T | IfrehtFeaturesBlockSelect<T>;
+        programme?: T | IfrehtProgrammeBlockSelect<T>;
+        pricing?: T | IfrehtPricingBlockSelect<T>;
+        team?: T | IfrehtTeamBlockSelect<T>;
+        faq?: T | IfrehtFaqBlockSelect<T>;
+        latestArticles?: T | IfrehtLatestArticlesBlockSelect<T>;
+        contactForm?: T | IfrehtContactFormBlockSelect<T>;
+        callToAction?: T | IfrehtCallToActionBlockSelect<T>;
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        noindex?: T;
+        kind?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtSliderBlock_select".
+ */
+export interface IfrehtSliderBlockSelect<T extends boolean = true> {
+  slides?:
+    | T
+    | {
+        image?: T;
+        title?: T;
+        subtitle?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtHeroBlock_select".
+ */
+export interface IfrehtHeroBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  lead?: T;
+  actions?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        document?: T;
+        url?: T;
+        appearance?: T;
+        id?: T;
+      };
+  facts?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        id?: T;
+      };
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtPageHeaderBlock_select".
+ */
+export interface IfrehtPageHeaderBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  lead?: T;
+  image?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtContentBlock_select".
+ */
+export interface IfrehtContentBlockSelect<T extends boolean = true> {
+  title?: T;
+  body?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtMediaTextBlock_select".
+ */
+export interface IfrehtMediaTextBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  body?: T;
+  actions?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        document?: T;
+        url?: T;
+        appearance?: T;
+        id?: T;
+      };
+  image?: T;
+  imagePosition?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtCardsBlock_select".
+ */
+export interface IfrehtCardsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  cards?:
+    | T
+    | {
+        title?: T;
+        text?: T;
+        image?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              type?: T;
+              page?: T;
+              document?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtKeyFactsBlock_select".
+ */
+export interface IfrehtKeyFactsBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  items?:
+    | T
+    | {
+        value?: T;
+        label?: T;
+        text?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtFeaturesBlock_select".
+ */
+export interface IfrehtFeaturesBlockSelect<T extends boolean = true> {
+  items?:
+    | T
+    | {
+        icon?: T;
+        text?: T;
+        link?:
+          | T
+          | {
+              label?: T;
+              type?: T;
+              page?: T;
+              document?: T;
+              url?: T;
+            };
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtProgrammeBlock_select".
+ */
+export interface IfrehtProgrammeBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  hours?: T;
+  place?: T;
+  modules?:
+    | T
+    | {
+        dates?: T;
+        title?: T;
+        topics?: T;
+        id?: T;
+      };
+  note?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtPricingBlock_select".
+ */
+export interface IfrehtPricingBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  offers?:
+    | T
+    | {
+        name?: T;
+        price?: T;
+        priceNote?: T;
+        details?: T;
+        id?: T;
+      };
+  actions?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        document?: T;
+        url?: T;
+        appearance?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtTeamBlock_select".
+ */
+export interface IfrehtTeamBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  people?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtFaqBlock_select".
+ */
+export interface IfrehtFaqBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  items?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtLatestArticlesBlock_select".
+ */
+export interface IfrehtLatestArticlesBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  count?: T;
+  category?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtContactFormBlock_select".
+ */
+export interface IfrehtContactFormBlockSelect<T extends boolean = true> {
+  eyebrow?: T;
+  title?: T;
+  intro?: T;
+  form?: T;
+  showDetails?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "IfrehtCallToActionBlock_select".
+ */
+export interface IfrehtCallToActionBlockSelect<T extends boolean = true> {
+  title?: T;
+  text?: T;
+  actions?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        document?: T;
+        url?: T;
+        appearance?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-articles_select".
+ */
+export interface IfrehtArticlesSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  slug?: T;
+  publishedAt?: T;
+  categories?: T;
+  authors?: T;
+  image?: T;
+  excerpt?: T;
+  content?: T;
+  video?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+        image?: T;
+        noindex?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-categories_select".
+ */
+export interface IfrehtCategoriesSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  slug?: T;
+  description?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-authors_select".
+ */
+export interface IfrehtAuthorsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  slug?: T;
+  role?: T;
+  bio?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-media_select".
+ */
+export interface IfrehtMediaSelect<T extends boolean = true> {
+  tenant?: T;
+  alt?: T;
+  credit?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-documents_select".
+ */
+export interface IfrehtDocumentsSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-redirects_select".
+ */
+export interface IfrehtRedirectsSelect<T extends boolean = true> {
+  tenant?: T;
+  from?: T;
+  to?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-settings_select".
+ */
+export interface IfrehtSettingsSelect<T extends boolean = true> {
+  tenant?: T;
+  name?: T;
+  shortName?: T;
+  description?: T;
+  email?: T;
+  phones?:
+    | T
+    | {
+        number?: T;
+        person?: T;
+        id?: T;
+      };
+  addresses?:
+    | T
+    | {
+        label?: T;
+        street?: T;
+        postalCode?: T;
+        city?: T;
+        id?: T;
+      };
+  legal?:
+    | T
+    | {
+        company?: T;
+        siren?: T;
+        nda?: T;
+      };
+  navigation?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        document?: T;
+        url?: T;
+        children?:
+          | T
+          | {
+              label?: T;
+              type?: T;
+              page?: T;
+              document?: T;
+              url?: T;
+              id?: T;
+            };
+        id?: T;
+      };
+  footerLinks?:
+    | T
+    | {
+        label?: T;
+        type?: T;
+        page?: T;
+        document?: T;
+        url?: T;
+        id?: T;
+      };
+  registrationForm?: T;
+  elearningUrl?: T;
+  newsletterUrl?: T;
+  social?:
+    | T
+    | {
+        network?: T;
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "cp-forms_select".
  */
 export interface CpFormsSelect<T extends boolean = true> {
@@ -3641,6 +5109,128 @@ export interface CpFormsSelect<T extends boolean = true> {
  * via the `definition` "cp-form-submissions_select".
  */
 export interface CpFormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  submissionData?:
+    | T
+    | {
+        field?: T;
+        value?: T;
+        id?: T;
+      };
+  tenant?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-forms_select".
+ */
+export interface IfrehtFormsSelect<T extends boolean = true> {
+  tenant?: T;
+  title?: T;
+  fields?:
+    | T
+    | {
+        checkbox?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              defaultValue?: T;
+              id?: T;
+              blockName?: T;
+            };
+        email?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        message?:
+          | T
+          | {
+              message?: T;
+              id?: T;
+              blockName?: T;
+            };
+        select?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              placeholder?: T;
+              options?:
+                | T
+                | {
+                    label?: T;
+                    value?: T;
+                    id?: T;
+                  };
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        text?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+        textarea?:
+          | T
+          | {
+              name?: T;
+              label?: T;
+              width?: T;
+              defaultValue?: T;
+              required?: T;
+              id?: T;
+              blockName?: T;
+            };
+      };
+  submitButtonLabel?: T;
+  confirmationType?: T;
+  confirmationMessage?: T;
+  redirect?:
+    | T
+    | {
+        type?: T;
+        reference?: T;
+        url?: T;
+      };
+  emails?:
+    | T
+    | {
+        emailTo?: T;
+        cc?: T;
+        bcc?: T;
+        replyTo?: T;
+        emailFrom?: T;
+        subject?: T;
+        message?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ifreht-form-submissions_select".
+ */
+export interface IfrehtFormSubmissionsSelect<T extends boolean = true> {
   form?: T;
   submissionData?:
     | T
