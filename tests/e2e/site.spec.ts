@@ -107,6 +107,13 @@ for (const { lang, path, content } of locales) {
       expect(types.Person.worksFor['@id']).toBe(types.ProfessionalService['@id']);
       expect(types.ProfessionalService.name).toBe(section(content, 'missions').company);
       expect(types.ProfessionalService.founder['@id']).toBe(types.Person['@id']);
+      const credentials = section(content, 'credentials');
+      expect(types.Person.hasCredential.map((c: { name: string }) => c.name)).toEqual(
+        credentials.certifications.items.map((c) => c.name),
+      );
+      expect(types.Person.knowsLanguage).toHaveLength(credentials.languages.items.length);
+      expect(types.ProfilePage.mainEntity['@id']).toBe(types.Person['@id']);
+      expect(types.ProfilePage.isPartOf['@id']).toBe(types.WebSite['@id']);
     });
 
     test('has a single h1 and an anchor for every nav item', async ({ page }) => {

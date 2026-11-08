@@ -12,6 +12,8 @@ export const business = {
     addressLocality: 'Revel',
     addressCountry: 'FR',
   },
-  /** Where Raphaël works from, as shown on the site. */
-  homeLocality: 'Toulouse',
+  /** Where Raphaël lives (the company is registered there too). */
+  home: { addressLocality: 'Revel', postalCode: '31250', addressCountry: 'FR' },
+  /** Where he works and takes missions, as shown on the site. */
+  workLocality: 'Toulouse',
 };
