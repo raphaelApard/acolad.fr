@@ -6,6 +6,17 @@
   (tenant `acolad`), instead of the site's own back office. `pnpm content:pull` gives the same
   content as `fixtures/`, which were imported into it.
 - The hero no longer shows a portrait; pages have no `og:image` and the JSON-LD no `image`.
+- The H1, title and description target "Fullstack TypeScript freelance developer in Toulouse".
+- Case study pages for missions (`/missions/<slug>/`), edited in the backoffice; OVHcloud first.
+- JSON-LD: `WebSite`, `ProfilePage`, credentials, alumni, languages, home in Revel and work in
+  Toulouse.
+- The sitemap dates every URL and lists the legal notice and the case studies.
+- Former Drupal (`/work/*`, `/node/*`, `/raphael-apard`, `/clients`) and 2004 (`/htfr/*`,
+  `/plan-mappy/*`) URLs, `/services/*` and `…/index.html` redirect with a 301
+  ([`docs/redirects.md`](docs/redirects.md)).
+- The legal notice lists the `mtm_consent_removed` opt-out cookie, the host's server logs, the
+  right to set instructions for after one's death and the one-month answer delay.
+- The AI skills group is named "IA & ingénierie" in French and "AI & engineering" in English.
 
 ## 3.3.1 — 2026-10-09
 

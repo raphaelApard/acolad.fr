@@ -53,17 +53,20 @@ const panelId = `${id}-panel`;
     <p class="mono period">
       <span>{period}</span>{place && <span class="mobile-only place-inline">{place}</span>}
     </p>
-    <h3 class="desktop-only title">{title}</h3>
-    {place && <p class="desktop-only mono place">{place}</p>}
-    <h3 class="mobile-only heading">
-      <button type="button" class="disclosure-toggle" aria-expanded="false" aria-controls={panelId}>
-        <span class="toggle-text">
-          <span class="title">{title}</span>
-          <span class="role-inline">{role}</span>
-        </span>
-        <span class="chevron" aria-hidden="true"><Chevron /></span>
-      </button>
+    <!-- One heading per row: the title on desktop, the panel toggle on mobile. -->
+    <h3 class="heading">
+      <span class="desktop-only">{title}</span>
+      <span class="mobile-only">
+        <button type="button" class="disclosure-toggle" aria-expanded="false" aria-controls={panelId}>
+          <span class="toggle-text">
+            <span class="title">{title}</span>
+            <span class="role-inline">{role}</span>
+          </span>
+          <span class="chevron" aria-hidden="true"><Chevron /></span>
+        </button>
+      </span>
     </h3>
+    {place && <p class="desktop-only mono place">{place}</p>}
   </div>
 
   <div class="panel" id={panelId} data-disclosure-panel>
@@ -177,6 +180,7 @@ const panelId = `${id}-panel`;
     color: var(--color-accent);
   }
 
+  .heading,
   .title {
     margin: 10px 0 0;
     font-size: 26px;
@@ -291,6 +295,7 @@ const panelId = `${id}-panel`;
       margin: 6px 0 0;
       font-size: inherit;
       font-weight: inherit;
+      letter-spacing: normal;
     }
 
     .toggle-text {
