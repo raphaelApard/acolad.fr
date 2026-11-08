@@ -14,8 +14,8 @@
 - Former Drupal (`/work/*`, `/node/*`, `/raphael-apard`, `/clients`) and 2004 (`/htfr/*`,
   `/plan-mappy/*`) URLs, `/services/*` and `…/index.html` redirect with a 301
   ([`docs/redirects.md`](docs/redirects.md)).
-- The legal notice lists the `mtm_consent_removed` opt-out cookie, the host's server logs, the
-  right to set instructions for after one's death and the one-month answer delay.
+- The legal notice lists the `mtm_consent_removed` opt-out cookie, the right to set instructions
+  for after one's death and the one-month answer delay.
 - The AI skills group is named "IA & ingénierie" in French and "AI & engineering" in English.
 
 ## 3.3.1 — 2026-10-09

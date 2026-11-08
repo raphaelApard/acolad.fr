@@ -572,7 +572,7 @@
     "title": "Legal notice",
     "description": "Legal notice, personal data and cookies for Raphaël Apard's website (Acolad Développement).",
     "updated": "Last updated: 8 November 2026",
-    "updatedAt": "2026-11-08T16:31:40.765Z",
+    "updatedAt": "2026-11-08T16:38:25.441Z",
     "sections": [
       {
         "id": "publisher",
@@ -613,9 +613,8 @@
         "id": "personal-data",
         "title": "Personal data",
         "paragraphs": [
-          "This site has no form and no user account. The only personal data processed is what you send by writing to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, the audience measurement data described below and the host's server logs.",
+          "This site has no form and no user account. The only personal data processed is what you send by writing to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>, and the audience measurement data described below.",
           "Data controller: Acolad Développement, represented by Raphaël Apard. Your emails are used only to answer your request and follow up the business relationship. They are kept for at most 3 years after the last exchange and are never passed on to third parties.",
-          "Like any web server, o2switch's server records in its logs the IP address, date, requested page and browser of each visit. These logs are used for security and to keep the site running, under the legal obligation to retain connection data, and are kept for at most one year.",
           "Under the GDPR and the French Data Protection Act, you have the right to access, rectify, erase, restrict and port your data, and to object to its processing, as well as to set instructions for what happens to your data after your death. To exercise these rights, write to <a href=\"mailto:raphael.apard@acolad.fr\">raphael.apard@acolad.fr</a>; you will get an answer within one month. You may also lodge a complaint with the <a href=\"https://www.cnil.fr/en/home\">CNIL</a>, the French data protection authority."
         ]
       },
