@@ -416,7 +416,7 @@ test.describe('mobile', () => {
 
   test('shows the skill toggle only on overflowing groups', async ({ page }) => {
     const toggle = (group: string) => page.getByRole('button', { name: `${frSkills.expandLabel} — ${group}` });
-    // "IA & Engineering" has two chips that fit on one line.
+    // "IA & ingénierie" has two chips that fit on one line.
     await expect(toggle(frSkills.groups[5]!.title)).toHaveCount(0);
 
     const frontEnd = toggle(frSkills.groups[0]!.title);
