@@ -159,3 +159,8 @@ depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours)
 ## Points ouverts
 
 - [ ] Relire `src/content/en.json` (traduit depuis le français).
+- [ ] Avant la mise en production du backoffice : vérifier au build que chaque page a un title et
+  une meta description de longueur correcte, et activer les brouillons sur les collections
+  `acolad-v2-*` (aujourd'hui, tout enregistrement part au prochain « Publier »).
+- [ ] Compléter l'étude de cas OVHcloud (édition de contenu en direct : ce qui a été construit, pour
+  qui, résultats).
