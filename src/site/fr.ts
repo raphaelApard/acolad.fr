@@ -886,7 +886,7 @@ export const fr: SiteContent = {
         'Acolad Développement, société de développement web créée en 2014 en Haute-Garonne par Raphaël Apard, développeur fullstack certifié Acquia et Opquast.',
     },
     eyebrow: 'La société',
-    h1: 'Une société de développement web indépendante, depuis 2014.',
+    h1: 'Une société de développement web, depuis 2014.',
     lead: 'Acolad Développement conçoit, maintient et héberge des applications web et des sites Drupal pour des entreprises et des institutions. La société est basée en Haute-Garonne et travaille avec des clients partout en France.',
     timeline: {
       eyebrow: 'Repères',

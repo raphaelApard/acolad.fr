@@ -879,7 +879,7 @@ export const en: SiteContent = {
         'Acolad Développement, a web development company founded in 2014 in Haute-Garonne by Raphaël Apard, an Acquia- and Opquast-certified full-stack developer.',
     },
     eyebrow: 'The company',
-    h1: 'An independent web development company, since 2014.',
+    h1: 'A web development company, since 2014.',
     lead: 'Acolad Développement designs, maintains and hosts web applications and Drupal sites for businesses and institutions. The company is based in Haute-Garonne and works with clients all over France.',
     timeline: {
       eyebrow: 'Milestones',
