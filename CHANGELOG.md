@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- The menu groups the six services under a "Services" entry that opens them as a submenu, and
+  stays on one line down to 900 px wide.
 - The home page shows the logos of thirteen clients in a band that scrolls in a loop on a dark
   ground, in place of the list of ten names; the band stands still as a grid when the visitor asks
   for reduced motion.

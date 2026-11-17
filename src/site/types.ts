@@ -122,7 +122,8 @@ export interface SiteContent {
     servicePrefix: string;
   };
   /** Menu labels of the pages that are not services. */
-  nav: Record<'work' | 'about' | 'contact', string>;
+  /** `services` labels the button that opens the list of services. */
+  nav: Record<'services' | 'work' | 'about' | 'contact', string>;
   projects: Record<ProjectId, { name: string; alt: string }>;
   cta: { title: string; text: string; button: string };
   footer: {

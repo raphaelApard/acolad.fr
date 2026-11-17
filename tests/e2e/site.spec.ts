@@ -164,6 +164,25 @@ test('marks the current page in the menu', async ({ page }) => {
   await expect(nav.locator('ul a[aria-current="page"]')).toHaveText(fr.nav.work);
 });
 
+test('opens the services from the menu and closes them with Escape', async ({ page }) => {
+  await page.goto('/');
+  if (isMobile(page)) await page.getByRole('button', { name: fr.ui.openMenu }).click();
+  const services = page.getByRole('button', { name: fr.nav.services });
+  const link = page.locator('#main-nav').getByRole('link', { name: fr.services.tma.navLabel });
+  await expect(link).toBeHidden();
+  await services.click();
+  await expect(services).toHaveAttribute('aria-expanded', 'true');
+  await expect(link).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(link).toBeHidden();
+  await expect(services).toBeFocused();
+  await services.click();
+  await link.click();
+  await expect(page).toHaveURL(href('tma', 'fr'));
+  // On a service page the button carries the current section.
+  await expect(page.locator('#main-nav .submenu-button')).toHaveClass(/is-current/);
+});
+
 test('switches language on the same page and remembers the choice', async ({ page, context }) => {
   await page.goto(href('hosting', 'en'));
   if (isMobile(page)) await page.getByRole('button', { name: en.ui.openMenu }).click();
@@ -245,7 +264,7 @@ test.describe('desktop', () => {
       await expect(page.getByRole('button', { name: site.ui.openMenu })).toBeHidden();
       const tops = await page
         .getByRole('navigation', { name: site.ui.mainNav })
-        .locator('a')
+        .locator('a:visible, button:visible')
         .evaluateAll((links) => links.map((link) => Math.round(link.getBoundingClientRect().top + link.getBoundingClientRect().height / 2)));
       expect(new Set(tops).size).toBe(1);
     }

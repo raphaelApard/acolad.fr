@@ -12,13 +12,14 @@ interface Props {
 const { site, page } = Astro.props;
 const { lang, ui } = site;
 const switchTargets = alternates(page ?? 'home');
+const services: { id: PageId; label: string }[] = serviceIds.map((id) => ({ id, label: site.services[id].navLabel }));
 const items: { id: PageId; label: string }[] = [
-  ...serviceIds.map((id) => ({ id, label: site.services[id].navLabel })),
   { id: 'work', label: site.nav.work },
   { id: 'about', label: site.nav.about },
 ];
 // The case study belongs to the work section.
 const current = page === 'caseStudy' ? 'work' : page;
+const inServices = services.some(({ id }) => id === current);
 ---
 
 <header class="site-header">
@@ -51,6 +52,23 @@ const current = page === 'caseStudy' ? 'work' : page;
 
     <nav id="main-nav" class="site-nav" aria-label={ui.mainNav} data-menu>
       <ul class="list-reset">
+        <li class="has-submenu" data-submenu>
+          <button type="button" class:list={['submenu-button', { 'is-current': inServices }]} aria-expanded="false" aria-controls="services-menu">
+            {site.nav.services}
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
+          </button>
+          <ul id="services-menu" class="list-reset submenu">
+            {
+              services.map(({ id, label }) => (
+                <li>
+                  <a href={href(id, lang)} aria-current={id === current ? 'page' : undefined}>
+                    {label}
+                  </a>
+                </li>
+              ))
+            }
+          </ul>
+        </li>
         {
           items.map(({ id, label }) => (
             <li>
@@ -100,14 +118,34 @@ const current = page === 'caseStudy' ? 'work' : page;
 
     button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
 
+    // The services open from a button: a click toggles the list; Escape, a click elsewhere or
+    // focus moving away close it.
+    const submenu = menu.querySelector<HTMLElement>('[data-submenu]');
+    const submenuButton = submenu?.querySelector<HTMLButtonElement>('button');
+    const submenuOpen = () => submenuButton?.getAttribute('aria-expanded') === 'true';
+    const setSubmenuOpen = (open: boolean) => submenuButton?.setAttribute('aria-expanded', String(open));
+
+    submenuButton?.addEventListener('click', () => setSubmenuOpen(!submenuOpen()));
+    submenu?.addEventListener('focusout', (event) => {
+      if (!submenu.contains(event.relatedTarget as Node | null)) setSubmenuOpen(false);
+    });
+    document.addEventListener('click', (event) => {
+      if (!submenu?.contains(event.target as Node)) setSubmenuOpen(false);
+    });
+
+    // Escape closes the innermost open layer first.
     document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+      if (event.key !== 'Escape') return;
+      if (submenuOpen()) {
+        setSubmenuOpen(false);
+        submenuButton?.focus();
+      } else if (button.getAttribute('aria-expanded') === 'true') {
         setOpen(false);
         button.focus();
       }
     });
 
-    matchMedia('(min-width: 1200px)').addEventListener('change', (event) => {
+    matchMedia('(min-width: 900px)').addEventListener('change', (event) => {
       if (event.matches) setOpen(false);
     });
   }

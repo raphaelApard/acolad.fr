@@ -18,7 +18,7 @@ export const fr: SiteContent = {
     processEyebrow: 'Déroulé',
     servicePrefix: 'Service',
   },
-  nav: { work: 'Réalisations', about: 'À propos', contact: 'Contact' },
+  nav: { services: 'Services', work: 'Réalisations', about: 'À propos', contact: 'Contact' },
   projects: {
     ovhcloud: { name: 'Mission OVHcloud', alt: "Capture d'écran du site OVHcloud" },
     docteurConso: { name: 'Docteur Conso', alt: "Capture d'écran de la nouvelle plateforme Docteur Conso" },
