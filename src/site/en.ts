@@ -524,6 +524,10 @@ export const en: SiteContent = {
       },
       faq: [
         {
+          question: 'Where is the data hosted?',
+          answer: 'On servers located in France, with a French hosting provider. No data leaves the European Union.',
+        },
+        {
           question: 'Can a site that is already live be migrated?',
           answer: 'Yes. The site is installed and checked on the new hosting before the domain name is switched over.',
         },

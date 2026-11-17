@@ -532,6 +532,10 @@ export const fr: SiteContent = {
       },
       faq: [
         {
+          question: 'Où sont hébergées les données ?',
+          answer: "Sur des serveurs situés en France, chez un hébergeur français. Aucune donnée ne quitte l'Union européenne.",
+        },
+        {
           question: 'Peut-on migrer un site déjà en ligne ?',
           answer: 'Oui. Le site est installé et vérifié sur le nouvel hébergement avant la bascule du nom de domaine.',
         },
