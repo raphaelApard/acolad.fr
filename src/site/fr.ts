@@ -57,12 +57,6 @@ export const fr: SiteContent = {
     lead: "Acolad Développement conçoit des applications métier, reprend la maintenance de l'existant, fait vivre vos sites Drupal et les héberge. Un seul interlocuteur, du cadrage à l'exploitation.",
     primaryCta: 'Parler de votre projet',
     secondaryCta: 'Voir les réalisations',
-    heroFacts: [
-      { label: 'Création', lines: ['2014, en Haute-Garonne'] },
-      { label: 'Expérience', lines: ['20 ans de développement'] },
-      { label: 'Certifications', lines: ['Acquia, Opquast'] },
-      { label: 'Implantation', lines: ['Toulouse, et à distance'] },
-    ],
     clientsLabel: 'Ils ont fait confiance à Acolad',
     clientsPrevious: 'Logos précédents',
     clientsNext: 'Logos suivants',

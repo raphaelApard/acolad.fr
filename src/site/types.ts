@@ -143,8 +143,6 @@ export interface SiteContent {
     lead: string;
     primaryCta: string;
     secondaryCta: string;
-    /** Ruled row of short facts closing the hero. */
-    heroFacts: Fact[];
     clientsLabel: string;
     /** Accessible names of the arrows that page through the client logos. */
     clientsPrevious: string;

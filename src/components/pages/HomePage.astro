@@ -32,16 +32,6 @@ const h1Rest = home.h1.slice(home.h1Muted.length);
           <a class="btn btn--outline" href={href('work', lang)}>{home.secondaryCta}</a>
         </div>
       </div>
-      <dl class="hero-facts">
-        {
-          home.heroFacts.map((fact) => (
-            <div>
-              <dt class="label">{fact.label}</dt>
-              <dd>{fact.lines.map((line) => <span>{line}</span>)}</dd>
-            </div>
-          ))
-        }
-      </dl>
     </div>
   </section>
 

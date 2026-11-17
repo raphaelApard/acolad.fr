@@ -57,12 +57,6 @@ export const en: SiteContent = {
     lead: 'Acolad Développement designs business applications, takes over the maintenance of existing ones, keeps your Drupal sites running and hosts them. A single point of contact, from scoping to operations.',
     primaryCta: 'Talk about your project',
     secondaryCta: 'See the work',
-    heroFacts: [
-      { label: 'Founded', lines: ['2014, in Haute-Garonne'] },
-      { label: 'Experience', lines: ['20 years of development'] },
-      { label: 'Certifications', lines: ['Acquia, Opquast'] },
-      { label: 'Location', lines: ['Toulouse, and remotely'] },
-    ],
     clientsLabel: 'They have trusted Acolad',
     clientsPrevious: 'Previous logos',
     clientsNext: 'Next logos',
