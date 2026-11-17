@@ -1160,8 +1160,8 @@ a.project-card:hover .project-name {
 
 /* FAQ */
 .faq {
-  --grid-min: 320px;
-  --grid-gap: 24px 64px;
+  --grid-min: 420px;
+  --grid-gap: 16px 64px;
 }
 
 .faq > div {
