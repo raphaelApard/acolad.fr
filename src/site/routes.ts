@@ -47,6 +47,17 @@ export function href(id: PageId, lang: Lang): string {
   return param ? `/${param}/` : '/';
 }
 
+/**
+ * Preview image of every page of a locale when it is shared (Open Graph, structured data).
+ * The files are in public/, drawn by scripts/og-image.ts; their address never changes, so
+ * previews already cached by social networks stay valid.
+ */
+export const shareImage = { width: 1200, height: 630 };
+
+export function shareImagePath(lang: Lang): string {
+  return `/og-${lang}.png`;
+}
+
 /** The same page in every locale, for hreflang links, the sitemap and the language switch. */
 export function alternates(id: PageId): Record<Lang, string> {
   return Object.fromEntries(langs.map((lang) => [lang, href(id, lang)])) as Record<Lang, string>;

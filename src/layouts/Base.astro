@@ -3,7 +3,7 @@ import { Font } from 'astro:assets';
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
-import { alternates, defaultLang, langs, type Lang, type PageId, type SiteContent } from '../site';
+import { alternates, defaultLang, langs, shareImage, shareImagePath, type Lang, type PageId, type SiteContent } from '../site';
 
 interface Props {
   site: SiteContent;
@@ -58,6 +58,12 @@ const json = jsonLd && JSON.stringify(jsonLd).replace(/</g, '\\u003c');
     <meta property="og:description" content={description} />
     {page && <meta property="og:url" content={url(lang)} />}
     <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={new URL(shareImagePath(lang), Astro.site).href} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={String(shareImage.width)} />
+    <meta property="og:image:height" content={String(shareImage.height)} />
+    <meta property="og:image:alt" content={`${site.siteName}. ${site.home.h1}`} />
+    <meta name="twitter:card" content="summary_large_image" />
     <script>
       import '../scripts/matomo';
     </script>

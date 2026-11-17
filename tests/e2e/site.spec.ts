@@ -75,6 +75,7 @@ for (const lang of langs) {
           );
         }
         await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveCount(1);
+        await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${origin}/og-${lang}.png`);
       });
 
       test('has a single h1 and fits the viewport', async ({ page }) => {
