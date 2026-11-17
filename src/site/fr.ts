@@ -967,11 +967,11 @@ export const fr: SiteContent = {
       addressLines: ['Toulouse, Revel, et à distance partout en France'],
     },
     next: {
-      title: 'Et ensuite ?',
+      title: 'Pour gagner du temps',
       steps: [
-        'Une première réponse sous [VOTRE DÉLAI DE RÉPONSE].',
-        "Un échange pour comprendre le besoin et l'existant.",
-        'Une proposition écrite : périmètre, calendrier et budget.',
+        'Le contexte : qui vous êtes et ce qui existe déjà.',
+        "L'objectif : ce que le projet doit permettre.",
+        'Les contraintes connues : échéance, budget, technologies imposées.',
       ],
     },
     form: {

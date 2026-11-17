@@ -960,11 +960,11 @@ export const en: SiteContent = {
       addressLines: ['Toulouse, Revel, and remotely anywhere in France'],
     },
     next: {
-      title: 'What happens next?',
+      title: 'To save time',
       steps: [
-        'A first reply within [YOUR RESPONSE TIME].',
-        'A conversation to understand the need and what already exists.',
-        'A written proposal: scope, schedule and budget.',
+        'The context: who you are and what already exists.',
+        'The goal: what the project should make possible.',
+        'Known constraints: deadline, budget, required technologies.',
       ],
     },
     form: {
