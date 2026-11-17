@@ -88,7 +88,7 @@ const { showcase } = service;
             showcase.kind === 'plans' && (
               <div class="grid" style="--grid-min: 250px">
                 {showcase.items.map((plan) => (
-                  <article class="card card--featured" style="gap: 16px">
+                  <article class="card card--featured card--plan">
                     <h3 class="card-title card-title--sm">{plan.title}</h3>
                     <p class="small">{plan.text}</p>
                     <p class="price">
