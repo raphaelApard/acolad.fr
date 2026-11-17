@@ -123,7 +123,7 @@ export const fr: SiteContent = {
     },
     company: {
       eyebrow: 'La société',
-      title: 'Une société indépendante, depuis 2014.',
+      title: 'Une société de développement web, depuis 2014.',
       text: 'Acolad Développement a été créée en 2014 par Raphaël Apard, développeur web depuis vingt ans. Vous échangez directement avec la personne qui conçoit, développe et maintient votre projet.',
       link: 'En savoir plus sur la société',
       facts: [
@@ -881,7 +881,7 @@ export const fr: SiteContent = {
   },
   about: {
     meta: {
-      title: 'À propos : société de développement web indépendante depuis 2014',
+      title: 'À propos : société de développement web depuis 2014',
       description:
         'Acolad Développement, société de développement web créée en 2014 en Haute-Garonne par Raphaël Apard, développeur fullstack certifié Acquia et Opquast.',
     },

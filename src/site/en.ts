@@ -123,7 +123,7 @@ export const en: SiteContent = {
     },
     company: {
       eyebrow: 'The company',
-      title: 'An independent company, since 2014.',
+      title: 'A web development company, since 2014.',
       text: 'Acolad Développement was founded in 2014 by Raphaël Apard, a web developer for twenty years. You deal directly with the person who designs, builds and maintains your project.',
       link: 'More about the company',
       facts: [
@@ -874,7 +874,7 @@ export const en: SiteContent = {
   },
   about: {
     meta: {
-      title: 'About: an independent web development company since 2014',
+      title: 'About: a web development company since 2014',
       description:
         'Acolad Développement, a web development company founded in 2014 in Haute-Garonne by Raphaël Apard, an Acquia- and Opquast-certified full-stack developer.',
     },
@@ -883,7 +883,7 @@ export const en: SiteContent = {
     lead: 'Acolad Développement designs, maintains and hosts web applications and Drupal sites for businesses and institutions. The company is based in Haute-Garonne and works with clients all over France.',
     timeline: {
       eyebrow: 'Milestones',
-      title: 'Twenty years of web development, more than ten of them independent.',
+      title: 'Twenty years of web development, more than ten of them self-employed.',
       items: [
         { year: '2006', text: 'First web development work in PHP, at Université Toulouse 1 Capitole.' },
         {
