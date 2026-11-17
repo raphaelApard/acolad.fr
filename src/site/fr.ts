@@ -59,7 +59,7 @@ export const fr: SiteContent = {
     secondaryCta: 'Voir les réalisations',
     heroFacts: [
       { label: 'Création', lines: ['2014, en Haute-Garonne'] },
-      { label: 'Expérience', lines: ['20 ans de développement web'] },
+      { label: 'Expérience', lines: ['20 ans de développement'] },
       { label: 'Certifications', lines: ['Acquia, Opquast'] },
       { label: 'Implantation', lines: ['Toulouse, et à distance'] },
     ],
@@ -134,7 +134,7 @@ export const fr: SiteContent = {
       link: 'En savoir plus sur la société',
       facts: [
         { label: 'Création', lines: ['2014, en Haute-Garonne'] },
-        { label: 'Expérience', lines: ['20 ans de développement web'] },
+        { label: 'Expérience', lines: ['20 ans de développement'] },
         { label: 'Certifications', lines: ['Acquia Certified Developer, Opquast'] },
         { label: 'Implantation', lines: ['Toulouse, et à distance partout en France'] },
       ],
