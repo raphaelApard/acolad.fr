@@ -641,7 +641,7 @@ export const fr: SiteContent = {
         {
           question: 'Combien de temps dure un audit ?',
           answer:
-            "Une demi-journée au minimum, pour un point précis : un formulaire, la configuration d'un serveur, les performances d'une page. Au-delà, la durée dépend du périmètre et figure dans la proposition.",
+            "Une demi-journée au minimum, pour un site simple. Pour un site plus riche ou une application, la durée dépend du périmètre et figure dans la proposition.",
         },
         {
           question: 'Faut-il donner accès au code ?',
