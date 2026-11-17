@@ -954,7 +954,7 @@ export const fr: SiteContent = {
     meta: {
       title: 'Contact : parler de votre projet web',
       description:
-        "Contacter Acolad Développement à Toulouse pour une application métier, une TMA, un site Drupal, un hébergement, un audit ou une intégration d'IA.",
+        "Contacter Acolad Développement à Toulouse pour une application métier, une intégration d'IA, un audit, une TMA, un site Drupal ou un hébergement.",
     },
     eyebrow: 'Contact',
     h1: 'Parlons de votre projet.',

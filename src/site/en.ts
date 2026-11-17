@@ -947,7 +947,7 @@ export const en: SiteContent = {
     meta: {
       title: 'Contact: talk about your web project',
       description:
-        'Contact Acolad Développement in Toulouse about a business application, application maintenance, a Drupal site, hosting, an audit or an AI integration.',
+        'Contact Acolad Développement in Toulouse about a business application, an AI integration, an audit, application maintenance, a Drupal site or hosting.',
     },
     eyebrow: 'Contact',
     h1: "Let's talk about your project.",
