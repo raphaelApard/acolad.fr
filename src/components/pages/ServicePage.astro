@@ -81,13 +81,14 @@ const { showcase } = service;
       }
       {
         showcase.kind === 'plans' && (
-          <div class="grid">
+          <div class="grid" style="--grid-min: 250px">
             {showcase.items.map((plan) => (
               <article class:list={['card', { 'card--featured': plan.featured }]} style="gap: 16px">
                 <h3 class="card-title card-title--sm">{plan.title}</h3>
                 <p class="small">{plan.text}</p>
                 <p class="price">
-                  {plan.price} {plan.unit && <span class="unit">{plan.unit}</span>}
+                  {plan.prefix && <span class="unit">{plan.prefix}</span>} {plan.price}{' '}
+                  {plan.unit && <span class="unit">{plan.unit}</span>}
                 </p>
                 <ul class="list-reset ruled">
                   {plan.points.map((point) => <li>{point}</li>)}

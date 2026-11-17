@@ -56,7 +56,8 @@ export interface ProjectCard {
 export interface Plan {
   title: string;
   text: string;
-  /** Price, or a placeholder; `unit` follows it in small type. */
+  /** Price, or a placeholder; `prefix` comes before it and `unit` after it, in small type. */
+  prefix?: string;
   price: string;
   unit?: string;
   points: string[];
