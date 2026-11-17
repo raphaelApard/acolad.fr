@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Removed the tooling of the former CMS-driven one-page site (`cms/`, `fixtures/`,
+  `pnpm content:pull`, `pnpm content:fixture`, `pnpm sync:cms-types`, `pnpm cms`). The client
+  logos and the 404 image the pages use are now in the repository (`src/assets/media/`), so a
+  fresh clone builds without fetching anything.
 - The contact form sends the message itself: it posts to `public/contact.php`, which e-mails it
   from the server, instead of opening the visitor's mail application. It works without
   JavaScript, catches robots with a hidden field and allows five messages per hour per visitor;
