@@ -53,10 +53,16 @@ export const fr: SiteContent = {
     },
     eyebrow: 'Société de développement web · Toulouse · depuis 2014',
     h1: 'Vos applications web, développées, maintenues et hébergées.',
+    h1Muted: 'Vos applications web,',
     lead: "Acolad Développement conçoit des applications métier, reprend la maintenance de l'existant, fait vivre vos sites Drupal et les héberge. Un seul interlocuteur, du cadrage à l'exploitation.",
     primaryCta: 'Parler de votre projet',
     secondaryCta: 'Voir les réalisations',
-    cardLabel: 'Six services, un seul interlocuteur',
+    heroFacts: [
+      { label: 'Création', lines: ['2014, en Haute-Garonne'] },
+      { label: 'Expérience', lines: ['20 ans de développement web'] },
+      { label: 'Certifications', lines: ['Acquia, Opquast'] },
+      { label: 'Implantation', lines: ['Toulouse, et à distance'] },
+    ],
     clientsLabel: 'Ils ont fait confiance à Acolad',
     clients: [
       'OVHcloud',
@@ -134,7 +140,6 @@ export const fr: SiteContent = {
       number: '02',
       name: 'Applications métier',
       navLabel: 'Applications métier',
-      tagline: 'Conception et développement sur mesure',
       card: {
         title: 'Applications métier',
         text: 'Des outils web construits autour de vos processus : extranets, plateformes de données, back-offices, portails.',
@@ -243,7 +248,6 @@ export const fr: SiteContent = {
       number: '04',
       name: 'Tierce maintenance applicative',
       navLabel: 'TMA',
-      tagline: 'Reprise, correctifs et évolutions',
       card: {
         title: 'Tierce maintenance applicative',
         text: "Reprise et maintenance d'applications existantes, y compris celles développées par un autre prestataire.",
@@ -340,7 +344,6 @@ export const fr: SiteContent = {
       number: '05',
       name: 'Maintenance Drupal',
       navLabel: 'Drupal',
-      tagline: 'Mises à jour, sécurité, migrations',
       card: {
         title: 'Maintenance Drupal',
         text: 'Votre site Drupal tenu à jour, sécurisé et prêt pour la version suivante, de Drupal 7 à Drupal 11.',
@@ -439,7 +442,6 @@ export const fr: SiteContent = {
       number: '06',
       name: 'Hébergement de sites web',
       navLabel: 'Hébergement',
-      tagline: 'Mise en ligne, sauvegardes, supervision',
       card: {
         title: 'Hébergement',
         text: "Vos sites et applications hébergés et exploités par celui qui les connaît : pas de renvoi de balle en cas d'incident.",
@@ -554,7 +556,6 @@ export const fr: SiteContent = {
       number: '01',
       name: 'Audit et conseil',
       navLabel: 'Audit',
-      tagline: 'Code, sécurité, performance, accessibilité',
       card: {
         title: 'Audit et conseil',
         text: 'Un état des lieux argumenté de votre site ou de votre application, avant une refonte ou une reprise.',
@@ -647,7 +648,6 @@ export const fr: SiteContent = {
       number: '03',
       name: "Intégration d'IA",
       navLabel: 'IA',
-      tagline: 'Contenu, assistants, automatisation',
       card: {
         title: "Intégration d'IA",
         text: 'Des modèles de langage intégrés à vos applications, là où ils rendent vraiment service.',

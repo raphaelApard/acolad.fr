@@ -169,8 +169,14 @@ a:hover {
 }
 
 .display--home {
-  font-size: clamp(36px, 5.2vw, 68px);
-  line-height: 1.03;
+  font-size: clamp(40px, 6.4vw, 92px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.display--home .muted {
+  display: block;
+  color: var(--color-text-muted);
 }
 
 .display--case {
@@ -484,75 +490,54 @@ a:hover {
 /* Home hero */
 .hero-home {
   display: flex;
+  flex-direction: column;
+  gap: clamp(40px, 5vw, 64px);
+}
+
+.hero-row {
+  display: flex;
   flex-wrap: wrap;
-  align-items: center;
-  gap: 48px 72px;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 28px 48px;
 }
 
-.hero-home .copy {
+.hero-row .lead {
   flex: 1 1 520px;
-  min-width: 0;
-  --stack-gap: 28px;
+  max-width: 620px;
 }
 
-.hero-home .lead {
-  max-width: 600px;
+/* Each fact carries its own rule, so the row reads as one line on desktop and still holds
+   together once it wraps to two columns. */
+.hero-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 24px 32px;
 }
 
-.service-index {
-  flex: 1 1 400px;
-  min-width: 0;
+.hero-facts > div {
   display: flex;
   flex-direction: column;
-  padding: 12px 28px 16px;
-  border-radius: var(--radius-xl);
-  background: var(--color-ink);
-  color: var(--color-surface);
+  gap: 6px;
+  padding-top: 18px;
+  border-top: 1px solid var(--color-ink);
 }
 
-.service-index .label {
-  padding: 16px 0;
-  color: var(--color-dark-muted);
-}
-
-.service-index a {
+.hero-facts dd {
   display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 18px 0;
-  border-top: 1px solid var(--color-dark-border);
-  color: var(--color-surface);
-  text-decoration: none;
+  flex-direction: column;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 1.6vw, 22px);
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+  color: var(--color-ink);
 }
 
-.service-index a:hover {
-  color: var(--color-dark-accent);
-}
-
-.service-index .number,
 .steps .number {
   font-family: var(--font-mono);
   font-size: 13px;
   color: var(--color-dark-accent);
-}
-
-.service-index .name {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 22px;
-  letter-spacing: -0.01em;
-}
-
-.service-index .tagline {
-  font-family: var(--font-sans);
-  font-weight: 400;
-  font-size: 14.5px;
-  letter-spacing: 0;
-  color: var(--color-dark-muted);
 }
 
 /* Client names strip */

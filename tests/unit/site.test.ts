@@ -31,6 +31,12 @@ describe('site content (src/site)', () => {
     expect(en.lang).toBe('en');
   });
 
+  it('mutes words the home h1 actually starts with', () => {
+    for (const site of [fr, en]) {
+      expect(site.home.h1.startsWith(site.home.h1Muted)).toBe(true);
+    }
+  });
+
   it('numbers the services in their order', () => {
     for (const site of [fr, en]) {
       expect(serviceIds.map((id) => site.services[id].number)).toEqual(['01', '02', '03', '04', '05', '06']);

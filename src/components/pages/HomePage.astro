@@ -12,35 +12,34 @@ interface Props {
 
 const { site } = Astro.props;
 const { lang, home, services } = site;
+// The h1 keeps its full text for assistive tech; only its opening words are toned down.
+const h1Rest = home.h1.slice(home.h1Muted.length);
 ---
 
 <Base site={site} page="home" title={pageTitle(site, home.meta)} description={home.meta.description} jsonLd={homeGraph(site, Astro.site!)}>
   <section class="section">
     <div class="container hero-home">
-      <div class="copy stack">
+      <div class="stack" style="--stack-gap: 32px">
         <p class="eyebrow">{home.eyebrow}</p>
-        <h1 class="display display--home">{home.h1}</h1>
+        <h1 class="display display--home"><span class="muted">{home.h1Muted}</span>{h1Rest}</h1>
+      </div>
+      <div class="hero-row">
         <p class="lead">{home.lead}</p>
         <div class="btn-row">
           <a class="btn btn--primary" href={href('contact', lang)}>{home.primaryCta}<Arrow /></a>
           <a class="btn btn--outline" href={href('work', lang)}>{home.secondaryCta}</a>
         </div>
       </div>
-      <nav class="service-index on-dark" aria-label={home.cardLabel}>
-        <p class="label">{home.cardLabel}</p>
+      <dl class="hero-facts">
         {
-          serviceIds.map((id) => (
-            <a href={href(id, lang)}>
-              <span class="number">{services[id].number}</span>
-              <span class="name">
-                {services[id].card.title}
-                <span class="tagline">{services[id].tagline}</span>
-              </span>
-              <Arrow size={18} />
-            </a>
+          home.heroFacts.map((fact) => (
+            <div>
+              <dt class="label">{fact.label}</dt>
+              <dd>{fact.lines.map((line) => <span>{line}</span>)}</dd>
+            </div>
           ))
         }
-      </nav>
+      </dl>
     </div>
   </section>
 

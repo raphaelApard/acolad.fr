@@ -53,10 +53,16 @@ export const en: SiteContent = {
     },
     eyebrow: 'Web development company · Toulouse · since 2014',
     h1: 'Your web applications, built, maintained and hosted.',
+    h1Muted: 'Your web applications,',
     lead: 'Acolad Développement designs business applications, takes over the maintenance of existing ones, keeps your Drupal sites running and hosts them. A single point of contact, from scoping to operations.',
     primaryCta: 'Talk about your project',
     secondaryCta: 'See the work',
-    cardLabel: 'Six services, a single point of contact',
+    heroFacts: [
+      { label: 'Founded', lines: ['2014, in Haute-Garonne'] },
+      { label: 'Experience', lines: ['20 years of web development'] },
+      { label: 'Certifications', lines: ['Acquia, Opquast'] },
+      { label: 'Location', lines: ['Toulouse, and remotely'] },
+    ],
     clientsLabel: 'They have trusted Acolad',
     clients: [
       'OVHcloud',
@@ -134,7 +140,6 @@ export const en: SiteContent = {
       number: '02',
       name: 'Business applications',
       navLabel: 'Business applications',
-      tagline: 'Bespoke design and development',
       card: {
         title: 'Business applications',
         text: 'Web tools built around your processes: extranets, data platforms, back offices, portals.',
@@ -243,7 +248,6 @@ export const en: SiteContent = {
       number: '04',
       name: 'Application maintenance',
       navLabel: 'Maintenance',
-      tagline: 'Takeover, fixes and enhancements',
       card: {
         title: 'Application maintenance',
         text: 'Takeover and maintenance of existing applications, including those built by another supplier.',
@@ -340,7 +344,6 @@ export const en: SiteContent = {
       number: '05',
       name: 'Drupal maintenance',
       navLabel: 'Drupal',
-      tagline: 'Updates, security, migrations',
       card: {
         title: 'Drupal maintenance',
         text: 'Your Drupal site kept up to date, secure and ready for the next version, from Drupal 7 to Drupal 11.',
@@ -435,7 +438,6 @@ export const en: SiteContent = {
       number: '06',
       name: 'Website hosting',
       navLabel: 'Hosting',
-      tagline: 'Go-live, backups, monitoring',
       card: {
         title: 'Hosting',
         text: 'Your sites and applications hosted and run by the person who knows them: no passing the buck when there is an incident.',
@@ -546,7 +548,6 @@ export const en: SiteContent = {
       number: '01',
       name: 'Audit and consulting',
       navLabel: 'Audit',
-      tagline: 'Code, security, performance, accessibility',
       card: {
         title: 'Audit and consulting',
         text: 'A reasoned assessment of your site or application, before a rebuild or a takeover.',
@@ -640,7 +641,6 @@ export const en: SiteContent = {
       number: '03',
       name: 'AI integration',
       navLabel: 'AI',
-      tagline: 'Content, assistants, automation',
       card: {
         title: 'AI integration',
         text: 'Language models built into your applications, where they are genuinely useful.',

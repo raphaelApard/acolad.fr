@@ -51,12 +51,10 @@ export type Showcase = { eyebrow: string; title: string } & (
 export interface Service {
   /** "01" to "06", the order of the services everywhere. */
   number: string;
-  /** Full name: footer, 404 page, home hero card. */
+  /** Full name: footer, 404 page. */
   name: string;
   /** Short name in the header menu. */
   navLabel: string;
-  /** One line under the name in the home hero card. */
-  tagline: string;
   /** Card in the services grid of the home page. */
   card: { title: string; text: string; points: string[]; link: string };
   /** Option of the "your need" select on the contact page. */
@@ -119,10 +117,13 @@ export interface SiteContent {
     meta: Meta;
     eyebrow: string;
     h1: string;
+    /** Opening words of `h1`, shown in a muted tone. `h1` must start with them. */
+    h1Muted: string;
     lead: string;
     primaryCta: string;
     secondaryCta: string;
-    cardLabel: string;
+    /** Ruled row of short facts closing the hero. */
+    heroFacts: Fact[];
     clientsLabel: string;
     clients: string[];
     services: { eyebrow: string; title: string; text: string };

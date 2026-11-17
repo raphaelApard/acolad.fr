@@ -147,7 +147,7 @@ test('links every service from the home page, the menu and the footer', async ({
   await page.goto('/');
   for (const id of serviceIds) {
     const link = `a[href="${href(id, 'fr')}"]`;
-    expect(await page.getByRole('main').locator(link).count()).toBeGreaterThanOrEqual(2);
+    expect(await page.getByRole('main').locator(link).count()).toBeGreaterThanOrEqual(1);
     // By id: on mobile the menu is folded, so it has no accessible role to look up.
     await expect(page.locator('#main-nav').locator(link)).toHaveCount(1);
     await expect(page.getByRole('contentinfo').locator(link)).toHaveCount(1);
