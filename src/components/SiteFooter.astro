@@ -12,6 +12,8 @@ interface Props {
 
 const { site, hideCta = false } = Astro.props;
 const { lang, footer, cta } = site;
+// The site is static: the closing year is the build year, so it moves on with the next deploy.
+const years = `${business.foundingDate.slice(0, 4)}–${new Date().getFullYear()}`;
 const company: { id: PageId; label: string }[] = [
   { id: 'work', label: site.nav.work },
   { id: 'about', label: site.nav.about },
@@ -62,7 +64,7 @@ const company: { id: PageId; label: string }[] = [
       </div>
     </div>
     <div class="bottom">
-      <span>{footer.copyright}</span>
+      <span>© {years} {footer.copyright}</span>
       <span class="note">{footer.note}</span>
     </div>
   </div>

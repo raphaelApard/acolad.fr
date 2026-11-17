@@ -42,7 +42,7 @@ export const en: SiteContent = {
     companyTitle: 'Company',
     contactTitle: 'Contact',
     location: 'Toulouse and Revel (Haute-Garonne, France)',
-    copyright: '© 2014–2026 Acolad Développement SASU',
+    copyright: 'Acolad Développement SASU',
     note: 'Static site, no advertising cookies',
   },
   home: {

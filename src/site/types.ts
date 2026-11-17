@@ -132,6 +132,7 @@ export interface SiteContent {
     companyTitle: string;
     contactTitle: string;
     location: string;
+    /** Copyright holder; the footer prefixes "© <founding year>–<build year>". */
     copyright: string;
     note: string;
   };
