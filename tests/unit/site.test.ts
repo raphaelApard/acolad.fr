@@ -1,6 +1,18 @@
 import { describe, expect, it } from 'vitest';
-import { alternates, getSite, href, langs, pageIds, routeParam, serviceIds } from '../../src/site';
-import { serviceGraph } from '../../src/site/jsonld';
+import {
+  alternates,
+  getSite,
+  href,
+  isServiceId,
+  langs,
+  maxDescriptionLength,
+  maxTitleLength,
+  pageIds,
+  pageTitle,
+  routeParam,
+  serviceIds,
+} from '../../src/site';
+import { pageGraph, serviceGraph } from '../../src/site/jsonld';
 import { linkedPages, rich } from '../../src/site/rich';
 
 const fr = getSite('fr');
@@ -59,6 +71,23 @@ describe('site content (src/site)', () => {
     expect(marks(en)).toEqual(marks(fr));
   });
 
+  it.each([
+    ['fr', fr],
+    ['en', en],
+  ])('keeps titles and descriptions short enough for a search result (%s)', (_, site) => {
+    for (const id of pageIds) {
+      const meta = isServiceId(id) ? site.services[id].meta : site[id].meta;
+      expect(pageTitle(site, meta).length, meta.title).toBeLessThanOrEqual(maxTitleLength);
+      expect(meta.description.length, meta.description).toBeLessThanOrEqual(maxDescriptionLength);
+    }
+  });
+
+  it('names the site in a title only when both fit', () => {
+    expect(pageTitle(fr, { title: 'Contact', description: '' })).toBe('Contact | Acolad Développement');
+    const long = 'x'.repeat(maxTitleLength - 5);
+    expect(pageTitle(fr, { title: long, description: '' })).toBe(long);
+  });
+
   // The company is one person: the copy speaks neither of a team nor in the first person plural.
   it('never says "we" for the company', () => {
     for (const text of strings(fr)) expect(text).not.toMatch(/\b(nous|notre|nos)\b/i);
@@ -108,6 +137,20 @@ describe('rich text', () => {
 });
 
 describe('structured data', () => {
+  it('places the case study under the work page in its breadcrumb', () => {
+    const [page, trail] = (
+      pageGraph(fr, 'caseStudy', new URL('https://www.acolad.fr')) as {
+        '@graph': [Record<string, unknown>, { itemListElement: { name: string; item: string }[] }];
+      }
+    )['@graph'];
+    expect(page).toMatchObject({ '@type': 'WebPage', url: 'https://www.acolad.fr/missions/ovhcloud/' });
+    expect(trail.itemListElement.map(({ item }) => item)).toEqual([
+      'https://www.acolad.fr/',
+      'https://www.acolad.fr/realisations/',
+      'https://www.acolad.fr/missions/ovhcloud/',
+    ]);
+  });
+
   it('leaves placeholder answers and link syntax out of the FAQ', () => {
     for (const id of serviceIds) {
       const [, faq] = (serviceGraph(fr, id, new URL('https://www.acolad.fr')) as { '@graph': { mainEntity?: unknown[] }[] })['@graph'];

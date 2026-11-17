@@ -1,4 +1,5 @@
 ---
+import { pageGraph } from '../../site/jsonld';
 import { Image } from 'astro:assets';
 import portrait from '../../assets/site/founder-portrait.webp';
 import Base from '../../layouts/Base.astro';
@@ -12,7 +13,7 @@ const { site } = Astro.props;
 const { about } = site;
 ---
 
-<Base site={site} page="about" title={pageTitle(site, about.meta)} description={about.meta.description}>
+<Base site={site} page="about" jsonLd={pageGraph(site, 'about', Astro.site!)} title={pageTitle(site, about.meta)} description={about.meta.description}>
   <section class="section--hero about-hero">
     <div class="container stack">
       <p class="eyebrow">{about.eyebrow}</p>

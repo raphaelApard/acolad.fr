@@ -1,5 +1,5 @@
 import { business } from '../content/business';
-import { defaultLang, href, langs, type ServiceId } from './routes';
+import { defaultLang, href, langs, shareImagePath, type PageId, type ServiceId } from './routes';
 import type { SiteContent } from './types';
 
 // Structured data. The @ids are shared by every locale and page so search engines see one
@@ -19,6 +19,63 @@ const plain = (text: string) =>
     .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
     .replace(/\s*\[[^\]\p{Ll}]*\]/gu, '')
     .replace(/\*\*|`/g, '');
+
+/** Where a page sits in the site, from the home page down to the page itself. */
+function breadcrumb(content: SiteContent, trail: { name: string; page: PageId }[], site: URL): object {
+  const pageUrl = abs(href(trail[trail.length - 1]!.page, content.lang), site);
+  return {
+    '@type': 'BreadcrumbList',
+    '@id': `${pageUrl}#breadcrumb`,
+    itemListElement: [{ name: content.siteName, page: 'home' as PageId }, ...trail].map(({ name, page }, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name,
+      item: abs(href(page, content.lang), site),
+    })),
+  };
+}
+
+/** Pages described as a page of the site, with their schema.org type. */
+const pageTypes = {
+  work: 'CollectionPage',
+  caseStudy: 'WebPage',
+  about: 'AboutPage',
+  contact: 'ContactPage',
+  legal: 'WebPage',
+} as const;
+
+export type DescribedPage = keyof typeof pageTypes;
+
+/** Work, case study, about, contact and legal pages: the page, about the company, and its trail. */
+export function pageGraph(content: SiteContent, page: DescribedPage, site: URL): object {
+  const id = ids(site);
+  const url = abs(href(page, content.lang), site);
+  const work = { name: content.nav.work, page: 'work' as PageId };
+  const trails: Record<DescribedPage, { name: string; page: PageId }[]> = {
+    work: [work],
+    caseStudy: [work, { name: content.projects.ovhcloud.name, page: 'caseStudy' }],
+    about: [{ name: content.nav.about, page: 'about' }],
+    contact: [{ name: content.nav.contact, page: 'contact' }],
+    legal: [{ name: content.legal.h1, page: 'legal' }],
+  };
+  return {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': pageTypes[page],
+        '@id': `${url}#webpage`,
+        url,
+        name: content[page].meta.title,
+        description: content[page].meta.description,
+        inLanguage: content.lang,
+        isPartOf: { '@id': id.website },
+        about: { '@id': id.business },
+        breadcrumb: { '@id': `${url}#breadcrumb` },
+      },
+      breadcrumb(content, trails[page], site),
+    ],
+  };
+}
 
 /** Home page: the site, the company and its founder. */
 export function homeGraph(content: SiteContent, site: URL): object {
@@ -42,6 +99,8 @@ export function homeGraph(content: SiteContent, site: URL): object {
         legalName: business.legalName,
         description: content.home.meta.description,
         url,
+        logo: abs('/favicon.svg', site),
+        image: abs(shareImagePath(content.lang), site),
         email: business.email,
         telephone: business.telephone,
         foundingDate: business.foundingDate,
@@ -76,7 +135,7 @@ export function homeGraph(content: SiteContent, site: URL): object {
   };
 }
 
-/** Service page: the service, offered by the company, and its questions and answers. */
+/** Service page: the service, offered by the company, its questions and answers, and its trail. */
 export function serviceGraph(content: SiteContent, serviceId: ServiceId, site: URL): object {
   const service = content.services[serviceId];
   const url = abs(href(serviceId, content.lang), site);
@@ -106,6 +165,7 @@ export function serviceGraph(content: SiteContent, serviceId: ServiceId, site: U
             acceptedAnswer: { '@type': 'Answer', text: plain(answer) },
           })),
       },
+      breadcrumb(content, [{ name: service.name, page: serviceId }], site),
     ],
   };
 }

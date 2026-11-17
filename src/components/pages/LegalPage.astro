@@ -1,4 +1,5 @@
 ---
+import { pageGraph } from '../../site/jsonld';
 import Base from '../../layouts/Base.astro';
 import { pageTitle, type SiteContent } from '../../site';
 import { rich } from '../../site/rich';
@@ -11,7 +12,7 @@ const { site } = Astro.props;
 const { lang, legal } = site;
 ---
 
-<Base site={site} page="legal" title={pageTitle(site, legal.meta)} description={legal.meta.description} hideCta>
+<Base site={site} page="legal" jsonLd={pageGraph(site, 'legal', Astro.site!)} title={pageTitle(site, legal.meta)} description={legal.meta.description} hideCta>
   <div class="legal-page">
     <div class="container stack">
       <header class="stack">

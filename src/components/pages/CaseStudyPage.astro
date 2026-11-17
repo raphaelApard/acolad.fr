@@ -1,4 +1,5 @@
 ---
+import { pageGraph } from '../../site/jsonld';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Arrow from '../Arrow.astro';
@@ -13,7 +14,7 @@ const { site } = Astro.props;
 const { lang, caseStudy: study } = site;
 ---
 
-<Base site={site} page="caseStudy" title={pageTitle(site, study.meta)} description={study.meta.description}>
+<Base site={site} page="caseStudy" jsonLd={pageGraph(site, 'caseStudy', Astro.site!)} title={pageTitle(site, study.meta)} description={study.meta.description}>
   <section class="case-head">
     <div class="container stack">
       <a class="arrow-link" href={href('work', lang)} style="align-self: flex-start"><Arrow back />{study.back}</a>
