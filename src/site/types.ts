@@ -146,8 +146,6 @@ export interface SiteContent {
     /** Ruled row of short facts closing the hero. */
     heroFacts: Fact[];
     clientsLabel: string;
-    /** Link under the band label, to the work page. */
-    clientsLink: string;
     clients: Client[];
     services: { eyebrow: string; title: string; text: string };
     method: { eyebrow: string; title: string; steps: TitledText[] };

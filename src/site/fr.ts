@@ -64,7 +64,6 @@ export const fr: SiteContent = {
       { label: 'Implantation', lines: ['Toulouse, et à distance'] },
     ],
     clientsLabel: 'Ils ont fait confiance à Acolad',
-    clientsLink: 'Voir les réalisations',
     clients: [
       { id: 'ovhcloud', name: 'OVHcloud' },
       { id: 'cnrs', name: 'CNRS Images' },

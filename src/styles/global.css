@@ -545,37 +545,26 @@ a:hover {
   color: var(--color-dark-accent);
 }
 
-/* Client logos band: white tiles scrolling in a loop on the dark ground */
+/* Client logos band: white tiles scrolling in a loop on the mist ground */
 .clients {
   display: flex;
   flex-direction: column;
-  gap: 28px;
-  padding: 44px 0 48px;
-  background: var(--color-ink);
+  gap: 32px;
+  padding: 56px 0;
+  background: var(--color-mist);
 }
 
 .clients-head {
   padding: 0 var(--gutter);
 }
 
-.clients-head .container {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 8px 32px;
-}
-
-.clients .label {
-  color: var(--color-dark-muted);
-}
-
-.clients .arrow-link {
-  color: var(--color-dark-accent);
-}
-
-.clients .arrow-link:hover {
-  color: var(--color-surface);
+.clients-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 2.4vw, 32px);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: var(--color-ink);
 }
 
 .clients-window {
@@ -607,6 +596,7 @@ a:hover {
   width: 184px;
   height: 104px;
   padding: 4px 20px;
+  border: 1px solid var(--color-border-strong);
   border-radius: 12px;
   background: var(--color-surface);
 }

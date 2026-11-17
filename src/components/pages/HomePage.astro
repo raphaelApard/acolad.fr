@@ -45,12 +45,9 @@ const h1Rest = home.h1.slice(home.h1Muted.length);
     </div>
   </section>
 
-  <section class="clients" aria-label={home.clientsLabel}>
+  <section class="clients" aria-labelledby="clients-title">
     <div class="clients-head">
-      <div class="container">
-        <p class="label">{home.clientsLabel}</p>
-        <a class="arrow-link" href={href('work', lang)}>{home.clientsLink}<Arrow /></a>
-      </div>
+      <h2 class="container clients-title" id="clients-title">{home.clientsLabel}</h2>
     </div>
     <div class="clients-window">
       <div class="clients-track">
