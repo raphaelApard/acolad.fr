@@ -411,9 +411,9 @@ export const fr: SiteContent = {
       },
       faq: [
         {
-          question: 'Votre site est encore en Drupal 7 : que faire ?',
+          question: 'Votre site est en Drupal 7, 8, 9 ou 10 : que faire ?',
           answer:
-            "Drupal 7 n'est plus maintenu par la communauté depuis janvier 2025. L'audit permet de choisir entre une migration vers Drupal 11 et une refonte, avec un budget pour chaque option.",
+            "Ces versions ne sont plus maintenues par la communauté : Drupal 7 depuis janvier 2025, Drupal 10 à partir du 9 décembre 2026. Depuis Drupal 8, 9 ou 10, le passage à Drupal 11 est une montée de version ; depuis Drupal 7, c'est une migration ou une refonte. L'audit chiffre chaque option.",
         },
         {
           question: 'Un site développé par un autre prestataire peut-il être repris ?',
@@ -421,8 +421,9 @@ export const fr: SiteContent = {
             "Oui. La plupart des sites maintenus ont été créés par une agence ou une équipe interne. L'audit initial sert à en prendre connaissance.",
         },
         {
-          question: 'À quel rythme les mises à jour sont-elles appliquées ?',
-          answer: '[VOTRE RYTHME : par exemple correctifs de sécurité en priorité, autres mises à jour chaque mois]',
+          question: 'Votre site est en Drupal 11 : que faire ?',
+          answer:
+            'Le tenir à jour : correctifs de sécurité du cœur et des modules, versions mineures, remplacement du code déprécié. Le passage à Drupal 12 reste alors une simple montée de version, sans migration.',
         },
         {
           question: 'Hébergez-vous aussi le site ?',
