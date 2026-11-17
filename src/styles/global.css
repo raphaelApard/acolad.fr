@@ -1161,14 +1161,14 @@ a.project-card:hover .project-name {
 /* FAQ */
 .faq {
   --grid-min: 320px;
-  --grid-gap: 32px 64px;
+  --grid-gap: 24px 64px;
 }
 
 .faq > div {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding-top: 20px;
+  gap: 8px;
+  padding-top: 16px;
   border-top: 1px solid var(--color-border-strong);
 }
 
