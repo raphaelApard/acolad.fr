@@ -127,7 +127,7 @@ export const fr: SiteContent = {
       text: 'Acolad Développement a été créée en 2014 par Raphaël Apard, développeur web depuis vingt ans. Vous échangez directement avec la personne qui conçoit, développe et maintient votre projet.',
       link: 'En savoir plus sur la société',
       facts: [
-        { label: 'Création', lines: ['2014, en Haute-Garonne'] },
+        { label: 'Depuis', lines: ['2014'] },
         { label: 'Expérience', lines: ["20 ans de développement d'applications web"] },
         { label: 'Certifications', lines: ['Acquia Certified Developer, Opquast'] },
         { label: 'Implantation', lines: ['Toulouse, et à distance partout en France'] },

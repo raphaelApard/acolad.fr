@@ -127,7 +127,7 @@ export const en: SiteContent = {
       text: 'Acolad Développement was founded in 2014 by Raphaël Apard, a web developer for twenty years. You deal directly with the person who designs, builds and maintains your project.',
       link: 'More about the company',
       facts: [
-        { label: 'Founded', lines: ['2014, in Haute-Garonne'] },
+        { label: 'Since', lines: ['2014'] },
         { label: 'Experience', lines: ['20 years of web application development'] },
         { label: 'Certifications', lines: ['Acquia Certified Developer, Opquast'] },
         { label: 'Location', lines: ['Toulouse, and remotely anywhere in France'] },
