@@ -64,6 +64,8 @@ export const en: SiteContent = {
       { label: 'Location', lines: ['Toulouse, and remotely'] },
     ],
     clientsLabel: 'They have trusted Acolad',
+    clientsPrevious: 'Previous logos',
+    clientsNext: 'Next logos',
     clients: [
       { id: 'ovhcloud', name: 'OVHcloud' },
       { id: 'cnrs', name: 'CNRS Images' },

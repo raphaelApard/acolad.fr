@@ -146,6 +146,9 @@ export interface SiteContent {
     /** Ruled row of short facts closing the hero. */
     heroFacts: Fact[];
     clientsLabel: string;
+    /** Accessible names of the arrows that page through the client logos. */
+    clientsPrevious: string;
+    clientsNext: string;
     clients: Client[];
     services: { eyebrow: string; title: string; text: string };
     method: { eyebrow: string; title: string; steps: TitledText[] };

@@ -47,23 +47,25 @@ const h1Rest = home.h1.slice(home.h1Muted.length);
 
   <section class="clients" aria-labelledby="clients-title">
     <div class="clients-head">
-      <h2 class="container clients-title" id="clients-title">{home.clientsLabel}</h2>
+      <div class="container">
+        <h2 class="clients-title" id="clients-title">{home.clientsLabel}</h2>
+        <div class="clients-nav">
+          <button type="button" class="clients-arrow" data-clients-prev aria-label={home.clientsPrevious}><Arrow back size={18} /></button>
+          <button type="button" class="clients-arrow" data-clients-next aria-label={home.clientsNext}><Arrow size={18} /></button>
+        </div>
+      </div>
     </div>
-    <div class="clients-window">
-      <div class="clients-track">
+    <!-- Focusable so keyboard users can scroll it with the arrow keys. -->
+    <div class="clients-window" tabindex="0" role="group" aria-labelledby="clients-title" data-clients>
+      <ul class="list-reset clients-list">
         {
-          // The list is rendered twice so the loop has no seam; the copy is hidden from assistive tech.
-          [false, true].map((copy) => (
-            <ul class="list-reset" aria-hidden={copy ? 'true' : undefined}>
-              {home.clients.map(({ id, name }) => (
-                <li>
-                  <Image src={clientLogos[id].image} loading="eager" alt={copy ? '' : name} height={clientLogos[id].height * 2} style={`height: ${clientLogos[id].height}px`} />
-                </li>
-              ))}
-            </ul>
+          home.clients.map(({ id, name }) => (
+            <li>
+              <Image src={clientLogos[id].image} loading="eager" draggable="false" alt={name} height={clientLogos[id].height * 2} style={`height: ${clientLogos[id].height}px`} />
+            </li>
           ))
         }
-      </div>
+      </ul>
     </div>
   </section>
 
@@ -130,3 +132,57 @@ const h1Rest = home.h1.slice(home.h1Muted.length);
     </div>
   </section>
 </Base>
+
+<script>
+  // Client logos: the arrows page through the band and a mouse can drag it. Touch keeps the
+  // native swipe, and without JavaScript the band still scrolls on its own.
+  const band = document.querySelector<HTMLElement>('[data-clients]');
+  const prev = document.querySelector<HTMLButtonElement>('[data-clients-prev]');
+  const next = document.querySelector<HTMLButtonElement>('[data-clients-next]');
+
+  if (band && prev && next) {
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+    const update = () => {
+      const max = band.scrollWidth - band.clientWidth;
+      prev.disabled = band.scrollLeft <= 1;
+      next.disabled = band.scrollLeft >= max - 1;
+    };
+
+    const page = (direction: number) => {
+      band.scrollBy({ left: direction * band.clientWidth * 0.8, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    };
+
+    prev.addEventListener('click', () => page(-1));
+    next.addEventListener('click', () => page(1));
+    band.addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    update();
+
+    let pointer: number | null = null;
+    let startX = 0;
+    let startLeft = 0;
+
+    band.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'mouse' || event.button !== 0) return;
+      pointer = event.pointerId;
+      startX = event.clientX;
+      startLeft = band.scrollLeft;
+      band.setPointerCapture(pointer);
+      band.classList.add('is-dragging');
+    });
+
+    band.addEventListener('pointermove', (event) => {
+      if (event.pointerId === pointer) band.scrollLeft = startLeft - (event.clientX - startX);
+    });
+
+    const release = (event: PointerEvent) => {
+      if (event.pointerId !== pointer) return;
+      pointer = null;
+      band.classList.remove('is-dragging');
+    };
+
+    band.addEventListener('pointerup', release);
+    band.addEventListener('pointercancel', release);
+  }
+</script>
