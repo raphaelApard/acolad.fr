@@ -2,6 +2,15 @@
 
 ## Unreleased
 
+- Page titles fit in a search result: the long ones are shortened and stand without the company
+  name, and no description goes over 160 characters (a unit test checks both).
+- Shared pages show a preview image, one per language (`public/og-fr.png`, `public/og-en.png`,
+  drawn by `pnpm og:image`), as a large card.
+- JSON-LD: every page but the home page gives its breadcrumb; the work, case study, about,
+  contact and legal pages describe themselves as pages of the site; the company has a logo and
+  an image.
+- `/equipe/` redirects to `/a-propos/` instead of the home page.
+
 - The menu groups the six services under a "Services" entry that opens them as a submenu, and
   stays on one line down to 900 px wide.
 - The home page shows the logos of thirteen clients in a band that scrolls in a loop on a dark

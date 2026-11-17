@@ -79,7 +79,17 @@ traduction.
 - **Captures d'écran** : `src/assets/site/`, déclarées dans `src/site/images.ts`.
 
 Données structurées : les pages d'accueil décrivent le site, la société (`ProfessionalService`,
-avec ses services) et son fondateur ; chaque page de service décrit le `Service` et sa `FAQPage`.
+avec ses services) et son fondateur ; chaque page de service décrit le `Service` et sa `FAQPage` ;
+les autres pages se décrivent comme une page du site. Toutes les pages sauf l'accueil donnent leur
+fil d'Ariane.
+
+Titres et descriptions : `pageTitle` (`src/site/index.ts`) n'ajoute le nom de la société à un
+titre que si l'ensemble tient en 65 caractères ; les descriptions restent sous 160. Un test
+unitaire vérifie les deux.
+
+Image d'aperçu des pages partagées : `public/og-fr.png` et `public/og-en.png` (1200 × 630),
+dessinées à partir du titre de la page d'accueil par `pnpm og:image`. À relancer, puis committer
+les fichiers, quand ce titre ou l'identité visuelle change.
 
 Le formulaire de contact n'a pas de serveur derrière lui : il prépare un e-mail dans la messagerie
 du visiteur (`mailto:`), donc rien de ce qui y est saisi n'est enregistré sur le site. Les mentions

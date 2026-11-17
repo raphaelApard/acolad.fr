@@ -76,7 +76,16 @@ All the copy is in `src/site/fr.ts` and `src/site/en.ts`, two objects with the s
 - **Screenshots**: `src/assets/site/`, registered in `src/site/images.ts`.
 
 Structured data: the home pages describe the site, the company (`ProfessionalService`, with its
-services) and its founder; each service page describes the `Service` and its `FAQPage`.
+services) and its founder; each service page describes the `Service` and its `FAQPage`; the
+other pages describe themselves as a page of the site. Every page but the home page gives its
+breadcrumb.
+
+Titles and descriptions: `pageTitle` (`src/site/index.ts`) adds the company name to a title only
+when both fit in 65 characters; descriptions stay within 160. A unit test checks both.
+
+Preview image of shared pages: `public/og-fr.png` and `public/og-en.png` (1200 × 630), drawn
+from the home page heading by `pnpm og:image`. Run it again and commit the files when the
+heading or the visual identity changes.
 
 The contact form has no server behind it: it prepares an e-mail in the visitor's own mail
 application (`mailto:`), so nothing typed in it is stored on the site. The legal notice says so;
