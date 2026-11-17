@@ -1,0 +1,88 @@
+---
+import { pageGraph } from '../../site/jsonld';
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import { href, pageTitle, type SiteContent } from '../../site';
+import { projectImages } from '../../site/images';
+
+interface Props {
+  site: SiteContent;
+}
+
+const { site } = Astro.props;
+const { lang, caseStudy: study } = site;
+---
+
+<Base site={site} page="caseStudy" jsonLd={pageGraph(site, 'caseStudy', Astro.site!)} title={pageTitle(site, study.meta)} description={study.meta.description}>
+  <section class="case-head">
+    <div class="container stack">
+      <a class="arrow-link" href={href('work', lang)} style="align-self: flex-start"><Arrow back />{study.back}</a>
+      <p class="eyebrow">{study.eyebrow}</p>
+      <h1 class="display display--case">{study.h1}</h1>
+      <dl class="grid case-facts">
+        {
+          study.facts.map((fact) => (
+            <div>
+              <dt class="label">{fact.label}</dt>
+              <dd>{fact.lines.join(', ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <div class="case-shot">
+    <div class="container">
+      <Image
+        class="shot shot--banner"
+        src={projectImages.ovhcloud}
+        alt={site.projects.ovhcloud.alt}
+        widths={[640, 960, 1200]}
+        sizes="(max-width: 1264px) calc(100vw - 40px), 1200px"
+        loading="eager"
+      />
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container case-body">
+      <aside class="case-aside stack">
+        <div class="stack">
+          <h2 class="label">{study.stackTitle}</h2>
+          <ul class="list-reset tags">
+            {study.stack.map((tag) => <li>{tag}</li>)}
+          </ul>
+        </div>
+        <div class="stack">
+          <h2 class="label">{study.achievementsTitle}</h2>
+          <ul class="bullets">
+            {study.achievements.map((item) => <li>{item}</li>)}
+          </ul>
+        </div>
+      </aside>
+      <article class="case-article stack">
+        <p class="intro-text">{study.intro}</p>
+        {
+          study.sections.map((section) => (
+            <section class="stack">
+              <h2>{section.title}</h2>
+              {section.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+            </section>
+          ))
+        }
+      </article>
+    </div>
+  </section>
+
+  <div class="case-next">
+    <div class="container">
+      <p>
+        <span class="label">{study.next.label}</span>
+        <span class="name">{site.projects[study.next.project].name}</span>
+      </p>
+      <a class="btn btn--outline" href={href('work', lang)}>{study.next.link}<Arrow /></a>
+    </div>
+  </div>
+</Base>

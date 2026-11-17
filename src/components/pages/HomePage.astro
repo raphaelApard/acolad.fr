@@ -1,0 +1,178 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import ProjectCard from '../ProjectCard.astro';
+import Steps from '../Steps.astro';
+import { href, pageTitle, serviceIds, type SiteContent } from '../../site';
+import { clientLogos } from '../../site/images';
+import { homeGraph } from '../../site/jsonld';
+
+interface Props {
+  site: SiteContent;
+}
+
+const { site } = Astro.props;
+const { lang, home, services } = site;
+// The h1 keeps its full text for assistive tech; only its opening words are toned down.
+const h1Rest = home.h1.slice(home.h1Muted.length);
+---
+
+<Base site={site} page="home" title={pageTitle(site, home.meta)} description={home.meta.description} jsonLd={homeGraph(site, Astro.site!)}>
+  <section class="section">
+    <div class="container hero-home">
+      <div class="stack" style="--stack-gap: 32px">
+        <p class="eyebrow">{home.eyebrow}</p>
+        <h1 class="display display--home"><span class="muted">{home.h1Muted}</span>{h1Rest}</h1>
+      </div>
+      <div class="hero-row">
+        <p class="lead">{home.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={href('contact', lang)}>{home.primaryCta}<Arrow /></a>
+          <a class="btn btn--outline" href={href('work', lang)}>{home.secondaryCta}</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="clients" aria-labelledby="clients-title">
+    <div class="clients-head">
+      <div class="container">
+        <h2 class="clients-title" id="clients-title">{home.clientsLabel}</h2>
+        <div class="clients-nav">
+          <button type="button" class="clients-arrow" data-clients-prev aria-label={home.clientsPrevious}><Arrow back size={18} /></button>
+          <button type="button" class="clients-arrow" data-clients-next aria-label={home.clientsNext}><Arrow size={18} /></button>
+        </div>
+      </div>
+    </div>
+    <!-- Focusable so keyboard users can scroll it with the arrow keys. -->
+    <div class="clients-window" tabindex="0" role="group" aria-labelledby="clients-title" data-clients>
+      <ul class="list-reset clients-list">
+        {
+          home.clients.map(({ id, name }) => (
+            <li>
+              <Image src={clientLogos[id].image} loading="eager" draggable="false" alt={name} height={clientLogos[id].height * 2} style={`height: ${clientLogos[id].height}px`} />
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container section-stack">
+      <div class="intro">
+        <p class="eyebrow">{home.services.eyebrow}</p>
+        <h2 class="title">{home.services.title}</h2>
+        <p class="body">{home.services.text}</p>
+      </div>
+      <div class="grid" style="--grid-min: 320px">
+        {
+          serviceIds.map((id) => (
+            <article class="card">
+              <span class="number">{services[id].number}</span>
+              <h3 class="card-title">{services[id].card.title}</h3>
+              <p>{services[id].card.text}</p>
+              <ul class="list-reset ruled">
+                {services[id].card.points.map((point) => <li>{point}</li>)}
+              </ul>
+              <a class="arrow-link" href={href(id, lang)}>{services[id].card.link}<Arrow /></a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Steps eyebrow={home.method.eyebrow} title={home.method.title} steps={home.method.steps} />
+
+  <section class="section">
+    <div class="container section-stack">
+      <div class="split-head">
+        <div class="intro" style="max-width: 700px">
+          <p class="eyebrow">{home.work.eyebrow}</p>
+          <h2 class="title">{home.work.title}</h2>
+        </div>
+        <a class="arrow-link" href={href('work', lang)}>{home.work.link}<Arrow /></a>
+      </div>
+      <div class="grid">
+        {home.work.items.map((card) => <ProjectCard site={site} card={card} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container split">
+      <div class="stack" style="--stack-gap: 20px">
+        <p class="eyebrow">{home.company.eyebrow}</p>
+        <h2 class="title">{home.company.title}</h2>
+        <p class="body">{home.company.text}</p>
+        <a class="arrow-link" href={href('about', lang)} style="align-self: flex-start">{home.company.link}<Arrow /></a>
+      </div>
+      <dl class="facts">
+        {
+          home.company.facts.map((fact) => (
+            <div>
+              <dt class="label">{fact.label}</dt>
+              <dd>{fact.lines.map((line) => <span>{line}</span>)}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Client logos: the arrows page through the band and a mouse can drag it. Touch keeps the
+  // native swipe, and without JavaScript the band still scrolls on its own.
+  const band = document.querySelector<HTMLElement>('[data-clients]');
+  const prev = document.querySelector<HTMLButtonElement>('[data-clients-prev]');
+  const next = document.querySelector<HTMLButtonElement>('[data-clients-next]');
+
+  if (band && prev && next) {
+    const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+
+    const update = () => {
+      const max = band.scrollWidth - band.clientWidth;
+      prev.disabled = band.scrollLeft <= 1;
+      next.disabled = band.scrollLeft >= max - 1;
+    };
+
+    const page = (direction: number) => {
+      band.scrollBy({ left: direction * band.clientWidth * 0.8, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    };
+
+    prev.addEventListener('click', () => page(-1));
+    next.addEventListener('click', () => page(1));
+    band.addEventListener('scroll', update, { passive: true });
+    addEventListener('resize', update);
+    update();
+
+    let pointer: number | null = null;
+    let startX = 0;
+    let startLeft = 0;
+
+    band.addEventListener('pointerdown', (event) => {
+      if (event.pointerType !== 'mouse' || event.button !== 0) return;
+      pointer = event.pointerId;
+      startX = event.clientX;
+      startLeft = band.scrollLeft;
+      band.setPointerCapture(pointer);
+      band.classList.add('is-dragging');
+    });
+
+    band.addEventListener('pointermove', (event) => {
+      if (event.pointerId === pointer) band.scrollLeft = startLeft - (event.clientX - startX);
+    });
+
+    const release = (event: PointerEvent) => {
+      if (event.pointerId !== pointer) return;
+      pointer = null;
+      band.classList.remove('is-dragging');
+    };
+
+    band.addEventListener('pointerup', release);
+    band.addEventListener('pointercancel', release);
+  }
+</script>

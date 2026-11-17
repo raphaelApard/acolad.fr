@@ -1,18 +1,26 @@
 import AxeBuilder from '@axe-core/playwright';
 import { expect, test, type Page } from '@playwright/test';
-import { en, fr, section } from '../content';
+import { alternates, getSite, href, isServiceId, langs, pageIds, pageTitle, serviceIds, type Lang, type PageId } from '../../src/site';
 
-const frMissions = section(fr, 'missions');
-const frExperience = section(fr, 'experience');
-const frSkills = section(fr, 'skills');
+const fr = getSite('fr');
+const en = getSite('en');
+const origin = 'https://www.acolad.fr';
 
-// French is served at the root, English under /en/.
-const locales = [
-  { lang: 'fr', path: '/', content: fr },
-  { lang: 'en', path: '/en/', content: en },
-] as const;
+// Below this width the header menu is folded behind a button.
+const isMobile = (page: Page) => (page.viewportSize()?.width ?? 0) < 1200;
 
-const isMobile = (page: Page) => (page.viewportSize()?.width ?? 0) <= 960;
+function meta(lang: Lang, id: PageId) {
+  const site = getSite(lang);
+  if (isServiceId(id)) return site.services[id].meta;
+  return site[id].meta;
+}
+
+function h1(lang: Lang, id: PageId) {
+  const site = getSite(lang);
+  return isServiceId(id) ? site.services[id].h1 : site[id].h1;
+}
+
+const axe = async (page: Page) => (await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations;
 
 // The build embeds the Matomo tracker: keep test runs out of the stats.
 test.beforeEach(async ({ page }) => {
@@ -22,26 +30,24 @@ test.beforeEach(async ({ page }) => {
 test('serves a robots.txt that points at the sitemap', async ({ request }) => {
   const response = await request.get('/robots.txt');
   expect(response.ok()).toBe(true);
-  expect(await response.text()).toContain('Sitemap: https://www.acolad.fr/sitemap.xml');
+  expect(await response.text()).toContain(`Sitemap: ${origin}/sitemap.xml`);
 });
 
-test('lists every locale in the sitemap with its alternates', async ({ request }) => {
+test('lists every page of every locale in the sitemap with its alternates', async ({ request }) => {
   const response = await request.get('/sitemap.xml');
   expect(response.ok()).toBe(true);
   const xml = await response.text();
-  for (const { lang, path } of locales) {
-    expect(xml).toContain(`<loc>https://www.acolad.fr${path}</loc>`);
-    expect(xml).toContain(`hreflang="${lang}" href="https://www.acolad.fr${path}"`);
-  }
-  expect(xml).toContain('hreflang="x-default"');
-  for (const { content } of locales) {
-    expect(xml).toContain(`<loc>https://www.acolad.fr${content.legal.path}</loc>`);
-    for (const mission of section(content, 'missions').items) {
-      if (mission.caseStudy) expect(xml).toContain(`<loc>https://www.acolad.fr${mission.caseStudy.path}</loc>`);
+  for (const id of pageIds) {
+    for (const lang of langs) {
+      expect(xml).toContain(`<loc>${origin}${href(id, lang)}</loc>`);
+      expect(xml).toContain(`hreflang="${lang}" href="${origin}${href(id, lang)}"`);
     }
   }
-  const urls = xml.match(/<url>/g)!.length;
-  expect(xml.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)).toHaveLength(urls);
+  expect(xml.match(/<url>/g)).toHaveLength(pageIds.length * langs.length);
+  expect(xml).toContain('hreflang="x-default"');
+  expect(xml).toContain(`<lastmod>${fr.legal.updatedAt}</lastmod>`);
+  // Built from a git checkout, every page carries the date its copy last changed.
+  expect(xml.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)).toHaveLength(pageIds.length * langs.length);
 });
 
 test('serves the favicons', async ({ request }) => {
@@ -50,244 +56,172 @@ test('serves the favicons', async ({ request }) => {
   }
 });
 
-test('remembers the language picked in the switch', async ({ page, context }) => {
-  await page.goto('/en/');
-  await page.getByRole('group', { name: en.ui.languageSwitch }).locator('a[hreflang="fr"]').click();
-  await expect(page).toHaveURL(/\/$/);
-  const cookie = (await context.cookies()).find((c) => c.name === 'lang');
-  expect(cookie?.value).toBe('fr');
-});
+for (const lang of langs) {
+  const site = getSite(lang);
 
-test('opens screenshots full size and closes them', async ({ page }) => {
-  await page.goto('/');
-  // On mobile the screenshot sits in the collapsed mission panel.
-  if (isMobile(page)) {
-    await page.getByRole('button', { name: new RegExp(`^${frMissions.items[0]!.client}`) }).first().click();
+  for (const id of pageIds) {
+    test.describe(href(id, lang), () => {
+      test.beforeEach(async ({ page }) => {
+        await page.goto(href(id, lang));
+      });
+
+      test('declares its language, title, canonical and alternates', async ({ page }) => {
+        await expect(page.locator('html')).toHaveAttribute('lang', lang);
+        await expect(page).toHaveTitle(pageTitle(site, meta(lang, id)));
+        await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', meta(lang, id).description);
+        await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `${origin}${href(id, lang)}`);
+        for (const l of langs) {
+          await expect(page.locator(`link[rel="alternate"][hreflang="${l}"]`)).toHaveAttribute(
+            'href',
+            `${origin}${alternates(id)[l]}`,
+          );
+        }
+        await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveCount(1);
+        await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', `${origin}/og-${lang}.png`);
+      });
+
+      test('has a single h1 and fits the viewport', async ({ page }) => {
+        await expect(page.getByRole('heading', { level: 1 })).toHaveCount(1);
+        await expect(page.getByRole('heading', { level: 1 })).toHaveText(h1(lang, id));
+        const overflow = await page.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
+        expect(overflow).toBeLessThanOrEqual(0);
+      });
+
+      test('exposes the skip link as the first focusable element', async ({ page }) => {
+        await page.keyboard.press('Tab');
+        await expect(page.getByRole('link', { name: site.ui.skipLink })).toBeFocused();
+      });
+
+      test('sizes every image to avoid layout shifts', async ({ page }) => {
+        expect(await page.locator('img:not([width]), img:not([height])').count()).toBe(0);
+      });
+
+      test('has no WCAG AA violations', async ({ page }) => {
+        expect(await axe(page)).toEqual([]);
+      });
+    });
   }
-  const trigger = page.getByRole('button', { name: frMissions.items[0]!.image!.alt });
-  const lightbox = page.getByRole('dialog', { name: frMissions.items[0]!.image!.alt });
 
-  // Escape closes and gives the focus back to the thumbnail.
-  await trigger.click();
-  await expect(lightbox).toBeVisible();
-  await expect(lightbox.locator('img')).toHaveJSProperty('complete', true);
-  await page.keyboard.press('Escape');
-  await expect(lightbox).toBeHidden();
-  await expect(trigger).toBeFocused();
-
-  // The close button closes.
-  await trigger.click();
-  await lightbox.getByRole('button', { name: fr.ui.closeImage }).click();
-  await expect(lightbox).toBeHidden();
-
-  // A click beside the image closes; a click on it does not.
-  await trigger.click();
-  await lightbox.locator('img').click();
-  await expect(lightbox).toBeVisible();
-  await page.mouse.click(5, 300);
-  await expect(lightbox).toBeHidden();
-});
-
-for (const { lang, path, content } of locales) {
-  test.describe(path, () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(path);
-    });
-
-    test('declares its language and alternates', async ({ page }) => {
-      await expect(page.locator('html')).toHaveAttribute('lang', lang);
-      await expect(page).toHaveTitle(content.meta.title);
-      for (const l of ['fr', 'en', 'x-default']) {
-        await expect(page.locator(`link[rel="alternate"][hreflang="${l}"]`)).toHaveCount(1);
-      }
-    });
-
-    test('describes the person and the company in JSON-LD', async ({ page }) => {
-      const json = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
-      const types = Object.fromEntries(json['@graph'].map((node: { '@type': string }) => [node['@type'], node]));
-      expect(types.Person.name).toBe(content.hero.name);
-      expect(types.Person.jobTitle).toBe(content.hero.title);
-      expect(types.Person.worksFor['@id']).toBe(types.ProfessionalService['@id']);
-      expect(types.ProfessionalService.name).toBe(section(content, 'missions').company);
-      expect(types.ProfessionalService.founder['@id']).toBe(types.Person['@id']);
-      const credentials = section(content, 'credentials');
-      expect(types.Person.hasCredential.map((c: { name: string }) => c.name)).toEqual(
-        credentials.certifications.items.map((c) => c.name),
-      );
-      expect(types.Person.knowsLanguage).toHaveLength(credentials.languages.items.length);
-      expect(types.ProfilePage.mainEntity['@id']).toBe(types.Person['@id']);
-      expect(types.ProfilePage.isPartOf['@id']).toBe(types.WebSite['@id']);
-    });
-
-    test('has a single h1 and an anchor for every nav item', async ({ page }) => {
-      await expect(page.locator('h1')).toHaveCount(1);
-      for (const item of content.nav) {
-        await expect(page.locator(`#${item.id}`)).toHaveCount(1);
-      }
-    });
-
-    test('links the language switch to both locales', async ({ page }) => {
-      const group = page.getByRole('group', { name: content.ui.languageSwitch });
-      await expect(group.locator('a[aria-current="page"]')).toHaveAttribute('href', path);
-      await expect(group.locator('a[hreflang="fr"]')).toHaveAttribute('href', '/');
-      await expect(group.locator('a[hreflang="en"]')).toHaveAttribute('href', '/en/');
-    });
-
-    test('exposes the skip link as the first focusable element', async ({ page }) => {
-      await page.keyboard.press('Tab');
-      const skip = page.getByRole('link', { name: content.ui.skipLink });
-      await expect(skip).toBeFocused();
-      await expect(skip).toBeInViewport();
-    });
-
-    test('sizes every image to avoid layout shifts', async ({ page }) => {
-      const unsized = await page.locator('img:not([width]), img:not([height])').count();
-      expect(unsized).toBe(0);
-    });
-
-    test('has no WCAG AA violations', async ({ page }) => {
-      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-      expect(results.violations).toEqual([]);
-    });
-  });
-}
-
-for (const { lang, path, content } of locales) {
-  test.describe(content.legal.path, () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(content.legal.path);
-    });
-
-    test('declares its language, canonical and alternates', async ({ page }) => {
-      await expect(page.locator('html')).toHaveAttribute('lang', lang);
-      await expect(page.getByRole('heading', { level: 1 })).toHaveText(content.legal.title);
-      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://www.acolad.fr${content.legal.path}`);
-      for (const l of locales) {
-        await expect(page.locator(`link[rel="alternate"][hreflang="${l.lang}"]`)).toHaveAttribute(
-          'href',
-          `https://www.acolad.fr${l.content.legal.path}`,
-        );
-      }
-    });
-
-    test('links the language switch to the other legal page', async ({ page }) => {
-      const group = page.getByRole('group', { name: content.ui.languageSwitch });
-      for (const l of locales) {
-        await expect(group.locator(`a[hreflang="${l.lang}"]`)).toHaveAttribute('href', l.content.legal.path);
-      }
-    });
-
-    test('points the nav back to the home page sections', async ({ page }) => {
-      // Checked in the DOM: on mobile the nav sits in the closed menu.
-      const first = content.nav[0]!;
-      await expect(page.locator('#main-nav a').first()).toHaveAttribute('href', `${path}#${first.id}`);
-    });
-
-    test('is reachable from the home page footer', async ({ page }) => {
-      await page.goto(path);
-      await page.getByRole('contentinfo').getByRole('link', { name: content.legal.linkLabel }).click();
-      await expect(page).toHaveURL(new RegExp(`${content.legal.path}$`));
-      await expect(page.getByRole('contentinfo').getByRole('link', { name: content.legal.linkLabel }))
-        .toHaveAttribute('aria-current', 'page');
-    });
-
-    test('has no WCAG AA violations', async ({ page }) => {
-      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-      expect(results.violations).toEqual([]);
-    });
-  });
-}
-
-for (const { lang, path, content } of locales) {
-  const missions = section(content, 'missions');
-  const mission = missions.items.find((m) => m.caseStudy);
-  if (!mission?.caseStudy) throw new Error(`fixtures/${lang}.json has no case study`);
-  const study = mission.caseStudy;
-
-  test.describe(study.path, () => {
-    test.beforeEach(async ({ page }) => {
-      await page.goto(study.path);
-    });
-
-    test('declares its language, canonical and alternates', async ({ page }) => {
-      await expect(page.locator('html')).toHaveAttribute('lang', lang);
-      await expect(page.getByRole('heading', { level: 1 })).toHaveText(study.title);
-      await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', study.description);
-      await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://www.acolad.fr${study.path}`);
-      for (const l of locales) {
-        const other = section(l.content, 'missions').items.find((m) => m.caseStudy?.slug === study.slug)!;
-        await expect(page.locator(`link[rel="alternate"][hreflang="${l.lang}"]`)).toHaveAttribute(
-          'href',
-          `https://www.acolad.fr${other.caseStudy!.path}`,
-        );
-      }
-    });
-
-    test('leads back home through its breadcrumb, also in JSON-LD', async ({ page }) => {
-      const breadcrumb = page.getByRole('navigation', { name: content.ui.breadcrumb });
-      await expect(breadcrumb.getByRole('link', { name: content.ui.home })).toHaveAttribute('href', path);
-      await expect(breadcrumb.getByRole('link', { name: missions.title })).toHaveAttribute('href', `${path}#missions`);
-      const json = JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!);
-      const types = Object.fromEntries(json['@graph'].map((node: { '@type': string }) => [node['@type'], node]));
-      expect(types.Article.headline).toBe(study.title);
-      expect(types.BreadcrumbList.itemListElement.at(-1).item).toBe(`https://www.acolad.fr${study.path}`);
-    });
-
-    test('is linked from its mission on the home page', async ({ page }) => {
-      await page.goto(path);
-      // Checked in the DOM: on mobile the link sits in the collapsed mission panel.
-      await expect(page.locator(`#missions a[href="${study.path}"]`)).toHaveCount(1);
-    });
-
-    test('has no WCAG AA violations', async ({ page }) => {
-      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-      expect(results.violations).toEqual([]);
-    });
-  });
-}
-
-for (const { lang, path, content } of locales) {
   test.describe(`404 page (${lang})`, () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(content.notFound.path);
+      await page.goto(lang === 'fr' ? '/404.html' : '/en/404/');
     });
 
     test('stays out of search results and leads home', async ({ page }) => {
       await expect(page.locator('html')).toHaveAttribute('lang', lang);
-      await expect(page.getByRole('heading', { level: 1 })).toHaveText(content.notFound.title);
+      await expect(page.getByRole('heading', { level: 1 })).toHaveText(site.notFound.h1);
       await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex');
       await expect(page.locator('link[rel="canonical"]')).toHaveCount(0);
-      await expect(page.getByRole('main').getByRole('link', { name: content.notFound.cta })).toHaveAttribute('href', path);
-      await expect(page.getByRole('img', { name: content.notFound.image.alt })).toBeVisible();
+      await expect(page.getByRole('main').getByRole('link', { name: site.notFound.cta })).toHaveAttribute(
+        'href',
+        href('home', lang),
+      );
     });
 
     test('has no WCAG AA violations', async ({ page }) => {
-      const results = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
-      expect(results.violations).toEqual([]);
+      expect(await axe(page)).toEqual([]);
     });
   });
 }
 
-test('copies the e-mail address from the footer', async ({ page, context }) => {
-  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
-  await page.goto('/');
-  const footer = page.getByRole('contentinfo');
-  await footer.getByRole('button', { name: fr.ui.copyEmail }).click();
-  await expect(footer.getByRole('button', { name: fr.ui.emailCopied })).toBeVisible();
-  await expect(page.getByRole('status').filter({ hasText: fr.ui.emailCopied })).toHaveCount(1);
-  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(fr.links.email);
-  // Back to the copy label after two seconds.
-  await expect(footer.getByRole('button', { name: fr.ui.copyEmail })).toBeVisible({ timeout: 4000 });
-});
-
 test('answers unknown URLs with a 404 and the error page', async ({ page }) => {
   const response = await page.goto('/cette-page-n-existe-pas/');
   expect(response!.status()).toBe(404);
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText(fr.notFound.title);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText(fr.notFound.h1);
+});
+
+test('describes the company on the home page and the service on its page in JSON-LD', async ({ page }) => {
+  const graph = async () =>
+    JSON.parse((await page.locator('script[type="application/ld+json"]').textContent())!)['@graph'] as Record<string, unknown>[];
+
+  await page.goto('/');
+  const home = await graph();
+  expect(home.map((node) => node['@type'])).toEqual(['WebSite', 'ProfessionalService', 'Person']);
+  expect(home[1]).toMatchObject({ name: 'Acolad Développement', foundingDate: '2014-11-14' });
+
+  await page.goto(href('drupal', 'fr'));
+  const [service, faq] = await graph();
+  expect(service).toMatchObject({ '@type': 'Service', name: fr.services.drupal.name });
+  // Answers that are still placeholders stay out of the structured data.
+  expect(JSON.stringify(faq)).not.toMatch(/\[[A-ZÀ-Ý]/);
+});
+
+test('links every service from the home page, the menu and the footer', async ({ page }) => {
+  await page.goto('/');
+  for (const id of serviceIds) {
+    const link = `a[href="${href(id, 'fr')}"]`;
+    expect(await page.getByRole('main').locator(link).count()).toBeGreaterThanOrEqual(1);
+    // By id: on mobile the menu is folded, so it has no accessible role to look up.
+    await expect(page.locator('#main-nav').locator(link)).toHaveCount(1);
+    await expect(page.getByRole('contentinfo').locator(link)).toHaveCount(1);
+  }
+});
+
+test('marks the current page in the menu', async ({ page }) => {
+  await page.goto(href('tma', 'fr'));
+  // By id: on mobile the menu is folded, so it has no accessible role to look up.
+  const nav = page.locator('#main-nav');
+  await expect(nav.locator('ul a[aria-current="page"] .submenu-title')).toHaveText(fr.services.tma.card.title);
+  // The case study belongs to the work section.
+  await page.goto(href('caseStudy', 'fr'));
+  await expect(nav.locator('ul a[aria-current="page"]')).toHaveText(fr.nav.work);
+});
+
+test('opens the services from the menu and closes them with Escape', async ({ page }) => {
+  await page.goto('/');
+  if (isMobile(page)) await page.getByRole('button', { name: fr.ui.openMenu }).click();
+  const services = page.getByRole('button', { name: fr.nav.services });
+  const link = page.locator('#main-nav').getByRole('link', { name: fr.services.tma.card.title });
+  await expect(link).toBeHidden();
+  await services.click();
+  await expect(services).toHaveAttribute('aria-expanded', 'true');
+  await expect(link).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(link).toBeHidden();
+  await expect(services).toBeFocused();
+  await services.click();
+  await link.click();
+  await expect(page).toHaveURL(href('tma', 'fr'));
+  // On a service page the button carries the current section.
+  await expect(page.locator('#main-nav .submenu-button')).toHaveClass(/is-current/);
+});
+
+test('switches language on the same page and remembers the choice', async ({ page, context }) => {
+  await page.goto(href('hosting', 'en'));
+  if (isMobile(page)) await page.getByRole('button', { name: en.ui.openMenu }).click();
+  await page.getByRole('group', { name: en.ui.languageSwitch }).locator('a[hreflang="fr"]').click();
+  await expect(page).toHaveURL(href('hosting', 'fr'));
+  const cookie = (await context.cookies()).find((c) => c.name === 'lang');
+  expect(cookie?.value).toBe('fr');
+});
+
+test('keeps the call to action band off the contact and legal pages', async ({ page }) => {
+  await page.goto(href('about', 'fr'));
+  await expect(page.getByRole('heading', { name: fr.cta.title })).toBeVisible();
+  for (const id of ['contact', 'legal'] as const) {
+    await page.goto(href(id, 'fr'));
+    await expect(page.getByRole('heading', { name: fr.cta.title })).toHaveCount(0);
+  }
+});
+
+test('requires a name, an e-mail and a message before preparing the e-mail', async ({ page }) => {
+  await page.goto(href('contact', 'fr'));
+  const form = page.locator('[data-contact-form]');
+  const valid = () => form.evaluate((element: HTMLFormElement) => element.checkValidity());
+  expect(await valid()).toBe(false);
+  await page.getByLabel(fr.contact.form.name).fill('Ada Lovelace');
+  await page.getByLabel(fr.contact.form.email).fill('ada@example.org');
+  await page.getByLabel(fr.contact.form.message).fill('Bonjour');
+  expect(await valid()).toBe(true);
+  // The select lists the six services and "other".
+  await expect(page.getByLabel(fr.contact.form.need).locator('option')).toHaveCount(serviceIds.length + 1);
+  // Submitting hands over to the mail application: the page itself does not move.
+  await page.getByRole('button', { name: fr.contact.form.submit }).click();
+  await expect(page).toHaveURL(href('contact', 'fr'));
 });
 
 test('says visits are not measured while Matomo is blocked', async ({ page }) => {
-  await page.goto(fr.legal.path);
+  await page.goto(href('legal', 'fr'));
   await expect(page.getByRole('checkbox', { name: fr.legal.optOut.label })).toBeDisabled();
   await expect(page.getByRole('main').getByRole('status')).toHaveText(fr.legal.optOut.unavailable);
 });
@@ -310,7 +244,7 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
       })();`,
     }),
   );
-  await page.goto(fr.legal.path);
+  await page.goto(href('legal', 'fr'));
   const box = page.getByRole('checkbox', { name: fr.legal.optOut.label });
   await expect(box).toBeChecked();
   await expect(page.getByRole('main').getByRole('status')).toHaveText(fr.legal.optOut.on);
@@ -326,108 +260,36 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
 test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 
-  test('tucks the top border of bordered sections under the sticky header border', async ({ page }) => {
-    await page.goto('/');
-    const header = page.locator('[data-header]');
-    for (const id of ['domaines', 'competences', 'certifications']) {
-      await page.locator(`#main-nav a[href="#${id}"]`).click();
-      await expect(async () => {
-        const box = (await header.boundingBox())!;
-        const top = (await page.locator(`#${id}`).boundingBox())!.y - (box.y + box.height);
-        expect(top).toBeGreaterThanOrEqual(-1.5);
-        expect(top).toBeLessThanOrEqual(-0.5);
-      }).toPass();
+  test('shows the whole menu on one line', async ({ page }) => {
+    for (const lang of langs) {
+      await page.goto(href('home', lang));
+      const site = getSite(lang);
+      await expect(page.getByRole('button', { name: site.ui.openMenu })).toBeHidden();
+      const tops = await page
+        .getByRole('navigation', { name: site.ui.mainNav })
+        .locator('a:visible, button:visible')
+        .evaluateAll((links) => links.map((link) => Math.round(link.getBoundingClientRect().top + link.getBoundingClientRect().height / 2)));
+      expect(new Set(tops).size).toBe(1);
     }
   });
-
-  test('scrolls back to the top from the footer', async ({ page }) => {
-    await page.goto('/');
-    const link = page.getByRole('contentinfo').getByRole('link', { name: fr.contact.backToTop });
-    await link.scrollIntoViewIfNeeded();
-    expect(await page.evaluate(() => scrollY)).toBeGreaterThan(1000);
-    await link.click();
-    await expect.poll(() => page.evaluate(() => scrollY)).toBe(0);
-  });
-
-  test('shows every mission panel without toggles', async ({ page }) => {
-    await page.goto('/');
-    // Anchored: the screenshot buttons' names also contain the client.
-    await expect(page.getByRole('button', { name: new RegExp(`^${frMissions.items[0]!.client}`) })).toHaveCount(0);
-    await expect(page.getByText(frMissions.items[1]!.achievements![0]!)).toBeVisible();
-    await expect(page.getByRole('button', { name: fr.ui.openMenu })).toBeHidden();
-  });
-});
-
-test('shrinks the sticky header and keeps anchors below it', async ({ page }) => {
-  await page.goto('/');
-  const header = page.locator('[data-header]');
-  await expect(header).not.toHaveAttribute('data-stuck');
-
-  const missions = fr.nav.find((item) => item.id === 'missions')!;
-  if (isMobile(page)) await page.getByRole('button', { name: fr.ui.openMenu }).click();
-  await page.getByRole('navigation', { name: fr.ui.mainNav }).getByRole('link', { name: missions.label }).click();
-  await expect(header).toHaveAttribute('data-stuck');
-
-  // Once the smooth scroll settles, the section starts right at the bottom of the header.
-  const section = page.locator('#missions');
-  await expect(async () => {
-    const box = (await header.boundingBox())!;
-    expect(Math.abs((await section.boundingBox())!.y - (box.y + box.height))).toBeLessThan(1);
-  }).toPass();
 });
 
 test.describe('mobile', () => {
   test.skip(({ page }) => !isMobile(page), 'mobile only');
 
-  test.beforeEach(async ({ page }) => {
-    await page.goto('/');
-  });
-
   test('opens and closes the menu', async ({ page }) => {
+    await page.goto('/');
     const nav = page.getByRole('navigation', { name: fr.ui.mainNav });
     const open = page.getByRole('button', { name: fr.ui.openMenu });
     await expect(nav).toBeHidden();
     await open.click();
     await expect(nav).toBeVisible();
+    await expect(page.getByRole('button', { name: fr.ui.closeMenu })).toHaveAttribute('aria-expanded', 'true');
     await page.keyboard.press('Escape');
     await expect(nav).toBeHidden();
     await expect(open).toBeFocused();
     await open.click();
-    await nav.getByRole('link', { name: fr.nav[3]!.label }).click();
-    await expect(nav).toBeHidden();
-  });
-
-  test('toggles mission, project and experience panels', async ({ page }) => {
-    const toggles = [
-      frMissions.items[1]!.client,
-      frMissions.otherProjects.items[0]!.client,
-      frExperience.items[0]!.company,
-    ];
-    for (const name of toggles) {
-      const button = page.getByRole('button', { name: new RegExp(`^${name}`) });
-      const panel = page.locator(`#${await button.getAttribute('aria-controls')}`);
-      await expect(button).toHaveAttribute('aria-expanded', 'false');
-      await expect(panel).toBeHidden();
-      await button.click();
-      await expect(button).toHaveAttribute('aria-expanded', 'true');
-      await expect(panel).toBeVisible();
-    }
-  });
-
-  test('shows the skill toggle only on overflowing groups', async ({ page }) => {
-    const toggle = (group: string) => page.getByRole('button', { name: `${frSkills.expandLabel} — ${group}` });
-    // "IA & ingénierie" has two chips that fit on one line.
-    await expect(toggle(frSkills.groups[5]!.title)).toHaveCount(0);
-
-    const frontEnd = toggle(frSkills.groups[0]!.title);
-    await expect(frontEnd).toBeVisible();
-    const list = page.locator('#skills-0');
-    const height = async () => (await list.boundingBox())!.height;
-    expect(await height()).toBeLessThanOrEqual(28);
-    await frontEnd.click();
-    await expect(
-      page.getByRole('button', { name: `${frSkills.collapseLabel} — ${frSkills.groups[0]!.title}` }),
-    ).toHaveAttribute('aria-expanded', 'true');
-    expect(await height()).toBeGreaterThan(28);
+    await nav.getByRole('link', { name: fr.nav.work }).click();
+    await expect(page).toHaveURL(href('work', 'fr'));
   });
 });

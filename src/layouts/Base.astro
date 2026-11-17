@@ -1,29 +1,29 @@
 ---
 import { Font } from 'astro:assets';
 import '../styles/global.css';
-import { getAbsoluteLocaleUrl } from 'astro:i18n';
-import { defaultLang, langs } from '../content';
-import type { Content, Lang } from '../content/types';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { alternates, defaultLang, langs, shareImage, shareImagePath, type Lang, type PageId, type SiteContent } from '../site';
 
 interface Props {
-  content: Content;
-  /** Defaults to the home page meta. */
-  title?: string;
-  description?: string;
-  /** Path of this page in every locale; defaults to the home pages. */
-  alternates?: Record<Lang, string>;
-  /** Error pages: kept out of search results, without canonical or alternates. */
-  noindex?: boolean;
+  site: SiteContent;
+  title: string;
+  description: string;
+  /** The page being shown. Error pages have none: they are kept out of search results,
+      without canonical or alternates. */
+  page?: PageId;
+  /** Pages that already are a call to action skip the band above the footer. */
+  hideCta?: boolean;
+  /** Structured data of the page. */
+  jsonLd?: object;
 }
 
-const { content } = Astro.props;
-const { lang } = content.meta;
-const title = Astro.props.title ?? content.meta.title;
-const description = Astro.props.description ?? content.meta.description;
-const url = (l: Lang) =>
-  Astro.props.alternates ? new URL(Astro.props.alternates[l], Astro.site).href : getAbsoluteLocaleUrl(l);
-const canonical = url(lang);
+const { site, title, description, page, hideCta, jsonLd } = Astro.props;
+const { lang } = site;
+const url = (l: Lang) => new URL(alternates(page ?? 'home')[l], Astro.site).href;
 const ogLocale = { fr: 'fr_FR', en: 'en_GB' }[lang];
+// "<" escaped so the JSON can never close the script element.
+const json = jsonLd && JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 ---
 
 <!doctype html>
@@ -32,36 +32,49 @@ const ogLocale = { fr: 'fr_FR', en: 'en_GB' }[lang];
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <script is:inline>document.documentElement.classList.add('js');</script>
-    <Font cssVariable="--font-schibsted" preload />
-    <Font cssVariable="--font-jetbrains" preload />
+    <Font cssVariable="--font-inter" preload />
+    <Font cssVariable="--font-space-grotesk" preload />
+    <Font cssVariable="--font-jetbrains" />
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="icon" href="/favicon.ico" sizes="32x32" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     {
-      Astro.props.noindex ? (
-        <meta name="robots" content="noindex" />
-      ) : (
+      page ? (
         <>
-          <link rel="canonical" href={canonical} />
+          <link rel="canonical" href={url(lang)} />
           {langs.map((l) => <link rel="alternate" hreflang={l} href={url(l)} />)}
           <link rel="alternate" hreflang="x-default" href={url(defaultLang)} />
         </>
+      ) : (
+        <meta name="robots" content="noindex" />
       )
     }
     <link rel="sitemap" href="/sitemap.xml" />
-    <meta name="theme-color" content="#F4F5F7" />
+    <meta name="theme-color" content="#ffffff" />
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.siteName} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonical} />
+    {page && <meta property="og:url" content={url(lang)} />}
     <meta property="og:locale" content={ogLocale} />
+    <meta property="og:image" content={new URL(shareImagePath(lang), Astro.site).href} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content={String(shareImage.width)} />
+    <meta property="og:image:height" content={String(shareImage.height)} />
+    <meta property="og:image:alt" content={`${site.siteName}. ${site.home.h1}`} />
+    <meta name="twitter:card" content="summary_large_image" />
     <script>
       import '../scripts/matomo';
     </script>
-    <slot name="head" />
+    {json && <script type="application/ld+json" set:html={json} />}
   </head>
   <body>
-    <slot />
+    <a class="skip-link" href="#content">{site.ui.skipLink}</a>
+    <SiteHeader site={site} page={page} />
+    <main id="content">
+      <slot />
+    </main>
+    <SiteFooter site={site} hideCta={hideCta} />
   </body>
 </html>
