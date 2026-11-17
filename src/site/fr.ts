@@ -472,7 +472,7 @@ export const fr: SiteContent = {
         },
         {
           title: 'Sauvegardes',
-          text: 'Fichiers et bases de données sauvegardés, restauration testée. [FRÉQUENCE ET DURÉE DE CONSERVATION]',
+          text: 'Fichiers et bases de données sauvegardés, restauration testée.',
         },
         { title: 'Supervision', text: "Surveillance de la disponibilité et alertes en cas d'incident." },
         {
@@ -532,16 +532,12 @@ export const fr: SiteContent = {
       },
       faq: [
         {
-          question: 'Où sont hébergées les données ?',
-          answer: '[HÉBERGEUR, LOCALISATION DES SERVEURS ET CONFORMITÉ RGPD]',
-        },
-        {
           question: 'Peut-on migrer un site déjà en ligne ?',
           answer: 'Oui. Le site est installé et vérifié sur le nouvel hébergement avant la bascule du nom de domaine.',
         },
         {
           question: 'Que se passe-t-il en cas de panne ?',
-          answer: "[VOTRE PROCÉDURE D'ALERTE ET VOTRE DÉLAI D'INTERVENTION]",
+          answer: 'Une alerte est remontée automatiquement, pour une intervention au plus vite.',
         },
         {
           question: "L'hébergement impose-t-il la maintenance ?",

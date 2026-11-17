@@ -464,7 +464,7 @@ export const en: SiteContent = {
         },
         {
           title: 'Backups',
-          text: 'Files and databases backed up, restores tested. [FREQUENCY AND RETENTION PERIOD]',
+          text: 'Files and databases backed up, restores tested.',
         },
         { title: 'Monitoring', text: 'Availability monitoring and alerts when there is an incident.' },
         {
@@ -524,16 +524,12 @@ export const en: SiteContent = {
       },
       faq: [
         {
-          question: 'Where is the data hosted?',
-          answer: '[HOSTING PROVIDER, SERVER LOCATION AND GDPR COMPLIANCE]',
-        },
-        {
           question: 'Can a site that is already live be migrated?',
           answer: 'Yes. The site is installed and checked on the new hosting before the domain name is switched over.',
         },
         {
           question: 'What happens if there is an outage?',
-          answer: '[YOUR ALERT PROCEDURE AND YOUR RESPONSE TIME]',
+          answer: 'An alert is raised automatically, so that action can be taken as quickly as possible.',
         },
         {
           question: 'Does hosting require a maintenance contract?',
