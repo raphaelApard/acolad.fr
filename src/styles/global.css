@@ -1789,12 +1789,19 @@ a.project-card:hover .project-name {
   display: inline-flex;
   align-items: center;
   min-height: 44px;
+  padding-left: 16px;
+  border-left: 2px solid var(--color-border);
   color: var(--color-ink);
   text-decoration: none;
 }
 
-.legal-toc a:hover {
+.legal-toc a:hover,
+.legal-toc a[aria-current='location'] {
   color: var(--color-accent);
+}
+
+.legal-toc a[aria-current='location'] {
+  border-left-color: var(--color-accent);
 }
 
 .legal-body {

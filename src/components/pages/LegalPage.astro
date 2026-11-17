@@ -52,6 +52,48 @@ const { lang, legal } = site;
 </Base>
 
 <script>
+  // Table of contents: marks the link of the section being read. That section is the last one
+  // whose heading has reached the spot an anchor jump puts it at (under the sticky header), the
+  // first one before that, and the last one once the page bottom is reached (short final
+  // sections never reach the top).
+  const tocLinks = [...document.querySelectorAll<HTMLAnchorElement>('.legal-toc a')];
+  const headings = tocLinks.map((link) => document.getElementById(link.hash.slice(1)));
+
+  if (tocLinks.length && headings.every(Boolean)) {
+    let current = -1;
+    let queued = false;
+
+    const update = () => {
+      queued = false;
+      const root = document.documentElement;
+      const line =
+        (parseFloat(getComputedStyle(root).scrollPaddingTop) || 0) +
+        (parseFloat(getComputedStyle(headings[0]!).scrollMarginTop) || 0) +
+        1;
+      const atBottom = window.innerHeight + window.scrollY >= root.scrollHeight - 2;
+      let index = atBottom ? headings.length - 1 : 0;
+      if (!atBottom) {
+        headings.forEach((heading, i) => {
+          if (heading!.getBoundingClientRect().top <= line) index = i;
+        });
+      }
+      if (index === current) return;
+      tocLinks[current]?.removeAttribute('aria-current');
+      tocLinks[index]?.setAttribute('aria-current', 'location');
+      current = index;
+    };
+
+    const schedule = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(update);
+    };
+
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    update();
+  }
+
   // Matomo opt-out. The checkbox stays disabled, with the "not measured" message, until the
   // tracker has loaded; when it is blocked (or in dev builds) that is the right state.
   type Paq = { push: (command: unknown[]) => void };
