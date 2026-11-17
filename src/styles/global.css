@@ -1386,6 +1386,17 @@ a.project-card:hover .project-name {
   font-size: 15px;
 }
 
+/* Sticky only once the menu sits beside the text (220 + 80 + 560 + gutters); stacked above it,
+   it would cover the paragraphs while scrolling. */
+@media (min-width: 960px) {
+  .legal-toc {
+    position: sticky;
+    top: 24px;
+    max-height: calc(100vh - 48px);
+    overflow-y: auto;
+  }
+}
+
 .legal-toc a {
   display: inline-flex;
   align-items: center;
