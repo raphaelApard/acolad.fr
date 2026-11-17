@@ -118,8 +118,7 @@ société, la même que `business.email`. Tant qu'elle est vide, le script répo
   Grotesk et JetBrains Mono, fichiers woff2 latins auto-hébergés, les deux premières préchargées,
   polices de repli ajustées pour que le changement de police ne décale pas la mise en page.
 - Les images passent par `astro:assets` : les captures ont un `srcset` (WebP) et sont chargées en
-  différé sous la ligne de flottaison. Trois captures (CNRS Images, Obépine, Hôpital Américain)
-  ne font que 438px de large.
+  différé sous la ligne de flottaison.
 - La feuille de styles est commune à toutes les pages et mise en cache avec les autres fichiers
   de `/_astro/`.
 
@@ -177,6 +176,5 @@ depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours)
 ## Points ouverts
 
 - [ ] Relire `src/site/en.ts` (traduit depuis le français).
-- [ ] Remplacer les trois petites captures (438px de large) par des captures en pleine taille.
 - [ ] Ajouter des études de cas à côté d'OVHcloud ; la page Réalisations décrit les autres projets
   pour l'instant.
