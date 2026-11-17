@@ -985,7 +985,6 @@ export const fr: SiteContent = {
       privacy:
         'Les informations saisies servent uniquement à répondre à votre demande. Voir les [mentions légales](page:legal).',
       submit: 'Envoyer la demande',
-      mailNote: "L'envoi ouvre votre messagerie avec le message prêt à partir : rien n'est enregistré sur ce site.",
       subject: 'Demande depuis acolad.fr',
     },
   },

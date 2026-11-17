@@ -211,8 +211,6 @@ export interface SiteContent {
       /** Rich string. */
       privacy: string;
       submit: string;
-      /** Explains that sending opens the visitor's mail application. */
-      mailNote: string;
       /** Subject prefix of the prepared e-mail. */
       subject: string;
     };

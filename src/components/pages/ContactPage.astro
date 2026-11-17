@@ -80,9 +80,8 @@ const needs = [...serviceIds.map((id) => site.services[id].contactOption), form.
           <textarea id="contact-message" name="message" rows="7" aria-describedby="contact-message-hint" required></textarea>
           <span class="hint" id="contact-message-hint">{form.messageHint}</span>
         </div>
-        <p class="hint" set:html={rich(form.privacy, lang)} />
         <button type="submit" class="btn btn--primary">{form.submit}<Arrow /></button>
-        <p class="hint">{form.mailNote}</p>
+        <p class="hint" set:html={rich(form.privacy, lang)} />
       </form>
     </div>
   </section>

@@ -977,7 +977,6 @@ export const en: SiteContent = {
       messageHint: 'Context, technologies in place, deadline: anything that helps give you a useful answer.',
       privacy: 'The information you enter is used only to answer your request. See the [legal notice](page:legal).',
       submit: 'Send the request',
-      mailNote: 'Sending opens your mail application with the message ready to go: nothing is stored on this site.',
       subject: 'Request from acolad.fr',
     },
   },
