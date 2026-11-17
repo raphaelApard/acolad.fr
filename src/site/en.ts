@@ -128,7 +128,7 @@ export const en: SiteContent = {
       link: 'More about the company',
       facts: [
         { label: 'Founded', lines: ['2014, in Haute-Garonne'] },
-        { label: 'Experience', lines: ['20 years of development'] },
+        { label: 'Experience', lines: ['20 years of web application development'] },
         { label: 'Certifications', lines: ['Acquia Certified Developer, Opquast'] },
         { label: 'Location', lines: ['Toulouse, and remotely anywhere in France'] },
       ],

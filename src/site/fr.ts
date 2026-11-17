@@ -128,7 +128,7 @@ export const fr: SiteContent = {
       link: 'En savoir plus sur la société',
       facts: [
         { label: 'Création', lines: ['2014, en Haute-Garonne'] },
-        { label: 'Expérience', lines: ['20 ans de développement'] },
+        { label: 'Expérience', lines: ["20 ans de développement d'application web"] },
         { label: 'Certifications', lines: ['Acquia Certified Developer, Opquast'] },
         { label: 'Implantation', lines: ['Toulouse, et à distance partout en France'] },
       ],
