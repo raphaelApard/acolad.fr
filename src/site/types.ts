@@ -61,7 +61,6 @@ export interface Plan {
   price: string;
   unit?: string;
   points: string[];
-  featured?: boolean;
 }
 
 export type Showcase = { eyebrow: string; title: string } & (

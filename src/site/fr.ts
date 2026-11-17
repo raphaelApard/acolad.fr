@@ -530,7 +530,6 @@ export const fr: SiteContent = {
             price: '29',
             unit: '€ HT / mois',
             points: ['Sauvegardes', 'Supervision'],
-            featured: true,
           },
           {
             title: 'Sur mesure',

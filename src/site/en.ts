@@ -522,7 +522,6 @@ export const en: SiteContent = {
             price: '29',
             unit: '€ excl. VAT / month',
             points: ['Backups', 'Monitoring'],
-            featured: true,
           },
           {
             title: 'Bespoke',
