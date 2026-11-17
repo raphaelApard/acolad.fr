@@ -20,7 +20,7 @@ export const fr: SiteContent = {
   },
   nav: { work: 'Réalisations', about: 'À propos', contact: 'Contact' },
   projects: {
-    ovhcloud: { name: 'OVHcloud', alt: "Capture d'écran du site OVHcloud" },
+    ovhcloud: { name: 'Mission OVHcloud', alt: "Capture d'écran du site OVHcloud" },
     docteurConso: { name: 'Docteur Conso', alt: "Capture d'écran de la nouvelle plateforme Docteur Conso" },
     cnrs: { name: 'CNRS Images', alt: "Capture d'écran de la plateforme CNRS Images" },
     obepine: { name: 'Réseau Obépine', alt: "Capture d'écran de la plateforme du réseau Obépine" },
@@ -57,7 +57,6 @@ export const fr: SiteContent = {
     cardLabel: 'Six services, un seul interlocuteur',
     clientsLabel: 'Ils ont fait confiance à Acolad',
     clients: [
-      'OVHcloud',
       'CNRS Images',
       'Université Paris 1 Panthéon-Sorbonne',
       'Hôpital Américain de Paris',
@@ -98,19 +97,19 @@ export const fr: SiteContent = {
       link: 'Toutes les réalisations',
       items: [
         {
-          project: 'ovhcloud',
-          meta: '2023 – 2026 · React, Next.js, Drupal 10/11',
-          text: "Fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
-        },
-        {
-          project: 'docteurConso',
-          meta: '2026 · Next.js, PostgreSQL',
-          text: "Refonte de la plateforme d'indicateurs de durabilité en Next.js et PostgreSQL.",
-        },
-        {
           project: 'cnrs',
           meta: '2020 – 2021 · Drupal, PHP, RGAA',
           text: 'Pilotage technique et développement de la plateforme photo et vidéo du CNRS.',
+        },
+        {
+          project: 'issy',
+          meta: 'Drupal, TypeScript, RGAA',
+          text: "Pilotage technique et développement du site de la ville, selon les critères d'accessibilité RGAA.",
+        },
+        {
+          project: 'hospital',
+          meta: 'Drupal',
+          text: "Pilotage technique et développement du site public de l'hôpital.",
         },
       ],
     },
@@ -752,7 +751,7 @@ export const fr: SiteContent = {
     meta: {
       title: 'Réalisations : applications métier et sites Drupal',
       description:
-        "Projets menés par Acolad Développement depuis 2014 : OVHcloud, Ville d'Issy-les-Moulineaux, CNRS Images, réseau Obépine, Docteur Conso, Syndex.",
+        "Projets menés par Acolad Développement depuis 2014 : CNRS Images, OVHcloud, Ville d'Issy-les-Moulineaux, réseau Obépine, Docteur Conso, Syndex.",
     },
     eyebrow: 'Réalisations',
     h1: 'Des plateformes en production, pour des acteurs publics et privés.',
@@ -760,8 +759,19 @@ export const fr: SiteContent = {
     caseStudyLink: "Lire l'étude de cas",
     items: [
       {
+        project: 'cnrs',
+        meta: '2020 – 2021 · via OWS · Drupal',
+        text: 'Pilotage technique et développement de la plateforme photo et vidéo du CNRS.',
+        points: [
+          'Migration du catalogue de médias existant vers la nouvelle plateforme',
+          'Rôles et droits sur mesure pour les équipes éditoriales',
+          'Thème Twig / SCSS développé selon les critères RGAA',
+        ],
+        tags: ['Drupal', 'PHP', 'MySQL', 'Twig', 'SCSS'],
+      },
+      {
         project: 'ovhcloud',
-        meta: '2023 – 2026 · Toulouse · Applications métier',
+        meta: '2023 – 2026 · Applications métier',
         text: "Fonctionnalités métier sur les plateformes web d'OVHcloud, du besoin à la mise en production.",
         points: [
           'Applications React et Next.js, intégrées à Drupal 10 et 11 ou déployées à part',
@@ -776,17 +786,6 @@ export const fr: SiteContent = {
         meta: 'via OWS · Drupal',
         text: "Pilotage technique et développement du site de la ville. Intégration Twig, SCSS et TypeScript selon les critères d'accessibilité RGAA.",
         tags: ['Drupal', 'Twig', 'SCSS', 'TypeScript', 'RGAA'],
-      },
-      {
-        project: 'cnrs',
-        meta: '2020 – 2021 · via OWS · Drupal',
-        text: 'Pilotage technique et développement de la plateforme photo et vidéo du CNRS.',
-        points: [
-          'Migration du catalogue de médias existant vers la nouvelle plateforme',
-          'Rôles et droits sur mesure pour les équipes éditoriales',
-          'Thème Twig / SCSS développé selon les critères RGAA',
-        ],
-        tags: ['Drupal', 'PHP', 'MySQL', 'Twig', 'SCSS'],
       },
       {
         project: 'obepine',
@@ -832,7 +831,6 @@ export const fr: SiteContent = {
       { label: 'Client', lines: ['OVHcloud'] },
       { label: 'Période', lines: ['2023 – 2026'] },
       { label: 'Intervention', lines: ['Développement TypeScript / React'] },
-      { label: 'Lieu', lines: ['Toulouse'] },
     ],
     stackTitle: 'Stack technique',
     stack: ['TypeScript', 'React', 'Next.js', 'Zustand', 'Drupal 10 / 11', 'PHP', 'Twig', 'SCSS', 'Playwright'],
@@ -844,7 +842,7 @@ export const fr: SiteContent = {
       'Optimisation des performances et des temps de réponse',
     ],
     intro:
-      "De 2023 à 2026, Acolad Développement a travaillé avec les équipes web d'OVHcloud à Toulouse pour concevoir et livrer des fonctionnalités métier, du besoin à la mise en production.",
+      "De 2023 à 2026, Acolad Développement a travaillé avec les équipes web d'OVHcloud pour concevoir et livrer des fonctionnalités métier, du besoin à la mise en production.",
     sections: [
       {
         title: 'Le contexte',

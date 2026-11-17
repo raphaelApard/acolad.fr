@@ -20,7 +20,7 @@ export const en: SiteContent = {
   },
   nav: { work: 'Work', about: 'About', contact: 'Contact' },
   projects: {
-    ovhcloud: { name: 'OVHcloud', alt: 'Screenshot of the OVHcloud website' },
+    ovhcloud: { name: 'Mission OVHcloud', alt: 'Screenshot of the OVHcloud website' },
     docteurConso: { name: 'Docteur Conso', alt: 'Screenshot of the new Docteur Conso platform' },
     cnrs: { name: 'CNRS Images', alt: 'Screenshot of the CNRS Images platform' },
     obepine: { name: 'Obépine network', alt: 'Screenshot of the Obépine network platform' },
@@ -57,7 +57,6 @@ export const en: SiteContent = {
     cardLabel: 'Six services, a single point of contact',
     clientsLabel: 'They have trusted Acolad',
     clients: [
-      'OVHcloud',
       'CNRS Images',
       'Université Paris 1 Panthéon-Sorbonne',
       'American Hospital of Paris',
@@ -98,19 +97,19 @@ export const en: SiteContent = {
       link: 'All the work',
       items: [
         {
-          project: 'ovhcloud',
-          meta: '2023 – 2026 · React, Next.js, Drupal 10/11',
-          text: "Business features on OVHcloud's web platforms, from requirements to production.",
-        },
-        {
-          project: 'docteurConso',
-          meta: '2026 · Next.js, PostgreSQL',
-          text: 'Rebuild of the sustainability indicators platform with Next.js and PostgreSQL.',
-        },
-        {
           project: 'cnrs',
           meta: '2020 – 2021 · Drupal, PHP, RGAA',
           text: "Technical lead and development of CNRS's photo and video platform.",
+        },
+        {
+          project: 'issy',
+          meta: 'Drupal, TypeScript, RGAA',
+          text: "Technical lead and development of the city's website, to RGAA accessibility criteria.",
+        },
+        {
+          project: 'hospital',
+          meta: 'Drupal',
+          text: "Technical lead and development of the hospital's public website.",
         },
       ],
     },
@@ -745,7 +744,7 @@ export const en: SiteContent = {
     meta: {
       title: 'Work: business applications and Drupal sites',
       description:
-        'Projects delivered by Acolad Développement since 2014: OVHcloud, City of Issy-les-Moulineaux, CNRS Images, Obépine network, Docteur Conso, Syndex.',
+        'Projects delivered by Acolad Développement since 2014: CNRS Images, OVHcloud, City of Issy-les-Moulineaux, Obépine network, Docteur Conso, Syndex.',
     },
     eyebrow: 'Work',
     h1: 'Platforms in production, for public and private organisations.',
@@ -753,8 +752,19 @@ export const en: SiteContent = {
     caseStudyLink: 'Read the case study',
     items: [
       {
+        project: 'cnrs',
+        meta: '2020 – 2021 · via OWS · Drupal',
+        text: "Technical lead and development of CNRS's photo and video platform.",
+        points: [
+          'Migration of the existing media catalogue to the new platform',
+          'Custom roles and permissions for the editorial teams',
+          'Twig / SCSS theme built to RGAA criteria',
+        ],
+        tags: ['Drupal', 'PHP', 'MySQL', 'Twig', 'SCSS'],
+      },
+      {
         project: 'ovhcloud',
-        meta: '2023 – 2026 · Toulouse · Business applications',
+        meta: '2023 – 2026 · Business applications',
         text: "Business features on OVHcloud's web platforms, from requirements to production.",
         points: [
           'React and Next.js applications, embedded in Drupal 10 and 11 or deployed separately',
@@ -769,17 +779,6 @@ export const en: SiteContent = {
         meta: 'via OWS · Drupal',
         text: "Technical lead and development of the city's website. Front-end integration in Twig, SCSS and TypeScript to RGAA accessibility criteria.",
         tags: ['Drupal', 'Twig', 'SCSS', 'TypeScript', 'RGAA'],
-      },
-      {
-        project: 'cnrs',
-        meta: '2020 – 2021 · via OWS · Drupal',
-        text: "Technical lead and development of CNRS's photo and video platform.",
-        points: [
-          'Migration of the existing media catalogue to the new platform',
-          'Custom roles and permissions for the editorial teams',
-          'Twig / SCSS theme built to RGAA criteria',
-        ],
-        tags: ['Drupal', 'PHP', 'MySQL', 'Twig', 'SCSS'],
       },
       {
         project: 'obepine',
@@ -825,7 +824,6 @@ export const en: SiteContent = {
       { label: 'Client', lines: ['OVHcloud'] },
       { label: 'Period', lines: ['2023 – 2026'] },
       { label: 'Role', lines: ['TypeScript / React development'] },
-      { label: 'Location', lines: ['Toulouse'] },
     ],
     stackTitle: 'Tech stack',
     stack: ['TypeScript', 'React', 'Next.js', 'Zustand', 'Drupal 10 / 11', 'PHP', 'Twig', 'SCSS', 'Playwright'],
@@ -837,7 +835,7 @@ export const en: SiteContent = {
       'Optimisation of performance and response times',
     ],
     intro:
-      "From 2023 to 2026, Acolad Développement worked with OVHcloud's web teams in Toulouse to design and deliver business features, from requirements to production.",
+      "From 2023 to 2026, Acolad Développement worked with OVHcloud's web teams to design and deliver business features, from requirements to production.",
     sections: [
       {
         title: 'The context',
