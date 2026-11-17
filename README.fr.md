@@ -65,10 +65,10 @@ traduction.
   Leur ordre et leurs numéros (« 01 » à « 06 ») sont ceux de `serviceIds` dans `routes.ts`.
 - **Frise des versions de Drupal** (page Drupal) : les textes sont `versions` dans le service
   Drupal, les dates de sortie et de fin de vie dans `src/site/drupal-versions.ts`. Le statut de
-  chaque version et la ligne « aujourd'hui » sont calculés au build : il suffit de reconstruire
-  le site pour les tenir à jour (Drupal 10 s'arrête et Drupal 12 sort la semaine du 7 décembre
-  2026). Une date nouvelle ou déplacée, ou une nouvelle version, demande une modification de ce
-  fichier et une nouvelle date `checked`.
+  chaque version et la ligne « aujourd'hui » sont calculés au build, puis de nouveau dans le
+  navigateur du visiteur : ils suivent le calendrier sans reconstruire le site (sans JavaScript,
+  le visiteur les voit tels qu'au build). Une date nouvelle ou déplacée, ou une nouvelle version,
+  demande une modification de ce fichier et une nouvelle date `checked`.
 - **Liens dans le texte** : les réponses de FAQ, les paragraphes des mentions légales et la ligne
   de confidentialité du formulaire acceptent `[libellé](page:<id>)` (une page du site, dans la
   langue courante), `[libellé](https://…)`, `[libellé](mailto:…)`, `**gras**` et `` `code` ``.

@@ -63,9 +63,10 @@ All the copy is in `src/site/fr.ts` and `src/site/en.ts`, two objects with the s
   numbers ("01" to "06") are those of `serviceIds` in `routes.ts`.
 - **Drupal versions timeline** (Drupal page): the copy is `versions` in the Drupal service, the
   release and end-of-life dates are in `src/site/drupal-versions.ts`. The status of each version
-  and the line on "today" are worked out when the site is built, so a rebuild keeps them right
-  (Drupal 10 ends and Drupal 12 comes out in the week of 7 December 2026); a new or moved date,
-  or a new version, needs an edit there and a new `checked` date.
+  and the line on "today" are worked out when the site is built, then again in the visitor's
+  browser, so they follow the calendar without a rebuild (visitors without JavaScript see them as
+  of the build). A new or moved date, or a new version, needs an edit there and a new `checked`
+  date.
 - **Links inside text**: FAQ answers, legal paragraphs and the form's privacy line accept
   `[label](page:<id>)` (a page of the site, in the current locale), `[label](https://…)`,
   `[label](mailto:…)`, `**strong**` and `` `code` ``. Everything else is escaped.
