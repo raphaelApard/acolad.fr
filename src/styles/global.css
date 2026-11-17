@@ -1706,6 +1706,41 @@ a.project-card:hover .project-name {
   align-self: flex-start;
 }
 
+/* Robot trap of the contact form: out of sight, out of the tab order (aria-hidden in the markup). */
+.trap {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Outcome of the contact form: shown by the script (.is-shown), or by the anchor the form
+   returns to when it was posted without JavaScript (:target). */
+.notice {
+  display: none;
+  padding: 14px 16px;
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-md);
+  background: var(--color-mist);
+  color: var(--color-ink);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.notice--error {
+  border-left-color: var(--color-danger);
+}
+
+.notice:target,
+.notice.is-shown {
+  display: block;
+}
+
+.contact-form.is-scripted .notice:not(.is-shown) {
+  display: none;
+}
+
 /* Legal notice */
 .legal-page {
   padding: var(--hero-pad) var(--gutter) var(--section-pad);

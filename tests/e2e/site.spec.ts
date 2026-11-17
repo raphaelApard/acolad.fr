@@ -204,20 +204,86 @@ test('keeps the call to action band off the contact and legal pages', async ({ p
   }
 });
 
-test('requires a name, an e-mail and a message before preparing the e-mail', async ({ page }) => {
+// astro preview runs no PHP: these tests stand in for public/contact.php.
+async function fillContactForm(page: Page) {
+  await page.getByLabel(fr.contact.form.name).fill('Ada Lovelace');
+  await page.getByLabel(fr.contact.form.email).fill('ada@example.org');
+  await page.getByLabel(fr.contact.form.message).fill('Bonjour');
+}
+
+test('requires a name, an e-mail and a message before sending', async ({ page }) => {
   await page.goto(href('contact', 'fr'));
   const form = page.locator('[data-contact-form]');
   const valid = () => form.evaluate((element: HTMLFormElement) => element.checkValidity());
   expect(await valid()).toBe(false);
-  await page.getByLabel(fr.contact.form.name).fill('Ada Lovelace');
-  await page.getByLabel(fr.contact.form.email).fill('ada@example.org');
-  await page.getByLabel(fr.contact.form.message).fill('Bonjour');
+  await fillContactForm(page);
   expect(await valid()).toBe(true);
   // The select lists the six services and "other".
   await expect(page.getByLabel(fr.contact.form.need).locator('option')).toHaveCount(serviceIds.length + 1);
-  // Submitting hands over to the mail application: the page itself does not move.
+  // The robot trap is out of reach of people and assistive technologies.
+  await expect(page.locator('#contact-website')).not.toBeInViewport();
+  await expect(page.getByRole('textbox', { name: 'Website' })).toHaveCount(0);
+});
+
+test('sends the contact form and says so without leaving the page', async ({ page }) => {
+  let posted: Record<string, FormDataEntryValue> | undefined;
+  await page.route('**/contact.php', async (route) => {
+    const request = route.request();
+    expect(request.method()).toBe('POST');
+    expect(await request.headerValue('accept')).toBe('application/json');
+    // The body is multipart: read the fields back through a Request.
+    const headers = { 'content-type': (await request.headerValue('content-type'))! };
+    const body = new Uint8Array(request.postDataBuffer()!);
+    posted = Object.fromEntries(await new Request('http://localhost/', { method: 'POST', body, headers }).formData());
+    await route.fulfill({ json: { ok: true, error: null } });
+  });
+  await page.goto(href('contact', 'fr'));
+  await fillContactForm(page);
   await page.getByRole('button', { name: fr.contact.form.submit }).click();
+
+  const sent = page.locator('#contact-sent');
+  await expect(sent).toHaveText(fr.contact.form.sent);
+  await expect(sent).toBeVisible();
+  // The focus moves to the outcome, so screen readers read it out.
+  await expect(sent).toBeFocused();
   await expect(page).toHaveURL(href('contact', 'fr'));
+  expect(posted).toMatchObject({ lang: 'fr', name: 'Ada Lovelace', email: 'ada@example.org', message: 'Bonjour', website: '' });
+  // The form is ready for another message.
+  await expect(page.getByLabel(fr.contact.form.message)).toHaveValue('');
+});
+
+test('keeps the answers and offers the e-mail address when sending fails', async ({ page }) => {
+  await page.route('**/contact.php', (route) => route.fulfill({ status: 500, json: { ok: false, error: 'server' } }));
+  await page.goto(href('contact', 'fr'));
+  await fillContactForm(page);
+  await page.getByRole('button', { name: fr.contact.form.submit }).click();
+
+  const failed = page.locator('#contact-failed');
+  await expect(failed).toBeVisible();
+  await expect(failed).toBeFocused();
+  await expect(failed.getByRole('link')).toHaveAttribute('href', /^mailto:/);
+  await expect(page.getByText(fr.contact.form.sent)).toBeHidden();
+  await expect(page.getByLabel(fr.contact.form.message)).toHaveValue('Bonjour');
+});
+
+test.describe('without JavaScript', () => {
+  test.use({ javaScriptEnabled: false });
+
+  test('posts the contact form and shows the outcome it comes back with', async ({ page }) => {
+    await page.route('**/contact.php', (route) =>
+      route.fulfill({ status: 303, headers: { location: `${href('contact', 'en')}#contact-sent` } }),
+    );
+    await page.goto(href('contact', 'en'));
+    await expect(page.getByText(en.contact.form.sent)).toBeHidden();
+    await page.getByLabel(en.contact.form.name).fill('Ada Lovelace');
+    await page.getByLabel(en.contact.form.email).fill('ada@example.org');
+    await page.getByLabel(en.contact.form.message).fill('Hello');
+    await page.getByRole('button', { name: en.contact.form.submit }).click();
+
+    await expect(page).toHaveURL(`${href('contact', 'en')}#contact-sent`);
+    await expect(page.getByText(en.contact.form.sent)).toBeVisible();
+    await expect(page.locator('#contact-failed')).toBeHidden();
+  });
 });
 
 test('says visits are not measured while Matomo is blocked', async ({ page }) => {

@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { business } from '../../src/content/business';
 import { describe, expect, it } from 'vitest';
 import {
   alternates,
@@ -159,5 +161,24 @@ describe('structured data', () => {
       expect(text).not.toMatch(/\[[^\]\p{Ll}"]*\]/u);
       expect(faq!.mainEntity!.length).toBeGreaterThan(0);
     }
+  });
+});
+
+describe('contact form endpoint', () => {
+  const php = readFileSync(new URL('../../public/contact.php', import.meta.url), 'utf8');
+
+  it('sends visitors back to the contact page of their language', () => {
+    for (const lang of langs) expect(php).toContain(`'${lang}' => '${href('contact', lang)}'`);
+  });
+
+  it('sends to the company address, once it is filled in', () => {
+    const recipient = php.match(/^const RECIPIENT = '([^']*)';$/m)?.[1];
+    expect(['', business.email]).toContain(recipient);
+  });
+
+  it('reads every field the form posts', () => {
+    for (const field of ['name', 'company', 'email', 'need', 'message']) expect(php).toContain(`'${field}' =>`);
+    expect(php).toContain("$_POST['website']");
+    expect(php).toContain("$_POST['lang']");
   });
 });

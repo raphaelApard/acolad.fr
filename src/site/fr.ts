@@ -985,7 +985,8 @@ export const fr: SiteContent = {
       privacy:
         'Les informations saisies servent uniquement à répondre à votre demande. Voir les [mentions légales](page:legal).',
       submit: 'Envoyer la demande',
-      subject: 'Demande depuis acolad.fr',
+      sent: "Merci, votre message est bien envoyé. Vous recevrez une réponse à l'adresse indiquée.",
+      failed: `L'envoi n'a pas abouti. Réessayez dans un instant, ou écrivez directement à [${email}](mailto:${email}).`,
     },
   },
   legal: {
@@ -1035,7 +1036,7 @@ export const fr: SiteContent = {
         id: 'donnees-personnelles',
         title: 'Données personnelles',
         paragraphs: [
-          `Ce site n'a pas d'espace client. Le formulaire de contact prépare un e-mail dans votre propre messagerie : rien de ce que vous y saisissez n'est enregistré sur le site. Les seules données personnelles traitées sont celles que vous transmettez en écrivant à [${email}](mailto:${email}), et les données de mesure d'audience décrites plus bas.`,
+          `Ce site n'a pas d'espace client. Le formulaire de contact transmet votre message par e-mail à Acolad Développement : il n'est pas enregistré sur le site. Pour limiter les abus, une empreinte de votre adresse IP (et non l'adresse elle-même) est conservée une heure au plus. Les seules autres données personnelles traitées sont celles que vous transmettez en écrivant à [${email}](mailto:${email}), et les données de mesure d'audience décrites plus bas.`,
           'Responsable du traitement : Acolad Développement, représentée par Raphaël Apard. Vos e-mails servent uniquement à répondre à votre demande et à suivre la relation commerciale. Ils sont conservés au plus 3 ans après le dernier échange et ne sont jamais transmis à des tiers.',
           `Conformément au RGPD et à la loi Informatique et Libertés, vous disposez d'un droit d'accès, de rectification, d'effacement, de limitation, de portabilité et d'opposition sur vos données, ainsi que du droit de définir des directives sur leur sort après votre décès. Pour exercer ces droits, écrivez à [${email}](mailto:${email}) ; une réponse vous est apportée dans un délai d'un mois. Vous pouvez aussi adresser une réclamation à la [CNIL](https://www.cnil.fr/fr/plaintes).`,
         ],
