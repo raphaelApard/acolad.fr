@@ -20,12 +20,12 @@ playwright-report/
 test-results/
 blob-report/
 
+# Deployment script with real server settings (see scripts/deploy-prod.example.sh)
+scripts/deploy-prod.sh
+
 # Misc
 .DS_Store
 *.tsbuildinfo
 
 # Local tooling
 .claude/
-
-# Deployment script with real server settings (see scripts/deploy.example.sh)
-scripts/deploy.sh

@@ -116,13 +116,21 @@ address, the same as `business.email`. While it is empty, the script answers wit
 
 ## Deployment
 
-`pnpm deploy:prod` (`scripts/deploy.sh`) runs the tests, builds and syncs `dist/` (including the hidden `.htaccess`)
-to the o2switch hosting with `rsync --delete`. It holds the real server settings, so it is
-git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and fill in
-`REMOTE_USER`, `REMOTE_HOST` and `REMOTE_PATH`. Your IP must be allowed in cPanel
-(SSH access) first. It shows the changes and asks before syncing; `pnpm deploy:dry` stops after
-the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
-`error_log`) are never touched.
+`pnpm deploy:prod` (`scripts/deploy-prod.sh`) runs the tests, builds and mirrors `dist/` (including the hidden
+`.htaccess`) to the o2switch hosting with `rsync --delete`. It holds the real server settings, so it
+is git-ignored: create it with `cp scripts/deploy-prod.example.sh scripts/deploy-prod.sh` and set
+`HOST` (an SSH alias defined in `~/.ssh/config`) and `REMOTE_PATH` (the document root, relative to
+the account's home directory); `--host` and `--path` override both. Your IP must be
+allowed in cPanel (SSH access) first.
+It refuses a working tree with uncommitted changes and warns when the branch is not `main`.
+Before uploading it checks the build: the pages, the CSP hashes filled into `.htaccess`, no
+`X-Robots-Tag`, password or `noindex`, the canonical host, and that the remote directory exists.
+It then lists the changes, counts the deletions and asks for `yes`. After syncing it checks the
+live site: `/` and `/en/` answer 200, the security headers are sent, `http://acolad.fr/` is a
+single 301 to `https://www.acolad.fr/`, `robots.txt` and `sitemap.xml` answer, and an unknown
+path is a 404. `pnpm deploy:dry` stops after the listing (and only warns about uncommitted
+changes), `pnpm deploy:prod --yes` skips the prompt but not the checks. Host-managed files
+(`.well-known/`, `cgi-bin/`, `.user.ini`, `error_log`) are never touched.
 The contact form script creates `contact-rate/` next to the web root, not inside it, for its
 hourly counts; deploys never touch it.
 `public/.htaccess` is the production config, copied as is into the build:

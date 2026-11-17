@@ -125,14 +125,24 @@ société, la même que `business.email`. Tant qu'elle est vide, le script répo
 
 ## Déploiement
 
-`pnpm deploy:prod` (`scripts/deploy.sh`) lance les tests, build et synchronise `dist/` (y compris le fichier caché
-`.htaccess`) vers l'hébergement o2switch avec `rsync --delete`. Il contient les vrais paramètres
-du serveur, il est donc ignoré par git : le créer avec
-`cp scripts/deploy.example.sh scripts/deploy.sh` et renseigner `REMOTE_USER`, `REMOTE_HOST`,
-`REMOTE_PATH`. Ton IP doit d'abord être autorisée dans cPanel (Accès SSH). Le script affiche
-les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'arrête après la
-liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
-`.user.ini`, `error_log`) ne sont jamais touchés.
+`pnpm deploy:prod` (`scripts/deploy-prod.sh`) lance les tests, build et met `dist/` en miroir (y compris le
+fichier caché `.htaccess`) sur l'hébergement o2switch avec `rsync --delete`. Il contient les vrais
+paramètres du serveur, il est donc ignoré par git : le créer avec
+`cp scripts/deploy-prod.example.sh scripts/deploy-prod.sh` et renseigner `HOST` (un alias SSH
+défini dans `~/.ssh/config`) et `REMOTE_PATH` (la racine web, relative au répertoire personnel du
+compte) ; `--host` et `--path` les remplacent. Ton IP doit
+d'abord être autorisée dans cPanel (Accès SSH).
+Il refuse un arbre de travail avec des modifications non commitées et avertit si la branche
+n'est pas `main`. Avant l'envoi il vérifie le build : les pages, les hashes CSP remplis dans
+`.htaccess`, l'absence de `X-Robots-Tag`, de mot de passe et de `noindex`, l'hôte canonique, et
+l'existence du répertoire distant. Il liste ensuite les changements, compte les suppressions et
+demande `yes`. Après la synchro il vérifie le site en ligne : `/` et `/en/` répondent 200, les
+en-têtes de sécurité sont envoyés, `http://acolad.fr/` fait une seule 301 vers
+`https://www.acolad.fr/`, `robots.txt` et `sitemap.xml` répondent, et un chemin inconnu renvoie 404.
+`pnpm deploy:dry` s'arrête après la liste (et ne fait qu'avertir pour les modifications non
+commitées), `pnpm deploy:prod --yes` saute la confirmation mais pas les vérifications. Les
+fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`, `.user.ini`, `error_log`) ne sont
+jamais touchés.
 Le script du formulaire de contact crée `contact-rate/` à côté de la racine web, pas dedans,
 pour ses compteurs horaires ; les déploiements n'y touchent pas.
 `public/.htaccess` est la configuration de production, copiée telle
