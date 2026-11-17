@@ -1012,7 +1012,7 @@ export const fr: SiteContent = {
         id: 'editeur',
         title: 'Éditeur du site',
         paragraphs: [
-          '**Acolad Développement**, société par actions simplifiée unipersonnelle (SASU) au capital de 1 000 €',
+          '**Acolad Développement**, société par actions simplifiée unipersonnelle (SASU) au capital de 1 000 €',
           'Siège social : 27 avenue de Sorèze, 31250 Revel, France',
           'RCS Toulouse 807 777 917 · SIRET 807 777 917 00038',
           'TVA intracommunautaire : FR29807777917',
@@ -1028,7 +1028,7 @@ export const fr: SiteContent = {
         id: 'hebergement',
         title: 'Hébergement',
         paragraphs: [
-          '**o2switch**, SAS au capital de 100 000 €, RCS Clermont-Ferrand 510 909 807',
+          '**o2switch**, SAS au capital de 100 000 €, RCS Clermont-Ferrand 510 909 807',
           'Chemin des Pardiaux, 63000 Clermont-Ferrand, France',
           'Téléphone : 04 44 44 60 40 · [o2switch.fr](https://www.o2switch.fr)',
         ],
