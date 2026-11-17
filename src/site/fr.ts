@@ -49,7 +49,7 @@ export const fr: SiteContent = {
     meta: {
       title: 'Société de développement web à Toulouse',
       description:
-        "Acolad Développement, société de développement web à Toulouse depuis 2014 : applications métier, TMA, maintenance Drupal, hébergement, audit et intégration d'IA.",
+        "Acolad Développement, société de développement web à Toulouse depuis 2014 : applications métier, intégration d'IA, audit, TMA, maintenance Drupal et hébergement.",
     },
     eyebrow: 'Société de développement web · Toulouse · depuis 2014',
     h1: 'Vos applications web, développées, maintenues et hébergées.',
@@ -223,11 +223,6 @@ export const fr: SiteContent = {
         ],
       },
       faq: [
-        {
-          question: 'Combien coûte une application métier ?',
-          answer:
-            'Le budget dépend du périmètre. Le cadrage aboutit à un chiffrage détaillé, lot par lot, pour que vous puissiez arbitrer. [FOURCHETTE INDICATIVE]',
-        },
         {
           question: 'À qui appartient le code ?',
           answer: 'À vous. Le code source est livré dans votre dépôt, avec sa documentation et ses tests.',

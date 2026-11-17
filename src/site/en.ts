@@ -49,7 +49,7 @@ export const en: SiteContent = {
     meta: {
       title: 'Web development company in Toulouse',
       description:
-        'Acolad Développement, a web development company in Toulouse since 2014: business applications, maintenance, Drupal, hosting, audits and AI integration.',
+        'Acolad Développement, a web development company in Toulouse since 2014: business applications, AI integration, audits, maintenance, Drupal and hosting.',
     },
     eyebrow: 'Web development company · Toulouse · since 2014',
     h1: 'Your web applications, built, maintained and hosted.',
@@ -223,11 +223,6 @@ export const en: SiteContent = {
         ],
       },
       faq: [
-        {
-          question: 'How much does a business application cost?',
-          answer:
-            'The budget depends on the scope. Scoping produces a detailed estimate, stage by stage, so that you can decide what to prioritise. [INDICATIVE RANGE]',
-        },
         {
           question: 'Who owns the code?',
           answer: 'You do. The source code is delivered in your repository, with its documentation and tests.',
