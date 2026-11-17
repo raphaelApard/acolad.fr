@@ -1924,3 +1924,160 @@ a.project-card:hover .project-name {
   font-size: 13px;
   color: var(--color-dark-accent);
 }
+
+/* Drupal versions timeline: a bar per version on a ten-year axis, a line on the build day */
+.versions {
+  --versions-name: 112px;
+  --versions-status: 330px;
+  --versions-gap: 32px;
+}
+
+.versions-row {
+  display: grid;
+  grid-template-columns: var(--versions-name) minmax(0, 1fr) var(--versions-status);
+  align-items: center;
+  column-gap: var(--versions-gap);
+}
+
+.versions-axis .versions-track,
+.versions-foot .versions-track {
+  grid-column: 2;
+}
+
+.versions ul .versions-row {
+  min-height: 76px;
+  border-top: 1px solid var(--color-border-strong);
+}
+
+.versions ul .versions-row:last-child {
+  border-bottom: 1px solid var(--color-border-strong);
+}
+
+.versions-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.versions-track {
+  position: relative;
+  align-self: stretch;
+  min-height: 28px;
+}
+
+/* One hairline at the start of each year, and one closing the last year */
+.versions ul .versions-track {
+  background:
+    linear-gradient(to right, var(--color-border-strong) 1px, transparent 1px) 0 0 / calc(100% / var(--years)) 100%,
+    linear-gradient(to left, var(--color-border-strong) 1px, transparent 1px);
+}
+
+.versions-axis .versions-track {
+  min-height: 32px;
+}
+
+.versions-axis span {
+  position: absolute;
+  bottom: 10px;
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+
+.versions-bar {
+  position: absolute;
+  top: 50%;
+  height: 24px;
+  border-radius: 4px;
+  transform: translateY(-50%);
+  background: var(--color-accent);
+}
+
+.versions-row--ended .versions-bar {
+  background: repeating-linear-gradient(-45deg, var(--color-field-border) 0 1.5px, transparent 1.5px 7px);
+  box-shadow: inset 0 0 0 1px var(--color-field-border);
+}
+
+.versions-row--current .versions-bar {
+  background: linear-gradient(to right, var(--color-accent) 75%, transparent);
+}
+
+.versions-row--upcoming .versions-bar {
+  background: none;
+  border: 2px dashed var(--color-accent);
+}
+
+/* The build day, across every row and down to its date */
+.versions ul .versions-track::after,
+.versions-foot .versions-track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: -1px;
+  left: var(--today);
+  z-index: 1;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--color-ink);
+}
+
+.versions-foot .versions-track {
+  min-height: 44px;
+}
+
+.versions-foot .versions-track::before {
+  bottom: 14px;
+}
+
+.versions-today {
+  position: absolute;
+  bottom: 0;
+  left: var(--today);
+  padding: 3px 10px;
+  border-radius: var(--radius-sm);
+  transform: translateX(-50%) translateY(6px);
+  background: var(--color-ink);
+  color: var(--color-surface);
+  font-family: var(--font-mono);
+  font-size: 12.5px;
+  white-space: nowrap;
+}
+
+.versions-status strong {
+  color: var(--color-ink);
+}
+
+.versions-row--endingSoon .versions-status strong {
+  color: var(--color-danger);
+}
+
+@media (max-width: 899px) {
+  .versions-row {
+    grid-template-columns: 88px minmax(0, 1fr);
+    column-gap: 16px;
+  }
+
+  .versions-axis .versions-track,
+  .versions-foot .versions-track,
+  .versions ul .versions-track {
+    grid-column: 1 / -1;
+  }
+
+  .versions ul .versions-row {
+    align-items: baseline;
+    row-gap: 12px;
+    min-height: 0;
+    padding: 16px 0;
+  }
+
+  .versions ul .versions-track {
+    order: 3;
+    height: 28px;
+  }
+
+  /* Every other year, so the labels keep clear of each other */
+  .versions-axis span:nth-child(even) {
+    display: none;
+  }
+}

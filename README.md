@@ -33,11 +33,12 @@ First e2e run: `pnpm exec playwright install chromium`.
 ```
 src/site/         the site: routes.ts (pages and their address per locale), fr.ts and en.ts (copy),
                   types.ts (shape of the copy), rich.ts (inline links, strong, code),
-                  images.ts (project screenshots), jsonld.ts (structured data)
+                  images.ts (project screenshots), jsonld.ts (structured data),
+                  drupal-versions.ts (dates of the Drupal versions timeline)
 src/content/      business.ts (company facts: legal name, address, phone, e-mail)
 src/styles/       tokens.css (colors, fonts, spacing), global.css (every style of the site)
 src/layouts/      Base.astro (head, SEO, hreflang, fonts, header and footer)
-src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, Logo, Arrow;
+src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, VersionTimeline, Logo, Arrow;
                   pages/ holds one template per kind of page
 src/pages/        [...path].astro (every page of every locale, from the route table),
                   404.astro and en/404.astro (served by Apache's ErrorDocument),
@@ -58,8 +59,13 @@ All the copy is in `src/site/fr.ts` and `src/site/en.ts`, two objects with the s
   locales and a template in `src/components/pages/`, wired in `src/pages/[...path].astro`. The
   header, footer, sitemap, hreflang links and language switch follow the route table.
 - **Services**: `services` in the copy, one entry per service with the same fields (hero, what
-  it covers, process, a "showcase" of projects, cards or plans, FAQ). Their order and numbers
-  ("01" to "06") are those of `serviceIds` in `routes.ts`.
+  it covers, process, an optional "showcase" of projects, cards or plans, FAQ). Their order and
+  numbers ("01" to "06") are those of `serviceIds` in `routes.ts`.
+- **Drupal versions timeline** (Drupal page): the copy is `versions` in the Drupal service, the
+  release and end-of-life dates are in `src/site/drupal-versions.ts`. The status of each version
+  and the line on "today" are worked out when the site is built, so a rebuild keeps them right
+  (Drupal 10 ends and Drupal 12 comes out in the week of 7 December 2026); a new or moved date,
+  or a new version, needs an edit there and a new `checked` date.
 - **Links inside text**: FAQ answers, legal paragraphs and the form's privacy line accept
   `[label](page:<id>)` (a page of the site, in the current locale), `[label](https://…)`,
   `[label](mailto:…)`, `**strong**` and `` `code` ``. Everything else is escaped.

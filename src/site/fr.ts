@@ -303,18 +303,6 @@ export const fr: SiteContent = {
           },
         ],
       },
-      showcase: {
-        eyebrow: 'Référence',
-        title: 'Une application suivie dans la durée',
-        kind: 'projects',
-        items: [
-          {
-            project: 'ovhcloud',
-            meta: '2023 – 2026 · React, Drupal 10/11, Playwright',
-            text: 'Trois ans sur les plateformes web : évolutions, tests end-to-end mis en place et maintenus, optimisation des performances.',
-          },
-        ],
-      },
       faq: [
         {
           question: 'Reprenez-vous une application développée par un autre ?',
@@ -375,6 +363,21 @@ export const fr: SiteContent = {
         { title: 'Drupal headless', text: 'JSON:API et applications React, Next.js ou Angular alimentées par Drupal.' },
         { title: 'Recherche et performance', text: 'Apache Solr, stratégie de cache et suivi des Core Web Vitals.' },
       ],
+      versions: {
+        eyebrow: 'Versions de Drupal',
+        title: 'Où en est votre version de Drupal ?',
+        text: 'Une version en fin de vie ne reçoit plus de correctifs de sécurité. Repérez la vôtre.',
+        status: {
+          ended: '**Fin de vie** depuis {date}',
+          endingSoon: '**Fin de vie proche** : {date}',
+          supported: "**Supportée** jusqu'à {date}",
+          current: '**Supportée**, fin de vie pas encore annoncée',
+          upcoming: '**À venir** : sortie prévue {date}',
+        },
+        dates: { day: 'le {date}', week: 'la semaine du {date}', earlyMonth: 'début {date}' },
+        source:
+          'Source : [calendrier officiel de drupal.org](https://www.drupal.org/about/core/policies/core-release-cycles/schedule), consulté {date}.',
+      },
       process: {
         title: 'Chaque mise à jour passe par la recette avant la production.',
         steps: [
@@ -411,9 +414,9 @@ export const fr: SiteContent = {
       },
       faq: [
         {
-          question: 'Votre site est en Drupal 7, 8, 9 ou 10 : que faire ?',
+          question: 'Votre site est en Drupal 7, 8 ou 9 : que faire ?',
           answer:
-            "Ces versions ne sont plus maintenues par la communauté : Drupal 7 depuis janvier 2025, Drupal 10 à partir du 9 décembre 2026. Depuis Drupal 8, 9 ou 10, le passage à Drupal 11 est une montée de version ; depuis Drupal 7, c'est une migration ou une refonte. L'audit chiffre chaque option.",
+            "Ces versions ne sont plus maintenues par la communauté : Drupal 8 depuis 2021, Drupal 9 depuis 2023, Drupal 7 depuis janvier 2025. Depuis Drupal 8 ou 9, le passage à Drupal 11 est une montée de version ; depuis Drupal 7, c'est une migration ou une refonte. L'audit chiffre chaque option.",
         },
         {
           question: 'Un site développé par un autre prestataire peut-il être repris ?',
@@ -421,9 +424,9 @@ export const fr: SiteContent = {
             "Oui. La plupart des sites maintenus ont été créés par une agence ou une équipe interne. L'audit initial sert à en prendre connaissance.",
         },
         {
-          question: 'Votre site est en Drupal 11 : que faire ?',
+          question: 'Votre site est en Drupal 10 : que faire ?',
           answer:
-            'Le tenir à jour : correctifs de sécurité du cœur et des modules, versions mineures, remplacement du code déprécié. Le passage à Drupal 12 reste alors une simple montée de version, sans migration.',
+            "Drupal 10 n'est plus maintenu à partir du 9 décembre 2026. Le passage à Drupal 11 est une montée de version, sans migration : remplacement du code déprécié, mise à jour des modules et du thème. L'audit en mesure l'effort.",
         },
         {
           question: 'Hébergez-vous aussi le site ?',

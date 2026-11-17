@@ -33,11 +33,12 @@ Premier lancement e2e : `pnpm exec playwright install chromium`.
 ```
 src/site/         le site : routes.ts (pages et leur adresse par langue), fr.ts et en.ts (textes),
                   types.ts (forme des textes), rich.ts (liens, gras et code dans le texte),
-                  images.ts (captures des projets), jsonld.ts (données structurées)
+                  images.ts (captures des projets), jsonld.ts (données structurées),
+                  drupal-versions.ts (dates de la frise des versions de Drupal)
 src/content/      business.ts (société : raison sociale, adresse, téléphone, e-mail)
 src/styles/       tokens.css (couleurs, polices, espacements), global.css (tous les styles du site)
 src/layouts/      Base.astro (head, SEO, hreflang, polices, en-tête et pied de page)
-src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, Logo, Arrow ;
+src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, VersionTimeline, Logo, Arrow ;
                   pages/ contient un gabarit par type de page
 src/pages/        [...path].astro (toutes les pages de toutes les langues, d'après la table des routes),
                   404.astro et en/404.astro (servies par l'ErrorDocument d'Apache),
@@ -60,8 +61,14 @@ traduction.
   `src/pages/[...path].astro`. L'en-tête, le pied de page, le sitemap, les liens hreflang et le
   sélecteur de langue suivent la table des routes.
 - **Services** : `services` dans les textes, une entrée par service avec les mêmes champs (hero,
-  périmètre, déroulé, une « vitrine » de projets, de cartes ou de formules, FAQ). Leur ordre et
-  leurs numéros (« 01 » à « 06 ») sont ceux de `serviceIds` dans `routes.ts`.
+  périmètre, déroulé, une « vitrine » facultative de projets, de cartes ou de formules, FAQ).
+  Leur ordre et leurs numéros (« 01 » à « 06 ») sont ceux de `serviceIds` dans `routes.ts`.
+- **Frise des versions de Drupal** (page Drupal) : les textes sont `versions` dans le service
+  Drupal, les dates de sortie et de fin de vie dans `src/site/drupal-versions.ts`. Le statut de
+  chaque version et la ligne « aujourd'hui » sont calculés au build : il suffit de reconstruire
+  le site pour les tenir à jour (Drupal 10 s'arrête et Drupal 12 sort la semaine du 7 décembre
+  2026). Une date nouvelle ou déplacée, ou une nouvelle version, demande une modification de ce
+  fichier et une nouvelle date `checked`.
 - **Liens dans le texte** : les réponses de FAQ, les paragraphes des mentions légales et la ligne
   de confidentialité du formulaire acceptent `[libellé](page:<id>)` (une page du site, dans la
   langue courante), `[libellé](https://…)`, `[libellé](mailto:…)`, `**gras**` et `` `code` ``.
