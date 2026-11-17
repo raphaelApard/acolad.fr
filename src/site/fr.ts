@@ -513,7 +513,7 @@ export const fr: SiteContent = {
             prefix: 'à partir de',
             price: '9',
             unit: '€ HT / mois',
-            points: ['Sauvegardes'],
+            points: ['Hébergé en France', 'Sauvegarde quotidienne hors site', 'Certificat SSL inclus'],
           },
           {
             title: 'Drupal',
@@ -521,7 +521,7 @@ export const fr: SiteContent = {
             prefix: 'à partir de',
             price: '29',
             unit: '€ HT / mois',
-            points: ['Sauvegardes', 'Supervision'],
+            points: ['Hébergé en France', 'Sauvegarde quotidienne hors site', 'Supervision'],
           },
           {
             title: 'Application métier',
@@ -529,13 +529,13 @@ export const fr: SiteContent = {
             prefix: 'à partir de',
             price: '29',
             unit: '€ HT / mois',
-            points: ['Sauvegardes', 'Supervision'],
+            points: ['Hébergé en France', 'Sauvegarde quotidienne hors site', 'Supervision'],
           },
           {
             title: 'Sur mesure',
             text: 'Pour un trafic élevé, plusieurs sites ou des contraintes particulières.',
             price: 'Sur devis',
-            points: ['Architecture dimensionnée après analyse', 'Sauvegardes', 'Supervision'],
+            points: ['Architecture dimensionnée après analyse', 'Sauvegarde quotidienne hors site', 'Supervision'],
           },
         ],
       },

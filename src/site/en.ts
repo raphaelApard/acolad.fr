@@ -505,7 +505,7 @@ export const en: SiteContent = {
             prefix: 'from',
             price: '9',
             unit: '€ excl. VAT / month',
-            points: ['Backups'],
+            points: ['Hosted in France', 'Daily off-site backup', 'SSL certificate included'],
           },
           {
             title: 'Drupal',
@@ -513,7 +513,7 @@ export const en: SiteContent = {
             prefix: 'from',
             price: '29',
             unit: '€ excl. VAT / month',
-            points: ['Backups', 'Monitoring'],
+            points: ['Hosted in France', 'Daily off-site backup', 'Monitoring'],
           },
           {
             title: 'Business application',
@@ -521,13 +521,13 @@ export const en: SiteContent = {
             prefix: 'from',
             price: '29',
             unit: '€ excl. VAT / month',
-            points: ['Backups', 'Monitoring'],
+            points: ['Hosted in France', 'Daily off-site backup', 'Monitoring'],
           },
           {
             title: 'Bespoke',
             text: 'For high traffic, several sites or specific constraints.',
             price: 'On quotation',
-            points: ['Architecture sized after analysis', 'Backups', 'Monitoring'],
+            points: ['Architecture sized after analysis', 'Daily off-site backup', 'Monitoring'],
           },
         ],
       },
