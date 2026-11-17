@@ -76,6 +76,8 @@ export interface Service {
   name: string;
   /** Short name in the header menu. */
   navLabel: string;
+  /** One line under the service's title in the header's services panel. */
+  navText: string;
   /** Card in the services grid of the home page. */
   card: { title: string; text: string; points: string[]; link: string };
   /** Option of the "your need" select on the contact page. */

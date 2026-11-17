@@ -158,7 +158,7 @@ test('marks the current page in the menu', async ({ page }) => {
   await page.goto(href('tma', 'fr'));
   // By id: on mobile the menu is folded, so it has no accessible role to look up.
   const nav = page.locator('#main-nav');
-  await expect(nav.locator('ul a[aria-current="page"]')).toHaveText(fr.services.tma.navLabel);
+  await expect(nav.locator('ul a[aria-current="page"] .submenu-title')).toHaveText(fr.services.tma.card.title);
   // The case study belongs to the work section.
   await page.goto(href('caseStudy', 'fr'));
   await expect(nav.locator('ul a[aria-current="page"]')).toHaveText(fr.nav.work);
@@ -168,7 +168,7 @@ test('opens the services from the menu and closes them with Escape', async ({ pa
   await page.goto('/');
   if (isMobile(page)) await page.getByRole('button', { name: fr.ui.openMenu }).click();
   const services = page.getByRole('button', { name: fr.nav.services });
-  const link = page.locator('#main-nav').getByRole('link', { name: fr.services.tma.navLabel });
+  const link = page.locator('#main-nav').getByRole('link', { name: fr.services.tma.card.title });
   await expect(link).toBeHidden();
   await services.click();
   await expect(services).toHaveAttribute('aria-expanded', 'true');

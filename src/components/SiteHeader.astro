@@ -1,5 +1,6 @@
 ---
 import { alternates, href, langs, serviceIds, getSite, type Lang, type PageId, type SiteContent } from '../site';
+import Arrow from './Arrow.astro';
 import Logo from './Logo.astro';
 
 interface Props {
@@ -12,7 +13,10 @@ interface Props {
 const { site, page } = Astro.props;
 const { lang, ui } = site;
 const switchTargets = alternates(page ?? 'home');
-const services: { id: PageId; label: string }[] = serviceIds.map((id) => ({ id, label: site.services[id].navLabel }));
+const services = serviceIds.map((id) => {
+  const { number, card, navText } = site.services[id];
+  return { id, number, title: card.title, text: navText };
+});
 const items: { id: PageId; label: string }[] = [
   { id: 'work', label: site.nav.work },
   { id: 'about', label: site.nav.about },
@@ -57,17 +61,31 @@ const inServices = services.some(({ id }) => id === current);
             {site.nav.services}
             <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 4.5 6 8l3.5-3.5"></path></svg>
           </button>
-          <ul id="services-menu" class="list-reset submenu">
-            {
-              services.map(({ id, label }) => (
-                <li>
-                  <a href={href(id, lang)} aria-current={id === current ? 'page' : undefined}>
-                    {label}
-                  </a>
-                </li>
-              ))
-            }
-          </ul>
+          <div id="services-menu" class="submenu">
+            <ul class="list-reset submenu-list">
+              {
+                services.map(({ id, number, title, text }) => (
+                  <li>
+                    <a href={href(id, lang)} aria-current={id === current ? 'page' : undefined}>
+                      <span class="submenu-number" aria-hidden="true">
+                        {number}
+                      </span>
+                      <span class="submenu-title">{title}</span>
+                      <span class="submenu-text">{text}</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+            <div class="submenu-cta">
+              <p class="submenu-cta-title">{site.cta.title}</p>
+              <p class="submenu-cta-text">{site.cta.text}</p>
+              <a class="submenu-cta-link" href={href('contact', lang)}>
+                {site.cta.button}
+                <Arrow />
+              </a>
+            </div>
+          </div>
         </li>
         {
           items.map(({ id, label }) => (

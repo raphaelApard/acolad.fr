@@ -139,6 +139,7 @@ export const en: SiteContent = {
       number: '02',
       name: 'Business applications',
       navLabel: 'Business applications',
+      navText: 'Extranets, data platforms, back offices, portals.',
       card: {
         title: 'Business applications',
         text: 'Web tools built around your processes: extranets, data platforms, back offices, portals.',
@@ -247,6 +248,7 @@ export const en: SiteContent = {
       number: '04',
       name: 'Application maintenance',
       navLabel: 'Maintenance',
+      navText: 'Takeover and maintenance of existing applications.',
       card: {
         title: 'Application maintenance',
         text: 'Takeover and maintenance of existing applications, including those built by another supplier.',
@@ -343,6 +345,7 @@ export const en: SiteContent = {
       number: '05',
       name: 'Drupal maintenance',
       navLabel: 'Drupal',
+      navText: 'Up to date and secure, from Drupal 7 to Drupal 11.',
       card: {
         title: 'Drupal maintenance',
         text: 'Your Drupal site kept up to date, secure and ready for the next version, from Drupal 7 to Drupal 11.',
@@ -437,6 +440,7 @@ export const en: SiteContent = {
       number: '06',
       name: 'Website hosting',
       navLabel: 'Hosting',
+      navText: 'Run by the person who knows the code: no passing the buck.',
       card: {
         title: 'Hosting',
         text: 'Your sites and applications hosted and run by the person who knows them: no passing the buck when there is an incident.',
@@ -547,6 +551,7 @@ export const en: SiteContent = {
       number: '01',
       name: 'Audit and consulting',
       navLabel: 'Audit',
+      navText: 'A reasoned assessment, before a rebuild or a takeover.',
       card: {
         title: 'Audit and consulting',
         text: 'A reasoned assessment of your site or application, before a rebuild or a takeover.',
@@ -640,6 +645,7 @@ export const en: SiteContent = {
       number: '03',
       name: 'AI integration',
       navLabel: 'AI',
+      navText: 'Language models, where they are genuinely useful.',
       card: {
         title: 'AI integration',
         text: 'Language models built into your applications, where they are genuinely useful.',

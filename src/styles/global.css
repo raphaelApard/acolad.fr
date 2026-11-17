@@ -304,12 +304,13 @@ a:hover {
 
 /* Header */
 .site-header {
+  position: relative;
+  z-index: 20;
   border-bottom: 1px solid var(--color-border);
   background: var(--color-surface);
 }
 
 .site-header .bar {
-  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -395,12 +396,8 @@ a:hover {
   color: var(--color-accent);
 }
 
-/* Services: a button opening the list of service pages. Without JavaScript the list opens on
-   hover and on focus instead. */
-.has-submenu {
-  position: relative;
-}
-
+/* Services: a button opening a panel of the service pages under the whole header. Without
+   JavaScript the panel opens on hover and on focus instead. */
 .submenu-button {
   display: inline-flex;
   align-items: center;
@@ -426,19 +423,18 @@ a:hover {
 
 .site-nav .submenu {
   position: absolute;
-  top: 100%;
-  left: -20px;
+  top: calc(100% + 8px);
+  left: 50%;
   z-index: 10;
   display: none;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 0;
-  min-width: 260px;
-  padding: 8px;
+  gap: 20px;
+  width: min(var(--container-max) - 2 * var(--gutter), 100% - 2 * var(--gutter));
+  padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background: var(--color-surface);
-  box-shadow: 0 16px 40px rgb(11 18 32 / 0.12);
+  box-shadow: 0 18px 40px rgb(11 18 32 / 0.12);
+  transform: translateX(-50%);
 }
 
 .submenu-button[aria-expanded='true'] + .submenu,
@@ -446,15 +442,92 @@ a:hover {
   display: flex;
 }
 
-.submenu a {
-  display: flex;
-  padding: 0 12px;
-  border-radius: var(--radius-md);
-  white-space: nowrap;
+.site-nav .submenu-list {
+  display: grid;
+  flex: 1;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 4px;
 }
 
-.submenu a:hover {
+.site-nav .submenu-list a {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 4px;
+  height: 100%;
+  padding: 14px 16px;
+  border-radius: var(--radius-md);
+}
+
+.site-nav .submenu-list a:hover,
+.site-nav .submenu-list a[aria-current='page'] {
   background: var(--color-mist);
+}
+
+.submenu-number {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--color-accent);
+}
+
+.submenu-title {
+  font-weight: 600;
+}
+
+.submenu-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.submenu-cta {
+  display: flex;
+  flex: 0 0 280px;
+  flex-direction: column;
+  gap: 10px;
+  padding: 22px;
+  border-radius: var(--radius-md);
+  background: var(--color-ink);
+}
+
+.submenu-cta-title {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  color: var(--color-surface);
+}
+
+.submenu-cta-text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--color-dark-muted);
+}
+
+.site-nav .submenu-cta-link {
+  justify-content: center;
+  gap: 8px;
+  margin-top: auto;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  background: var(--color-accent);
+  color: var(--color-surface);
+  font-weight: 600;
+}
+
+.site-nav .submenu-cta-link:hover {
+  background: var(--color-accent-hover);
+  color: var(--color-surface);
+}
+
+@media (max-width: 1099px) {
+  .site-nav .submenu-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 .site-nav .nav-cta {
@@ -567,24 +640,45 @@ a:hover {
 
   .site-nav .submenu {
     position: static;
-    min-width: 0;
+    flex-direction: column;
+    width: auto;
     padding: 0 0 0 16px;
     border: 0;
     border-radius: 0;
     box-shadow: none;
+    transform: none;
   }
 
   :root:not(.js) .site-nav .submenu {
     display: flex;
   }
 
-  .submenu a {
-    padding: 0;
-    white-space: normal;
+  .site-nav .submenu-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
   }
 
-  .submenu a:hover {
+  .site-nav .submenu-list a {
+    flex-direction: row;
+    align-items: center;
+    padding: 0;
+    border-radius: 0;
+  }
+
+  .site-nav .submenu-list a:hover,
+  .site-nav .submenu-list a[aria-current='page'] {
     background: none;
+  }
+
+  .submenu-title {
+    font-weight: inherit;
+  }
+
+  .submenu-number,
+  .submenu-text,
+  .submenu-cta {
+    display: none;
   }
 
   .lang-switch {

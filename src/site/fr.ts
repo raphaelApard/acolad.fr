@@ -139,6 +139,7 @@ export const fr: SiteContent = {
       number: '02',
       name: 'Applications métier',
       navLabel: 'Applications métier',
+      navText: 'Extranets, plateformes de données, back-offices, portails.',
       card: {
         title: 'Applications métier',
         text: 'Des outils web construits autour de vos processus : extranets, plateformes de données, back-offices, portails.',
@@ -247,6 +248,7 @@ export const fr: SiteContent = {
       number: '04',
       name: 'Tierce maintenance applicative',
       navLabel: 'TMA',
+      navText: "Reprise et maintenance d'applications existantes.",
       card: {
         title: 'Tierce maintenance applicative',
         text: "Reprise et maintenance d'applications existantes, y compris celles développées par un autre prestataire.",
@@ -343,6 +345,7 @@ export const fr: SiteContent = {
       number: '05',
       name: 'Maintenance Drupal',
       navLabel: 'Drupal',
+      navText: 'À jour et sécurisé, de Drupal 7 à Drupal 11.',
       card: {
         title: 'Maintenance Drupal',
         text: 'Votre site Drupal tenu à jour, sécurisé et prêt pour la version suivante, de Drupal 7 à Drupal 11.',
@@ -441,6 +444,7 @@ export const fr: SiteContent = {
       number: '06',
       name: 'Hébergement de sites web',
       navLabel: 'Hébergement',
+      navText: 'Exploité par celui qui connaît le code, sans renvoi de balle.',
       card: {
         title: 'Hébergement',
         text: "Vos sites et applications hébergés et exploités par celui qui les connaît : pas de renvoi de balle en cas d'incident.",
@@ -555,6 +559,7 @@ export const fr: SiteContent = {
       number: '01',
       name: 'Audit et conseil',
       navLabel: 'Audit',
+      navText: 'Un état des lieux argumenté, avant une refonte ou une reprise.',
       card: {
         title: 'Audit et conseil',
         text: 'Un état des lieux argumenté de votre site ou de votre application, avant une refonte ou une reprise.',
@@ -647,6 +652,7 @@ export const fr: SiteContent = {
       number: '03',
       name: "Intégration d'IA",
       navLabel: 'IA',
+      navText: 'Des modèles de langage, là où ils rendent vraiment service.',
       card: {
         title: "Intégration d'IA",
         text: 'Des modèles de langage intégrés à vos applications, là où ils rendent vraiment service.',
