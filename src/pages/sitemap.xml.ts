@@ -1,10 +1,29 @@
+import { execFileSync } from 'node:child_process';
 import type { APIRoute } from 'astro';
 import { alternates, defaultLang, getSite, langs, pageIds, type Lang, type PageId } from '../site';
 
 // Every indexable page in every locale, with the same alternates as the hreflang links in
-// Base.astro. Only the legal notice carries a date: the other pages have no edit date of
-// their own. One file is enough at this size.
+// Base.astro, and the date it last changed. One file is enough at this size.
 const site = import.meta.env.SITE;
+
+/**
+ * Day the copy of a locale was last committed: every page of a locale is written in one file,
+ * so they share that date. The legal notice states its own. Without git (a build from an
+ * archive), pages carry no date rather than a wrong one.
+ */
+function copyDate(lang: Lang): string | undefined {
+  try {
+    const date = execFileSync('git', ['log', '-1', '--format=%cs', '--', `src/site/${lang}.ts`], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'ignore'],
+    }).trim();
+    return /^\d{4}-\d{2}-\d{2}$/.test(date) ? date : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
+const copyDates = Object.fromEntries(langs.map((lang) => [lang, copyDate(lang)])) as Record<Lang, string | undefined>;
 
 function entries(id: PageId): string {
   const url = (lang: Lang) => new URL(alternates(id)[lang], site).href;
@@ -13,8 +32,8 @@ function entries(id: PageId): string {
     .join('');
   return langs
     .map((lang) => {
-      const lastmod = id === 'legal' ? `<lastmod>${getSite(lang).legal.updatedAt}</lastmod>` : '';
-      return `<url><loc>${url(lang)}</loc>${lastmod}${links}</url>`;
+      const date = id === 'legal' ? getSite(lang).legal.updatedAt : copyDates[lang];
+      return `<url><loc>${url(lang)}</loc>${date ? `<lastmod>${date}</lastmod>` : ''}${links}</url>`;
     })
     .join('');
 }

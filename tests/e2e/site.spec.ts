@@ -46,6 +46,8 @@ test('lists every page of every locale in the sitemap with its alternates', asyn
   expect(xml.match(/<url>/g)).toHaveLength(pageIds.length * langs.length);
   expect(xml).toContain('hreflang="x-default"');
   expect(xml).toContain(`<lastmod>${fr.legal.updatedAt}</lastmod>`);
+  // Built from a git checkout, every page carries the date its copy last changed.
+  expect(xml.match(/<lastmod>\d{4}-\d{2}-\d{2}<\/lastmod>/g)).toHaveLength(pageIds.length * langs.length);
 });
 
 test('serves the favicons', async ({ request }) => {
