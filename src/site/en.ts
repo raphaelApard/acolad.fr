@@ -27,6 +27,7 @@ export const en: SiteContent = {
     issy: { name: 'City of Issy-les-Moulineaux', alt: 'Screenshot of the City of Issy-les-Moulineaux website' },
     syndex: { name: 'Syndex', alt: 'Screenshot of the Syndex website' },
     hospital: { name: 'American Hospital of Paris', alt: 'Screenshot of the American Hospital of Paris website' },
+    meetToTravel: { name: 'Meet to Travel', alt: 'Screenshot of the Meet to Travel social network' },
   },
   cta: {
     title: 'A project to launch, an application to take over, a site to host?',
@@ -57,6 +58,7 @@ export const en: SiteContent = {
     cardLabel: 'Six services, a single point of contact',
     clientsLabel: 'They have trusted Acolad',
     clients: [
+      'OVHcloud',
       'CNRS Images',
       'Université Paris 1 Panthéon-Sorbonne',
       'American Hospital of Paris',
@@ -808,6 +810,11 @@ export const en: SiteContent = {
         project: 'syndex',
         meta: 'via Fabernovel · Drupal 8',
         text: 'Six-language Drupal 8 website for a consultancy serving employee representatives.',
+      },
+      {
+        project: 'meetToTravel',
+        meta: 'Drupal',
+        text: 'Social network for meeting other travellers and finding travel companions.',
       },
     ],
   },

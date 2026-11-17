@@ -27,6 +27,7 @@ export const fr: SiteContent = {
     issy: { name: "Ville d'Issy-les-Moulineaux", alt: "Capture d'écran du site de la ville d'Issy-les-Moulineaux" },
     syndex: { name: 'Syndex', alt: "Capture d'écran du site Syndex" },
     hospital: { name: 'Hôpital Américain de Paris', alt: "Capture d'écran du site de l'Hôpital Américain de Paris" },
+    meetToTravel: { name: 'Meet to Travel', alt: "Capture d'écran du réseau social Meet to Travel" },
   },
   cta: {
     title: 'Un projet à lancer, une application à reprendre, un site à héberger ?',
@@ -57,6 +58,7 @@ export const fr: SiteContent = {
     cardLabel: 'Six services, un seul interlocuteur',
     clientsLabel: 'Ils ont fait confiance à Acolad',
     clients: [
+      'OVHcloud',
       'CNRS Images',
       'Université Paris 1 Panthéon-Sorbonne',
       'Hôpital Américain de Paris',
@@ -815,6 +817,11 @@ export const fr: SiteContent = {
         project: 'syndex',
         meta: 'via Fabernovel · Drupal 8',
         text: "Site Drupal 8 en six langues d'un cabinet au service des représentants des salariés.",
+      },
+      {
+        project: 'meetToTravel',
+        meta: 'Drupal',
+        text: "Réseau social pour rencontrer d'autres voyageurs et trouver des compagnons de voyage.",
       },
     ],
   },
