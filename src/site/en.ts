@@ -407,9 +407,9 @@ export const en: SiteContent = {
       },
       faq: [
         {
-          question: 'Your site is still on Drupal 7: what should you do?',
+          question: 'Your site is on Drupal 7, 8, 9 or 10: what should you do?',
           answer:
-            'Drupal 7 has no longer been maintained by the community since January 2025. The audit helps you choose between a migration to Drupal 11 and a rebuild, with a budget for each option.',
+            'These versions are no longer maintained by the community: Drupal 7 since January 2025, Drupal 10 from 9 December 2026. From Drupal 8, 9 or 10, moving to Drupal 11 is a version upgrade; from Drupal 7, it is a migration or a rebuild. The audit puts a price on each option.',
         },
         {
           question: 'Can a site built by another supplier be taken over?',
@@ -417,8 +417,9 @@ export const en: SiteContent = {
             'Yes. Most of the sites under maintenance were created by an agency or an in-house team. The initial audit is there to get to know the site.',
         },
         {
-          question: 'How often are updates applied?',
-          answer: '[YOUR SCHEDULE: for example security patches first, other updates every month]',
+          question: 'Your site is on Drupal 11: what should you do?',
+          answer:
+            'Keep it up to date: security fixes for core and modules, minor releases, replacement of deprecated code. Moving to Drupal 12 then stays a plain version upgrade, with no migration.',
         },
         {
           question: 'Is hosting the site also possible?',
