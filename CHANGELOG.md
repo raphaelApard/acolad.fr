@@ -2,6 +2,23 @@
 
 ## Unreleased
 
+- The one-page profile becomes the multi-page site of the company, in French and English, with a
+  new visual identity (Space Grotesk, Inter, navy ink and one blue accent): home, six service
+  pages (business applications, application maintenance, Drupal maintenance, hosting, audit and
+  consulting, AI integration), work, about, contact and legal notice. The OVHcloud case study and
+  the legal notice keep their addresses.
+- The copy lives in the repository (`src/site/fr.ts`, `src/site/en.ts`) and no longer comes from
+  the backoffice; the CMS tooling stays in place, unused by the pages. Prices, response times and
+  other facts still to be written are marked as `[PLACEHOLDERS]`.
+- The copy speaks of the company in the third person: no "we", no team, no "I".
+- Contact page with a form that prepares an e-mail in the visitor's mail application; nothing is
+  stored on the site, and the legal notice says so.
+- JSON-LD: the company with its services and its founder on the home pages, `Service` and
+  `FAQPage` on each service page.
+- The sitemap lists the thirteen pages of each locale.
+- `/contact/` is a page again; `/projets/*` and `/work/*` redirect to `/realisations/`,
+  `/services/*` to the home page ([`docs/redirects.md`](docs/redirects.md)).
+- The header shows the company logo and folds its menu behind a button under 1200px.
 - The content is edited in the Acolad backoffice, the multi-tenant CMS shared by every client site
   (tenant `acolad`), instead of the site's own back office. `pnpm content:pull` gives the same
   content as `fixtures/`, which were imported into it.

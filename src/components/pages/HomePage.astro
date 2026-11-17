@@ -1,0 +1,118 @@
+---
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import ProjectCard from '../ProjectCard.astro';
+import Steps from '../Steps.astro';
+import { href, pageTitle, serviceIds, type SiteContent } from '../../site';
+import { homeGraph } from '../../site/jsonld';
+
+interface Props {
+  site: SiteContent;
+}
+
+const { site } = Astro.props;
+const { lang, home, services } = site;
+---
+
+<Base site={site} page="home" title={pageTitle(site, home.meta)} description={home.meta.description} jsonLd={homeGraph(site, Astro.site!)}>
+  <section class="section">
+    <div class="container hero-home">
+      <div class="copy stack">
+        <p class="eyebrow">{home.eyebrow}</p>
+        <h1 class="display display--home">{home.h1}</h1>
+        <p class="lead">{home.lead}</p>
+        <div class="btn-row">
+          <a class="btn btn--primary" href={href('contact', lang)}>{home.primaryCta}<Arrow /></a>
+          <a class="btn btn--outline" href={href('work', lang)}>{home.secondaryCta}</a>
+        </div>
+      </div>
+      <nav class="service-index on-dark" aria-label={home.cardLabel}>
+        <p class="label">{home.cardLabel}</p>
+        {
+          serviceIds.map((id) => (
+            <a href={href(id, lang)}>
+              <span class="number">{services[id].number}</span>
+              <span class="name">
+                {services[id].card.title}
+                <span class="tagline">{services[id].tagline}</span>
+              </span>
+              <Arrow size={18} />
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+
+  <section class="clients" aria-label={home.clientsLabel}>
+    <div class="container">
+      <p class="label">{home.clientsLabel}</p>
+      <ul class="list-reset">
+        {home.clients.map((client) => <li>{client}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container section-stack">
+      <div class="intro">
+        <p class="eyebrow">{home.services.eyebrow}</p>
+        <h2 class="title">{home.services.title}</h2>
+        <p class="body">{home.services.text}</p>
+      </div>
+      <div class="grid" style="--grid-min: 320px">
+        {
+          serviceIds.map((id) => (
+            <article class="card">
+              <span class="number">{services[id].number}</span>
+              <h3 class="card-title">{services[id].card.title}</h3>
+              <p>{services[id].card.text}</p>
+              <ul class="list-reset ruled">
+                {services[id].card.points.map((point) => <li>{point}</li>)}
+              </ul>
+              <a class="arrow-link" href={href(id, lang)}>{services[id].card.link}<Arrow /></a>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <Steps eyebrow={home.method.eyebrow} title={home.method.title} steps={home.method.steps} />
+
+  <section class="section">
+    <div class="container section-stack">
+      <div class="split-head">
+        <div class="intro" style="max-width: 700px">
+          <p class="eyebrow">{home.work.eyebrow}</p>
+          <h2 class="title">{home.work.title}</h2>
+        </div>
+        <a class="arrow-link" href={href('work', lang)}>{home.work.link}<Arrow /></a>
+      </div>
+      <div class="grid">
+        {home.work.items.map((card) => <ProjectCard site={site} card={card} />)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container split">
+      <div class="stack" style="--stack-gap: 20px">
+        <p class="eyebrow">{home.company.eyebrow}</p>
+        <h2 class="title">{home.company.title}</h2>
+        <p class="body">{home.company.text}</p>
+        <a class="arrow-link" href={href('about', lang)} style="align-self: flex-start">{home.company.link}<Arrow /></a>
+      </div>
+      <dl class="facts">
+        {
+          home.company.facts.map((fact) => (
+            <div>
+              <dt class="label">{fact.label}</dt>
+              <dd>{fact.lines.map((line) => <span>{line}</span>)}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+</Base>

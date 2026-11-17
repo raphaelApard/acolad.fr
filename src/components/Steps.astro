@@ -1,0 +1,32 @@
+---
+import type { TitledText } from '../site';
+
+// Dark band of numbered steps: the method on the home page, the process of each service.
+interface Props {
+  eyebrow: string;
+  title: string;
+  steps: TitledText[];
+}
+
+const { eyebrow, title, steps } = Astro.props;
+---
+
+<section class="section section--dark">
+  <div class="container section-stack">
+    <div class="intro">
+      <p class="eyebrow">{eyebrow}</p>
+      <h2 class="title">{title}</h2>
+    </div>
+    <ol class="list-reset grid steps" style="--grid-min: 240px; --grid-gap: 32px">
+      {
+        steps.map((step, i) => (
+          <li>
+            <span class="number">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{step.title}</h3>
+            <p class="small">{step.text}</p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

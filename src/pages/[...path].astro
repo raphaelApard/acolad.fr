@@ -1,0 +1,33 @@
+---
+// Every page of the site in every locale, from the route table in src/site/routes.ts.
+import type { GetStaticPaths } from 'astro';
+import AboutPage from '../components/pages/AboutPage.astro';
+import CaseStudyPage from '../components/pages/CaseStudyPage.astro';
+import ContactPage from '../components/pages/ContactPage.astro';
+import HomePage from '../components/pages/HomePage.astro';
+import LegalPage from '../components/pages/LegalPage.astro';
+import ServicePage from '../components/pages/ServicePage.astro';
+import WorkPage from '../components/pages/WorkPage.astro';
+import { getSite, isServiceId, langs, pageIds, routeParam, type Lang, type PageId } from '../site';
+
+interface Props {
+  lang: Lang;
+  id: PageId;
+}
+
+export const getStaticPaths = (() =>
+  langs.flatMap((lang) =>
+    pageIds.map((id) => ({ params: { path: routeParam(id, lang) }, props: { lang, id } })),
+  )) satisfies GetStaticPaths;
+
+const { lang, id } = Astro.props;
+const site = getSite(lang);
+---
+
+{isServiceId(id) && <ServicePage site={site} id={id} />}
+{id === 'home' && <HomePage site={site} />}
+{id === 'work' && <WorkPage site={site} />}
+{id === 'caseStudy' && <CaseStudyPage site={site} />}
+{id === 'about' && <AboutPage site={site} />}
+{id === 'contact' && <ContactPage site={site} />}
+{id === 'legal' && <LegalPage site={site} />}

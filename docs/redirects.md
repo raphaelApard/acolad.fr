@@ -33,10 +33,10 @@ All redirects are permanent (301), absolute (`https://www.acolad.fr/…`) and ta
 
 | From | To |
 |---|---|
-| `/projets/`, `/projets/<project>/` | `/#missions` |
+| `/projets/`, `/projets/<project>/` | `/realisations/` |
 | `/saclay/`, `/syndex/`, `/de-boeck/`, `/muzeopro/`, `/cplus2b/`, `/meettotravel/`, `/challenge-one/`, `/audio-analog/` | `/` |
-| `/services/`, `/services/<anything>` | `/#domaines` |
-| `/contact/` | `/#contact` |
+| `/services/`, `/services/<anything>` | `/` (each service has its own page, listed there) |
+| `/contact/` | no redirect: a page of the current site again |
 | `/equipe/` | `/` |
 | `/politique-confidentialite/` | `/mentions-legales/#donnees-personnelles` |
 
@@ -44,7 +44,7 @@ All redirects are permanent (301), absolute (`https://www.acolad.fr/…`) and ta
 
 | From | To |
 |---|---|
-| `/work`, `/work/<project>` (`agence-reussir`, `atelier-2ai`, `audio-analogue-distribution`, `it-tude`, `meet-travel`, `muzeo-pro`) | `/#missions` |
+| `/work`, `/work/<project>` (`agence-reussir`, `atelier-2ai`, `audio-analogue-distribution`, `it-tude`, `meet-travel`, `muzeo-pro`) | `/realisations/` |
 | `/raphael-apard` | `/` |
 | `/clients` | `/` |
 | `/node/<id>` | `/` |
@@ -74,7 +74,7 @@ After a deployment, each line below must print one `301` (or `302` for the langu
 the expected target:
 
 ```bash
-for p in /fr/ /index.html /projets/saclay/ /services/A /contact/ /work/muzeo-pro /raphael-apard /clients /node/1 /htfr/0001.htm /plan-mappy/ /sitemap-0.xml; do
+for p in /fr/ /index.html /projets/saclay/ /services/A /work/muzeo-pro /raphael-apard /clients /node/1 /htfr/0001.htm /plan-mappy/ /sitemap-0.xml; do
   curl -s -o /dev/null -w "$p → %{http_code} %{redirect_url}\n" "https://www.acolad.fr$p"
 done
 curl -s -o /dev/null -w "http → %{http_code} %{redirect_url}\n" http://acolad.fr/

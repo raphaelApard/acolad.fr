@@ -1,15 +1,15 @@
 [Version française](README.fr.md)
 
-# Raphaël Apard — one-page site
+# Acolad Développement — company site
 
-Static, bilingual (French at `/`, English at `/en/`) one-page site built with [Astro](https://astro.build)
-from the validated design handoff in [`design/`](design/README.md). Its content is edited in the
-**Acolad backoffice**, the multi-tenant [Payload](https://payloadcms.com) CMS shared by every client
-site (tenant `acolad`, collections `acolad-v2-*`), and pulled before each build.
+Static, bilingual (French at `/`, English at `/en/`) multi-page site built with
+[Astro](https://astro.build): home, six service pages (business applications, application
+maintenance, Drupal maintenance, hosting, audit and consulting, AI integration), work, a case
+study, about, contact and legal notice. Its copy lives in this repository, in `src/site/`.
 
 ## Requirements
 
-- Node.js 22.18+ (the content script runs TypeScript directly)
+- Node.js 22.18+ (the scripts run TypeScript directly)
 - pnpm 10
 
 ## Scripts
@@ -17,109 +17,104 @@ site (tenant `acolad`, collections `acolad-v2-*`), and pulled before each build.
 | Command | What it does |
 |---|---|
 | `pnpm install` | Install dependencies |
-| `pnpm content:pull` | Fetch the content and its images from the backoffice (`PAYLOAD_URL`, default http://localhost:3000; `PAYLOAD_TENANT`, default `acolad`) |
-| `pnpm content:fixture` | Use the test data in `fixtures/` instead (no CMS needed) |
 | `pnpm dev` | Dev server on http://localhost:4321 |
 | `pnpm build` | Static build into `dist/` |
 | `pnpm preview` | Serve `dist/` locally |
 | `pnpm check` | Type-check Astro and TypeScript files |
-| `pnpm test` | Unit tests (test data, CMS-to-site mapping) |
-| `pnpm test:e2e` | Copies the test data, builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA included |
-| `pnpm sync:cms-types` | Copy the content types from the backoffice (next to this repository, or `BACKOFFICE_DIR`) |
-| `pnpm cms <script>` | Run a script of the former standalone back office (`cms/`, see below) |
-| `pnpm deploy:prod` | Tests, fetches the content, builds and syncs `dist/` to production (see Deployment) |
+| `pnpm test` | Unit tests (site content, routes, rich text, structured data; CMS mapping) |
+| `pnpm test:e2e` | Builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA on every page |
+| `pnpm deploy:prod` | Tests, builds and syncs `dist/` to production (see Deployment) |
 | `pnpm deploy:dry` | Same, but only lists what would change on the server |
+| `pnpm content:pull`, `pnpm content:fixture`, `pnpm sync:cms-types`, `pnpm cms <script>` | Tooling of the former CMS-driven one-page site, no longer needed to build (see below) |
 
-`pnpm dev` and `pnpm build` need the content first: run `pnpm content:pull` (CMS running) or
-`pnpm content:fixture`. First e2e run: `pnpm exec playwright install chromium`.
+First e2e run: `pnpm exec playwright install chromium`.
 
 ## Structure
 
 ```
-cms/              former standalone Payload back office, no longer read by the site
-fixtures/         test data in the site's shape (fr.json, en.json, media/)
-scripts/          content.ts (pull from the CMS or copy the fixtures), deploy scripts
-src/content/      types.ts (shape of the content), cms.ts (CMS documents → content), index.ts (loader),
-                  payload-types.ts (copied from the backoffice),
-                  data/ (pulled content, git-ignored), business.ts (company facts)
-src/styles/       tokens.css (from the design), global.css (base and shared utilities)
-src/layouts/      Base.astro (head, SEO, hreflang, fonts)
-src/components/   one component per section; TimelineRow renders missions and experience
-src/scripts/      disclosure.ts (mobile accordions)
-src/pages/        [...lang].astro (the page: `/` in French, `/en/` in English),
-                  mentions-legales.astro and en/legal-notice.astro (LegalPage component),
-                  404.astro and en/404.astro (NotFoundPage, served by Apache's ErrorDocument)
-src/assets/       media/ (pulled images, git-ignored), optimised at build time
-src/lib/          images.ts (resolves content image paths to src/assets)
+src/site/         the site: routes.ts (pages and their address per locale), fr.ts and en.ts (copy),
+                  types.ts (shape of the copy), rich.ts (inline links, strong, code),
+                  images.ts (project screenshots), jsonld.ts (structured data)
+src/content/      business.ts (company facts: legal name, address, phone, e-mail);
+                  types.ts, cms.ts, payload-types.ts belong to the former CMS tooling
+src/styles/       tokens.css (colors, fonts, spacing), global.css (every style of the site)
+src/layouts/      Base.astro (head, SEO, hreflang, fonts, header and footer)
+src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, Logo, Arrow;
+                  pages/ holds one template per kind of page
+src/pages/        [...path].astro (every page of every locale, from the route table),
+                  404.astro and en/404.astro (served by Apache's ErrorDocument),
+                  sitemap.xml.ts, robots.txt.ts
+src/assets/site/  project screenshots, optimised at build time
 public/           copied as is (.htaccess, whose CSP gets its script hashes at build time)
 integrations/     csp-script-hashes.mjs (writes those hashes)
 tests/            unit (Vitest) and e2e (Playwright)
+cms/, fixtures/, scripts/content.ts   former CMS tooling, not read by the pages
 ```
 
 ## Editing content
 
-Content is edited in the Acolad backoffice (`/admin`, tenant `acolad`), in French
-and English (locale switch at the top of each document):
+All the copy is in `src/site/fr.ts` and `src/site/en.ts`, two objects with the same structure
+(`src/site/types.ts`; a unit test compares them). French is the source, English its translation.
 
-- **Home page**: the hero, then the sections as blocks (expertise, AI band, client logos, skills,
-  missions, other experience, certifications). Drag them to reorder; each kind is used once.
-  Numbered titles ("01", "02"…) follow the page order; a section with a menu label is in the menu.
-- **Missions**, **Experience**, **Other projects**: one document each, picked and ordered by
-  their section on the home page.
-- **Companies**: name and logo, shared by the logo band, missions and experience. A mission can
-  show another name than its company's ("Displayed name").
-- **Site settings** (SEO, e-mail and profiles, footer, interface labels), **Legal notice**,
-  **404 page**. Legal paragraphs are trusted HTML (links, `<strong>`, `<code>`); keep them in step
-  with the company registration, the host and the Matomo settings.
+- **Pages and addresses**: `src/site/routes.ts`. A new page needs an entry there, its copy in both
+  locales and a template in `src/components/pages/`, wired in `src/pages/[...path].astro`. The
+  header, footer, sitemap, hreflang links and language switch follow the route table.
+- **Services**: `services` in the copy, one entry per service with the same fields (hero, what
+  it covers, process, a "showcase" of projects, cards or plans, FAQ). Their order and numbers
+  ("01" to "06") are those of `serviceIds` in `routes.ts`.
+- **Links inside text**: FAQ answers, legal paragraphs and the form's privacy line accept
+  `[label](page:<id>)` (a page of the site, in the current locale), `[label](https://…)`,
+  `[label](mailto:…)`, `**strong**` and `` `code` ``. Everything else is escaped.
+- **Placeholders**: text in `[SQUARE BRACKETS AND CAPITALS]` (prices, response times, hosting
+  location, the founder's portrait…) still has to be written. List them with
+  `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`. FAQ answers that are only a placeholder are left out
+  of the structured data.
+- **Voice**: the company is one person. The copy never says "we" or speaks of a team, and
+  avoids "I" (a unit test checks the first rule).
+- **Company facts** (legal name, address, phone, e-mail, VAT number): `src/content/business.ts`,
+  to keep in step with the legal notice in the copy.
+- **Screenshots**: `src/assets/site/`, registered in `src/site/images.ts`.
 
-`pnpm content:pull` turns the CMS documents into `src/content/data/<lang>.json` (shape:
-`src/content/types.ts`, mapping: `src/content/cms.ts`) and downloads the images to
-`src/assets/media/`. Optional fields render nothing when empty. Section anchors are fixed in the
-components (`sectionAnchors`), identical in every locale. Routes (legal notice, 404) are files in
-`src/pages`, so their paths are in `cms.ts`, not in the CMS.
+Structured data: the home pages describe the site, the company (`ProfessionalService`, with its
+services) and its founder; each service page describes the `Service` and its `FAQPage`.
 
-`fixtures/` holds a copy of the content in the same shape, used by the tests (and the live content
-until the CMS is in production). Refresh it from a running CMS with `node scripts/content.ts pull --fixtures`.
+The contact form has no server behind it: it prepares an e-mail in the visitor's own mail
+application (`mailto:`), so nothing typed in it is stored on the site. The legal notice says so;
+change both together if a real endpoint replaces it.
 
-The home pages carry JSON-LD (`src/components/JsonLd.astro`): a `Person` and the
-`ProfessionalService` they run, built from the content plus the company facts in
-`src/content/business.ts` (legal name, address, VAT number).
+### Former CMS tooling
 
-The content model lives in the backoffice (`src/sites/acolad-v2/`), where the former globals are
-one document per tenant. After a change there, run `pnpm sync:cms-types` and commit
-`src/content/payload-types.ts`. The dashboard's "Publish acolad.fr" panel runs the command set in
-the backoffice's `ACOLAD_V2_PUBLISH_COMMAND`.
-
-`cms/` is the standalone back office the site used before. It never held the live content (that
-was `fixtures/`, imported into the backoffice) and the site no longer reads it.
+The site was a one-page profile whose content came from the Acolad backoffice (Payload). That
+tooling is still in the repository but the pages no longer read it: `cms/`, `fixtures/`,
+`scripts/content.ts` (`pnpm content:pull`, `pnpm content:fixture`), `scripts/sync-cms-types.ts`,
+`src/content/cms.ts`, `types.ts` and `payload-types.ts`, and their unit tests. Remove it, or plug
+the new pages into it, once that is decided.
 
 ## Layout rules
 
-- One breakpoint at 960px. Below it grids stack, the nav moves behind the menu button,
-  missions / other projects / experience become accordions and skill groups show one line
-  with a toggle only when the chips overflow.
-- Breakpoint-specific markup uses `.desktop-only` / `.mobile-only` (hidden with
-  `display: none`, so it never duplicates content for screen readers). Do not give an element
-  carrying these classes its own `display` rule: wrap it instead.
-- Panels collapse only once JS has run (`html.js`), so content stays readable without JS.
+- The page is 1200px wide at most, with a 32px gutter (20px under 600px). Grids are
+  `auto-fit`, so cards stack on their own on narrow screens; no page scrolls sideways (checked
+  by the e2e tests on every page).
+- Under 1200px the menu folds behind a button, because nine links no longer fit beside the
+  logo. It folds only once JS has run (`html.js`), so it stays usable without JS.
+- Styles are plain classes in `src/styles/global.css`; components carry no scoped styles.
 
 ## Performance
 
-- Fonts go through Astro's Fonts API (`fonts` in `astro.config.mjs`): Latin woff2 files only,
-  every face preloaded (no request chain behind the HTML), metric-matched fallbacks so the swap does not shift the layout.
-- Images go through `astro:assets`: screenshots get a `srcset` (WebP), logos are
-  resized to their display height at 1x and 2x. Below-the-fold images are lazy-loaded.
-  Logos sit on white tiles, so their sources have no transparency: an alpha channel more than
-  doubles the WebP size.
-- CSS is inlined in each page (`build.inlineStylesheets`), so nothing blocks the first render.
+- Fonts go through Astro's Fonts API (`fonts` in `astro.config.mjs`): Inter, Space Grotesk and
+  JetBrains Mono, self-hosted Latin woff2 files, the first two preloaded, metric-matched
+  fallbacks so the swap does not shift the layout.
+- Images go through `astro:assets`: screenshots get a `srcset` (WebP) and are lazy-loaded below
+  the fold. Three screenshots (CNRS Images, Obépine, American Hospital) are only 438px wide.
+- The stylesheet is shared by every page and cached with the other `/_astro/` files.
 
 ## Deployment
 
 `pnpm deploy:prod` (`scripts/deploy.sh`) runs the tests, builds and syncs `dist/` (including the hidden `.htaccess`)
 to the o2switch hosting with `rsync --delete`. It holds the real server settings, so it is
 git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and fill in
-`REMOTE_USER`, `REMOTE_HOST`, `REMOTE_PATH`, and where the content comes from: `CONTENT_SOURCE=cms`
-with `PAYLOAD_URL`, or `CONTENT_SOURCE=fixture` (`fixtures/`) while the CMS is not in production. Your IP must be allowed in cPanel
+`REMOTE_USER`, `REMOTE_HOST` and `REMOTE_PATH` (its `CONTENT_SOURCE` step, which fetched the
+content of the former site, no longer affects the build and can be removed). Your IP must be allowed in cPanel
 (SSH access) first. It shows the changes and asks before syncing; `pnpm deploy:dry` stops after
 the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
 `error_log`) are never touched.
@@ -127,8 +122,8 @@ the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.we
 o2switch PageSpeed (do not edit that block), a single 301 from plain HTTP and from the bare
 `acolad.fr` to `https://www.acolad.fr` with the same path (`X-Forwarded-Proto` is honoured so a
 TLS-terminating proxy cannot cause a loop), a 301
-from the former `/fr/` and the former site's pages to `/` (`/projets/*` to `#missions`, `/services/`
-to `#domaines`, `/contact/` to `#contact`, `/politique-confidentialite/` to the legal notice, and the
+from the former `/fr/` and the former sites' pages (`/projets/*` and `/work/*` to `/realisations/`,
+`/services/` to `/`, `/politique-confidentialite/` to the legal notice, and the other
 Drupal and 2004 sites' URLs; the full list and how to check it is in
 [`docs/redirects.md`](docs/redirects.md)), a 301 from `…/index.html` to its directory URL, a 302 from `/` to `/en/` for browsers
 whose first language is English (skipped when the visitor picked French with the language switch,
@@ -143,7 +138,7 @@ scripts: `integrations/csp-script-hashes.mjs` writes the SHA-256 of every inline
 script or tracker origin has to be added to the CSP by hand. Check the grade on
 [securityheaders.com](https://securityheaders.com/?q=www.acolad.fr) after deploying.
 The production URL is set in `astro.config.mjs` (`site`) and drives canonical, hreflang and
-sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists both locales with their hreflang
+sitemap URLs. `/sitemap.xml` (`src/pages/sitemap.xml.ts`) lists every page in both locales with its hreflang
 alternates; `/robots.txt` (`src/pages/robots.txt.ts`) points crawlers at it. The former
 `sitemap-index.xml` and `sitemap-0.xml` 301 to `/sitemap.xml`.
 The Matomo tracker (`stats.acolad.net`, site 8) is `src/scripts/matomo.ts`, loaded by
@@ -153,8 +148,10 @@ tests block its requests. The script is loaded from
 
 ## Open items
 
-- [ ] Proofread `src/content/en.json` (translated from the French copy).
-- [ ] Before the backoffice goes to production: check at build time that every page has a title
-  and a meta description of a sensible length, and turn on drafts for the `acolad-v2-*`
-  collections (today every save goes out with the next "Publish").
-- [ ] Complete the OVHcloud case study (live content editing: what was built, for whom, results).
+- [ ] Fill in the placeholders of the copy (prices, plans, response times, hosting location,
+  founder's portrait): `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`, then the same lines in `en.ts`.
+- [ ] Proofread `src/site/en.ts` (translated from the French copy).
+- [ ] Decide what replaces the `mailto:` contact form (a server endpoint on the host, or nothing).
+- [ ] Decide whether the former CMS tooling is removed or plugged into the new pages.
+- [ ] Replace the three small screenshots (438px wide) with full-size ones.
+- [ ] Add case studies beside OVHcloud; the work page describes the other projects for now.

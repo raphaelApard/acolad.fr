@@ -1,0 +1,82 @@
+---
+import Base from '../../layouts/Base.astro';
+import { pageTitle, type SiteContent } from '../../site';
+import { rich } from '../../site/rich';
+
+interface Props {
+  site: SiteContent;
+}
+
+const { site } = Astro.props;
+const { lang, legal } = site;
+---
+
+<Base site={site} page="legal" title={pageTitle(site, legal.meta)} description={legal.meta.description} hideCta>
+  <div class="legal-page">
+    <div class="container stack">
+      <header class="stack">
+        <h1 class="display">{legal.h1}</h1>
+        <p class="meta" style="font-size: 13px">{legal.updated}</p>
+      </header>
+      <div class="legal-layout">
+        <nav class="legal-toc" aria-label={legal.tocLabel}>
+          {legal.sections.map((section) => <a href={`#${section.id}`}>{section.title}</a>)}
+        </nav>
+        <div class="legal-body stack">
+          {
+            legal.sections.map((section, i) => (
+              <section class="stack" aria-labelledby={section.id}>
+                <h2 id={section.id}>{section.title}</h2>
+                {section.paragraphs.map((paragraph) => (
+                  <p set:html={rich(paragraph, lang)} />
+                ))}
+                {i === legal.sections.length - 1 && (
+                  <div class="optout stack" data-optout data-on={legal.optOut.on} data-off={legal.optOut.off}>
+                    <label>
+                      <input type="checkbox" disabled />
+                      {legal.optOut.label}
+                    </label>
+                    <p class="status" role="status" data-optout-status>
+                      {legal.optOut.unavailable}
+                    </p>
+                  </div>
+                )}
+              </section>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<script>
+  // Matomo opt-out. The checkbox stays disabled, with the "not measured" message, until the
+  // tracker has loaded; when it is blocked (or in dev builds) that is the right state.
+  type Paq = { push: (command: unknown[]) => void };
+  // Read at each call: matomo.js swaps the queue array for its own object when it loads.
+  const paq = () => (window as unknown as { _paq?: Paq })._paq;
+  const box = document.querySelector<HTMLElement>('[data-optout]');
+
+  if (box && paq()) {
+    const input = box.querySelector('input')!;
+    const status = box.querySelector('[data-optout-status]')!;
+    const render = (optedOut: boolean) => {
+      input.checked = !optedOut;
+      status.textContent = (optedOut ? box.dataset.off : box.dataset.on) ?? '';
+    };
+
+    // Functions pushed to _paq run with the tracker as `this` once matomo.js has loaded.
+    paq()!.push([
+      function (this: { isUserOptedOut: () => boolean }) {
+        input.disabled = false;
+        render(this.isUserOptedOut());
+      },
+    ]);
+
+    input.addEventListener('change', () => {
+      paq()!.push([input.checked ? 'forgetUserOptOut' : 'optUserOut']);
+      render(!input.checked);
+    });
+  }
+</script>

@@ -7,10 +7,6 @@ export default defineConfig({
   site: 'https://www.acolad.fr',
   trailingSlash: 'always',
   integrations: [cspScriptHashes()],
-  // One page per locale: inlining the CSS (~5 KB gzipped) saves a render-blocking request.
-  build: {
-    inlineStylesheets: 'always',
-  },
   i18n: {
     defaultLocale: 'fr',
     locales: ['fr', 'en'],
@@ -23,14 +19,29 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Schibsted Grotesk',
-      cssVariable: '--font-schibsted',
+      name: 'Inter',
+      cssVariable: '--font-inter',
       fallbacks: ['system-ui', 'sans-serif'],
       options: {
         variants: [
           {
-            src: ['./node_modules/@fontsource-variable/schibsted-grotesk/files/schibsted-grotesk-latin-wght-normal.woff2'],
-            weight: '400 800',
+            src: ['./node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2'],
+            weight: '400 600',
+            style: 'normal',
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: 'Space Grotesk',
+      cssVariable: '--font-space-grotesk',
+      fallbacks: ['system-ui', 'sans-serif'],
+      options: {
+        variants: [
+          {
+            src: ['./node_modules/@fontsource-variable/space-grotesk/files/space-grotesk-latin-wght-normal.woff2'],
+            weight: '500 700',
             style: 'normal',
           },
         ],

@@ -44,14 +44,14 @@ RedirectMatch 301 ^/cplus2b/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/meettotravel/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/challenge-one/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/audio-analog/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/#contact
 RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/mentions-legales/#donnees-personnelles
-# Project pages, and their former index, now live in the missions section.
-RedirectMatch 301 ^/projets(/.*)?$ https://www.acolad.fr/#missions
-RedirectMatch 301 ^/services(/.*)?$ https://www.acolad.fr/#domaines
+# Project pages, and their former index, now live on the work page; each service has its
+# own page, listed on the home page. /contact/ is a page of the current site again.
+RedirectMatch 301 ^/projets(/.*)?$ https://www.acolad.fr/realisations/
+RedirectMatch 301 ^/services(/.*)?$ https://www.acolad.fr/
 # Drupal site (2014-2016).
-RedirectMatch 301 ^/work(/.*)?$ https://www.acolad.fr/#missions
+RedirectMatch 301 ^/work(/.*)?$ https://www.acolad.fr/realisations/
 RedirectMatch 301 ^/(raphael-apard|clients)/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/node/ https://www.acolad.fr/
 # Static site (2004).

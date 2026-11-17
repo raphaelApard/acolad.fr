@@ -1,0 +1,114 @@
+---
+import { alternates, href, langs, serviceIds, getSite, type Lang, type PageId, type SiteContent } from '../site';
+import Logo from './Logo.astro';
+
+interface Props {
+  site: SiteContent;
+  /** The page being shown: marks its menu item and sets the language switch targets.
+      Error pages have none; their language switch leads to the home pages. */
+  page?: PageId;
+}
+
+const { site, page } = Astro.props;
+const { lang, ui } = site;
+const switchTargets = alternates(page ?? 'home');
+const items: { id: PageId; label: string }[] = [
+  ...serviceIds.map((id) => ({ id, label: site.services[id].navLabel })),
+  { id: 'work', label: site.nav.work },
+  { id: 'about', label: site.nav.about },
+];
+// The case study belongs to the work section.
+const current = page === 'caseStudy' ? 'work' : page;
+---
+
+<header class="site-header">
+  <div class="container bar">
+    <a class="brand" href={href('home', lang)} aria-label={ui.homeLink}>
+      <Logo />
+      <span class="brand-text">
+        <span class="brand-name">Acolad</span>
+        <span class="brand-sub">Développement</span>
+      </span>
+    </a>
+
+    <button
+      type="button"
+      class="menu-button"
+      aria-expanded="false"
+      aria-controls="main-nav"
+      aria-label={ui.openMenu}
+      data-menu-button
+      data-label-open={ui.openMenu}
+      data-label-close={ui.closeMenu}
+    >
+      <span class="icon-open">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"></path></svg>
+      </span>
+      <span class="icon-close">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"></path></svg>
+      </span>
+    </button>
+
+    <nav id="main-nav" class="site-nav" aria-label={ui.mainNav} data-menu>
+      <ul class="list-reset">
+        {
+          items.map(({ id, label }) => (
+            <li>
+              <a href={href(id, lang)} aria-current={id === current ? 'page' : undefined}>
+                {label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div role="group" aria-label={ui.languageSwitch} class="lang-switch" data-lang-switch>
+        {
+          langs.map((l: Lang) => (
+            <a href={switchTargets[l]} hreflang={l} lang={l} aria-current={l === lang ? 'page' : undefined}>
+              <span aria-hidden="true">{l.toUpperCase()}</span>
+              <span class="sr-only">{getSite(l).languageName}</span>
+            </a>
+          ))
+        }
+      </div>
+      <a class="nav-cta" href={href('contact', lang)} aria-current={page === 'contact' ? 'page' : undefined}>
+        {site.nav.contact}
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Remember an explicit language choice: the server then stops sending
+  // English-speaking browsers from / to /en/ (see public/.htaccess).
+  for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch] a')) {
+    link.addEventListener('click', () => {
+      document.cookie = `lang=${link.hreflang}; path=/; max-age=31536000; samesite=lax; secure`;
+    });
+  }
+
+  // Below the desktop width the menu is folded behind a button (see .site-nav in global.css).
+  const button = document.querySelector<HTMLButtonElement>('[data-menu-button]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  if (button && menu) {
+    const setOpen = (open: boolean) => {
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', (open ? button.dataset.labelClose : button.dataset.labelOpen) ?? '');
+      menu.toggleAttribute('data-open', open);
+    };
+
+    button.addEventListener('click', () => setOpen(button.getAttribute('aria-expanded') !== 'true'));
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+
+    matchMedia('(min-width: 1200px)').addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
+  }
+</script>

@@ -1,0 +1,70 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import ProjectCard from '../ProjectCard.astro';
+import { href, pageTitle, type SiteContent } from '../../site';
+import { projectImages } from '../../site/images';
+
+interface Props {
+  site: SiteContent;
+}
+
+const { site } = Astro.props;
+const { lang, work, ui } = site;
+---
+
+<Base site={site} page="work" title={pageTitle(site, work.meta)} description={work.meta.description}>
+  <section class="section--hero section--bordered">
+    <div class="container stack">
+      <p class="eyebrow">{work.eyebrow}</p>
+      <h1 class="display" style="max-width: 900px">{work.h1}</h1>
+      <p class="lead" style="max-width: 680px">{work.lead}</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container work-list">
+      {
+        work.items.map((item, i) => (
+          <article class="work-item">
+            <Image
+              class="shot"
+              src={projectImages[item.project]}
+              alt={site.projects[item.project].alt}
+              widths={[400, 640, 960]}
+              sizes="(max-width: 700px) calc(100vw - 40px), (max-width: 1200px) 50vw, 540px"
+              loading={i === 0 ? 'eager' : 'lazy'}
+            />
+            <div class="copy stack">
+              <p class="meta">{item.meta}</p>
+              <h2>{item.title ?? site.projects[item.project].name}</h2>
+              <p class="body">{item.text}</p>
+              {item.points && <ul class="bullets">{item.points.map((point) => <li>{point}</li>)}</ul>}
+              <ul class="list-reset tags" aria-label={ui.technologies}>
+                {item.tags.map((tag) => <li>{tag}</li>)}
+              </ul>
+              {
+                item.caseStudy && (
+                  <a class="arrow-link" href={href('caseStudy', lang)} style="align-self: flex-start">
+                    {work.caseStudyLink}
+                    <Arrow />
+                  </a>
+                )
+              }
+            </div>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container stack" style="--stack-gap: 40px">
+      <h2 class="title">{work.othersTitle}</h2>
+      <div class="grid grid--others">
+        {work.others.map((card) => <ProjectCard site={site} card={card} static />)}
+      </div>
+    </div>
+  </section>
+</Base>

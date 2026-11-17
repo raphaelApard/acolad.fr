@@ -1,0 +1,109 @@
+---
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import { business } from '../../content/business';
+import { pageTitle, serviceIds, type SiteContent } from '../../site';
+import { rich } from '../../site/rich';
+
+interface Props {
+  site: SiteContent;
+}
+
+const { site } = Astro.props;
+const { lang, contact } = site;
+const { details, form } = contact;
+const needs = [...serviceIds.map((id) => site.services[id].contactOption), form.otherNeed];
+---
+
+<Base site={site} page="contact" title={pageTitle(site, contact.meta)} description={contact.meta.description} hideCta>
+  <section class="contact-page">
+    <div class="container">
+      <div class="copy stack">
+        <p class="eyebrow">{contact.eyebrow}</p>
+        <h1 class="display">{contact.h1}</h1>
+        <p class="lead">{contact.lead}</p>
+        <dl class="facts facts--plain">
+          <div>
+            <dt class="label">{details.email}</dt>
+            <dd><a href={`mailto:${business.email}`}>{business.email}</a></dd>
+          </div>
+          <div>
+            <dt class="label">{details.phone}</dt>
+            <dd><a href={`tel:${business.telephone}`}>{business.telephoneDisplay}</a></dd>
+          </div>
+          <div>
+            <dt class="label">{details.address}</dt>
+            <dd>{details.addressLines.map((line) => <span>{line}</span>)}</dd>
+          </div>
+        </dl>
+        <div class="next-steps stack on-dark">
+          <p class="label">{contact.next.title}</p>
+          <ol class="list-reset">
+            {
+              contact.next.steps.map((step, i) => (
+                <li>
+                  <span class="number">{String(i + 1).padStart(2, '0')}</span>
+                  <span>{step}</span>
+                </li>
+              ))
+            }
+          </ol>
+        </div>
+      </div>
+
+      <!-- No server behind the form: it prepares an e-mail in the visitor's mail application
+           (see the script below). `method="dialog"` keeps a submit without JavaScript from
+           reloading the page with the answers in the URL. -->
+      <form class="contact-form stack" method="dialog" data-contact-form data-to={business.email} data-subject={form.subject}>
+        <div class="grid field-row">
+          <div class="field">
+            <label for="contact-name">{form.name}</label>
+            <input id="contact-name" name="name" type="text" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="contact-company">{form.company}</label>
+            <input id="contact-company" name="company" type="text" autocomplete="organization" />
+          </div>
+        </div>
+        <div class="field">
+          <label for="contact-email">{form.email}</label>
+          <input id="contact-email" name="email" type="email" autocomplete="email" required />
+        </div>
+        <div class="field">
+          <label for="contact-need">{form.need}</label>
+          <select id="contact-need" name="need">
+            {needs.map((need) => <option>{need}</option>)}
+          </select>
+        </div>
+        <div class="field">
+          <label for="contact-message">{form.message}</label>
+          <textarea id="contact-message" name="message" rows="7" aria-describedby="contact-message-hint" required></textarea>
+          <span class="hint" id="contact-message-hint">{form.messageHint}</span>
+        </div>
+        <p class="hint" set:html={rich(form.privacy, lang)} />
+        <button type="submit" class="btn btn--primary">{form.submit}<Arrow /></button>
+        <p class="hint">{form.mailNote}</p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<script>
+  // Opens the visitor's mail application with the message ready to send: each field becomes
+  // a "Label: value" line of the body. Nothing is sent to or stored on the site.
+  const form = document.querySelector<HTMLFormElement>('[data-contact-form]');
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const line = (id: string) => {
+      const field = form.querySelector<HTMLInputElement | HTMLSelectElement>(`#contact-${id}`)!;
+      const label = form.querySelector(`label[for="contact-${id}"]`)!.textContent!.trim();
+      return field.value.trim() ? `${label} : ${field.value.trim()}` : '';
+    };
+    const message = form.querySelector<HTMLTextAreaElement>('#contact-message')!.value.trim();
+    const need = form.querySelector<HTMLSelectElement>('#contact-need')!.value;
+    const body = [line('name'), line('company'), line('email'), line('need'), '', message].filter((l, i) => l || i === 4).join('\n');
+    const query = `subject=${encodeURIComponent(`${form.dataset.subject} : ${need}`)}&body=${encodeURIComponent(body)}`;
+    window.location.href = `mailto:${form.dataset.to}?${query}`;
+  });
+</script>

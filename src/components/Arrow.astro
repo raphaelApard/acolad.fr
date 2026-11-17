@@ -1,0 +1,23 @@
+---
+// Arrow that follows a call to action; `back` points left.
+interface Props {
+  back?: boolean;
+  size?: number;
+}
+
+const { back = false, size = 16 } = Astro.props;
+---
+
+<svg
+  aria-hidden="true"
+  width={size}
+  height={size}
+  viewBox="0 0 16 16"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.8"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d={back ? 'M13 8H3M7 4 3 8l4 4' : 'M3 8h10M9 4l4 4-4 4'}></path>
+</svg>
