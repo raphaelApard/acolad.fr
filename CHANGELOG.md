@@ -1,7 +1,17 @@
 # Changelog
 
-## 4.0.0 — 2026-11-17
+## 4.0.0 — 2026-11-18
 
+- The Drupal maintenance page charts Drupal 7 to 12, from release to end of security support,
+  with today marked, so a visitor sees whether their version still gets fixes. The statuses come
+  from `src/site/drupal-versions.ts` at build time and are worked out again in the browser, so
+  they follow the visitor's day between deployments.
+- The Drupal FAQ answers for every version: Drupal 7, 8 and 9 (past their end of life), Drupal 10
+  (end of life on 9 December 2026, upgrade to Drupal 11) and Drupal 11.
+- The audit FAQ gives a duration (half a day at least for a simple website) and a starting price
+  (€300 excl. VAT for half a day).
+- The maintenance page no longer shows the OVHcloud reference nor the billing question; a service
+  page without references goes straight from its process to its FAQ.
 - Removed the tooling of the former CMS-driven one-page site (`cms/`, `fixtures/`,
   `pnpm content:pull`, `pnpm content:fixture`, `pnpm sync:cms-types`, `pnpm cms`). The client
   logos and the 404 image the pages use are now in the repository (`src/assets/media/`), so a
