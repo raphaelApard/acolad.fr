@@ -8,6 +8,27 @@ import type { Lang, PageId, ServiceId } from './routes';
 
 export type ProjectId = 'ovhcloud' | 'docteurConso' | 'cnrs' | 'obepine' | 'issy' | 'syndex' | 'hospital' | 'meetToTravel' | 'parisSaclay';
 
+export type ClientId =
+  | 'ovhcloud'
+  | 'cnrs'
+  | 'hospital'
+  | 'pantheonSorbonne'
+  | 'eyFabernovel'
+  | 'parisSaclay'
+  | 'syndex'
+  | 'muzeo'
+  | 'docteurConso'
+  | 'axess'
+  | 'issy'
+  | 'humansConnexion'
+  | 'makinaCorpus';
+
+/** A client of the logo band: its logo (see images.ts) and its name, read out as the logo's text. */
+export interface Client {
+  id: ClientId;
+  name: string;
+}
+
 export interface Meta {
   /** <title>, without the site name. */
   title: string;
@@ -125,7 +146,9 @@ export interface SiteContent {
     /** Ruled row of short facts closing the hero. */
     heroFacts: Fact[];
     clientsLabel: string;
-    clients: string[];
+    /** Link under the band label, to the work page. */
+    clientsLink: string;
+    clients: Client[];
     services: { eyebrow: string; title: string; text: string };
     method: { eyebrow: string; title: string; steps: TitledText[] };
     work: { eyebrow: string; title: string; link: string; items: ProjectCard[] };

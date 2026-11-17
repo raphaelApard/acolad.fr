@@ -1,9 +1,11 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Arrow from '../Arrow.astro';
 import ProjectCard from '../ProjectCard.astro';
 import Steps from '../Steps.astro';
 import { href, pageTitle, serviceIds, type SiteContent } from '../../site';
+import { clientLogos } from '../../site/images';
 import { homeGraph } from '../../site/jsonld';
 
 interface Props {
@@ -44,11 +46,27 @@ const h1Rest = home.h1.slice(home.h1Muted.length);
   </section>
 
   <section class="clients" aria-label={home.clientsLabel}>
-    <div class="container">
-      <p class="label">{home.clientsLabel}</p>
-      <ul class="list-reset">
-        {home.clients.map((client) => <li>{client}</li>)}
-      </ul>
+    <div class="clients-head">
+      <div class="container">
+        <p class="label">{home.clientsLabel}</p>
+        <a class="arrow-link" href={href('work', lang)}>{home.clientsLink}<Arrow /></a>
+      </div>
+    </div>
+    <div class="clients-window">
+      <div class="clients-track">
+        {
+          // The list is rendered twice so the loop has no seam; the copy is hidden from assistive tech.
+          [false, true].map((copy) => (
+            <ul class="list-reset" aria-hidden={copy ? 'true' : undefined}>
+              {home.clients.map(({ id, name }) => (
+                <li>
+                  <Image src={clientLogos[id].image} loading="eager" alt={copy ? '' : name} height={clientLogos[id].height * 2} style={`height: ${clientLogos[id].height}px`} />
+                </li>
+              ))}
+            </ul>
+          ))
+        }
+      </div>
     </div>
   </section>
 

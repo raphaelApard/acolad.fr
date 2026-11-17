@@ -545,29 +545,105 @@ a:hover {
   color: var(--color-dark-accent);
 }
 
-/* Client names strip */
+/* Client logos band: white tiles scrolling in a loop on the dark ground */
 .clients {
-  padding: 36px var(--gutter);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-mist);
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  padding: 44px 0 48px;
+  background: var(--color-ink);
 }
 
-.clients .container {
+.clients-head {
+  padding: 0 var(--gutter);
+}
+
+.clients-head .container {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: 16px 48px;
+  justify-content: space-between;
+  gap: 8px 32px;
 }
 
-.clients ul {
-  flex: 1 1 600px;
+.clients .label {
+  color: var(--color-dark-muted);
+}
+
+.clients .arrow-link {
+  color: var(--color-dark-accent);
+}
+
+.clients .arrow-link:hover {
+  color: var(--color-surface);
+}
+
+.clients-window {
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent 0, #000 96px, #000 calc(100% - 96px), transparent 100%);
+}
+
+.clients-track {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px 32px;
-  font-family: var(--font-display);
-  font-weight: 500;
-  font-size: 18px;
+  width: max-content;
+  animation: clients-scroll 60s linear infinite;
+}
+
+.clients-window:hover .clients-track {
+  animation-play-state: paused;
+}
+
+.clients-track ul {
+  display: flex;
+  gap: 16px;
+  /* Trailing gap, so both copies measure the same and the loop lands exactly on -50%. */
+  padding-right: 16px;
+}
+
+.clients-track li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 184px;
+  height: 104px;
+  padding: 4px 20px;
+  border-radius: 12px;
+  background: var(--color-surface);
+}
+
+.clients-track img {
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+@keyframes clients-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Without motion the tiles wrap into a static, centred grid and the looping copy goes away. */
+@media (prefers-reduced-motion: reduce) {
+  .clients-window {
+    padding: 0 var(--gutter);
+    mask-image: none;
+  }
+
+  .clients-track {
+    width: auto;
+    animation: none;
+  }
+
+  .clients-track ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-right: 0;
+  }
+
+  .clients-track ul[aria-hidden='true'] {
+    display: none;
+  }
 }
 
 /* Grids */

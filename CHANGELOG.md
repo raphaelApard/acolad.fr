@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- The home page shows the logos of thirteen clients in a band that scrolls in a loop on a dark
+  ground, in place of the list of ten names; the band stands still as a grid when the visitor asks
+  for reduced motion.
 - The one-page profile becomes the multi-page site of the company, in French and English, with a
   new visual identity (Space Grotesk, Inter, navy ink and one blue accent): home, six service
   pages (business applications, application maintenance, Drupal maintenance, hosting, audit and
