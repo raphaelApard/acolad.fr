@@ -327,10 +327,6 @@ export const en: SiteContent = {
             'Rarely. The upgrade is done in steps, starting with whatever carries a risk: security, obsolete versions, parts without tests.',
         },
         {
-          question: 'How is the work billed?',
-          answer: '[YOUR PLAN: monthly retainer, block of hours, quote per enhancement]',
-        },
-        {
           question: 'And if you change supplier?',
           answer: 'The code, documentation and access rights remain yours. Nothing is locked in.',
         },

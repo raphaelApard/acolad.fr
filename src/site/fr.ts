@@ -327,10 +327,6 @@ export const fr: SiteContent = {
             'Rarement. La remise à niveau se fait par étapes, en commençant par ce qui présente un risque : sécurité, versions obsolètes, parties sans tests.',
         },
         {
-          question: 'Comment les interventions sont-elles facturées ?',
-          answer: "[VOTRE FORMULE : forfait mensuel, carnet d'heures, devis par évolution]",
-        },
-        {
           question: 'Et en cas de changement de prestataire ?',
           answer: "Le code, la documentation et les accès restent les vôtres. Rien n'est verrouillé.",
         },
