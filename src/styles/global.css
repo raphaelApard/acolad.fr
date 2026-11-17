@@ -593,25 +593,48 @@ html {
   color: var(--color-surface);
 }
 
+/* Language switch: a bordered pill holding both languages, the current one on a tinted chip,
+   set apart from the page links by a hairline. */
 .lang-switch {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 2px;
+  margin-left: 23px;
+  padding: 3px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
   font-family: var(--font-mono);
   font-size: 13px;
 }
 
-.lang-switch a {
+.lang-switch::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -24px;
+  width: 1px;
+  height: 24px;
+  background: var(--color-border);
+  transform: translateY(-50%);
+}
+
+.site-nav .lang-switch a {
   justify-content: center;
-  min-width: 36px;
+  min-width: 40px;
+  min-height: 36px;
+  border-radius: 7px;
   color: var(--color-text-muted);
 }
 
-.lang-switch a[aria-current='page'] {
+.site-nav .lang-switch a:hover {
+  color: var(--color-ink);
+}
+
+.site-nav .lang-switch a[aria-current='page'] {
+  background: var(--color-mist);
   color: var(--color-ink);
   font-weight: 500;
-  text-decoration: underline;
-  text-underline-offset: 6px;
 }
 
 .menu-button {
@@ -737,8 +760,12 @@ html {
   }
 
   .lang-switch {
-    padding: 4px 0;
-    border-top: 1px solid var(--color-border);
+    align-self: flex-start;
+    margin: 8px 0 4px;
+  }
+
+  .lang-switch::before {
+    content: none;
   }
 
   .site-nav .nav-cta {
