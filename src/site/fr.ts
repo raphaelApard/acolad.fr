@@ -977,7 +977,7 @@ export const fr: SiteContent = {
     form: {
       name: 'Nom',
       company: 'Société ou organisme',
-      email: 'E-mail professionnel',
+      email: 'E-mail',
       need: 'Votre besoin',
       otherNeed: 'Autre demande',
       message: 'Votre message',

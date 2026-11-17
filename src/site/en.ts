@@ -970,7 +970,7 @@ export const en: SiteContent = {
     form: {
       name: 'Name',
       company: 'Company or organisation',
-      email: 'Work email',
+      email: 'Email',
       need: 'Your need',
       otherNeed: 'Other request',
       message: 'Your message',
