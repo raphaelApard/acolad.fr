@@ -1,0 +1,92 @@
+---
+import { pageGraph } from '../../site/jsonld';
+import { Image } from 'astro:assets';
+import portrait from '../../assets/site/founder-portrait.webp';
+import Base from '../../layouts/Base.astro';
+import { pageTitle, type SiteContent } from '../../site';
+
+interface Props {
+  site: SiteContent;
+}
+
+const { site } = Astro.props;
+const { about } = site;
+---
+
+<Base site={site} page="about" jsonLd={pageGraph(site, 'about', Astro.site!)} title={pageTitle(site, about.meta)} description={about.meta.description}>
+  <section class="section--hero about-hero">
+    <div class="container stack">
+      <p class="eyebrow">{about.eyebrow}</p>
+      <h1 class="display">{about.h1}</h1>
+      <p class="lead">{about.lead}</p>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container section-stack">
+      <div class="intro">
+        <p class="eyebrow">{about.timeline.eyebrow}</p>
+        <h2 class="title">{about.timeline.title}</h2>
+      </div>
+      <ol class="list-reset grid timeline">
+        {
+          about.timeline.items.map((item) => (
+            <li data-highlight={item.highlight || undefined}>
+              <span class="year">{item.year}</span>
+              <p>{item.text}</p>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container founder">
+      <Image
+        src={portrait}
+        alt={about.founder.portraitAlt}
+        widths={[380, 468]}
+        sizes="(max-width: 460px) calc(100vw - 40px), 380px"
+        class="portrait"
+      />
+      <div class="copy stack">
+        <p class="eyebrow">{about.founder.eyebrow}</p>
+        <h2 class="title">{about.founder.name}</h2>
+        <p class="body">{about.founder.text}</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--mist">
+    <div class="container section-stack">
+      <h2 class="title">{about.commitments.title}</h2>
+      <div class="grid" style="--grid-min: 240px; --grid-gap: 32px 48px">
+        {
+          about.commitments.items.map((item) => (
+            <div class="feature">
+              <h3>{item.title}</h3>
+              <p class="small">{item.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container stack" style="--stack-gap: 40px">
+      <h2 class="title">{about.technologies.title}</h2>
+      <dl class="tech">
+        {
+          about.technologies.groups.map((group) => (
+            <div>
+              <dt>{group.label}</dt>
+              <dd>{group.items.join(' · ')}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+</Base>

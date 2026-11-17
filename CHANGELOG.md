@@ -1,5 +1,77 @@
 # Changelog
 
+## 4.0.0 — 2026-11-18
+
+- The Drupal maintenance page charts Drupal 7 to 12, from release to end of security support,
+  with today marked, so a visitor sees whether their version still gets fixes. The statuses come
+  from `src/site/drupal-versions.ts` at build time and are worked out again in the browser, so
+  they follow the visitor's day between deployments.
+- The Drupal FAQ answers for every version: Drupal 7, 8 and 9 (past their end of life), Drupal 10
+  (end of life on 9 December 2026, upgrade to Drupal 11) and Drupal 11.
+- The audit FAQ gives a duration (half a day at least for a simple website) and a starting price
+  (€300 excl. VAT for half a day).
+- The maintenance page no longer shows the OVHcloud reference nor the billing question; a service
+  page without references goes straight from its process to its FAQ.
+- Removed the tooling of the former CMS-driven one-page site (`cms/`, `fixtures/`,
+  `pnpm content:pull`, `pnpm content:fixture`, `pnpm sync:cms-types`, `pnpm cms`). The client
+  logos and the 404 image the pages use are now in the repository (`src/assets/media/`), so a
+  fresh clone builds without fetching anything.
+- The contact form sends the message itself: it posts to `public/contact.php`, which e-mails it
+  from the server, instead of opening the visitor's mail application. It works without
+  JavaScript, catches robots with a hidden field and allows five messages per hour per visitor;
+  the legal notice says so.
+- Page titles fit in a search result: the long ones are shortened and stand without the company
+  name, and no description goes over 160 characters (a unit test checks both).
+- Shared pages show a preview image, one per language (`public/og-fr.png`, `public/og-en.png`,
+  drawn by `pnpm og:image` around the company logo), as a large card.
+- JSON-LD: every page but the home page gives its breadcrumb; the work, case study, about,
+  contact and legal pages describe themselves as pages of the site; the company has its logo
+  (`public/logo.png`) and an image.
+- The sitemap dates every page: the day the copy of its language last changed, read from git at
+  build time (the legal notice keeps its own date).
+- `/equipe/` redirects to `/a-propos/` instead of the home page.
+
+- The menu groups the six services under a "Services" entry that opens them as a submenu, and
+  stays on one line down to 900 px wide.
+- The home page shows the logos of thirteen clients in a band that scrolls in a loop on a dark
+  ground, in place of the list of ten names; the band stands still as a grid when the visitor asks
+  for reduced motion.
+- The one-page profile becomes the multi-page site of the company, in French and English, with a
+  new visual identity (Space Grotesk, Inter, navy ink and one blue accent): home, six service
+  pages (business applications, application maintenance, Drupal maintenance, hosting, audit and
+  consulting, AI integration), work, about, contact and legal notice. The OVHcloud case study and
+  the legal notice keep their addresses.
+- The copy lives in the repository (`src/site/fr.ts`, `src/site/en.ts`) and no longer comes from
+  the backoffice; the CMS tooling stays in place, unused by the pages. Prices, response times and
+  other facts still to be written are marked as `[PLACEHOLDERS]`.
+- The copy speaks of the company in the third person: no "we", no team, no "I".
+- Contact page with a form that prepares an e-mail in the visitor's mail application; nothing is
+  stored on the site, and the legal notice says so.
+- JSON-LD: the company with its services and its founder on the home pages, `Service` and
+  `FAQPage` on each service page.
+- The sitemap lists the thirteen pages of each locale.
+- `/contact/` is a page again; `/projets/*` and `/work/*` redirect to `/realisations/`,
+  `/services/*` to the home page ([`docs/redirects.md`](docs/redirects.md)).
+- The header shows the company logo and folds its menu behind a button under 1200px.
+- The content is edited in the Acolad backoffice, the multi-tenant CMS shared by every client site
+  (tenant `acolad`), instead of the site's own back office. `pnpm content:pull` gives the same
+  content as `fixtures/`, which were imported into it.
+- The hero no longer shows a portrait; pages have no `og:image` and the JSON-LD no `image`.
+- The H1, title and description target "Fullstack TypeScript freelance developer in Toulouse".
+- Case study pages for missions (`/missions/<slug>/`), edited in the backoffice; OVHcloud first.
+- JSON-LD: `WebSite`, `ProfilePage`, credentials, alumni, languages, home in Revel and work in
+  Toulouse.
+- The sitemap dates every URL and lists the legal notice and the case studies.
+- Former Drupal (`/work/*`, `/node/*`, `/raphael-apard`, `/clients`) and 2004 (`/htfr/*`,
+  `/plan-mappy/*`) URLs, `/services/*` and `…/index.html` redirect with a 301
+  ([`docs/redirects.md`](docs/redirects.md)).
+- The legal notice lists the `mtm_consent_removed` opt-out cookie, the right to set instructions
+  for after one's death and the one-month answer delay.
+- The AI skills group is named "IA & ingénierie" in French and "AI & engineering" in English.
+- Client logos link to the company website (new `website` field on backoffice companies).
+- The hero shows an "at a glance" card (status, main stack, clients, a recent project) beside the
+  text, edited in the backoffice home (`hero.facts`).
+
 ## 3.3.1 — 2026-10-09
 
 - Plain HTTP and the bare `acolad.fr` redirect to `https://www.acolad.fr` in a single 301 that keeps

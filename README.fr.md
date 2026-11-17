@@ -1,13 +1,15 @@
 [English version](README.md)
 
-# Raphaël Apard — site one-page
+# Acolad Développement — site de la société
 
-Site one-page statique et bilingue (français sur `/`, anglais sur `/en/`) construit avec [Astro](https://astro.build)
-à partir de la maquette validée dans [`design/`](design/README.fr.md).
+Site statique, bilingue (français sur `/`, anglais sur `/en/`) et multi-pages construit avec
+[Astro](https://astro.build) : accueil, six pages de service (applications métier, TMA,
+maintenance Drupal, hébergement, audit et conseil, intégration d'IA), réalisations, une étude de
+cas, à propos, contact et mentions légales. Ses textes sont dans ce dépôt, dans `src/site/`.
 
 ## Prérequis
 
-- Node.js 22.12+
+- Node.js 22.18+ (les scripts exécutent directement du TypeScript)
 - pnpm 10
 
 ## Scripts
@@ -19,8 +21,8 @@ Site one-page statique et bilingue (français sur `/`, anglais sur `/en/`) const
 | `pnpm build` | Build statique dans `dist/` |
 | `pnpm preview` | Sert `dist/` en local |
 | `pnpm check` | Vérification des types Astro et TypeScript |
-| `pnpm test` | Tests unitaires (fichiers de contenu) |
-| `pnpm test:e2e` | Build, serveur et Playwright en desktop (1440) et mobile (390), axe WCAG AA inclus |
+| `pnpm test` | Tests unitaires (contenu du site, routes, texte enrichi, données structurées, point d'envoi du contact) |
+| `pnpm test:e2e` | Build, serveur et Playwright en desktop (1440) et mobile (390), axe WCAG AA sur chaque page |
 | `pnpm deploy:prod` | Tests, build et synchronisation de `dist/` vers la prod (voir Déploiement) |
 | `pnpm deploy:dry` | Idem, mais liste seulement ce qui changerait sur le serveur |
 
@@ -29,80 +31,133 @@ Premier lancement e2e : `pnpm exec playwright install chromium`.
 ## Structure
 
 ```
-src/content/      fr.json, en.json (tous les textes), types.ts (leur forme), index.ts (chargement typé)
-src/styles/       tokens.css (issu du design), global.css (base et utilitaires partagés)
-src/layouts/      Base.astro (head, SEO, hreflang, polices)
-src/components/   un composant par section ; TimelineRow affiche missions et expériences
-src/scripts/      disclosure.ts (accordéons mobiles)
-src/pages/        [...lang].astro (la page : `/` en français, `/en/` en anglais),
-                  mentions-legales.astro et en/legal-notice.astro (composant LegalPage),
-                  404.astro et en/404.astro (NotFoundPage, servie par l'ErrorDocument d'Apache)
-src/assets/       images et logos sources, optimisés au build
-src/lib/          images.ts (relie les chemins d'images du contenu à src/assets)
-public/           copié tel quel (.htaccess, dont la CSP reçoit les empreintes des scripts au build)
+src/site/         le site : routes.ts (pages et leur adresse par langue), fr.ts et en.ts (textes),
+                  types.ts (forme des textes), rich.ts (liens, gras et code dans le texte),
+                  images.ts (captures des projets), jsonld.ts (données structurées),
+                  drupal-versions.ts (dates de la frise des versions de Drupal)
+src/content/      business.ts (société : raison sociale, adresse, téléphone, e-mail)
+src/styles/       tokens.css (couleurs, polices, espacements), global.css (tous les styles du site)
+src/layouts/      Base.astro (head, SEO, hreflang, polices, en-tête et pied de page)
+src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, VersionTimeline, Logo, Arrow ;
+                  pages/ contient un gabarit par type de page
+src/pages/        [...path].astro (toutes les pages de toutes les langues, d'après la table des routes),
+                  404.astro et en/404.astro (servies par l'ErrorDocument d'Apache),
+                  sitemap.xml.ts, robots.txt.ts
+src/assets/site/  captures des projets, optimisées au build
+src/assets/media/ logos des clients et image de la 404, optimisés au build
+public/           copié tel quel (.htaccess, dont la CSP reçoit ses empreintes de scripts au build)
 integrations/     csp-script-hashes.mjs (écrit ces empreintes)
 tests/            unitaires (Vitest) et e2e (Playwright)
 ```
 
 ## Modifier le contenu
 
-- Tous les textes sont dans `src/content/<lang>.json` ; aucun texte en dur dans les composants.
-- Les deux fichiers doivent garder la même structure (vérifié par `pnpm test`) et respecter
-  `src/content/types.ts` (vérifié par `pnpm check` / `pnpm build`).
-- Les champs optionnels n'affichent rien s'ils sont absents ou `null` : `place`,
-  `achievements`, `stack`, `image`, `projects`, `logo` (missions et expériences ;
-  affiché dans une tuile carrée), liens de profils (`links.linkedin`,
-  `links.malt`, `links.github`) et `verifyUrl` des certifications.
-- Les `src` d'images sont des chemins sous `src/assets` (ex. `/img/portrait.webp`) ; les
-  dimensions sont lues dans les fichiers. Les logos ont aussi `height`, la hauteur affichée en
-  desktop (×0,77 en mobile).
-- Les ancres de section (`nav[].id`) sont fixées dans les composants et identiques dans chaque langue.
-- Les pages d'accueil portent du JSON-LD (`src/components/JsonLd.astro`) : un `Person` et le
-  `ProfessionalService` qu'il dirige, construits à partir du contenu et des informations de la
-  société dans `src/content/business.ts` (raison sociale, adresse, TVA), communes aux deux langues.
-- Les mentions légales (`legal`) contiennent l'éditeur, l'hébergeur, les données personnelles et
-  les cookies. Leurs paragraphes sont du HTML de confiance (liens, `<strong>`, `<code>`) ; à tenir
-  à jour avec l'immatriculation de la société, l'hébergeur et les réglages Matomo. La section
-  cookies se termine par une case d'opposition à Matomo, affichée une fois le tracker chargé.
+Tous les textes sont dans `src/site/fr.ts` et `src/site/en.ts`, deux objets de même structure
+(`src/site/types.ts` ; un test unitaire les compare). Le français est la source, l'anglais sa
+traduction.
+
+- **Pages et adresses** : `src/site/routes.ts`. Une nouvelle page demande une entrée dans cette
+  table, ses textes dans les deux langues et un gabarit dans `src/components/pages/`, branché dans
+  `src/pages/[...path].astro`. L'en-tête, le pied de page, le sitemap, les liens hreflang et le
+  sélecteur de langue suivent la table des routes.
+- **Services** : `services` dans les textes, une entrée par service avec les mêmes champs (hero,
+  périmètre, déroulé, une « vitrine » facultative de projets, de cartes ou de formules, FAQ).
+  Leur ordre et leurs numéros (« 01 » à « 06 ») sont ceux de `serviceIds` dans `routes.ts`.
+- **Frise des versions de Drupal** (page Drupal) : les textes sont `versions` dans le service
+  Drupal, les dates de sortie et de fin de vie dans `src/site/drupal-versions.ts`. Le statut de
+  chaque version et la ligne « aujourd'hui » sont calculés au build, puis de nouveau dans le
+  navigateur du visiteur : ils suivent le calendrier sans reconstruire le site (sans JavaScript,
+  le visiteur les voit tels qu'au build). Une date nouvelle ou déplacée, ou une nouvelle version,
+  demande une modification de ce fichier et une nouvelle date `checked`.
+- **Liens dans le texte** : les réponses de FAQ, les paragraphes des mentions légales et la ligne
+  de confidentialité du formulaire acceptent `[libellé](page:<id>)` (une page du site, dans la
+  langue courante), `[libellé](https://…)`, `[libellé](mailto:…)`, `**gras**` et `` `code` ``.
+  Tout le reste est échappé.
+- **Emplacements à remplir** : le texte en `[CROCHETS ET CAPITALES]` (tarifs, délais,
+  localisation de l'hébergement, portrait du fondateur…) reste à écrire. Les lister avec
+  `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`. Les réponses de FAQ qui ne sont qu'un emplacement sont
+  exclues des données structurées.
+- **Ton** : la société, c'est une personne. Les textes ne disent jamais « nous », ne parlent pas
+  d'équipe et évitent le « je » (un test unitaire vérifie la première règle).
+- **Informations sur la société** (raison sociale, adresse, téléphone, e-mail, TVA) :
+  `src/content/business.ts`, à garder cohérent avec les mentions légales des textes.
+- **Captures d'écran** : `src/assets/site/`, déclarées dans `src/site/images.ts`.
+
+Données structurées : les pages d'accueil décrivent le site, la société (`ProfessionalService`,
+avec ses services) et son fondateur ; chaque page de service décrit le `Service` et sa `FAQPage` ;
+les autres pages se décrivent comme une page du site. Toutes les pages sauf l'accueil donnent leur
+fil d'Ariane.
+
+Titres et descriptions : `pageTitle` (`src/site/index.ts`) n'ajoute le nom de la société à un
+titre que si l'ensemble tient en 65 caractères ; les descriptions restent sous 160. Un test
+unitaire vérifie les deux.
+
+Image d'aperçu des pages partagées : `public/og-fr.png` et `public/og-en.png` (1200 × 630),
+dessinées à partir du logo de la société (`public/logo.png`) et du titre de la page d'accueil par
+`pnpm og:image`. À relancer, puis committer
+les fichiers, quand ce titre ou l'identité visuelle change.
+
+Le formulaire de contact est envoyé à `public/contact.php`, qui transmet le message par e-mail
+avec `mail()` de PHP depuis l'adresse de la société (le SPF du domaine autorise le serveur
+o2switch), le visiteur en `Reply-To`. La page l'envoie avec `fetch` et affiche le résultat sur
+place ; sans JavaScript, le navigateur le poste et revient sur `#contact-sent` ou
+`#contact-failed`. Rien n'est enregistré, sauf une empreinte de l'IP gardée une heure pour
+autoriser cinq messages par heure ; un champ caché piège les robots. Les mentions légales le
+disent : modifier les deux ensemble. `astro preview` n'exécute pas PHP, les tests de bout en bout
+simulent donc le script.
+
+Le destinataire est la constante `RECIPIENT` en tête de `public/contact.php` : l'adresse de la
+société, la même que `business.email`. Tant qu'elle est vide, le script répond par une erreur.
 
 ## Règles de mise en page
 
-- Un seul point de rupture à 960px. En dessous, les grilles s'empilent, la nav passe derrière
-  le bouton menu, missions / autres projets / expériences deviennent des accordéons et les
-  groupes de compétences n'affichent qu'une ligne, avec un bouton seulement si les puces débordent.
-- Le balisage propre à un format utilise `.desktop-only` / `.mobile-only` (masqué en
-  `display: none`, donc jamais dupliqué pour les lecteurs d'écran). Ne pas donner de règle
-  `display` propre à un élément portant ces classes : l'envelopper.
-- Les panneaux ne se replient qu'une fois le JS exécuté (`html.js`) : sans JS, tout reste lisible.
+- La page fait 1200px de large au plus, avec une gouttière de 32px (20px sous 600px). Les
+  grilles sont en `auto-fit` : les cartes s'empilent d'elles-mêmes sur les petits écrans ; aucune
+  page ne défile horizontalement (vérifié par les tests e2e sur chaque page).
+- Sous 1200px, le menu se replie derrière un bouton, car neuf liens ne tiennent plus à côté du
+  logo. Il ne se replie qu'une fois le JS exécuté (`html.js`) : il reste utilisable sans JS.
+- Les styles sont de simples classes dans `src/styles/global.css` ; les composants n'ont pas de
+  styles scopés.
 
 ## Performance
 
-- Les polices passent par l'API Fonts d'Astro (`fonts` dans `astro.config.mjs`) : fichiers
-  woff2 latins uniquement, toutes préchargées (aucune chaîne de requêtes après le HTML), polices de repli ajustées pour que le
-  changement de police ne décale pas la mise en page.
-- Les images passent par `astro:assets` : captures et portrait ont un `srcset` (WebP), les logos
-  sont redimensionnés à leur hauteur d'affichage en 1x et 2x. Les images sous la ligne de
-  flottaison sont chargées en différé.
-  Les logos sont posés sur des tuiles blanches : leurs sources n'ont pas de transparence, un canal
-  alpha fait plus que doubler le poids du WebP.
-- Le CSS est inliné dans chaque page (`build.inlineStylesheets`) : rien ne bloque le premier rendu.
+- Les polices passent par l'API Fonts d'Astro (`fonts` dans `astro.config.mjs`) : Inter, Space
+  Grotesk et JetBrains Mono, fichiers woff2 latins auto-hébergés, les deux premières préchargées,
+  polices de repli ajustées pour que le changement de police ne décale pas la mise en page.
+- Les images passent par `astro:assets` : les captures ont un `srcset` (WebP) et sont chargées en
+  différé sous la ligne de flottaison.
+- La feuille de styles est commune à toutes les pages et mise en cache avec les autres fichiers
+  de `/_astro/`.
 
 ## Déploiement
 
-`pnpm deploy:prod` (`scripts/deploy.sh`) lance les tests, build et synchronise `dist/` (y compris le fichier caché
-`.htaccess`) vers l'hébergement o2switch avec `rsync --delete`. Il contient les vrais paramètres
-du serveur, il est donc ignoré par git : le créer avec
-`cp scripts/deploy.example.sh scripts/deploy.sh` et renseigner `REMOTE_USER`, `REMOTE_HOST` et
-`REMOTE_PATH`. Ton IP doit d'abord être autorisée dans cPanel (Accès SSH). Le script affiche
-les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'arrête après la
-liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
-`.user.ini`, `error_log`) ne sont jamais touchés.
+`pnpm deploy:prod` (`scripts/deploy-prod.sh`) lance les tests, build et met `dist/` en miroir (y compris le
+fichier caché `.htaccess`) sur l'hébergement o2switch avec `rsync --delete`. Il contient les vrais
+paramètres du serveur, il est donc ignoré par git : le créer avec
+`cp scripts/deploy-prod.example.sh scripts/deploy-prod.sh` et renseigner `HOST` (un alias SSH
+défini dans `~/.ssh/config`) et `REMOTE_PATH` (la racine web, relative au répertoire personnel du
+compte) ; `--host` et `--path` les remplacent. Ton IP doit
+d'abord être autorisée dans cPanel (Accès SSH).
+Il refuse un arbre de travail avec des modifications non commitées et avertit si la branche
+n'est pas `main`. Avant l'envoi il vérifie le build : les pages, les hashes CSP remplis dans
+`.htaccess`, l'absence de `X-Robots-Tag`, de mot de passe et de `noindex`, l'hôte canonique, et
+l'existence du répertoire distant. Il liste ensuite les changements, compte les suppressions et
+demande `yes`. Après la synchro il vérifie le site en ligne : `/` et `/en/` répondent 200, les
+en-têtes de sécurité sont envoyés, `http://acolad.fr/` fait une seule 301 vers
+`https://www.acolad.fr/`, `robots.txt` et `sitemap.xml` répondent, et un chemin inconnu renvoie 404.
+`pnpm deploy:dry` s'arrête après la liste (et ne fait qu'avertir pour les modifications non
+commitées), `pnpm deploy:prod --yes` saute la confirmation mais pas les vérifications. Les
+fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`, `.user.ini`, `error_log`) ne sont
+jamais touchés.
+Le script du formulaire de contact crée `contact-rate/` à côté de la racine web, pas dedans,
+pour ses compteurs horaires ; les déploiements n'y touchent pas.
 `public/.htaccess` est la configuration de production, copiée telle
 quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une seule 301 du HTTP et du domaine nu
 `acolad.fr` vers `https://www.acolad.fr` en gardant le chemin (`X-Forwarded-Proto` est pris en
-compte pour qu'un proxy qui termine le TLS ne provoque pas de boucle), des 301 de l'ancienne `/fr/` et des pages de l'ancien site vers `/` (`/projets/*` vers `#missions`,
-`/services/` vers `#domaines`, `/contact/` vers `#contact`, `/politique-confidentialite/` vers les
-mentions légales), une 302
+compte pour qu'un proxy qui termine le TLS ne provoque pas de boucle), des 301 de l'ancienne `/fr/` et des pages des anciens sites (`/projets/*` et `/work/*` vers `/realisations/`,
+`/services/` vers `/`, `/politique-confidentialite/` vers les
+mentions légales, et les autres URL des sites Drupal et de 2004 ; la liste complète et sa vérification sont
+dans [`docs/redirects.md`](docs/redirects.md)), une 301 de `…/index.html` vers l'URL du dossier, une 302
 de `/` vers `/en/` pour les navigateurs dont la première langue est l'anglais (sauf si le visiteur
 a choisi le français avec le sélecteur de langue, qui pose un cookie `lang`, vient du site lui-même,
 ou est un robot ou un outil d'audit comme Lighthouse), et les en-têtes de cache : un an, immutable, pour les
@@ -116,7 +171,7 @@ Une nouvelle origine de script ou de tracker doit être ajoutée à la CSP à la
 sur [securityheaders.com](https://securityheaders.com/?q=www.acolad.fr) après déploiement.
 L'URL de production est définie dans `astro.config.mjs` (`site`)
 et sert aux URL canonical, hreflang et sitemap. `/sitemap.xml` (`src/pages/sitemap.xml.ts`)
-liste les deux langues avec leurs alternates hreflang ; `/robots.txt` (`src/pages/robots.txt.ts`)
+liste chaque page dans les deux langues avec ses alternates hreflang ; `/robots.txt` (`src/pages/robots.txt.ts`)
 l'indique aux robots. Les anciens `sitemap-index.xml` et `sitemap-0.xml` redirigent en 301 vers
 `/sitemap.xml`.
 Le tracker Matomo (`stats.acolad.net`, site 8) est `src/scripts/matomo.ts`, chargé par
@@ -127,5 +182,6 @@ depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours)
 
 ## Points ouverts
 
-- [ ] Relire `src/content/en.json` (traduit depuis le français).
-- [ ] Portrait en meilleure définition (l'actuel fait 468 × 542).
+- [ ] Relire `src/site/en.ts` (traduit depuis le français).
+- [ ] Ajouter des études de cas à côté d'OVHcloud ; la page Réalisations décrit les autres projets
+  pour l'instant.

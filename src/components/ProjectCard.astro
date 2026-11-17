@@ -1,0 +1,45 @@
+---
+import { Image } from 'astro:assets';
+import { href, type ProjectCard, type SiteContent } from '../site';
+import { projectImages, shotClass } from '../site/images';
+
+interface Props {
+  site: SiteContent;
+  card: ProjectCard;
+  /** 16:10 screenshot instead of 4:3. */
+  wide?: boolean;
+  /** Plain article with a heading instead of a link to the project. */
+  static?: boolean;
+}
+
+const { site, card, wide = false } = Astro.props;
+const isStatic = Astro.props.static ?? false;
+const project = site.projects[card.project];
+// Only OVHcloud has its own page; the other projects are described on the work page.
+const target = href(card.project === 'ovhcloud' ? 'caseStudy' : 'work', site.lang);
+const image = {
+  src: projectImages[card.project],
+  alt: project.alt,
+  widths: [400, 640, 960],
+  sizes: '(max-width: 700px) calc(100vw - 40px), (max-width: 1200px) 50vw, 584px',
+  class: shotClass(card.project, ...(wide ? ['shot--wide'] : [])),
+};
+---
+
+{
+  isStatic ? (
+    <article class="project-card">
+      <Image {...image} />
+      {card.meta && <p class="meta">{card.meta}</p>}
+      <h3 class="project-name project-name--sm">{project.name}</h3>
+      <p class="small">{card.text}</p>
+    </article>
+  ) : (
+    <a class="project-card" href={target}>
+      <Image {...image} />
+      {card.meta && <span class="meta">{card.meta}</span>}
+      <span class="project-name">{project.name}</span>
+      <span class="small">{card.text}</span>
+    </a>
+  )
+}

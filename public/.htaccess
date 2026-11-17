@@ -19,6 +19,12 @@ RewriteRule ^ https://www.acolad.fr%{REQUEST_URI} [R=301,L,NE]
 # French lives at the root; the former /fr/ URL is kept for links already shared.
 RedirectMatch 301 ^/fr/?$ https://www.acolad.fr/
 
+# A page requested as .../index.html moves to its directory URL, the only one listed in the
+# sitemap. THE_REQUEST holds the client's request line, so the internal subrequests of
+# DirectoryIndex and ErrorDocument (which serve index.html and 404.html) never match.
+RewriteCond %{THE_REQUEST} \s/+((?:[^\s?]*/)?)index\.html[\s?]
+RewriteRule ^ https://www.acolad.fr/%1 [R=301,L,NE]
+
 # Browsers whose first language is English go from / to /en/, unless the visitor picked
 # French with the language switch (cookie), came from this site, or is a crawler or an audit
 # tool. 302 so search engines keep indexing the French page at /.
@@ -28,7 +34,8 @@ RewriteCond %{HTTP_REFERER} !^https://(www\.)?acolad\.fr/ [NC]
 RewriteCond %{HTTP_USER_AGENT} !(bot|crawl|spider|slurp|preview|lighthouse|headless) [NC]
 RewriteRule ^$ https://www.acolad.fr/en/ [R=302,L]
 
-# Redirections explicites des anciennes URLs
+# Former URLs, listed with their source in docs/redirects.md.
+# Gatsby site (until 2026).
 RedirectMatch 301 ^/saclay/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/syndex/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/de-boeck/?$ https://www.acolad.fr/
@@ -37,12 +44,18 @@ RedirectMatch 301 ^/cplus2b/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/meettotravel/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/challenge-one/?$ https://www.acolad.fr/
 RedirectMatch 301 ^/audio-analog/?$ https://www.acolad.fr/
-RedirectMatch 301 ^/contact/?$ https://www.acolad.fr/#contact
-RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/equipe/?$ https://www.acolad.fr/a-propos/
 RedirectMatch 301 ^/politique-confidentialite/?$ https://www.acolad.fr/mentions-legales/#donnees-personnelles
-# Project pages, and their former index, now live in the missions section.
-RedirectMatch 301 ^/projets(/.*)?$ https://www.acolad.fr/#missions
-RedirectMatch 301 ^/services/?$ https://www.acolad.fr/#domaines
+# Project pages, and their former index, now live on the work page; each service has its
+# own page, listed on the home page. /contact/ is a page of the current site again.
+RedirectMatch 301 ^/projets(/.*)?$ https://www.acolad.fr/realisations/
+RedirectMatch 301 ^/services(/.*)?$ https://www.acolad.fr/
+# Drupal site (2014-2016).
+RedirectMatch 301 ^/work(/.*)?$ https://www.acolad.fr/realisations/
+RedirectMatch 301 ^/(raphael-apard|clients)/?$ https://www.acolad.fr/
+RedirectMatch 301 ^/node/ https://www.acolad.fr/
+# Static site (2004).
+RedirectMatch 301 ^/(htfr|plan-mappy)(/.*)?$ https://www.acolad.fr/
 
 # Custom error pages: French by default, English under /en/.
 ErrorDocument 404 /404.html

@@ -1,0 +1,42 @@
+---
+// Error page served by Apache for unknown URLs, one per locale (see `ErrorDocument` in
+// public/.htaccess). Every link is root-relative, so it renders at any depth.
+import Base from '../../layouts/Base.astro';
+import Arrow from '../Arrow.astro';
+import { getSite, href, pageTitle, serviceIds, type Lang, type PageId } from '../../site';
+
+interface Props {
+  lang: Lang;
+}
+
+const site = getSite(Astro.props.lang);
+const { lang, notFound } = site;
+const pages: { id: PageId; label: string }[] = [
+  ...serviceIds.map((id) => ({ id, label: site.services[id].name })),
+  { id: 'work', label: site.nav.work },
+  { id: 'contact', label: site.nav.contact },
+];
+---
+
+<Base site={site} title={pageTitle(site, notFound.meta)} description={notFound.meta.description} hideCta>
+  <section class="not-found">
+    <div class="container">
+      <div class="copy stack">
+        <p class="eyebrow">{notFound.eyebrow}</p>
+        <h1 class="display">{notFound.h1}</h1>
+        <p class="lead">{notFound.text}</p>
+        <a class="btn btn--primary" href={href('home', lang)}>{notFound.cta}<Arrow /></a>
+      </div>
+      <nav class="page-index on-dark" aria-label={notFound.navLabel}>
+        {
+          pages.map(({ id, label }, i) => (
+            <a href={href(id, lang)}>
+              {label}
+              <span class="number">{String(i + 1).padStart(2, '0')}</span>
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+</Base>

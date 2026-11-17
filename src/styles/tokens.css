@@ -1,50 +1,46 @@
-/* Design tokens for the one-page site (from the validated canvas, hero variant A). */
+/* Design tokens of the company site (from the validated design canvas). */
 :root {
-  /* Colors — light surfaces */
-  --color-bg: #F4F5F7;          /* page ground */
-  --color-surface: #FFFFFF;     /* white bands: logos, skills, other projects, credentials */
-  --color-ink: #0F1217;         /* primary text, dark bands */
-  --color-text: #2A303A;        /* body copy */
-  --color-text-muted: #454D5A;  /* meta, labels (7.8:1 on --color-bg) */
-  --color-border: #D7DBE2;      /* hairlines */
-  --color-border-strong: #C3C9D2; /* chips, controls */
-  --color-accent: #2443C9;      /* links, CTA, markers (8.4:1 on white) */
+  /* Colors: light surfaces */
+  --color-surface: #ffffff; /* page ground */
+  --color-mist: #f1f4f7; /* tinted bands and panels */
+  --color-ink: #0b1220; /* headings, dark bands */
+  --color-text: #3c4656; /* body copy (9.6:1 on white) */
+  --color-text-muted: #5a6472; /* meta, labels (5.6:1 on --color-mist) */
+  --color-border: #dde2e8; /* hairlines */
+  --color-border-strong: #c9d1da; /* hairlines on --color-mist */
+  --color-field-border: #8a95a5; /* form controls (3:1 on white) */
+  --color-accent: #2247e6; /* links, primary buttons (6.6:1 on white) */
+  --color-accent-hover: #1836b8;
+  --color-accent-soft: #e3e9ff; /* body copy on the accent band */
+  --color-danger: #b42318; /* error marks (6.5:1 on white) */
 
-  /* Colors — dark bands (AI section, footer) */
-  --color-dark-text: #F4F5F7;
-  --color-dark-body: #D9DEE5;
-  --color-dark-muted: #A9B1BD;
-  --color-dark-border: #2E3440;
-  --color-dark-chip: #4A5261;
-  --color-dark-accent: #8FA8FF;
+  /* Colors: dark bands (process steps, footer, cards) */
+  --color-dark-muted: #aeb9c9;
+  --color-dark-border: #26324a;
+  --color-dark-accent: #8fa6ff;
 
-  /* Typography */
-  --font-sans: var(--font-schibsted);  /* Schibsted Grotesk + metric-matched fallback, see astro.config.mjs */
-  --font-mono: var(--font-jetbrains);  /* JetBrains Mono + metric-matched fallback */
+  /* Typography, see astro.config.mjs */
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
+  --font-mono: var(--font-jetbrains);
 
   /* Layout */
-  --container-max: 1312px;      /* includes side padding */
-  --gutter-desktop: 64px;
-  --gutter-mobile: 20px;
-  --section-pad-desktop: 112px;
-  --section-pad-mobile: 64px;
-  --breakpoint: 960px;
-  --header-height: 76px;        /* at the top of the page */
-  --header-stuck-height: 48px;  /* once scrolled: the sticky header shrinks to this */          /* single breakpoint: below it, every grid stacks */
+  --container-max: 1200px;
+  --gutter: 32px;
+  --section-pad: clamp(56px, 7vw, 96px);
+  --hero-pad: clamp(48px, 6vw, 80px);
 
   /* Shape */
-  --radius-sm: 4px;             /* buttons, chips, portrait */
-  --radius-md: 6px;             /* screenshots, logo grid */
+  --radius-sm: 6px; /* tags */
+  --radius-md: 8px; /* buttons, fields */
+  --radius-lg: 14px; /* cards, screenshots */
+  --radius-xl: 16px; /* panels */
   --focus-ring: 3px solid var(--color-accent);
   --focus-offset: 3px;
 }
 
-/* Type scale (desktop → mobile) */
-/* h1 hero name     128px / 0.9 / 800 / -0.045em  →  60px                      */
-/* hero title        34px / 1.2 / 500, accent     →  23px                      */
-/* h2 section        44px / 1.05 / 700 / -0.025em →  32px                      */
-/* h3 mission client 26px / 1.15 / 700            →  23px                      */
-/* body lead         19–20px / 1.6                →  17px                      */
-/* body              16px / 1.55                  →  15px                      */
-/* mono meta         13–14px, 500                 →  12–13px                   */
-/* footer heading    72px / 1 / 800 / -0.04em     →  40px                      */
+@media (max-width: 600px) {
+  :root {
+    --gutter: 20px;
+  }
+}

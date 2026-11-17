@@ -1,0 +1,90 @@
+---
+import type { SiteContent, VersionTimeline } from '../site';
+import { axisPosition, drupalTimeline, formatDate, percent, timelineState } from '../site/drupal-versions';
+import { rich } from '../site/rich';
+
+// Timeline of the Drupal versions on the mist ground: a bar per version from its release to its end
+// of support, a line on today's date, and the status of each version in words. The page shows them
+// as of the build; the script below moves them to the visitor's day. The bars and the axis are
+// drawn for sighted visitors only; the status lines carry the same facts.
+interface Props {
+  site: SiteContent;
+  copy: VersionTimeline;
+}
+
+const { site, copy } = Astro.props;
+const { lang } = site;
+const { firstYear, lastYear, versions, checked } = drupalTimeline;
+
+const words = { status: copy.status, dates: copy.dates };
+const state = timelineState(words, lang, new Date());
+const years = Array.from({ length: lastYear - firstYear + 1 }, (_, i) => firstYear + i);
+
+const rows = versions.map((version, i) => {
+  const start = axisPosition(version.released);
+  const end = version.end ? axisPosition(version.end) : 1;
+  return { name: version.name, ...state.rows[i]!, bar: `left: ${percent(start)}; width: ${percent(end - start)}` };
+});
+
+const sourceLine = copy.source.replace('{date}', formatDate(checked, lang, copy.dates));
+---
+
+<section class="section section--mist">
+  <div class="container section-stack">
+    <div class="intro">
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2 class="title">{copy.title}</h2>
+      <p class="lead">{copy.text}</p>
+    </div>
+    <div
+      class="versions"
+      style={`--years: ${years.length}; --today: ${state.today}`}
+      data-versions={JSON.stringify({ lang, words })}
+    >
+      <div class="versions-row versions-axis" aria-hidden="true">
+        <div class="versions-track">
+          {years.map((year, i) => <span style={`left: ${percent(i / years.length)}`}>{year}</span>)}
+        </div>
+      </div>
+      <ul class="list-reset">
+        {
+          rows.map((row) => (
+            <li class={`versions-row versions-row--${row.status}`} data-version-row>
+              <span class="versions-name">{row.name}</span>
+              <div class="versions-track" aria-hidden="true">
+                <span class="versions-bar" style={row.bar} />
+              </div>
+              <p class="versions-status small" data-version-status set:html={rich(row.line, lang)} />
+            </li>
+          ))
+        }
+      </ul>
+      <div class="versions-row versions-foot" aria-hidden="true">
+        <div class="versions-track">
+          <span class="versions-today" data-version-today>{state.todayLabel}</span>
+        </div>
+      </div>
+    </div>
+    <p class="meta" set:html={rich(sourceLine, lang)} />
+  </div>
+</section>
+
+<script>
+  import { timelineState, type TimelineWords } from '../site/drupal-versions';
+  import { rich } from '../site/rich';
+  import type { Lang } from '../site/routes';
+
+  // The page is built once: bring the "today" line and the statuses to the visitor's day.
+  for (const timeline of document.querySelectorAll<HTMLElement>('[data-versions]')) {
+    const { lang, words } = JSON.parse(timeline.dataset.versions!) as { lang: Lang; words: TimelineWords };
+    const state = timelineState(words, lang, new Date());
+    timeline.style.setProperty('--today', state.today);
+    timeline.querySelector('[data-version-today]')!.textContent = state.todayLabel;
+    timeline.querySelectorAll<HTMLElement>('[data-version-row]').forEach((row, i) => {
+      const { status, line } = state.rows[i]!;
+      row.className = `versions-row versions-row--${status}`;
+      // rich() escapes everything but its own links and spans.
+      row.querySelector('[data-version-status]')!.innerHTML = rich(line, lang);
+    });
+  }
+</script>
