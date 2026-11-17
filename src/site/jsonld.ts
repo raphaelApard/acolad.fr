@@ -99,7 +99,7 @@ export function homeGraph(content: SiteContent, site: URL): object {
         legalName: business.legalName,
         description: content.home.meta.description,
         url,
-        logo: abs('/favicon.svg', site),
+        logo: abs('/logo.png', site),
         image: abs(shareImagePath(content.lang), site),
         email: business.email,
         telephone: business.telephone,
