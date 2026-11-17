@@ -6,7 +6,7 @@ import type { Lang, PageId, ServiceId } from './routes';
 // `[label](mailto:…)`, and `**strong**` / `` `code` `` spans; see rich.ts. Text in [SQUARE
 // BRACKETS CAPITALS] is a placeholder still to be filled in before going live.
 
-export type ProjectId = 'ovhcloud' | 'docteurConso' | 'cnrs' | 'obepine' | 'issy' | 'syndex' | 'hospital' | 'meetToTravel';
+export type ProjectId = 'ovhcloud' | 'docteurConso' | 'cnrs' | 'obepine' | 'issy' | 'syndex' | 'hospital' | 'meetToTravel' | 'parisSaclay';
 
 export interface Meta {
   /** <title>, without the site name. */

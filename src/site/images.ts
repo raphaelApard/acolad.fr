@@ -6,6 +6,7 @@ import ovhcloud from '../assets/site/mission-ovhcloud.webp';
 import hospital from '../assets/site/project-american-hospital.webp';
 import issy from '../assets/site/project-issy.webp';
 import meetToTravel from '../assets/site/project-meettotravel.webp';
+import parisSaclay from '../assets/site/project-paris-saclay.webp';
 import syndex from '../assets/site/project-syndex.webp';
 import type { ProjectId } from './types';
 
@@ -19,4 +20,5 @@ export const projectImages: Record<ProjectId, ImageMetadata> = {
   syndex,
   hospital,
   meetToTravel,
+  parisSaclay,
 };

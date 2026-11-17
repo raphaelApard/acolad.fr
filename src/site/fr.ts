@@ -28,6 +28,7 @@ export const fr: SiteContent = {
     syndex: { name: 'Syndex', alt: "Capture d'écran du site Syndex" },
     hospital: { name: 'Hôpital Américain de Paris', alt: "Capture d'écran du site de l'Hôpital Américain de Paris" },
     meetToTravel: { name: 'Meet to Travel', alt: "Capture d'écran du réseau social Meet to Travel" },
+    parisSaclay: { name: 'Université Paris-Saclay', alt: "Capture d'écran du site de l'Université Paris-Saclay" },
   },
   cta: {
     title: 'Un projet à lancer, une application à reprendre, un site à héberger ?',
@@ -822,6 +823,11 @@ export const fr: SiteContent = {
         project: 'meetToTravel',
         meta: 'Drupal',
         text: "Réseau social pour rencontrer d'autres voyageurs et trouver des compagnons de voyage.",
+      },
+      {
+        project: 'parisSaclay',
+        meta: 'Drupal',
+        text: "Site institutionnel bilingue de l'université : actualités, formation, recherche et vie de campus.",
       },
     ],
   },
