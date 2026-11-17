@@ -1,5 +1,11 @@
 # Changelog
 
+## 4.0.1 — 2026-11-18
+
+- The four hosting plans list what they include, in the same order on every card: hosted in
+  France, daily off-site backup, SSL certificate and, from the Drupal plan up, monitoring. Their
+  title, text, price and points line up from one card to the next.
+
 ## 4.0.0 — 2026-11-18
 
 - The Drupal maintenance page charts Drupal 7 to 12, from release to end of security support,

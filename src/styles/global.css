@@ -949,6 +949,15 @@ html {
   border: 2px solid var(--color-accent);
 }
 
+/* Title, text, price and points line up across the plans of a row */
+.card--plan {
+  display: grid;
+  grid-row: span 4;
+  grid-template-rows: subgrid;
+  align-content: start;
+  gap: 16px;
+}
+
 .card .number {
   font-family: var(--font-mono);
   font-size: 13px;
