@@ -11,10 +11,6 @@
     "test:e2e": "playwright test",
     "deploy:prod": "scripts/deploy.sh",
     "deploy:dry": "scripts/deploy.sh --dry-run",
-    "content:pull": "node scripts/content.ts pull",
-    "content:fixture": "node scripts/content.ts fixture",
-    "cms": "pnpm --filter cms",
-    "sync:cms-types": "node scripts/sync-cms-types.ts",
     "og:image": "node scripts/og-image.ts"
   },
   "dependencies": {
