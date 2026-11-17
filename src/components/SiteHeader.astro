@@ -26,7 +26,7 @@ const current = page === 'caseStudy' ? 'work' : page;
 const inServices = services.some(({ id }) => id === current);
 ---
 
-<header class="site-header">
+<header class="site-header" data-site-header>
   <div class="container bar">
     <a class="brand" href={href('home', lang)} aria-label={ui.homeLink}>
       <Logo />
@@ -115,6 +115,14 @@ const inServices = services.some(({ id }) => id === current);
 </header>
 
 <script>
+  // Once the page scrolls, the bar folds into a floating pill (see .site-header in global.css).
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  if (header) {
+    const update = () => header.toggleAttribute('data-scrolled', window.scrollY > 8);
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+  }
+
   // Remember an explicit language choice: the server then stops sending
   // English-speaking browsers from / to /en/ (see public/.htaccess).
   for (const link of document.querySelectorAll<HTMLAnchorElement>('[data-lang-switch] a')) {

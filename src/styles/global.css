@@ -302,9 +302,15 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Header */
+/* Header: sticky. Once the page scrolls ([data-scrolled]), the bar folds into a floating pill
+   of the same height, so the content under it never moves. */
+html {
+  scroll-padding-top: 96px;
+}
+
 .site-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   z-index: 20;
   border-bottom: 1px solid var(--color-border);
   background: var(--color-surface);
@@ -315,7 +321,46 @@ a:hover {
   align-items: center;
   justify-content: space-between;
   gap: 8px 24px;
+  width: 100%;
   padding: 14px var(--gutter);
+  border-radius: var(--radius-lg);
+}
+
+.site-header[data-scrolled] {
+  padding: 8px 0;
+  border-bottom-color: transparent;
+  background: transparent;
+}
+
+.site-header[data-scrolled] .bar {
+  width: calc(100% - 24px);
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 6px 8px 6px 14px;
+  /* Opaque, and no backdrop-filter: that would make the pill the containing block of the
+     services panel, which must span the header. */
+  background: var(--color-surface);
+  box-shadow:
+    0 0 0 1px var(--color-border),
+    0 10px 30px rgb(11 18 32 / 0.1);
+}
+
+.site-header[data-scrolled] .brand-sub {
+  display: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .site-header,
+  .site-header .bar {
+    transition:
+      background-color 0.2s,
+      border-color 0.2s,
+      box-shadow 0.2s,
+      width 0.25s,
+      max-width 0.25s,
+      margin 0.25s,
+      padding 0.25s;
+  }
 }
 
 .brand {
@@ -435,6 +480,10 @@ a:hover {
   background: var(--color-surface);
   box-shadow: 0 18px 40px rgb(11 18 32 / 0.12);
   transform: translateX(-50%);
+}
+
+.site-header[data-scrolled] .submenu {
+  top: calc(100% - 4px);
 }
 
 .submenu-button[aria-expanded='true'] + .submenu,
@@ -614,6 +663,12 @@ a:hover {
 
   .js .site-nav:not([data-open]) {
     display: none;
+  }
+
+  /* The header stays on screen, so a long open menu scrolls inside it. */
+  .site-nav[data-open] {
+    max-height: calc(100dvh - 100px);
+    overflow-y: auto;
   }
 
   .site-nav ul {
