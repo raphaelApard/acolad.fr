@@ -910,18 +910,7 @@ export const fr: SiteContent = {
       eyebrow: 'Le fondateur',
       name: 'Raphaël Apard',
       text: "Développeur fullstack, Raphaël intervient sur tout le cycle de vie des applications web : architecture, développement, intégration continue, mise en production et maintenance. C'est lui qui répond à vos messages, écrit le code et suit votre projet dans la durée.",
-      portrait: '[PORTRAIT DU FONDATEUR]',
-      facts: [
-        {
-          label: 'Certifications',
-          lines: ['Acquia Certified Developer, Drupal 9 (2022)', 'Opquast, assurance qualité web (2021)'],
-        },
-        {
-          label: 'Formation',
-          lines: ["Licence professionnelle « Développeur d'applications web », Université Toulouse 1 Capitole"],
-        },
-        { label: 'Langues', lines: ['Français, anglais courant, espagnol conversationnel'] },
-      ],
+      portraitAlt: 'Portrait de Raphaël Apard',
     },
     commitments: {
       title: 'Quatre engagements',

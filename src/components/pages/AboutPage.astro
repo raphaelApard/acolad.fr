@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import portrait from '../../assets/site/founder-portrait.webp';
 import Base from '../../layouts/Base.astro';
 import { pageTitle, type SiteContent } from '../../site';
 
@@ -40,21 +42,17 @@ const { about } = site;
 
   <section class="section">
     <div class="container founder">
-      <div class="portrait">{about.founder.portrait}</div>
+      <Image
+        src={portrait}
+        alt={about.founder.portraitAlt}
+        widths={[380, 468]}
+        sizes="(max-width: 460px) calc(100vw - 40px), 380px"
+        class="portrait"
+      />
       <div class="copy stack">
         <p class="eyebrow">{about.founder.eyebrow}</p>
         <h2 class="title">{about.founder.name}</h2>
         <p class="body">{about.founder.text}</p>
-        <dl class="facts facts--plain">
-          {
-            about.founder.facts.map((fact) => (
-              <div>
-                <dt class="label">{fact.label}</dt>
-                <dd>{fact.lines.map((line) => <span>{line}</span>)}</dd>
-              </div>
-            ))
-          }
-        </dl>
       </div>
     </div>
   </section>

@@ -903,18 +903,7 @@ export const en: SiteContent = {
       eyebrow: 'The founder',
       name: 'Raphaël Apard',
       text: 'A full-stack developer, Raphaël works across the whole life cycle of web applications: architecture, development, continuous integration, go-live and maintenance. He is the one who answers your messages, writes the code and follows your project over time.',
-      portrait: '[PORTRAIT OF THE FOUNDER]',
-      facts: [
-        {
-          label: 'Certifications',
-          lines: ['Acquia Certified Developer, Drupal 9 (2022)', 'Opquast, web quality assurance (2021)'],
-        },
-        {
-          label: 'Education',
-          lines: ["Vocational bachelor's degree in web application development, Université Toulouse 1 Capitole"],
-        },
-        { label: 'Languages', lines: ['French, fluent English, conversational Spanish'] },
-      ],
+      portraitAlt: 'Portrait of Raphaël Apard',
     },
     commitments: {
       title: 'Four commitments',

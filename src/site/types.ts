@@ -161,7 +161,8 @@ export interface SiteContent {
     h1: string;
     lead: string;
     timeline: { eyebrow: string; title: string; items: { year: string; text: string; highlight?: boolean }[] };
-    founder: { eyebrow: string; name: string; text: string; portrait: string; facts: Fact[] };
+    /** `portraitAlt` describes the founder's photo. */
+    founder: { eyebrow: string; name: string; text: string; portraitAlt: string };
     commitments: { title: string; items: TitledText[] };
     technologies: { title: string; groups: { label: string; items: string[] }[] };
   };
