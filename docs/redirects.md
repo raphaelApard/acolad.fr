@@ -37,7 +37,7 @@ All redirects are permanent (301), absolute (`https://www.acolad.fr/…`) and ta
 | `/saclay/`, `/syndex/`, `/de-boeck/`, `/muzeopro/`, `/cplus2b/`, `/meettotravel/`, `/challenge-one/`, `/audio-analog/` | `/` |
 | `/services/`, `/services/<anything>` | `/` (each service has its own page, listed there) |
 | `/contact/` | no redirect: a page of the current site again |
-| `/equipe/` | `/` |
+| `/equipe/` | `/a-propos/` |
 | `/politique-confidentialite/` | `/mentions-legales/#donnees-personnelles` |
 
 ## Drupal site (2014–2016)
