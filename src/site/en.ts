@@ -129,7 +129,7 @@ export const en: SiteContent = {
   },
   services: {
     apps: {
-      number: '01',
+      number: '02',
       name: 'Business applications',
       navLabel: 'Business applications',
       tagline: 'Bespoke design and development',
@@ -238,7 +238,7 @@ export const en: SiteContent = {
       ],
     },
     tma: {
-      number: '02',
+      number: '04',
       name: 'Application maintenance',
       navLabel: 'Maintenance',
       tagline: 'Takeover, fixes and enhancements',
@@ -335,7 +335,7 @@ export const en: SiteContent = {
       ],
     },
     drupal: {
-      number: '03',
+      number: '05',
       name: 'Drupal maintenance',
       navLabel: 'Drupal',
       tagline: 'Updates, security, migrations',
@@ -430,7 +430,7 @@ export const en: SiteContent = {
       ],
     },
     hosting: {
-      number: '04',
+      number: '06',
       name: 'Website hosting',
       navLabel: 'Hosting',
       tagline: 'Go-live, backups, monitoring',
@@ -541,7 +541,7 @@ export const en: SiteContent = {
       ],
     },
     audit: {
-      number: '05',
+      number: '01',
       name: 'Audit and consulting',
       navLabel: 'Audit',
       tagline: 'Code, security, performance, accessibility',
@@ -635,7 +635,7 @@ export const en: SiteContent = {
       ],
     },
     ai: {
-      number: '06',
+      number: '03',
       name: 'AI integration',
       navLabel: 'AI',
       tagline: 'Content, assistants, automation',

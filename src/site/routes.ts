@@ -7,7 +7,7 @@ export const langs: Lang[] = ['fr', 'en'];
 // Must match `i18n.defaultLocale` in astro.config.mjs.
 export const defaultLang: Lang = 'fr';
 
-export const serviceIds = ['apps', 'tma', 'drupal', 'hosting', 'audit', 'ai'] as const;
+export const serviceIds = ['audit', 'apps', 'ai', 'tma', 'drupal', 'hosting'] as const;
 export type ServiceId = (typeof serviceIds)[number];
 
 export type PageId = 'home' | ServiceId | 'work' | 'caseStudy' | 'about' | 'contact' | 'legal';
