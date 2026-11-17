@@ -794,6 +794,12 @@ export const en: SiteContent = {
         tags: ['Drupal', 'PHP', 'Twig', 'TypeScript'],
       },
       {
+        project: 'hospital',
+        meta: 'via OWS · Drupal',
+        text: "Technical lead and development of the hospital's public website.",
+        tags: ['Drupal'],
+      },
+      {
         project: 'docteurConso',
         meta: '2026 · Toulouse · Business applications',
         text: 'Rebuild of the sustainability indicators platform with Next.js and PostgreSQL.',
@@ -802,11 +808,6 @@ export const en: SiteContent = {
     ],
     othersTitle: 'Other projects',
     others: [
-      {
-        project: 'hospital',
-        meta: 'via OWS · Drupal',
-        text: "Technical lead and development of the hospital's public website.",
-      },
       {
         project: 'syndex',
         meta: 'via Fabernovel · Drupal 8',
