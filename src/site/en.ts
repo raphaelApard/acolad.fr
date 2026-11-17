@@ -516,7 +516,7 @@ export const en: SiteContent = {
           },
           {
             title: 'Bespoke',
-            text: 'For high traffic, several sites or specific security constraints.',
+            text: 'For high traffic, several sites or specific constraints.',
             price: 'On quotation',
             points: ['Architecture sized after analysis', '[BACKUPS]', '[RESPONSE TIME]'],
           },

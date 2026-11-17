@@ -524,7 +524,7 @@ export const fr: SiteContent = {
           },
           {
             title: 'Sur mesure',
-            text: 'Pour un trafic élevé, plusieurs sites ou des contraintes particulières de sécurité.',
+            text: 'Pour un trafic élevé, plusieurs sites ou des contraintes particulières.',
             price: 'Sur devis',
             points: ['Architecture dimensionnée après analyse', '[SAUVEGARDES]', "[DÉLAI D'INTERVENTION]"],
           },
