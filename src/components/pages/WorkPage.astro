@@ -4,7 +4,7 @@ import Base from '../../layouts/Base.astro';
 import Arrow from '../Arrow.astro';
 import ProjectCard from '../ProjectCard.astro';
 import { href, pageTitle, type SiteContent } from '../../site';
-import { projectImages } from '../../site/images';
+import { projectImages, shotClass } from '../../site/images';
 
 interface Props {
   site: SiteContent;
@@ -29,7 +29,7 @@ const { lang, work, ui } = site;
         work.items.map((item, i) => (
           <article class="work-item">
             <Image
-              class="shot"
+              class={shotClass(item.project)}
               src={projectImages[item.project]}
               alt={site.projects[item.project].alt}
               widths={[400, 640, 960]}

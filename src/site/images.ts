@@ -22,3 +22,14 @@ export const projectImages: Record<ProjectId, ImageMetadata> = {
   meetToTravel,
   parisSaclay,
 };
+
+/**
+ * Application screens whose navigation and titles sit on the left: when the frame is narrower
+ * than the screenshot, keep that side and crop the right one instead of cropping both.
+ */
+const leftAnchored: ProjectId[] = ['obepine', 'docteurConso'];
+
+/** CSS classes of a project screenshot. */
+export function shotClass(project: ProjectId, ...modifiers: string[]): string {
+  return ['shot', ...modifiers, ...(leftAnchored.includes(project) ? ['shot--left'] : [])].join(' ');
+}

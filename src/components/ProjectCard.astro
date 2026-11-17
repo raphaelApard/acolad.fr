@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import { href, type ProjectCard, type SiteContent } from '../site';
-import { projectImages } from '../site/images';
+import { projectImages, shotClass } from '../site/images';
 
 interface Props {
   site: SiteContent;
@@ -22,7 +22,7 @@ const image = {
   alt: project.alt,
   widths: [400, 640, 960],
   sizes: '(max-width: 700px) calc(100vw - 40px), (max-width: 1200px) 50vw, 584px',
-  class: wide ? 'shot shot--wide' : 'shot',
+  class: shotClass(card.project, ...(wide ? ['shot--wide'] : [])),
 };
 ---
 

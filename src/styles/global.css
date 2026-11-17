@@ -718,6 +718,10 @@ a:hover {
   background: var(--color-mist);
 }
 
+.shot--left {
+  object-position: left top;
+}
+
 .shot--wide {
   aspect-ratio: 16 / 10;
 }
