@@ -1271,7 +1271,7 @@ a.project-card:hover .project-name {
 .site-footer .contact a {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 36px;
   color: var(--color-dark-muted);
   text-decoration: none;
 }
@@ -1284,7 +1284,7 @@ a.project-card:hover .project-name {
 .site-footer .contact span:not(.label) {
   display: flex;
   align-items: center;
-  min-height: 44px;
+  min-height: 36px;
 }
 
 .site-footer .bottom {
