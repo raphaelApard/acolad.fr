@@ -633,7 +633,11 @@ export const en: SiteContent = {
         ],
       },
       faq: [
-        { question: 'How long does an audit take?', answer: '[INDICATIVE DURATION, depending on the scope]' },
+        {
+          question: 'How long does an audit take?',
+          answer:
+            'Half a day at least, for a single point: a form, the configuration of a server, the performance of a page. Beyond that, the duration depends on the scope and is set in the proposal.',
+        },
         {
           question: 'Is access to the code required?',
           answer: 'Yes, read-only, for a technical audit. A non-disclosure agreement can be signed beforehand.',
@@ -642,7 +646,11 @@ export const en: SiteContent = {
           question: 'Does the audit commit you to continuing with Acolad Développement?',
           answer: 'No. The report is written so that any supplier or your in-house team can act on it.',
         },
-        { question: 'How much does an audit cost?', answer: '[YOUR RATE OR RANGE, depending on the scope]' },
+        {
+          question: 'How much does an audit cost?',
+          answer:
+            'From €300 excl. VAT for half a day. Beyond that, the price depends on the scope; it is set in the proposal, before work starts.',
+        },
       ],
     },
     ai: {

@@ -638,7 +638,11 @@ export const fr: SiteContent = {
         ],
       },
       faq: [
-        { question: 'Combien de temps dure un audit ?', answer: '[DURÉE INDICATIVE, selon le périmètre]' },
+        {
+          question: 'Combien de temps dure un audit ?',
+          answer:
+            "Une demi-journée au minimum, pour un point précis : un formulaire, la configuration d'un serveur, les performances d'une page. Au-delà, la durée dépend du périmètre et figure dans la proposition.",
+        },
         {
           question: 'Faut-il donner accès au code ?',
           answer:
@@ -649,7 +653,11 @@ export const fr: SiteContent = {
           answer:
             "Non. Le rapport est rédigé pour être exploitable par n'importe quel prestataire ou par votre équipe interne.",
         },
-        { question: 'Combien coûte un audit ?', answer: '[VOTRE TARIF OU FOURCHETTE, selon le périmètre]' },
+        {
+          question: 'Combien coûte un audit ?',
+          answer:
+            'À partir de 300 € HT pour une demi-journée. Au-delà, le prix dépend du périmètre ; il est fixé dans la proposition, avant le démarrage.',
+        },
       ],
     },
     ai: {
