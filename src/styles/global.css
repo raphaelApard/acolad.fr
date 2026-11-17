@@ -305,7 +305,9 @@ a:hover {
 /* Header: sticky. Once the page scrolls ([data-scrolled]), the bar folds into a floating pill
    of the same height, so the content under it never moves. */
 html {
-  scroll-padding-top: 96px;
+  /* Room left under the sticky header: by anchor jumps, and by sticky blocks below it. */
+  --header-offset: 96px;
+  scroll-padding-top: var(--header-offset);
 }
 
 .site-header {
@@ -1777,8 +1779,8 @@ a.project-card:hover .project-name {
 @media (min-width: 960px) {
   .legal-toc {
     position: sticky;
-    top: 24px;
-    max-height: calc(100vh - 48px);
+    top: var(--header-offset);
+    max-height: calc(100vh - var(--header-offset) - 24px);
     overflow-y: auto;
   }
 }
