@@ -155,8 +155,6 @@ tests block its requests. The script is loaded from
 
 ## Open items
 
-- [ ] Fill in the placeholders of the copy (prices, plans, response times, hosting location,
-  founder's portrait): `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`, then the same lines in `en.ts`.
 - [ ] Proofread `src/site/en.ts` (translated from the French copy).
 - [ ] Replace the three small screenshots (438px wide) with full-size ones.
 - [ ] Add case studies beside OVHcloud; the work page describes the other projects for now.

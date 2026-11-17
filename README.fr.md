@@ -166,9 +166,6 @@ depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours)
 
 ## Points ouverts
 
-- [ ] Remplir les emplacements des textes (tarifs, formules, délais, localisation de
-  l'hébergement, portrait du fondateur) : `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`, puis les mêmes
-  lignes dans `en.ts`.
 - [ ] Relire `src/site/en.ts` (traduit depuis le français).
 - [ ] Remplacer les trois petites captures (438px de large) par des captures en pleine taille.
 - [ ] Ajouter des études de cas à côté d'OVHcloud ; la page Réalisations décrit les autres projets
