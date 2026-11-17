@@ -876,7 +876,7 @@ export const en: SiteContent = {
   },
   about: {
     meta: {
-      title: 'About: a web development company since 2014',
+      title: 'About Acolad Développement, a company founded in 2014',
       description:
         'Acolad Développement, a web development company founded in 2014 in Haute-Garonne by Raphaël Apard, an Acquia- and Opquast-certified full-stack developer.',
     },

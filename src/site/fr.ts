@@ -49,7 +49,7 @@ export const fr: SiteContent = {
     meta: {
       title: 'Société de développement web à Toulouse',
       description:
-        "Acolad Développement, société de développement web à Toulouse depuis 2014 : applications métier, intégration d'IA, audit, TMA, maintenance Drupal et hébergement.",
+        "Acolad Développement, société de développement web à Toulouse depuis 2014 : applications métier, intégration d'IA, audit, TMA, maintenance Drupal, hébergement.",
     },
     eyebrow: 'Société de développement web · Toulouse · depuis 2014',
     h1: 'Vos applications web, développées, maintenues et hébergées.',
@@ -256,9 +256,9 @@ export const fr: SiteContent = {
       },
       contactOption: "Reprendre la maintenance d'une application (TMA)",
       meta: {
-        title: "TMA : tierce maintenance applicative d'applications web à Toulouse",
+        title: 'TMA : tierce maintenance applicative web à Toulouse',
         description:
-          "Reprise et maintenance d'applications web existantes : audit de reprise, correctifs, évolutions, mises à jour de sécurité. PHP, Node.js, React, Next.js, Angular.",
+          "Reprise et maintenance d'applications web : audit de reprise, correctifs, évolutions, mises à jour de sécurité. PHP, Node.js, React, Next.js, Angular.",
       },
       eyebrow: 'Tierce maintenance applicative',
       h1: 'Votre application reprise, maintenue et remise sur de bons rails.',
@@ -353,7 +353,7 @@ export const fr: SiteContent = {
       },
       contactOption: 'Maintenir ou migrer un site Drupal',
       meta: {
-        title: 'Maintenance Drupal à Toulouse : mises à jour, sécurité, migration',
+        title: 'Maintenance Drupal à Toulouse : mises à jour et migration',
         description:
           'Maintenance de sites Drupal 7 à 11 par un développeur certifié Acquia : mises à jour de sécurité, migration de version, modules sur mesure, Drupal headless.',
       },
@@ -452,7 +452,7 @@ export const fr: SiteContent = {
       },
       contactOption: 'Héberger un site ou une application',
       meta: {
-        title: "Hébergement de sites web et d'applications, avec exploitation",
+        title: "Hébergement et exploitation de sites et d'applications web",
         description:
           "Hébergement et exploitation de sites Drupal et d'applications web : mise en production, HTTPS, sauvegardes, supervision, mises à jour serveur.",
       },
@@ -567,9 +567,9 @@ export const fr: SiteContent = {
       },
       contactOption: 'Faire auditer un site ou une application',
       meta: {
-        title: "Audit de site web et d'application : code, sécurité, performance, RGAA",
+        title: "Audit de site web et d'application : code, sécurité, RGAA",
         description:
-          "Audit technique de sites et d'applications web par un certifié Opquast : qualité du code, sécurité, performance, accessibilité RGAA. Rapport priorisé et plan d'action.",
+          "Audit technique de sites et d'applications web par un certifié Opquast : code, sécurité, performance, accessibilité RGAA. Rapport priorisé et plan d'action.",
       },
       eyebrow: 'Audit et conseil',
       h1: 'Un regard extérieur et argumenté sur votre site ou votre application.',
@@ -656,9 +656,9 @@ export const fr: SiteContent = {
       },
       contactOption: "Intégrer de l'IA dans une application",
       meta: {
-        title: "Intégration d'IA dans les applications web : LLM, assistants, MCP",
+        title: "Intégration d'IA aux applications web : LLM, assistants, MCP",
         description:
-          "Intégration de modèles de langage dans les applications web et les CMS : génération et traduction de contenu, assistants conversationnels, workflows agentiques, MCP.",
+          "Modèles de langage intégrés aux applications web et aux CMS : génération et traduction de contenu, assistants conversationnels, workflows agentiques, MCP.",
       },
       eyebrow: "Intégration d'IA",
       h1: "De l'IA dans vos applications, là où elle rend service.",
@@ -883,7 +883,7 @@ export const fr: SiteContent = {
   },
   about: {
     meta: {
-      title: 'À propos : société de développement web depuis 2014',
+      title: "À propos d'Acolad Développement, société créée en 2014",
       description:
         'Acolad Développement, société de développement web créée en 2014 en Haute-Garonne par Raphaël Apard, développeur fullstack certifié Acquia et Opquast.',
     },

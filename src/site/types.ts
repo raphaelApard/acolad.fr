@@ -30,7 +30,7 @@ export interface Client {
 }
 
 export interface Meta {
-  /** <title>, without the site name. */
+  /** <title>, without the site name (see `pageTitle`). */
   title: string;
   description: string;
 }
