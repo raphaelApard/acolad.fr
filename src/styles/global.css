@@ -176,6 +176,11 @@ a:hover {
 
 .display--home .muted {
   display: block;
+  color: var(--color-accent);
+}
+
+/* The accent goes to the headline's opening words, so the eyebrow steps back. */
+.hero-home .eyebrow {
   color: var(--color-text-muted);
 }
 
