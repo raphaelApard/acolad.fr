@@ -1046,9 +1046,29 @@ a.project-card:hover .project-name {
   gap: 48px;
 }
 
+/* Four equal columns. In between, the about block goes on top so Services, Company and
+   Contact still share one line; small screens stack everything. */
 .site-footer .columns {
-  --grid-min: 210px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   --grid-gap: 40px 48px;
+}
+
+@media (max-width: 1023px) {
+  .site-footer .columns {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    --grid-gap: 40px 32px;
+  }
+
+  .site-footer .about {
+    grid-column: 1 / -1;
+    max-width: 520px;
+  }
+}
+
+@media (max-width: 719px) {
+  .site-footer .columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 .site-footer .brand {
@@ -1083,7 +1103,7 @@ a.project-card:hover .project-name {
   color: var(--color-surface);
 }
 
-.site-footer .contact span {
+.site-footer .contact span:not(.label) {
   display: flex;
   align-items: center;
   min-height: 44px;
