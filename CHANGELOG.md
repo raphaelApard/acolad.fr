@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 4.0.0 — 2026-11-17
 
 - Removed the tooling of the former CMS-driven one-page site (`cms/`, `fixtures/`,
   `pnpm content:pull`, `pnpm content:fixture`, `pnpm sync:cms-types`, `pnpm cms`). The client
