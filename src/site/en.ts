@@ -1,6 +1,6 @@
 import type { SiteContent } from './types';
 
-const email = 'raphael.apard@acolad.fr';
+const email = 'contact@acolad.fr';
 
 export const en: SiteContent = {
   lang: 'en',

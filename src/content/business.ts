@@ -5,7 +5,7 @@ export const business = {
   legalName: 'ACOLAD DEVELOPPEMENT',
   foundingDate: '2014-11-14',
   vatID: 'FR29807777917',
-  email: 'raphael.apard@acolad.fr',
+  email: 'contact@acolad.fr',
   telephone: '+33613789134',
   /** The same number as people read it. */
   telephoneDisplay: '+33 6 13 78 91 34',

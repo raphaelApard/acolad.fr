@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 // The address that receives the messages, and sends them: the company address, the same as
 // `business.email` in src/content/business.ts. It must be on the site's domain (SPF).
-const RECIPIENT = '';
+const RECIPIENT = 'contact@acolad.fr';
 const SENDER_NAME = 'Site acolad.fr';
 
 // Where the visitor goes back to, per language (the contact page paths in src/site/routes.ts).
