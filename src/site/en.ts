@@ -636,7 +636,7 @@ export const en: SiteContent = {
         {
           question: 'How long does an audit take?',
           answer:
-            'Half a day at least, for a single point: a form, the configuration of a server, the performance of a page. Beyond that, the duration depends on the scope and is set in the proposal.',
+            'Half a day at least, for a simple website. For a larger website or an application, the duration depends on the scope and is set in the proposal.',
         },
         {
           question: 'Is access to the code required?',
