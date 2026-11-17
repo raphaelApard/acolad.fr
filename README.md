@@ -111,7 +111,7 @@ address, the same as `business.email`. While it is empty, the script answers wit
   JetBrains Mono, self-hosted Latin woff2 files, the first two preloaded, metric-matched
   fallbacks so the swap does not shift the layout.
 - Images go through `astro:assets`: screenshots get a `srcset` (WebP) and are lazy-loaded below
-  the fold. Three screenshots (CNRS Images, Obépine, American Hospital) are only 438px wide.
+  the fold.
 - The stylesheet is shared by every page and cached with the other `/_astro/` files.
 
 ## Deployment
@@ -164,5 +164,4 @@ tests block its requests. The script is loaded from
 ## Open items
 
 - [ ] Proofread `src/site/en.ts` (translated from the French copy).
-- [ ] Replace the three small screenshots (438px wide) with full-size ones.
 - [ ] Add case studies beside OVHcloud; the work page describes the other projects for now.
