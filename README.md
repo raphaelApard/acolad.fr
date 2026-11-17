@@ -84,7 +84,7 @@ Titles and descriptions: `pageTitle` (`src/site/index.ts`) adds the company name
 when both fit in 65 characters; descriptions stay within 160. A unit test checks both.
 
 Preview image of shared pages: `public/og-fr.png` and `public/og-en.png` (1200 × 630), drawn
-from the home page heading by `pnpm og:image`. Run it again and commit the files when the
+from the company logo (`public/logo.png`) and the home page heading by `pnpm og:image`. Run it again and commit the files when the
 heading or the visual identity changes.
 
 The contact form has no server behind it: it prepares an e-mail in the visitor's own mail

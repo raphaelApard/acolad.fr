@@ -88,7 +88,8 @@ titre que si l'ensemble tient en 65 caractères ; les descriptions restent sous 
 unitaire vérifie les deux.
 
 Image d'aperçu des pages partagées : `public/og-fr.png` et `public/og-en.png` (1200 × 630),
-dessinées à partir du titre de la page d'accueil par `pnpm og:image`. À relancer, puis committer
+dessinées à partir du logo de la société (`public/logo.png`) et du titre de la page d'accueil par
+`pnpm og:image`. À relancer, puis committer
 les fichiers, quand ce titre ou l'identité visuelle change.
 
 Le formulaire de contact n'a pas de serveur derrière lui : il prépare un e-mail dans la messagerie
