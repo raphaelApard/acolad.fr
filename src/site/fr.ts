@@ -363,6 +363,21 @@ export const fr: SiteContent = {
         { title: 'Drupal headless', text: 'JSON:API et applications React, Next.js ou Angular alimentées par Drupal.' },
         { title: 'Recherche et performance', text: 'Apache Solr, stratégie de cache et suivi des Core Web Vitals.' },
       ],
+      versions: {
+        eyebrow: 'Versions de Drupal',
+        title: 'Où en est votre version de Drupal ?',
+        text: 'Une version en fin de vie ne reçoit plus de correctifs de sécurité. Repérez la vôtre.',
+        status: {
+          ended: '**Fin de vie** depuis {date}',
+          endingSoon: '**Fin de vie proche** : {date}',
+          supported: "**Supportée** jusqu'à {date}",
+          current: '**Supportée**, fin de vie pas encore annoncée',
+          upcoming: '**À venir** : sortie prévue {date}',
+        },
+        dates: { day: 'le {date}', week: 'la semaine du {date}', earlyMonth: 'début {date}' },
+        source:
+          'Source : [calendrier officiel de drupal.org](https://www.drupal.org/about/core/policies/core-release-cycles/schedule), consulté {date}.',
+      },
       process: {
         title: 'Chaque mise à jour passe par la recette avant la production.',
         steps: [

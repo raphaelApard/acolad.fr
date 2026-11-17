@@ -1,0 +1,79 @@
+---
+import type { SiteContent, VersionTimeline } from '../site';
+import {
+  axisPosition,
+  drupalTimeline,
+  formatDate,
+  shortDate,
+  statusLine,
+  versionStatus,
+} from '../site/drupal-versions';
+import { rich } from '../site/rich';
+
+// Timeline of the Drupal versions on the mist ground: a bar per version from its release to its end
+// of support, a line on the day the page was built, and the status of each version in words. The
+// bars and the axis are drawn for sighted visitors only; the status lines carry the same facts.
+interface Props {
+  site: SiteContent;
+  copy: VersionTimeline;
+}
+
+const { site, copy } = Astro.props;
+const { lang } = site;
+const { firstYear, lastYear, versions, checked } = drupalTimeline;
+
+const today = new Date();
+const percent = (fraction: number) => `${(fraction * 100).toFixed(2)}%`;
+const years = Array.from({ length: lastYear - firstYear + 1 }, (_, i) => firstYear + i);
+
+const rows = versions.map((version) => {
+  const status = versionStatus(version, today);
+  const date = status === 'upcoming' ? version.released : version.end;
+  const start = axisPosition(version.released);
+  const end = version.end ? axisPosition(version.end) : 1;
+  return {
+    name: version.name,
+    status,
+    line: statusLine(copy.status[status], date ? formatDate(date, lang, copy.dates) : '', lang),
+    bar: `left: ${percent(start)}; width: ${percent(end - start)}`,
+  };
+});
+
+const sourceLine = copy.source.replace('{date}', formatDate(checked, lang, copy.dates));
+---
+
+<section class="section section--mist">
+  <div class="container section-stack">
+    <div class="intro">
+      <p class="eyebrow">{copy.eyebrow}</p>
+      <h2 class="title">{copy.title}</h2>
+      <p class="lead">{copy.text}</p>
+    </div>
+    <div class="versions" style={`--years: ${years.length}; --today: ${percent(axisPosition(today))}`}>
+      <div class="versions-row versions-axis" aria-hidden="true">
+        <div class="versions-track">
+          {years.map((year, i) => <span style={`left: ${percent(i / years.length)}`}>{year}</span>)}
+        </div>
+      </div>
+      <ul class="list-reset">
+        {
+          rows.map((row) => (
+            <li class={`versions-row versions-row--${row.status}`}>
+              <span class="versions-name">{row.name}</span>
+              <div class="versions-track" aria-hidden="true">
+                <span class="versions-bar" style={row.bar} />
+              </div>
+              <p class="versions-status small" set:html={rich(row.line, lang)} />
+            </li>
+          ))
+        }
+      </ul>
+      <div class="versions-row versions-foot" aria-hidden="true">
+        <div class="versions-track">
+          <span class="versions-today">{shortDate(today, lang)}</span>
+        </div>
+      </div>
+    </div>
+    <p class="meta" set:html={rich(sourceLine, lang)} />
+  </div>
+</section>

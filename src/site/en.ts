@@ -359,6 +359,21 @@ export const en: SiteContent = {
         { title: 'Headless Drupal', text: 'JSON:API and React, Next.js or Angular applications fed by Drupal.' },
         { title: 'Search and performance', text: 'Apache Solr, caching strategy and Core Web Vitals monitoring.' },
       ],
+      versions: {
+        eyebrow: 'Drupal versions',
+        title: 'Where does your Drupal version stand?',
+        text: 'A version past its end of life gets no more security fixes. Find yours.',
+        status: {
+          ended: '**End of life** since {date}',
+          endingSoon: '**End of life soon**: {date}',
+          supported: '**Supported** until {date}',
+          current: '**Supported**, end of life not announced yet',
+          upcoming: '**Coming**: release planned {date}',
+        },
+        dates: { day: '{date}', week: 'the week of {date}', earlyMonth: 'early {date}' },
+        source:
+          'Source: [official drupal.org schedule](https://www.drupal.org/about/core/policies/core-release-cycles/schedule), checked on {date}.',
+      },
       process: {
         title: 'Every update goes through staging before production.',
         steps: [

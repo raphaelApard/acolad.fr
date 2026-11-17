@@ -1,3 +1,4 @@
+import type { Precision, VersionStatus } from './drupal-versions';
 import type { Lang, PageId, ServiceId } from './routes';
 
 // Copy of the site, one object per locale (fr.ts, en.ts) with the same structure.
@@ -69,6 +70,19 @@ export type Showcase = { eyebrow: string; title: string } & (
   | { kind: 'plans'; items: Plan[] }
 );
 
+/** Copy of the timeline of the Drupal versions; the dates are in drupal-versions.ts. */
+export interface VersionTimeline {
+  eyebrow: string;
+  title: string;
+  text: string;
+  /** Status line of a version, a rich string; `{date}` is its end of support, or its release when upcoming. */
+  status: Record<VersionStatus, string>;
+  /** A date at each precision; `{date}` is the day, month and year, or the month and year for `earlyMonth`. */
+  dates: Record<Precision, string>;
+  /** Rich string under the timeline; `{date}` is the day the dates were checked. */
+  source: string;
+}
+
 export interface Service {
   /** "01" to "06", the order of the services everywhere. */
   number: string;
@@ -89,6 +103,8 @@ export interface Service {
   cta: string;
   coverTitle: string;
   cover: TitledText[];
+  /** Drupal page only, between the hero and what the service covers. */
+  versions?: VersionTimeline;
   process: { title: string; steps: TitledText[] };
   /** References or deliverables; a page without one goes from its process to its FAQ. */
   showcase?: Showcase;

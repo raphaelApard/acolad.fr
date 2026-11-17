@@ -14,6 +14,7 @@ import {
   routeParam,
   serviceIds,
 } from '../../src/site';
+import { axisPosition, drupalTimeline, formatDate, statusLine, versionStatus } from '../../src/site/drupal-versions';
 import { pageGraph, serviceGraph } from '../../src/site/jsonld';
 import { linkedPages, rich } from '../../src/site/rich';
 
@@ -135,6 +136,39 @@ describe('rich text', () => {
 
   it('refuses a link to an unknown page', () => {
     expect(() => rich('[x](page:nowhere)', 'fr')).toThrow(/nowhere/);
+  });
+});
+
+describe('Drupal versions timeline', () => {
+  const [drupal7, , , drupal10, drupal11, drupal12] = drupalTimeline.versions;
+  const on = (date: string) => new Date(`${date}T12:00:00Z`);
+
+  it('works out each status from the day of the build', () => {
+    expect(versionStatus(drupal7!, on('2026-11-18'))).toBe('ended');
+    expect(versionStatus(drupal10!, on('2026-11-18'))).toBe('endingSoon');
+    expect(versionStatus(drupal10!, on('2026-12-10'))).toBe('ended');
+    expect(versionStatus(drupal11!, on('2026-11-18'))).toBe('supported');
+    expect(versionStatus(drupal12!, on('2026-11-18'))).toBe('upcoming');
+    expect(versionStatus(drupal12!, on('2026-12-08'))).toBe('current');
+  });
+
+  it('writes dates at their precision in each locale', () => {
+    expect(formatDate('2023-11-01', 'fr', fr.services.drupal.versions!.dates)).toBe('le 1er novembre 2023');
+    expect(formatDate('2023-11-01', 'en', en.services.drupal.versions!.dates)).toBe('1 November 2023');
+    expect(formatDate(drupal11!.end!, 'fr', fr.services.drupal.versions!.dates)).toBe('début décembre 2028');
+    expect(formatDate(drupal12!.released, 'en', en.services.drupal.versions!.dates)).toBe('the week of 7 December 2026');
+  });
+
+  it('contracts "à le" in French status lines', () => {
+    expect(statusLine("**Supportée** jusqu'à {date}", 'le 9 décembre 2026', 'fr')).toBe("**Supportée** jusqu'au 9 décembre 2026");
+    expect(statusLine("**Supportée** jusqu'à {date}", 'début décembre 2028', 'fr')).toBe("**Supportée** jusqu'à début décembre 2028");
+  });
+
+  it('places dates on the axis', () => {
+    expect(axisPosition('2021-01-01')).toBe(0);
+    expect(axisPosition('2011-01-05')).toBe(0);
+    expect(axisPosition('2031-01-01')).toBe(1);
+    expect(axisPosition('2026-01-01')).toBeCloseTo(0.5, 2);
   });
 });
 

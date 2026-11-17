@@ -3,6 +3,7 @@ import Base from '../../layouts/Base.astro';
 import Arrow from '../Arrow.astro';
 import ProjectCard from '../ProjectCard.astro';
 import Steps from '../Steps.astro';
+import VersionTimeline from '../VersionTimeline.astro';
 import { href, pageTitle, type ServiceId, type SiteContent } from '../../site';
 import { serviceGraph } from '../../site/jsonld';
 import { rich } from '../../site/rich';
@@ -31,6 +32,8 @@ const { showcase } = service;
       </div>
     </div>
   </section>
+
+  {service.versions && <VersionTimeline site={site} copy={service.versions} />}
 
   <section class="section">
     <div class="container section-stack">
