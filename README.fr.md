@@ -92,9 +92,17 @@ dessinées à partir du logo de la société (`public/logo.png`) et du titre de 
 `pnpm og:image`. À relancer, puis committer
 les fichiers, quand ce titre ou l'identité visuelle change.
 
-Le formulaire de contact n'a pas de serveur derrière lui : il prépare un e-mail dans la messagerie
-du visiteur (`mailto:`), donc rien de ce qui y est saisi n'est enregistré sur le site. Les mentions
-légales le disent ; modifier les deux ensemble si un vrai point d'envoi le remplace.
+Le formulaire de contact est envoyé à `public/contact.php`, qui transmet le message par e-mail
+avec `mail()` de PHP depuis l'adresse de la société (le SPF du domaine autorise le serveur
+o2switch), le visiteur en `Reply-To`. La page l'envoie avec `fetch` et affiche le résultat sur
+place ; sans JavaScript, le navigateur le poste et revient sur `#contact-sent` ou
+`#contact-failed`. Rien n'est enregistré, sauf une empreinte de l'IP gardée une heure pour
+autoriser cinq messages par heure ; un champ caché piège les robots. Les mentions légales le
+disent : modifier les deux ensemble. `astro preview` n'exécute pas PHP, les tests de bout en bout
+simulent donc le script.
+
+Le destinataire est la constante `RECIPIENT` en tête de `public/contact.php` : l'adresse de la
+société, la même que `business.email`. Tant qu'elle est vide, le script répond par une erreur.
 
 ### Ancien outillage CMS
 
@@ -136,6 +144,8 @@ d'effet sur le build et peut être retirée). Ton IP doit d'abord être autoris�
 les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'arrête après la
 liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
 `.user.ini`, `error_log`) ne sont jamais touchés.
+Le script du formulaire de contact crée `contact-rate/` à côté de la racine web, pas dedans,
+pour ses compteurs horaires ; les déploiements n'y touchent pas.
 `public/.htaccess` est la configuration de production, copiée telle
 quelle dans le build : PageSpeed o2switch (ne pas modifier ce bloc), une seule 301 du HTTP et du domaine nu
 `acolad.fr` vers `https://www.acolad.fr` en gardant le chemin (`X-Forwarded-Proto` est pris en
@@ -171,8 +181,6 @@ depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours)
   l'hébergement, portrait du fondateur) : `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`, puis les mêmes
   lignes dans `en.ts`.
 - [ ] Relire `src/site/en.ts` (traduit depuis le français).
-- [ ] Décider de ce qui remplace le formulaire de contact en `mailto:` (un point d'envoi sur
-  l'hébergement, ou rien).
 - [ ] Décider si l'ancien outillage CMS est supprimé ou branché sur les nouvelles pages.
 - [ ] Remplacer les trois petites captures (438px de large) par des captures en pleine taille.
 - [ ] Ajouter des études de cas à côté d'OVHcloud ; la page Réalisations décrit les autres projets
