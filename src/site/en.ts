@@ -37,7 +37,7 @@ export const en: SiteContent = {
   },
   footer: {
     tagline:
-      'Web development company. Business applications, application maintenance, Drupal maintenance, hosting, audits and AI integration, since 2014.',
+      'Web development company. Business applications, AI integration, audits, application maintenance, Drupal maintenance and hosting since 2014.',
     servicesTitle: 'Services',
     companyTitle: 'Company',
     contactTitle: 'Contact',

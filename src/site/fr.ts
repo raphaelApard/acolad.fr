@@ -37,7 +37,7 @@ export const fr: SiteContent = {
   },
   footer: {
     tagline:
-      "Société de développement web. Applications métier, TMA, maintenance Drupal, hébergement, audit et intégration d'IA, depuis 2014.",
+      "Société de développement web. Applications métier, intégration d'IA, audit, TMA, maintenance Drupal et hébergement depuis 2014.",
     servicesTitle: 'Services',
     companyTitle: 'Société',
     contactTitle: 'Contact',
