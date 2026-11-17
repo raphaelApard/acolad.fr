@@ -21,11 +21,10 @@ study, about, contact and legal notice. Its copy lives in this repository, in `s
 | `pnpm build` | Static build into `dist/` |
 | `pnpm preview` | Serve `dist/` locally |
 | `pnpm check` | Type-check Astro and TypeScript files |
-| `pnpm test` | Unit tests (site content, routes, rich text, structured data; CMS mapping) |
+| `pnpm test` | Unit tests (site content, routes, rich text, structured data, contact endpoint) |
 | `pnpm test:e2e` | Builds, serves and runs Playwright on desktop (1440) and mobile (390), axe WCAG AA on every page |
 | `pnpm deploy:prod` | Tests, builds and syncs `dist/` to production (see Deployment) |
 | `pnpm deploy:dry` | Same, but only lists what would change on the server |
-| `pnpm content:pull`, `pnpm content:fixture`, `pnpm sync:cms-types`, `pnpm cms <script>` | Tooling of the former CMS-driven one-page site, no longer needed to build (see below) |
 
 First e2e run: `pnpm exec playwright install chromium`.
 
@@ -35,8 +34,7 @@ First e2e run: `pnpm exec playwright install chromium`.
 src/site/         the site: routes.ts (pages and their address per locale), fr.ts and en.ts (copy),
                   types.ts (shape of the copy), rich.ts (inline links, strong, code),
                   images.ts (project screenshots), jsonld.ts (structured data)
-src/content/      business.ts (company facts: legal name, address, phone, e-mail);
-                  types.ts, cms.ts, payload-types.ts belong to the former CMS tooling
+src/content/      business.ts (company facts: legal name, address, phone, e-mail)
 src/styles/       tokens.css (colors, fonts, spacing), global.css (every style of the site)
 src/layouts/      Base.astro (head, SEO, hreflang, fonts, header and footer)
 src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, Logo, Arrow;
@@ -45,10 +43,10 @@ src/pages/        [...path].astro (every page of every locale, from the route ta
                   404.astro and en/404.astro (served by Apache's ErrorDocument),
                   sitemap.xml.ts, robots.txt.ts
 src/assets/site/  project screenshots, optimised at build time
+src/assets/media/ client logos and the 404 image, optimised at build time
 public/           copied as is (.htaccess, whose CSP gets its script hashes at build time)
 integrations/     csp-script-hashes.mjs (writes those hashes)
 tests/            unit (Vitest) and e2e (Playwright)
-cms/, fixtures/, scripts/content.ts   former CMS tooling, not read by the pages
 ```
 
 ## Editing content
@@ -98,14 +96,6 @@ the end-to-end tests stand in for the script.
 The recipient is the `RECIPIENT` constant at the top of `public/contact.php`: the company
 address, the same as `business.email`. While it is empty, the script answers with an error.
 
-### Former CMS tooling
-
-The site was a one-page profile whose content came from the Acolad backoffice (Payload). That
-tooling is still in the repository but the pages no longer read it: `cms/`, `fixtures/`,
-`scripts/content.ts` (`pnpm content:pull`, `pnpm content:fixture`), `scripts/sync-cms-types.ts`,
-`src/content/cms.ts`, `types.ts` and `payload-types.ts`, and their unit tests. Remove it, or plug
-the new pages into it, once that is decided.
-
 ## Layout rules
 
 - The page is 1200px wide at most, with a 32px gutter (20px under 600px). Grids are
@@ -129,8 +119,7 @@ the new pages into it, once that is decided.
 `pnpm deploy:prod` (`scripts/deploy.sh`) runs the tests, builds and syncs `dist/` (including the hidden `.htaccess`)
 to the o2switch hosting with `rsync --delete`. It holds the real server settings, so it is
 git-ignored: create it with `cp scripts/deploy.example.sh scripts/deploy.sh` and fill in
-`REMOTE_USER`, `REMOTE_HOST` and `REMOTE_PATH` (its `CONTENT_SOURCE` step, which fetched the
-content of the former site, no longer affects the build and can be removed). Your IP must be allowed in cPanel
+`REMOTE_USER`, `REMOTE_HOST` and `REMOTE_PATH`. Your IP must be allowed in cPanel
 (SSH access) first. It shows the changes and asks before syncing; `pnpm deploy:dry` stops after
 the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
 `error_log`) are never touched.
@@ -169,6 +158,5 @@ tests block its requests. The script is loaded from
 - [ ] Fill in the placeholders of the copy (prices, plans, response times, hosting location,
   founder's portrait): `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`, then the same lines in `en.ts`.
 - [ ] Proofread `src/site/en.ts` (translated from the French copy).
-- [ ] Decide whether the former CMS tooling is removed or plugged into the new pages.
 - [ ] Replace the three small screenshots (438px wide) with full-size ones.
 - [ ] Add case studies beside OVHcloud; the work page describes the other projects for now.

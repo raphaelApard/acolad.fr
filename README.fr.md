@@ -21,11 +21,10 @@ cas, à propos, contact et mentions légales. Ses textes sont dans ce dépôt, d
 | `pnpm build` | Build statique dans `dist/` |
 | `pnpm preview` | Sert `dist/` en local |
 | `pnpm check` | Vérification des types Astro et TypeScript |
-| `pnpm test` | Tests unitaires (contenu du site, routes, texte enrichi, données structurées ; conversion CMS) |
+| `pnpm test` | Tests unitaires (contenu du site, routes, texte enrichi, données structurées, point d'envoi du contact) |
 | `pnpm test:e2e` | Build, serveur et Playwright en desktop (1440) et mobile (390), axe WCAG AA sur chaque page |
 | `pnpm deploy:prod` | Tests, build et synchronisation de `dist/` vers la prod (voir Déploiement) |
 | `pnpm deploy:dry` | Idem, mais liste seulement ce qui changerait sur le serveur |
-| `pnpm content:pull`, `pnpm content:fixture`, `pnpm sync:cms-types`, `pnpm cms <script>` | Outillage de l'ancien site one-page piloté par le CMS, inutile pour le build (voir plus bas) |
 
 Premier lancement e2e : `pnpm exec playwright install chromium`.
 
@@ -35,8 +34,7 @@ Premier lancement e2e : `pnpm exec playwright install chromium`.
 src/site/         le site : routes.ts (pages et leur adresse par langue), fr.ts et en.ts (textes),
                   types.ts (forme des textes), rich.ts (liens, gras et code dans le texte),
                   images.ts (captures des projets), jsonld.ts (données structurées)
-src/content/      business.ts (société : raison sociale, adresse, téléphone, e-mail) ;
-                  types.ts, cms.ts, payload-types.ts relèvent de l'ancien outillage CMS
+src/content/      business.ts (société : raison sociale, adresse, téléphone, e-mail)
 src/styles/       tokens.css (couleurs, polices, espacements), global.css (tous les styles du site)
 src/layouts/      Base.astro (head, SEO, hreflang, polices, en-tête et pied de page)
 src/components/   SiteHeader, SiteFooter, ProjectCard, Steps, Logo, Arrow ;
@@ -45,10 +43,10 @@ src/pages/        [...path].astro (toutes les pages de toutes les langues, d'apr
                   404.astro et en/404.astro (servies par l'ErrorDocument d'Apache),
                   sitemap.xml.ts, robots.txt.ts
 src/assets/site/  captures des projets, optimisées au build
+src/assets/media/ logos des clients et image de la 404, optimisés au build
 public/           copié tel quel (.htaccess, dont la CSP reçoit ses empreintes de scripts au build)
 integrations/     csp-script-hashes.mjs (écrit ces empreintes)
 tests/            unitaires (Vitest) et e2e (Playwright)
-cms/, fixtures/, scripts/content.ts   ancien outillage CMS, que les pages ne lisent pas
 ```
 
 ## Modifier le contenu
@@ -104,14 +102,6 @@ simulent donc le script.
 Le destinataire est la constante `RECIPIENT` en tête de `public/contact.php` : l'adresse de la
 société, la même que `business.email`. Tant qu'elle est vide, le script répond par une erreur.
 
-### Ancien outillage CMS
-
-Le site était un profil d'une page dont le contenu venait du backoffice Acolad (Payload). Cet
-outillage est toujours dans le dépôt mais les pages ne le lisent plus : `cms/`, `fixtures/`,
-`scripts/content.ts` (`pnpm content:pull`, `pnpm content:fixture`), `scripts/sync-cms-types.ts`,
-`src/content/cms.ts`, `types.ts` et `payload-types.ts`, et leurs tests unitaires. Le supprimer,
-ou y brancher les nouvelles pages, une fois la décision prise.
-
 ## Règles de mise en page
 
 - La page fait 1200px de large au plus, avec une gouttière de 32px (20px sous 600px). Les
@@ -139,8 +129,7 @@ ou y brancher les nouvelles pages, une fois la décision prise.
 `.htaccess`) vers l'hébergement o2switch avec `rsync --delete`. Il contient les vrais paramètres
 du serveur, il est donc ignoré par git : le créer avec
 `cp scripts/deploy.example.sh scripts/deploy.sh` et renseigner `REMOTE_USER`, `REMOTE_HOST`,
-`REMOTE_PATH` (son étape `CONTENT_SOURCE`, qui récupérait le contenu de l'ancien site, n'a plus
-d'effet sur le build et peut être retirée). Ton IP doit d'abord être autorisée dans cPanel (Accès SSH). Le script affiche
+`REMOTE_PATH`. Ton IP doit d'abord être autorisée dans cPanel (Accès SSH). Le script affiche
 les changements et demande confirmation avant d'envoyer ; `pnpm deploy:dry` s'arrête après la
 liste, `pnpm deploy:prod --yes` saute la confirmation. Les fichiers gérés par l'hébergeur (`.well-known/`, `cgi-bin/`,
 `.user.ini`, `error_log`) ne sont jamais touchés.
@@ -181,7 +170,6 @@ depuis `stats.acolad.net/js/` (même fichier que `matomo.js`, en cache 10 jours)
   l'hébergement, portrait du fondateur) : `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`, puis les mêmes
   lignes dans `en.ts`.
 - [ ] Relire `src/site/en.ts` (traduit depuis le français).
-- [ ] Décider si l'ancien outillage CMS est supprimé ou branché sur les nouvelles pages.
 - [ ] Remplacer les trois petites captures (438px de large) par des captures en pleine taille.
 - [ ] Ajouter des études de cas à côté d'OVHcloud ; la page Réalisations décrit les autres projets
   pour l'instant.

@@ -29,7 +29,3 @@ blob-report/
 
 # Deployment script with real server settings (see scripts/deploy.example.sh)
 scripts/deploy.sh
-
-# Content pulled from the CMS (or copied from fixtures/) before each build
-src/content/data/
-src/assets/media/
