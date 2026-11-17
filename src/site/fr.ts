@@ -963,8 +963,8 @@ export const fr: SiteContent = {
     details: {
       email: 'E-mail',
       phone: 'Téléphone',
-      address: 'Adresse',
-      addressLines: ['Acolad Développement', 'Revel et Toulouse, Haute-Garonne'],
+      address: 'Implantation',
+      addressLines: ['Toulouse, Revel, et à distance partout en France'],
     },
     next: {
       title: 'Et ensuite ?',

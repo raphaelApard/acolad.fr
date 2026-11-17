@@ -956,8 +956,8 @@ export const en: SiteContent = {
     details: {
       email: 'Email',
       phone: 'Phone',
-      address: 'Address',
-      addressLines: ['Acolad Développement', 'Revel and Toulouse, Haute-Garonne, France'],
+      address: 'Locations',
+      addressLines: ['Toulouse, Revel, and remotely anywhere in France'],
     },
     next: {
       title: 'What happens next?',
