@@ -64,7 +64,7 @@ All redirects are permanent (301), absolute (`https://www.acolad.fr/…`) and ta
 
 ## Deployment note
 
-`scripts/deploy.sh` syncs with `rsync --delete`, so the images of the previous build disappear
+`scripts/deploy-prod.sh` syncs with `rsync --delete`, so the images of the previous build disappear
 from `/_astro/` on each deployment that renames them (moving the content to the backoffice renamed
 62 of them). Search engines drop them on their next crawl; nothing links to them from outside.
 

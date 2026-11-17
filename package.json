@@ -9,8 +9,8 @@
     "check": "astro check",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "deploy:prod": "scripts/deploy.sh",
-    "deploy:dry": "scripts/deploy.sh --dry-run",
+    "deploy:prod": "bash scripts/deploy-prod.sh",
+    "deploy:dry": "bash scripts/deploy-prod.sh --dry-run",
     "og:image": "node scripts/og-image.ts"
   },
   "dependencies": {
