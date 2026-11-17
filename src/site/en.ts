@@ -977,7 +977,8 @@ export const en: SiteContent = {
       messageHint: 'Context, technologies in place, deadline: anything that helps give you a useful answer.',
       privacy: 'The information you enter is used only to answer your request. See the [legal notice](page:legal).',
       submit: 'Send the request',
-      subject: 'Request from acolad.fr',
+      sent: 'Thank you, your message has been sent. You will get an answer at the address you gave.',
+      failed: `Your message could not be sent. Try again in a moment, or write directly to [${email}](mailto:${email}).`,
     },
   },
   legal: {
@@ -1027,7 +1028,7 @@ export const en: SiteContent = {
         id: 'personal-data',
         title: 'Personal data',
         paragraphs: [
-          `This site has no user account. The contact form prepares an email in your own mail application: nothing you enter in it is stored on the site. The only personal data processed is what you send by writing to [${email}](mailto:${email}), and the audience measurement data described below.`,
+          `This site has no user account. The contact form sends your message by email to Acolad Développement: it is not stored on the site. To limit abuse, a fingerprint of your IP address (not the address itself) is kept for one hour at most. The only other personal data processed is what you send by writing to [${email}](mailto:${email}), and the audience measurement data described below.`,
           'Data controller: Acolad Développement, represented by Raphaël Apard. Your emails are used only to answer your request and follow up the business relationship. They are kept for at most 3 years after the last exchange and are never passed on to third parties.',
           `Under the GDPR and the French Data Protection Act, you have the right to access, rectify, erase, restrict and port your data, and to object to its processing, as well as to set instructions for what happens to your data after your death. To exercise these rights, write to [${email}](mailto:${email}); you will get an answer within one month. You may also lodge a complaint with the [CNIL](https://www.cnil.fr/en/home), the French data protection authority.`,
         ],

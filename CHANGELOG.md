@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- The contact form sends the message itself: it posts to `public/contact.php`, which e-mails it
+  from the server, instead of opening the visitor's mail application. It works without
+  JavaScript, catches robots with a hidden field and allows five messages per hour per visitor;
+  the legal notice says so.
 - Page titles fit in a search result: the long ones are shortened and stand without the company
   name, and no description goes over 160 characters (a unit test checks both).
 - Shared pages show a preview image, one per language (`public/og-fr.png`, `public/og-en.png`,

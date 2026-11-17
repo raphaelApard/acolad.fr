@@ -12,6 +12,7 @@
   --color-accent: #2247e6; /* links, primary buttons (6.6:1 on white) */
   --color-accent-hover: #1836b8;
   --color-accent-soft: #e3e9ff; /* body copy on the accent band */
+  --color-danger: #b42318; /* error marks (6.5:1 on white) */
 
   /* Colors: dark bands (process steps, footer, cards) */
   --color-dark-muted: #aeb9c9;

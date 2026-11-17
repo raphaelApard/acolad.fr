@@ -211,8 +211,10 @@ export interface SiteContent {
       /** Rich string. */
       privacy: string;
       submit: string;
-      /** Subject prefix of the prepared e-mail. */
-      subject: string;
+      /** Shown once the message is sent. */
+      sent: string;
+      /** Rich string, shown when sending failed. */
+      failed: string;
     };
   };
   legal: {

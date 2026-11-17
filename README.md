@@ -87,9 +87,16 @@ Preview image of shared pages: `public/og-fr.png` and `public/og-en.png` (1200 �
 from the company logo (`public/logo.png`) and the home page heading by `pnpm og:image`. Run it again and commit the files when the
 heading or the visual identity changes.
 
-The contact form has no server behind it: it prepares an e-mail in the visitor's own mail
-application (`mailto:`), so nothing typed in it is stored on the site. The legal notice says so;
-change both together if a real endpoint replaces it.
+The contact form posts to `public/contact.php`, which e-mails the message with PHP's `mail()`
+from the company address (the domain's SPF record allows the o2switch server) with the visitor
+in `Reply-To`. The page sends it with `fetch` and shows the outcome in place; without JavaScript
+the browser posts it and comes back to `#contact-sent` or `#contact-failed`. Nothing is stored,
+apart from a hashed IP address kept one hour to allow five messages per hour; a hidden field
+catches robots. The legal notice says so: change both together. `astro preview` runs no PHP, so
+the end-to-end tests stand in for the script.
+
+The recipient is the `RECIPIENT` constant at the top of `public/contact.php`: the company
+address, the same as `business.email`. While it is empty, the script answers with an error.
 
 ### Former CMS tooling
 
@@ -127,6 +134,8 @@ content of the former site, no longer affects the build and can be removed). You
 (SSH access) first. It shows the changes and asks before syncing; `pnpm deploy:dry` stops after
 the listing, `pnpm deploy:prod --yes` skips the prompt. Host-managed files (`.well-known/`, `cgi-bin/`, `.user.ini`,
 `error_log`) are never touched.
+The contact form script creates `contact-rate/` next to the web root, not inside it, for its
+hourly counts; deploys never touch it.
 `public/.htaccess` is the production config, copied as is into the build:
 o2switch PageSpeed (do not edit that block), a single 301 from plain HTTP and from the bare
 `acolad.fr` to `https://www.acolad.fr` with the same path (`X-Forwarded-Proto` is honoured so a
@@ -160,7 +169,6 @@ tests block its requests. The script is loaded from
 - [ ] Fill in the placeholders of the copy (prices, plans, response times, hosting location,
   founder's portrait): `grep -n "\[[A-ZÀ-Ý]" src/site/fr.ts`, then the same lines in `en.ts`.
 - [ ] Proofread `src/site/en.ts` (translated from the French copy).
-- [ ] Decide what replaces the `mailto:` contact form (a server endpoint on the host, or nothing).
 - [ ] Decide whether the former CMS tooling is removed or plugged into the new pages.
 - [ ] Replace the three small screenshots (438px wide) with full-size ones.
 - [ ] Add case studies beside OVHcloud; the work page describes the other projects for now.
