@@ -323,6 +323,16 @@ test('lets visitors opt out of Matomo', async ({ page }) => {
   await expect(page.getByRole('main').getByRole('status')).toHaveText(fr.legal.optOut.on);
 });
 
+test("brings the Drupal versions timeline to the visitor's day", async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-12-10T10:00:00+01:00'));
+  await page.goto(href('drupal', 'fr'));
+  const rows = page.locator('[data-version-row]');
+  await expect(rows.nth(3)).toContainText('Fin de vie depuis le 9 décembre 2026');
+  await expect(rows.nth(3)).toHaveClass(/versions-row--ended/);
+  await expect(rows.nth(5)).toContainText('Supportée, fin de vie pas encore annoncée');
+  await expect(page.locator('[data-version-today]')).toHaveText('10 déc. 2026');
+});
+
 test.describe('desktop', () => {
   test.skip(({ page }) => isMobile(page), 'desktop only');
 

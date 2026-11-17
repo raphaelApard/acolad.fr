@@ -2,8 +2,9 @@ import type { Lang } from './routes';
 
 // Release and end-of-life dates of the Drupal major versions, drawn as a timeline on the Drupal
 // maintenance page (VersionTimeline.astro). Source: the Drupal core release schedule.
-// The status of each version is worked out on the day the site is built, so a new build is enough
-// to keep it right; only a new or moved date needs an edit here.
+// The status of each version and the "today" line are worked out when the site is built, then
+// again in the visitor's browser (timelineState), so they follow the calendar between two builds;
+// only a new or moved date needs an edit here.
 
 /** How precise a date is: a day, the week that starts on it, or the first days of its month. */
 export type Precision = 'day' | 'week' | 'earlyMonth';
@@ -90,4 +91,25 @@ export function shortDate(date: Date, lang: Lang): string {
 export function statusLine(template: string, date: string, lang: Lang): string {
   const line = template.replace('{date}', date);
   return lang === 'fr' ? line.replace(/(^|[\s'’])à le /g, '$1au ') : line;
+}
+
+export const percent = (fraction: number) => `${(fraction * 100).toFixed(2)}%`;
+
+/** The words the statuses are written with, from the copy of a locale. */
+export interface TimelineWords {
+  status: Record<VersionStatus, string>;
+  dates: Record<Precision, string>;
+}
+
+/** Everything on the timeline that depends on the day: the "today" line, its date, each status. */
+export function timelineState(words: TimelineWords, lang: Lang, today: Date) {
+  return {
+    today: percent(axisPosition(today)),
+    todayLabel: shortDate(today, lang),
+    rows: versions.map((version) => {
+      const status = versionStatus(version, today);
+      const date = status === 'upcoming' ? version.released : version.end;
+      return { status, line: statusLine(words.status[status], date ? formatDate(date, lang, words.dates) : '', lang) };
+    }),
+  };
 }
