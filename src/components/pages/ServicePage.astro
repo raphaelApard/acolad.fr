@@ -50,56 +50,60 @@ const { showcase } = service;
 
   <Steps eyebrow={ui.processEyebrow} title={service.process.title} steps={service.process.steps} />
 
-  <section class="section">
-    <div class="container section-stack">
-      <div class="intro">
-        <p class="eyebrow">{showcase.eyebrow}</p>
-        <h2 class="title">{showcase.title}</h2>
-      </div>
-      {
-        showcase.kind === 'projects' && (
-          <div
-            class:list={['grid', { 'grid--single': showcase.items.length === 1 }]}
-            style={showcase.items.length === 3 ? undefined : '--grid-min: 320px; --grid-gap: 32px'}
-          >
-            {showcase.items.map((card) => <ProjectCard site={site} card={card} wide={showcase.items.length < 3} />)}
+  {
+    showcase && (
+      <section class="section">
+        <div class="container section-stack">
+          <div class="intro">
+            <p class="eyebrow">{showcase.eyebrow}</p>
+            <h2 class="title">{showcase.title}</h2>
           </div>
-        )
-      }
-      {
-        showcase.kind === 'cards' && (
-          <div class="grid">
-            {showcase.items.map((item, i) => (
-              <article class="card" style="--stack-gap: 14px; gap: 14px">
-                {showcase.numbered && <span class="number">{String(i + 1).padStart(2, '0')}</span>}
-                <h3 class="card-title card-title--sm">{item.title}</h3>
-                <p class="small">{item.text}</p>
-              </article>
-            ))}
-          </div>
-        )
-      }
-      {
-        showcase.kind === 'plans' && (
-          <div class="grid" style="--grid-min: 250px">
-            {showcase.items.map((plan) => (
-              <article class="card card--featured" style="gap: 16px">
-                <h3 class="card-title card-title--sm">{plan.title}</h3>
-                <p class="small">{plan.text}</p>
-                <p class="price">
-                  {plan.prefix && <span class="unit">{plan.prefix}</span>} {plan.price}{' '}
-                  {plan.unit && <span class="unit">{plan.unit}</span>}
-                </p>
-                <ul class="list-reset ruled">
-                  {plan.points.map((point) => <li>{point}</li>)}
-                </ul>
-              </article>
-            ))}
-          </div>
-        )
-      }
-    </div>
-  </section>
+          {
+            showcase.kind === 'projects' && (
+              <div
+                class:list={['grid', { 'grid--single': showcase.items.length === 1 }]}
+                style={showcase.items.length === 3 ? undefined : '--grid-min: 320px; --grid-gap: 32px'}
+              >
+                {showcase.items.map((card) => <ProjectCard site={site} card={card} wide={showcase.items.length < 3} />)}
+              </div>
+            )
+          }
+          {
+            showcase.kind === 'cards' && (
+              <div class="grid">
+                {showcase.items.map((item, i) => (
+                  <article class="card" style="--stack-gap: 14px; gap: 14px">
+                    {showcase.numbered && <span class="number">{String(i + 1).padStart(2, '0')}</span>}
+                    <h3 class="card-title card-title--sm">{item.title}</h3>
+                    <p class="small">{item.text}</p>
+                  </article>
+                ))}
+              </div>
+            )
+          }
+          {
+            showcase.kind === 'plans' && (
+              <div class="grid" style="--grid-min: 250px">
+                {showcase.items.map((plan) => (
+                  <article class="card card--featured" style="gap: 16px">
+                    <h3 class="card-title card-title--sm">{plan.title}</h3>
+                    <p class="small">{plan.text}</p>
+                    <p class="price">
+                      {plan.prefix && <span class="unit">{plan.prefix}</span>} {plan.price}{' '}
+                      {plan.unit && <span class="unit">{plan.unit}</span>}
+                    </p>
+                    <ul class="list-reset ruled">
+                      {plan.points.map((point) => <li>{point}</li>)}
+                    </ul>
+                  </article>
+                ))}
+              </div>
+            )
+          }
+        </div>
+      </section>
+    )
+  }
 
   <section class="section section--mist">
     <div class="container stack" style="--stack-gap: 40px">

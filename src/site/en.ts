@@ -303,18 +303,6 @@ export const en: SiteContent = {
           },
         ],
       },
-      showcase: {
-        eyebrow: 'Reference',
-        title: 'An application supported over the long term',
-        kind: 'projects',
-        items: [
-          {
-            project: 'ovhcloud',
-            meta: '2023 – 2026 · React, Drupal 10/11, Playwright',
-            text: 'Three years on the web platforms: enhancements, end-to-end tests set up and maintained, performance optimisation.',
-          },
-        ],
-      },
       faq: [
         {
           question: 'Can an application built by someone else be taken over?',

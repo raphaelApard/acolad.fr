@@ -303,18 +303,6 @@ export const fr: SiteContent = {
           },
         ],
       },
-      showcase: {
-        eyebrow: 'Référence',
-        title: 'Une application suivie dans la durée',
-        kind: 'projects',
-        items: [
-          {
-            project: 'ovhcloud',
-            meta: '2023 – 2026 · React, Drupal 10/11, Playwright',
-            text: 'Trois ans sur les plateformes web : évolutions, tests end-to-end mis en place et maintenus, optimisation des performances.',
-          },
-        ],
-      },
       faq: [
         {
           question: 'Reprenez-vous une application développée par un autre ?',

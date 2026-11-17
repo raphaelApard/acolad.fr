@@ -90,7 +90,8 @@ export interface Service {
   coverTitle: string;
   cover: TitledText[];
   process: { title: string; steps: TitledText[] };
-  showcase: Showcase;
+  /** References or deliverables; a page without one goes from its process to its FAQ. */
+  showcase?: Showcase;
   /** Answers are rich strings. */
   faq: { question: string; answer: string }[];
 }
