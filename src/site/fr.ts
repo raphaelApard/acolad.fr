@@ -537,7 +537,7 @@ export const fr: SiteContent = {
         },
         {
           question: 'Que se passe-t-il en cas de panne ?',
-          answer: 'Une alerte est remontée automatiquement, pour une intervention au plus vite.',
+          answer: 'Une alerte est remontée automatiquement, pour une intervention rapide.',
         },
         {
           question: "L'hébergement impose-t-il la maintenance ?",

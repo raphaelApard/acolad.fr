@@ -529,7 +529,7 @@ export const en: SiteContent = {
         },
         {
           question: 'What happens if there is an outage?',
-          answer: 'An alert is raised automatically, so that action can be taken as quickly as possible.',
+          answer: 'An alert is raised automatically, so that action can be taken quickly.',
         },
         {
           question: 'Does hosting require a maintenance contract?',
